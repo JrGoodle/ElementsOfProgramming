@@ -9,7 +9,7 @@
 
 //typealias HomogeneousFunction<T, U> = (U, U ...) -> T
 
-typealias UnaryFunction<T> = (T) -> Any where T: RegularType
+typealias UnaryFunction<T> = (T) -> Any where T: TotallyOrdered
 
 // MARK: Chapter 2
 
@@ -23,7 +23,8 @@ typealias P<T> = UnaryPredicate<T>
 // typealias Operation<T> = (T, T ...) -> T
 
 // Unary Operation
-typealias F<T> = (T) -> T
+typealias UnaryOperation<T> = (T) -> T
+typealias F<T> = UnaryOperation<T>
 
 // Binary Operation
 typealias BinaryOperation<T> = (T, T) -> T
@@ -33,5 +34,4 @@ typealias Op<T> = BinaryOperation<T>
 // precondition: Returns true if and only if the inputs are within the
 //               definition space of the procedure
 
-typealias Transformation<T> = (T) -> T
-
+typealias Transformation<T> = UnaryOperation<T>

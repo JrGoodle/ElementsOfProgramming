@@ -13,9 +13,13 @@ func square<DomainOp>(_ x: DomainOp, op: BinaryOperation<DomainOp>) -> DomainOp 
 // type pair (see chapter 12 of Elements of Programming)
 // model Regular(Pair)
 
-struct Pair<T0: TotallyOrderd, T1: TotallyOrderd> {
+struct Pair<T0: TotallyOrdered, T1: TotallyOrdered>: TotallyOrdered {
     var m0: T0
     var m1: T1
+    
+    static func == (x: Pair, y: Pair) -> Bool {
+        return x.m0 == y.m0 && x.m1 == y.m1
+    }
     
     static func < (x: Pair, y: Pair) -> Bool {
         return x.m0 < y.m0 || (!(y.m0 < x.m0) && x.m1 < y.m1)
@@ -25,10 +29,14 @@ struct Pair<T0: TotallyOrderd, T1: TotallyOrderd> {
 // type triple (see Exercise 12.2 of Elements of Programming)
 // model Regular(triple)
 
-struct Triple<T0: TotallyOrderd, T1: TotallyOrderd, T2: TotallyOrderd> {
+struct Triple<T0: TotallyOrdered, T1: TotallyOrdered, T2: TotallyOrdered>: TotallyOrdered {
     var m0: T0
     var m1: T1
     var m2: T2
+    
+    static func == (x: Triple, y: Triple) -> Bool {
+        return x.m0 == y.m0 && x.m1 == y.m1 && x.m2 == y.m2
+    }
     
     static func < (x: Triple, y: Triple) -> Bool {
         return x.m0 < y.m0 ||

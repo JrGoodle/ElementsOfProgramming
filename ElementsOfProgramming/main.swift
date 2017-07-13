@@ -19,9 +19,11 @@ print(square("a") { $0 + $1 })
 print("Test powerUnary")
 var x = 0
 var n = 100
-print(powerUnary(&x, n: &n) { $0 + 2 })
+print(powerUnary(x, n) { $0 + 2 })
 
 print("Test distance")
 x = 0
 let y = 100
-print(distance(&x, y) { $0 + 2 })
+print(distance(x, y) { $0 + 2 })
+
+testAdditiveCongruentialTransformation()

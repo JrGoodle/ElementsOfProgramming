@@ -4,10 +4,13 @@
 //
 
 typealias RegularType = Equatable
-typealias TotallyOrderd = Comparable & Equatable
+typealias TotallyOrdered = Comparable & Equatable
+typealias ArchimedeanGroup = (Int) -> Int
 
 // Natural Numbers
 typealias N = Int
+
+typealias Integer = Int
 
 // Concept
 // 1. Other Concepts
