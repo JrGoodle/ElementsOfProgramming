@@ -8,13 +8,13 @@
 
 import Foundation
 
-// Chapter 1
+// MARK: Chapter 1
 
 print("Test square")
 print(square(2) { $0 * $1 })
 print(square("a") { $0 + $1 })
 
-// Chapter 2
+// MARK: Chapter 2
 
 print("Test powerUnary")
 var x = 0

@@ -3,7 +3,23 @@
 //  ElementsOfProgramming
 //
 
-func powerUnary<DomainF>(_ x: inout DomainF, n: inout N, f: F<DomainF>) -> DomainF {
+import Darwin
+
+//func abs(x: Int) -> Int {
+//    if (x < 0) { return -x } else { return x }
+//} // unary operation
+
+func euclideanNorm(x: Double, y: Double) -> Double {
+    return sqrt(x * x + y * y)
+} // binary operation
+
+func euclideanNorm(x: Double, y: Double, z: Double) -> Double {
+    return sqrt(x * x + y * y + z * z)
+} // ternary operation
+
+func powerUnary<DomainF>(_ x: inout DomainF, n: inout N, f: Transformation<DomainF>) -> DomainF {
+    precondition(n >= 0, "n >= 0")
+    // Precondition: For all values of natural number i where 0 < i <= n, fi(x) is defined
     while n != N(0) {
         n = n - N(1)
         x = f(x)
@@ -13,9 +29,10 @@ func powerUnary<DomainF>(_ x: inout DomainF, n: inout N, f: F<DomainF>) -> Domai
 
 ///
 
-func distance<DomainF: Equatable>(_ x: inout DomainF, _ y: DomainF, f: F<DomainF>) -> DistanceType {
+func distance<DomainF: RegularType>(_ x: inout DomainF, _ y: DomainF, f: Transformation<DomainF>) -> DistanceType {
+    // Precondition: y is reachable from x under f
     typealias N = DistanceType
-    var n = 0
+    var n = N(0)
     while x != y {
         x = f(x)
         n = n + N(1)
@@ -25,7 +42,8 @@ func distance<DomainF: Equatable>(_ x: inout DomainF, _ y: DomainF, f: F<DomainF
 
 ///
 
-func collisionPoint<DomainFP: Equatable>(_ x: inout DomainFP, f: F<DomainFP>, p: P<DomainFP>) -> DomainFP {
+func collisionPoint<DomainFP: RegularType>(_ x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> DomainFP {
+    // Precondition: p(x) <=> f(x) is defined
     if !p(x) { return x }
     
     var slow = x
@@ -39,17 +57,18 @@ func collisionPoint<DomainFP: Equatable>(_ x: inout DomainFP, f: F<DomainFP>, p:
         fast = f(fast)
     }
     return fast
+    // Postcondition: return value is terminal point or collision point
 }
 
 ///
 
-func terminating<DomainFP: Equatable>(_ x: inout DomainFP, f: F<DomainFP>, p: P<DomainFP>) -> Bool{
-    return !p(collisionPoint(&x, f: f, p: p))
+func terminating<DomainFP: RegularType>(_ x: DomainFP, f: F<DomainFP>, p: P<DomainFP>) -> Bool{
+    return !p(collisionPoint(x, f: f, p: p))
 }
 
 ///
 
-func collisionPointNonterminatingOrbit<DomainF: Equatable>(_ x: inout DomainF, f: F<DomainF>) -> DomainF {
+func collisionPointNonterminatingOrbit<DomainF: RegularType>(_ x: DomainF, f: F<DomainF>) -> DomainF {
     var slow = x
     var fast = f(x)
     
@@ -63,13 +82,13 @@ func collisionPointNonterminatingOrbit<DomainF: Equatable>(_ x: inout DomainF, f
 
 ///
 
-func circularNonterminatingOrbit<DomainF: Equatable>(_ x: inout DomainF, f: F<DomainF>) -> Bool {
-    return x == f(collisionPointNonterminatingOrbit(&x, f: f))
+func circularNonterminatingOrbit<DomainF: RegularType>(_ x: inout DomainF, f: F<DomainF>) -> Bool {
+    return x == f(collisionPointNonterminatingOrbit(x, f: f))
 }
 
 ///
 
-func circular<DomainFP: Equatable>(x: inout DomainFP, f: F<DomainFP>, p: P<DomainFP>) -> Bool {
-    let y = collisionPoint(&x, f: f, p: p)
+func circular<DomainFP: RegularType>(x: DomainFP, f: F<DomainFP>, p: P<DomainFP>) -> Bool {
+    let y = collisionPoint(x, f: f, p: p)
     return p(y) && x == f(y)
 }
