@@ -156,7 +156,7 @@ func convergentPointGuarded<DomainF: RegularType>(x0: DomainF, x1: DomainF, y: D
     } else if d1 < d0 {
         _x0 = powerUnary(x: _x0, n: d0 - d1, f: f)
     }
-    return convergentPoint(x0: x0, x1: x1, f: f)
+    return convergentPoint(x0: _x0, x1: _x1, f: f)
 }
 
 ///

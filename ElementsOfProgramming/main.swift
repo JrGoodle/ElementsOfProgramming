@@ -30,10 +30,14 @@ import Foundation
 
 func runTests() {
     print("Max Int value: \(Int.max)")
-    let triple = Triple(m0: 1, m1: 2, m2: 3)
-    print("Triple: \(triple)")
-    //testAdditiveCongruentialTransformation(modulus: 9, index: 2)
-    //testAdditiveCongruentialTransformation(modulus: 100, index: 2)
-    //testAdditiveCongruentialTransformation(modulus: 1245142, index: 3)
+    let t = Triple(m0: 1, m1: 2, m2: 3)
+    print("Triple: \(t)")
+    print("triple.m1: \(t.m1)")
+    testAdditiveCongruentialTransformation(modulus: 9, index: 2)
+    testAdditiveCongruentialTransformation(modulus: 100, index: 2)
+    testAdditiveCongruentialTransformation(modulus: 1245142, index: 3)
     testAdditiveCongruentialTransformation(modulus: 127846594, index: 13)
 }
+
+runTests()
+

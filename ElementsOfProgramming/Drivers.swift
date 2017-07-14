@@ -1,5 +1,5 @@
 //
-//  Tests.swift
+//  Drivers.swift
 //  ElementsOfProgramming
 //
 
@@ -21,14 +21,19 @@ func outputOrbitStructure<DomainFP: TotallyOrdered>(x: DomainFP, f: Transformati
     print("")
 }
 
+func additiveCongruentialTransformation(modulus: Int, index: Int) -> ((Int) -> Int) {
+    return { x in (x + index) % modulus }
+}
+
+func alwaysDefined<T>() -> ((T) -> Bool) {
+    return { _ in return true }
+}
+
 func testAdditiveCongruentialTransformation(modulus: Int, index: Int) {
     logFunc()
     print("Running testAdditiveCongruentialTransformation")
-    let additiveCongruentialTransformation: (Int) -> Int = { x in
-        return (x + index) % modulus
-    }
-
+    let f = additiveCongruentialTransformation(modulus: modulus, index: index)
     outputOrbitStructure(x: index,
-                         f: additiveCongruentialTransformation,
-                         p: { _ in return true })
+                         f: f,
+                         p: alwaysDefined())
 }

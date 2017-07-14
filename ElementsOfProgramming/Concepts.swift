@@ -5,7 +5,7 @@
 
 // MARK: Chapter 1
 
-//typealias FunctionalProcedure<T> = (Any, Any ...) -> T
+//typealias FunctionalProcedure<T> = (Any, Any...) -> T
 
 //typealias HomogeneousFunction<T, U> = (U, U ...) -> T
 
@@ -13,7 +13,7 @@ typealias UnaryFunction<T> = (T) -> Any where T: TotallyOrdered
 
 // MARK: Chapter 2
 
-//typealias Predicate = (Any, Any ...) -> Bool
+//typealias Predicate = (Any, Any...) -> Bool
 
 //typealias HomogeneousPredicate<T> = (T, T ...) -> Bool
 
@@ -22,15 +22,13 @@ typealias P<T> = UnaryPredicate<T>
 
 // typealias Operation<T> = (T, T ...) -> T
 
-// Unary Operation
 typealias UnaryOperation<T> = (T) -> T
 typealias F<T> = UnaryOperation<T>
 
-// Binary Operation
 typealias BinaryOperation<T> = (T, T) -> T
 typealias Op<T> = BinaryOperation<T>
 
-// typealias DefinitionSpacePredicate (Any, Any ...) -> Bool
+// typealias DefinitionSpacePredicate (Any, Any...) -> Bool
 // precondition: Returns true if and only if the inputs are within the
 //               definition space of the procedure
 
