@@ -17,28 +17,31 @@ func euclideanNorm(x: Double, y: Double, z: Double) -> Double {
     return sqrt(x * x + y * y + z * z)
 } // ternary operation
 
-func powerUnary<DomainF: RegularType>(_ _x: DomainF, _ _n: N, f: Transformation<DomainF>) -> DomainF {
-    var x = _x
-    var n = _n
+func powerUnary<DomainF: RegularType>(x: DomainF, n: N, f: Transformation<DomainF>) -> DomainF {
+    logFunc()
+    var _x = x
+    var _n = n
     precondition(n >= 0, "n >= 0")
-    // Precondition: For all values of natural number i where 0 < i <= n, fi(x) is defined
+    // Precondition:
+    // $n \geq 0 \wedge (\forall i \in N)\,0 < i \leq n \Rightarrow f^i(x)$ is defined
     
-    while n != N(0) {
-        n = n - N(1)
-        x = f(x)
+    while _n != N(0) {
+        _n = _n - N(1)
+        _x = f(_x)
     }
-    return x
+    return _x
 }
 
 ///
 
-func distance<DomainF: RegularType>(_ _x: DomainF, _ y: DomainF, f: Transformation<DomainF>) -> DistanceType {
-    var x = _x
-    // Precondition: y is reachable from x under f
+func distance<DomainF: RegularType>(x: DomainF, y: DomainF, f: Transformation<DomainF>) -> DistanceType {
+    logFunc()
+    var _x = x
+    // Precondition: $y$ is reachable from $x$ under $f$
     typealias N = DistanceType
     var n = N(0)
-    while x != y {
-        x = f(x)
+    while _x != y {
+        _x = f(_x)
         n = n + N(1)
     }
     return n
@@ -46,8 +49,9 @@ func distance<DomainF: RegularType>(_ _x: DomainF, _ y: DomainF, f: Transformati
 
 ///
 
-func collisionPoint<DomainFP: RegularType>(_ x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> DomainFP {
-    // Precondition: p(x) <=> f(x) is defined
+func collisionPoint<DomainFP: RegularType>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> DomainFP {
+    logFunc()
+    // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
     if !p(x) { return x }
     
     var slow = x
@@ -66,14 +70,16 @@ func collisionPoint<DomainFP: RegularType>(_ x: DomainFP, f: Transformation<Doma
 
 ///
 
-func terminating<DomainFP: RegularType>(_ x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> Bool{
+func terminating<DomainFP: RegularType>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> Bool{
+    logFunc()
     // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
-    return !p(collisionPoint(x, f: f, p: p))
+    return !p(collisionPoint(x: x, f: f, p: p))
 }
 
 ///
 
-func collisionPointNonterminatingOrbit<DomainF: RegularType>(_ x: DomainF, f: Transformation<DomainF>) -> DomainF {
+func collisionPointNonterminatingOrbit<DomainF: RegularType>(x: DomainF, f: Transformation<DomainF>) -> DomainF {
+    logFunc()
     var slow = x
     var fast = f(x)
     
@@ -87,84 +93,93 @@ func collisionPointNonterminatingOrbit<DomainF: RegularType>(_ x: DomainF, f: Tr
 
 ///
 
-func circularNonterminatingOrbit<DomainF: RegularType>(_ x: DomainF, f: Transformation<DomainF>) -> Bool {
-    return x == f(collisionPointNonterminatingOrbit(x, f: f))
+func circularNonterminatingOrbit<DomainF: RegularType>(x: DomainF, f: Transformation<DomainF>) -> Bool {
+    logFunc()
+    return x == f(collisionPointNonterminatingOrbit(x: x, f: f))
 }
 
 ///
 
-func circular<DomainFP: RegularType>(_ x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> Bool {
-    let y = collisionPoint(x, f: f, p: p)
+func circular<DomainFP: RegularType>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> Bool {
+    logFunc()
+    // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
+    let y = collisionPoint(x: x, f: f, p: p)
     return p(y) && x == f(y)
 }
 
 ///
 
-func convergentPoint<DomainF: RegularType>(_ _x0: DomainF, _ _x1: DomainF, f: Transformation<DomainF>) -> DomainF {
+func convergentPoint<DomainF: RegularType>(x0: DomainF, x1: DomainF, f: Transformation<DomainF>) -> DomainF {
+    logFunc()
     // Precondition: $(\exists n \in \func{DistanceType}(F))\,n \geq 0 \wedge f^n(x0) = f^n(x1)$
-    var x0 = _x0
-    var x1 = _x1
+    var _x0 = x0
+    var _x1 = x1
     
-    while x0 != x1 {
-        x0 = f(x0)
-        x1 = f(x1)
+    while _x0 != _x1 {
+        _x0 = f(_x0)
+        _x1 = f(_x1)
     }
-    return x0
+    return _x0
 }
 
 ///
 
-func connectionPointNonterminatingOrbit<DomainF: RegularType>(_ x: DomainF, f: Transformation<DomainF>) -> DomainF {
-    return convergentPoint(x,
-                           f(collisionPointNonterminatingOrbit(x, f: f)),
+func connectionPointNonterminatingOrbit<DomainF: RegularType>(x: DomainF, f: Transformation<DomainF>) -> DomainF {
+    logFunc()
+    return convergentPoint(x0: x,
+                           x1: f(collisionPointNonterminatingOrbit(x: x, f: f)),
                            f: f)
 }
 
 ///
 
-func connectionPoint<DomainFP: RegularType>(_ x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> DomainFP {
+func connectionPoint<DomainFP: RegularType>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> DomainFP {
+    logFunc()
     // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
-    let y = collisionPoint(x, f: f, p: p)
+    let y = collisionPoint(x: x, f: f, p: p)
     if !p(y) { return y }
-    return convergentPoint(x, f(y), f: f)
+    return convergentPoint(x0: x, x1: f(y), f: f)
 }
 
 /// Exercise 2.3
 
-func convergentPointGuarded<DomainF: RegularType>(_x0: DomainF, _x1: DomainF, y: DomainF, f: Transformation<DomainF>) -> DomainF {
-    var x0 = _x0
-    var x1 = _x1
+func convergentPointGuarded<DomainF: RegularType>(x0: DomainF, x1: DomainF, y: DomainF, f: Transformation<DomainF>) -> DomainF {
+    logFunc()
+    var _x0 = x0
+    var _x1 = x1
     // Precondition: $\func{reachable}(x0, y, f) \wedge \func{reachable}(x1, y, f)$
     typealias N = DistanceType
-    let d0 = distance(x0, y, f: f)
-    let d1 = distance(x1, y, f: f)
+    let d0 = distance(x: _x0, y: y, f: f)
+    let d1 = distance(x: _x1, y: y, f: f)
     if d0 < d1 {
-        x1 = powerUnary(x1, d1 - d0, f: f)
+        _x1 = powerUnary(x: _x1, n: d1 - d0, f: f)
     } else if d1 < d0 {
-        x0 = powerUnary(x0, d0 - d1, f: f)
+        _x0 = powerUnary(x: _x0, n: d0 - d1, f: f)
     }
-    return convergentPoint(x0, x1, f: f)
+    return convergentPoint(x0: x0, x1: x1, f: f)
 }
 
 ///
 
-func orbitStructureNonterminatingOrbit<DomainF>(_ x: DomainF, f: Transformation<DomainF>) -> Triple<DistanceType, DistanceType, DomainF> {
+func orbitStructureNonterminatingOrbit<DomainF>(x: DomainF, f: Transformation<DomainF>) -> Triple<DistanceType, DistanceType, DomainF> {
+    logFunc()
     typealias N = DistanceType
-    let y = connectionPointNonterminatingOrbit(x, f: f)
-    return Triple(m0: distance(x, y, f: f),
-                  m1: distance(f(y), y, f: f),
+    let y = connectionPointNonterminatingOrbit(x: x, f: f)
+    return Triple(m0: distance(x: x, y: y, f: f),
+                  m1: distance(x: f(y), y: y, f: f),
                   m2: y)
 }
 
 ///
 
-func orbitStructure<DomainFP>(_ x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> Triple<DistanceType, DistanceType, DomainFP> {
+func orbitStructure<DomainFP>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> Triple<DistanceType, DistanceType, DomainFP> {
+    logFunc()
     // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
     typealias N = DistanceType
-    let y = connectionPoint(x, f: f, p: p)
-    let m = distance(y, y, f: f)
+    let y = connectionPoint(x: x, f: f, p: p)
+    let m = distance(x: x, y: y, f: f)
     var n = N(0)
-    if p(y) { n = distance(f(y), y, f: f) }
+    if p(y) { n = distance(x: f(y), y: y, f: f) }
     // Terminating: $m = h - 1 \wedge n = 0$
     // Otherwise:   $m = h \wedge n = c - 1$
     return Triple(m0: m, m1: n, m2: y)
