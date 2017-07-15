@@ -17,7 +17,7 @@ func plus2(a: UnsafePointer<Int>, b: UnsafePointer<Int>, c: UnsafeMutablePointer
 
 func square(n: Int) -> Int { return n * n }
 
-func square<DomainOp>(x: DomainOp, op: BinaryOperation<DomainOp>) -> DomainOp {
+func square<DomainOp: RegularType>(x: DomainOp, op: BinaryOperation<DomainOp>) -> DomainOp {
     return op(x, x)
 }
 
