@@ -123,8 +123,32 @@ class Chapter03Testts: XCTestCase {
         // TODO: Implement
         typealias I = Integer
         let k = I(11)
-//        conceptRegular
+        conceptRegular(x: n)
         var m: I
         m = n + k
+        m = n + k
+        m = m - k
+        m = m * k
+        m = m / k
+        m = m % k
+        m = I(0) // ensure m < k
+        conceptTotallyOrdered(x0: m, x1: k)
+        m = n.successor()
+        m = n.predecessor()
+        m = m.twice()
+        m = m.halfNonnegative()
+        m = m.binaryScaleDownNonnegative(k: I(1))
+        m = m.binaryScaleUpNonnegative(k: I(1))
+        let bp = m.positive();
+        let bn = m.negative();
+        XCTAssert(!(bp && bn));
+        let bz = m.zero();
+        XCTAssert(bz && !(bn || bp) || !bz && (bn || bp));
+        let b1 = m.one();
+        XCTAssert(!(bz && b1));
+        XCTAssert(!b1 || bp);
+        let be = m.even();
+        let bo = m.odd();
+        XCTAssert(be != bo);
     }
 }
