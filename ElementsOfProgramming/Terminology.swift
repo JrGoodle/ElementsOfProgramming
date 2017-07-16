@@ -26,8 +26,6 @@ extension Int : Divisible {}
 // Natural Numbers
 typealias N = Int
 
-typealias Integer = Int
-
 // Concept
 // 1. Other Concepts
 // 2. Type Attributes

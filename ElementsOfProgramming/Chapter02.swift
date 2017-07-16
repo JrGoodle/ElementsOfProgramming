@@ -19,8 +19,7 @@ func euclideanNorm(x: Double, y: Double, z: Double) -> Double {
 
 func powerUnary<DomainF: RegularType>(x: DomainF, n: N, f: Transformation<DomainF>) -> DomainF {
     logFunc()
-    var _x = x
-    var _n = n
+    var _x = x, _n = n
     precondition(n >= 0, "n >= 0")
     // Precondition:
     // $n \geq 0 \wedge (\forall i \in N)\,0 < i \leq n \Rightarrow f^i(x)$ is defined
@@ -111,9 +110,8 @@ func circular<DomainFP: RegularType>(x: DomainFP, f: Transformation<DomainFP>, p
 
 func convergentPoint<DomainF: RegularType>(x0: DomainF, x1: DomainF, f: Transformation<DomainF>) -> DomainF {
     logFunc()
+    var _x0 = x0, _x1 = x1
     // Precondition: $(\exists n \in \func{DistanceType}(F))\,n \geq 0 \wedge f^n(x0) = f^n(x1)$
-    var _x0 = x0
-    var _x1 = x1
     
     while _x0 != _x1 {
         _x0 = f(_x0)
@@ -145,8 +143,7 @@ func connectionPoint<DomainFP: RegularType>(x: DomainFP, f: Transformation<Domai
 
 func convergentPointGuarded<DomainF: RegularType>(x0: DomainF, x1: DomainF, y: DomainF, f: Transformation<DomainF>) -> DomainF {
     logFunc()
-    var _x0 = x0
-    var _x1 = x1
+    var _x0 = x0, _x1 = x1
     // Precondition: $\func{reachable}(x0, y, f) \wedge \func{reachable}(x1, y, f)$
     typealias N = DistanceType
     let d0 = distance(x: _x0, y: y, f: f)
