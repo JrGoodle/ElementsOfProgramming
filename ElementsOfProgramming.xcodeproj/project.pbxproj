@@ -17,6 +17,10 @@
 		C61124D31F184B88005B18ED /* Drivers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3A01F172E910001B732 /* Drivers.swift */; };
 		C66DB4781F19B4BB0019A2BB /* Chapter03.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4771F19B4BB0019A2BB /* Chapter03.swift */; };
 		C66DB47A1F1AC6060019A2BB /* Integers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4791F1AC6060019A2BB /* Integers.swift */; };
+		C66DB47C1F1AE8110019A2BB /* Chapter03Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB47B1F1AE8110019A2BB /* Chapter03Tests.swift */; };
+		C66DB47D1F1AEECE0019A2BB /* Chapter03.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4771F19B4BB0019A2BB /* Chapter03.swift */; };
+		C66DB47E1F1AEED20019A2BB /* Integers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4791F1AC6060019A2BB /* Integers.swift */; };
+		C66DB4801F1AF5D20019A2BB /* Chapter01Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB47F1F1AF5D20019A2BB /* Chapter01Tests.swift */; };
 		C6FEC3901F16DA210001B732 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC38F1F16DA210001B732 /* main.swift */; };
 		C6FEC3971F16DA4C0001B732 /* Chapter01.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3961F16DA4C0001B732 /* Chapter01.swift */; };
 		C6FEC3991F16DA810001B732 /* Chapter02.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3981F16DA810001B732 /* Chapter02.swift */; };
@@ -45,6 +49,8 @@
 		C61124C91F184B74005B18ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C66DB4771F19B4BB0019A2BB /* Chapter03.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter03.swift; sourceTree = "<group>"; };
 		C66DB4791F1AC6060019A2BB /* Integers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Integers.swift; sourceTree = "<group>"; };
+		C66DB47B1F1AE8110019A2BB /* Chapter03Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter03Tests.swift; sourceTree = "<group>"; };
+		C66DB47F1F1AF5D20019A2BB /* Chapter01Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter01Tests.swift; sourceTree = "<group>"; };
 		C6FEC38C1F16DA210001B732 /* ElementsOfProgramming */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ElementsOfProgramming; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6FEC38F1F16DA210001B732 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C6FEC3961F16DA4C0001B732 /* Chapter01.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chapter01.swift; sourceTree = "<group>"; };
@@ -77,7 +83,9 @@
 		C61124C61F184B74005B18ED /* ElementsOfProgrammingTests */ = {
 			isa = PBXGroup;
 			children = (
+				C66DB47F1F1AF5D20019A2BB /* Chapter01Tests.swift */,
 				C61124C71F184B74005B18ED /* Chapter02Tests.swift */,
+				C66DB47B1F1AE8110019A2BB /* Chapter03Tests.swift */,
 				C61124C91F184B74005B18ED /* Info.plist */,
 			);
 			path = ElementsOfProgrammingTests;
@@ -211,11 +219,15 @@
 			files = (
 				C61124CD1F184B88005B18ED /* Terminology.swift in Sources */,
 				C61124CE1F184B88005B18ED /* TypeFunctions.swift in Sources */,
+				C66DB4801F1AF5D20019A2BB /* Chapter01Tests.swift in Sources */,
 				C61124CF1F184B88005B18ED /* Concepts.swift in Sources */,
 				C61124D01F184B88005B18ED /* Chapter01.swift in Sources */,
+				C66DB47D1F1AEECE0019A2BB /* Chapter03.swift in Sources */,
 				C61124D11F184B88005B18ED /* Chapter02.swift in Sources */,
 				C61124D21F184B88005B18ED /* Chapter05.swift in Sources */,
+				C66DB47C1F1AE8110019A2BB /* Chapter03Tests.swift in Sources */,
 				C61124D31F184B88005B18ED /* Drivers.swift in Sources */,
+				C66DB47E1F1AEED20019A2BB /* Integers.swift in Sources */,
 				C61124C81F184B74005B18ED /* Chapter02Tests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

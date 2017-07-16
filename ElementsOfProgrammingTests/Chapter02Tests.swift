@@ -5,7 +5,7 @@
 
 import XCTest
 
-class ElementsOfProgrammingTests: XCTestCase {
+class Chapter02Tests: XCTestCase {
     
     override func setUp() {
         super.setUp()
@@ -88,7 +88,7 @@ class ElementsOfProgrammingTests: XCTestCase {
         var n = N(1)
     }
     
-    func conceptUnaryPredicate<DomainP>(p: UnaryPredicate<DomainP>, x: DomainP) {
+    func conceptUnaryPredicate<DomainP: RegularType>(p: UnaryPredicate<DomainP>, x: DomainP) {
         typealias X = DomainP
         var x0: X, x1: X
         if p(x) {

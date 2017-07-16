@@ -117,12 +117,12 @@ func power2<DomainOp: RegularType>(a: DomainOp, n: Integer, op: BinaryOperation<
 func power3<DomainOp: RegularType>(a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>) -> DomainOp {
     var _a = a, _n = n
     // Precondition: $\func{associative}(op) \wedge n > 0$
-    while n % Integer(2) == Integer(0) {
+    while _n % Integer(2) == Integer(0) {
         _a = op(_a, _a)
         _n = _n / Integer(2)
     }
     _n = _n / Integer(2)
-    if _n == Integer(0) { return a }
+    if _n == Integer(0) { return _a }
     return powerAccumulatePositive0(r: _a, a: op(_a, _a), n: _n, op: op)
 }
 
@@ -132,7 +132,7 @@ func powerAccumulatePositive<DomainOp: RegularType>(r: DomainOp, a: DomainOp, n:
     while true {
         if _n.odd() {
             _r = op(_r, _a)
-            if _n.one() { return r }
+            if _n.one() { return _r }
         }
         _a = op(_a, _a)
         _n = _n.halfNonnegative()
