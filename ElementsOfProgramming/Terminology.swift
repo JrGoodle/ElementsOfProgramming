@@ -3,18 +3,29 @@
 //  ElementsOfProgramming
 //
 
-typealias RegularType = Equatable
-
-typealias TotallyOrdered = Comparable & Equatable
-
 typealias ArchimedeanGroup = (Int) -> Int // ?
 
 protocol Remainder {
     static func %(lhs: Self, rhs: Self) -> Self
 }
 
+protocol Addable {
+    static func +(lhs: Self, rhs: Self) -> Self
+}
+extension Int : Addable {}
+
+protocol Subtractable {
+    static func -(lhs: Self, rhs: Self) -> Self
+}
+extension Int : Subtractable {}
+
+protocol Negateable {
+    static prefix func -(value: Self) -> Self
+}
+extension Int : Negateable {}
+
 protocol Multipliable {
-    static func*(lhs: Self, rhs: Self) -> Self
+    static func *(lhs: Self, rhs: Self) -> Self
 }
 extension Int : Multipliable {}
 

@@ -17,7 +17,23 @@ class Chapter01Tests: XCTestCase {
         super.tearDown()
     }
     
-    func test() {
+    func testConceptRegular() {
+        // TODO: Implement
+    }
+    
+    func testConceptTotallyOrderd() {
+        // TODO: Implement
+    }
+    
+    func testPlus() {
+        // TODO: Implement
+    }
+    
+    func testSquare() {
+        // TODO: Implement
+    }
+    
+    func testTuples() {
         // TODO: Implement
     }
 }

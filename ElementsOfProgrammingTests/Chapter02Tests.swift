@@ -76,7 +76,7 @@ class Chapter02Tests: XCTestCase {
         XCTAssert(cpg == 1)
     }
     
-    func conceptTransformation<DomainF: RegularType>(f: Transformation<DomainF>, x: DomainF) {
+    func conceptTransformation<DomainF: Regular>(f: Transformation<DomainF>, x: DomainF) {
         typealias CodomainF = DomainF
         typealias X = DomainF
         typealias Y = CodomainF
@@ -88,7 +88,7 @@ class Chapter02Tests: XCTestCase {
         var n = N(1)
     }
     
-    func conceptUnaryPredicate<DomainP: RegularType>(p: UnaryPredicate<DomainP>, x: DomainP) {
+    func conceptUnaryPredicate<DomainP: Regular>(p: UnaryPredicate<DomainP>, x: DomainP) {
         typealias X = DomainP
         var x0: X, x1: X
         if p(x) {

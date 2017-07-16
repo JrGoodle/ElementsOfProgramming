@@ -17,7 +17,7 @@ func euclideanNorm(x: Double, y: Double, z: Double) -> Double {
     return sqrt(x * x + y * y + z * z)
 } // ternary operation
 
-func powerUnary<DomainF: RegularType>(x: DomainF, n: N, f: Transformation<DomainF>) -> DomainF {
+func powerUnary<DomainF: Regular>(x: DomainF, n: N, f: Transformation<DomainF>) -> DomainF {
     logFunc()
     var _x = x, _n = n
     precondition(n >= 0, "n >= 0")
@@ -33,7 +33,7 @@ func powerUnary<DomainF: RegularType>(x: DomainF, n: N, f: Transformation<Domain
 
 ///
 
-func distance<DomainF: RegularType>(x: DomainF, y: DomainF, f: Transformation<DomainF>) -> DistanceType {
+func distance<DomainF: Regular>(x: DomainF, y: DomainF, f: Transformation<DomainF>) -> DistanceType {
     logFunc()
     var _x = x
     // Precondition: $y$ is reachable from $x$ under $f$
@@ -48,7 +48,7 @@ func distance<DomainF: RegularType>(x: DomainF, y: DomainF, f: Transformation<Do
 
 ///
 
-func collisionPoint<DomainFP: RegularType>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> DomainFP {
+func collisionPoint<DomainFP: Regular>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> DomainFP {
     logFunc()
     // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
     if !p(x) { return x }
@@ -69,7 +69,7 @@ func collisionPoint<DomainFP: RegularType>(x: DomainFP, f: Transformation<Domain
 
 ///
 
-func terminating<DomainFP: RegularType>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> Bool{
+func terminating<DomainFP: Regular>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> Bool{
     logFunc()
     // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
     return !p(collisionPoint(x: x, f: f, p: p))
@@ -77,7 +77,7 @@ func terminating<DomainFP: RegularType>(x: DomainFP, f: Transformation<DomainFP>
 
 ///
 
-func collisionPointNonterminatingOrbit<DomainF: RegularType>(x: DomainF, f: Transformation<DomainF>) -> DomainF {
+func collisionPointNonterminatingOrbit<DomainF: Regular>(x: DomainF, f: Transformation<DomainF>) -> DomainF {
     logFunc()
     var slow = x
     var fast = f(x)
@@ -92,14 +92,14 @@ func collisionPointNonterminatingOrbit<DomainF: RegularType>(x: DomainF, f: Tran
 
 ///
 
-func circularNonterminatingOrbit<DomainF: RegularType>(x: DomainF, f: Transformation<DomainF>) -> Bool {
+func circularNonterminatingOrbit<DomainF: Regular>(x: DomainF, f: Transformation<DomainF>) -> Bool {
     logFunc()
     return x == f(collisionPointNonterminatingOrbit(x: x, f: f))
 }
 
 ///
 
-func circular<DomainFP: RegularType>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> Bool {
+func circular<DomainFP: Regular>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> Bool {
     logFunc()
     // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
     let y = collisionPoint(x: x, f: f, p: p)
@@ -108,7 +108,7 @@ func circular<DomainFP: RegularType>(x: DomainFP, f: Transformation<DomainFP>, p
 
 ///
 
-func convergentPoint<DomainF: RegularType>(x0: DomainF, x1: DomainF, f: Transformation<DomainF>) -> DomainF {
+func convergentPoint<DomainF: Regular>(x0: DomainF, x1: DomainF, f: Transformation<DomainF>) -> DomainF {
     logFunc()
     var _x0 = x0, _x1 = x1
     // Precondition: $(\exists n \in \func{DistanceType}(F))\,n \geq 0 \wedge f^n(x0) = f^n(x1)$
@@ -122,7 +122,7 @@ func convergentPoint<DomainF: RegularType>(x0: DomainF, x1: DomainF, f: Transfor
 
 ///
 
-func connectionPointNonterminatingOrbit<DomainF: RegularType>(x: DomainF, f: Transformation<DomainF>) -> DomainF {
+func connectionPointNonterminatingOrbit<DomainF: Regular>(x: DomainF, f: Transformation<DomainF>) -> DomainF {
     logFunc()
     return convergentPoint(x0: x,
                            x1: f(collisionPointNonterminatingOrbit(x: x, f: f)),
@@ -131,7 +131,7 @@ func connectionPointNonterminatingOrbit<DomainF: RegularType>(x: DomainF, f: Tra
 
 ///
 
-func connectionPoint<DomainFP: RegularType>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> DomainFP {
+func connectionPoint<DomainFP: Regular>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> DomainFP {
     logFunc()
     // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
     let y = collisionPoint(x: x, f: f, p: p)
@@ -141,7 +141,7 @@ func connectionPoint<DomainFP: RegularType>(x: DomainFP, f: Transformation<Domai
 
 /// Exercise 2.3
 
-func convergentPointGuarded<DomainF: RegularType>(x0: DomainF, x1: DomainF, y: DomainF, f: Transformation<DomainF>) -> DomainF {
+func convergentPointGuarded<DomainF: Regular>(x0: DomainF, x1: DomainF, y: DomainF, f: Transformation<DomainF>) -> DomainF {
     logFunc()
     var _x0 = x0, _x1 = x1
     // Precondition: $\func{reachable}(x0, y, f) \wedge \func{reachable}(x1, y, f)$

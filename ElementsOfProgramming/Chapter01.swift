@@ -17,11 +17,11 @@ func plus2(a: UnsafePointer<Int>, b: UnsafePointer<Int>, c: UnsafeMutablePointer
 
 func square(n: Int) -> Int { return n * n }
 
-func square<DomainOp: RegularType>(x: DomainOp, op: BinaryOperation<DomainOp>) -> DomainOp {
+func square<DomainOp: Regular>(x: DomainOp, op: BinaryOperation<DomainOp>) -> DomainOp {
     return op(x, x)
 }
 
-func equal<T: RegularType>(x: T, y: T) -> Bool { return x == y }
+func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
 
 // InputType(F, i)
 // Returns the type of the ith parameter (counting from 0)

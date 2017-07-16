@@ -65,7 +65,7 @@ class Chapter03Testts: XCTestCase {
         XCTAssert(fibonacci(n: 20) == N(6765))
     }
     
-    func conceptBinaryOperation<DomainOp: RegularType>(op: BinaryOperation<DomainOp>, x: DomainOp) {
+    func conceptBinaryOperation<DomainOp: Regular>(op: BinaryOperation<DomainOp>, x: DomainOp) {
         typealias CodomainOp = DomainOp
         typealias X = DomainOp
         typealias Y = CodomainOp
