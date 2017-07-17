@@ -18,8 +18,8 @@ class Chapter03Testts: XCTestCase {
     }
     
     func testConceptBinaryOperation() {
-        conceptBinaryOperation(op: minusInt, x: 7)
-        conceptBinaryOperation(op: timesInt, x: 8)
+        Concept.binaryOperation(op: minusInt, x: 7)
+        Concept.binaryOperation(op: timesInt, x: 8)
     }
     
     func testPower() {
@@ -48,14 +48,14 @@ class Chapter03Testts: XCTestCase {
     
     func testConceptInteger() {
         typealias N = Int
-        conceptInteger(n: N(7))
+        Concept.integer(n: N(7))
     }
     
     func testFibonacci() {
         typealias N = Int
         typealias Fib = Pair<N, N>
         
-        conceptBinaryOperation(op: fibonacciMatrixMultiply, x: Fib(m0: N(1), m1: N(0)))
+        Concept.binaryOperation(op: fibonacciMatrixMultiply, x: Fib(m0: N(1), m1: N(0)))
         
         let f10 = Fib(m0: 55, m1: 34)
         let f11 = Fib(m0: 89, m1: 55)
@@ -63,15 +63,6 @@ class Chapter03Testts: XCTestCase {
         XCTAssert(f21.m0 == 10946 && f21.m1 == 6765)
         XCTAssert(fibonacci(n: 10) == N(55))
         XCTAssert(fibonacci(n: 20) == N(6765))
-    }
-    
-    func conceptBinaryOperation<DomainOp: Regular>(op: BinaryOperation<DomainOp>, x: DomainOp) {
-        typealias CodomainOp = DomainOp
-        typealias X = DomainOp
-        typealias Y = CodomainOp
-        var y = x
-        XCTAssert(x == y)
-        y = op(x, x)
     }
     
     func minusInt(a: Int, b: Int) -> Int { return a - b }
@@ -117,38 +108,5 @@ class Chapter03Testts: XCTestCase {
         
         XCTAssert(pow(1, 0, timesInt, 1) == 1)
         XCTAssert(pow(1, 0, timesInt, 99) == 99)
-    }
-    
-    func conceptInteger(n: Integer)  {
-        // TODO: Implement
-        typealias I = Integer
-        let k = I(11)
-        conceptRegular(x: n)
-        var m: I
-        m = n + k
-        m = n + k
-        m = m - k
-        m = m * k
-        m = m / k
-        m = m % k
-        m = I(0) // ensure m < k
-        conceptTotallyOrdered(x0: m, x1: k)
-        m = n.successor()
-        m = n.predecessor()
-        m = m.twice()
-        m = m.halfNonnegative()
-        m = m.binaryScaleDownNonnegative(k: I(1))
-        m = m.binaryScaleUpNonnegative(k: I(1))
-        let bp = m.positive();
-        let bn = m.negative();
-        XCTAssert(!(bp && bn));
-        let bz = m.zero();
-        XCTAssert(bz && !(bn || bp) || !bz && (bn || bp));
-        let b1 = m.one();
-        XCTAssert(!(bz && b1));
-        XCTAssert(!b1 || bp);
-        let be = m.even();
-        let bo = m.odd();
-        XCTAssert(be != bo);
     }
 }

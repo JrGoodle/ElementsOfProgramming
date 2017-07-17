@@ -33,73 +33,73 @@ func power1<DomainOp: Regular>(a: DomainOp, n: Integer, op: BinaryOperation<Doma
 }
 
 func powerAccumulate0<DomainOp: Regular>(r: DomainOp, a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>) -> DomainOp {
-    var _r = r
+    var r = r
     // Precondition: $\func{associative}(op) \wedge n \geq 0$
-    if n == Integer(0) { return _r }
-    if n % Integer(2) != Integer(0) { _r = op(_r, a) }
-    return powerAccumulate0(r: _r, a: op(a, a), n: n / Integer(2), op: op)
+    if n == Integer(0) { return r }
+    if n % Integer(2) != Integer(0) { r = op(r, a) }
+    return powerAccumulate0(r: r, a: op(a, a), n: n / Integer(2), op: op)
 }
 
 func powerAccumulate1<DomainOp: Regular>(r: DomainOp, a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>) -> DomainOp {
-    var _r = r
+    var r = r
     // Precondition: $\func{associative}(op) \wedge n \geq 0$
-    if n == Integer(0) { return _r }
-    if n == Integer(1) { return op(_r, a) }
-    if n % Integer(2) != Integer(0) { _r = op(_r, a) }
-    return powerAccumulate1(r: _r, a: op(a, a), n: n / Integer(2), op: op)
+    if n == Integer(0) { return r }
+    if n == Integer(1) { return op(r, a) }
+    if n % Integer(2) != Integer(0) { r = op(r, a) }
+    return powerAccumulate1(r: r, a: op(a, a), n: n / Integer(2), op: op)
 }
 
 func powerAccumulate2<DomainOp: Regular>(r: DomainOp, a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>) -> DomainOp {
-    var _r = r
+    var r = r
     // Precondition: $\func{associative}(op) \wedge n \geq 0$
     if n % Integer(2) != Integer(0) {
-        _r = op(_r, a)
-        if n == Integer(1) { return _r }
+        r = op(r, a)
+        if n == Integer(1) { return r }
     } else if n == Integer(0) {
-        return _r
+        return r
     }
-    return powerAccumulate2(r: _r, a: op(a, a), n: n / Integer(2), op: op)
+    return powerAccumulate2(r: r, a: op(a, a), n: n / Integer(2), op: op)
 }
 
 func powerAccumulate3<DomainOp: Regular>(r: DomainOp, a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>) -> DomainOp {
-    var _r = r, _a = a, _n = n
+    var r = r, a = a, n = n
     // Precondition: $\func{associative}(op) \wedge n \geq 0$
-    if _n % Integer(2) != Integer(0) {
-        _r = op(_r, _a)
-        if _n == Integer(1) { return _r }
-    } else if _n == Integer(0) {
-        return _r
+    if n % Integer(2) != Integer(0) {
+        r = op(r, a)
+        if n == Integer(1) { return r }
+    } else if n == Integer(0) {
+        return r
     }
-    _a = op(_a, _a)
-    _n = _n / Integer(2)
-    return powerAccumulate3(r: _r, a: _a, n: _n, op: op)
+    a = op(a, a)
+    n = n / Integer(2)
+    return powerAccumulate3(r: r, a: a, n: n, op: op)
 }
 
 func powerAccumulate4<DomainOp: Regular>(r: DomainOp, a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>) -> DomainOp {
-    var _r = r, _a = a, _n = n
+    var r = r, a = a, n = n
     // Precondition: $\func{associative}(op) \wedge n \geq 0$
     while true {
-        if _n % Integer(2) != Integer(0) {
-            _r = op(_r, _a)
-            if _n == Integer(1) { return _r }
-        } else if _n == Integer(0) {
-            return _r
+        if n % Integer(2) != Integer(0) {
+            r = op(r, a)
+            if n == Integer(1) { return r }
+        } else if n == Integer(0) {
+            return r
         }
-        _a = op(_a, _a)
-        _n = _n / Integer(2)
+        a = op(a, a)
+        n = n / Integer(2)
     }
 }
 
 func powerAccumulatePositive0<DomainOp: Regular>(r: DomainOp, a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>) -> DomainOp {
-    var _r = r, _a = a, _n = n
+    var r = r, a = a, n = n
     // Precondition: $\func{associative}(op) \wedge n > 0$
     while true {
-        if _n % Integer(2) != Integer(0) {
-            _r = op(_r, _a)
-            if _n == Integer(1) { return _r }
+        if n % Integer(2) != Integer(0) {
+            r = op(r, a)
+            if n == Integer(1) { return r }
         }
-        _a = op(_a, _a)
-        _n = _n / Integer(2)
+        a = op(a, a)
+        n = n / Integer(2)
     }
 }
 
@@ -115,27 +115,27 @@ func power2<DomainOp: Regular>(a: DomainOp, n: Integer, op: BinaryOperation<Doma
 }
 
 func power3<DomainOp: Regular>(a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>) -> DomainOp {
-    var _a = a, _n = n
+    var a = a, n = n
     // Precondition: $\func{associative}(op) \wedge n > 0$
-    while _n % Integer(2) == Integer(0) {
-        _a = op(_a, _a)
-        _n = _n / Integer(2)
+    while n % Integer(2) == Integer(0) {
+        a = op(a, a)
+        n = n / Integer(2)
     }
-    _n = _n / Integer(2)
-    if _n == Integer(0) { return _a }
-    return powerAccumulatePositive0(r: _a, a: op(_a, _a), n: _n, op: op)
+    n = n / Integer(2)
+    if n == Integer(0) { return a }
+    return powerAccumulatePositive0(r: a, a: op(a, a), n: n, op: op)
 }
 
 func powerAccumulatePositive<DomainOp: Regular>(r: DomainOp, a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>) -> DomainOp {
-    var _r = r, _a = a, _n = n
+    var r = r, a = a, n = n
     // Precondition: $\func{associative}(op) \wedge \func{positive}(n)$
     while true {
-        if _n.odd() {
-            _r = op(_r, _a)
-            if _n.one() { return _r }
+        if n.odd() {
+            r = op(r, a)
+            if n.one() { return r }
         }
-        _a = op(_a, _a)
-        _n = _n.halfNonnegative()
+        a = op(a, a)
+        n = n.halfNonnegative()
     }
 }
 
@@ -146,15 +146,15 @@ func powerAccumulate<DomainOp: Regular>(r: DomainOp, a: DomainOp, n: Integer, op
 }
 
 func power<DomainOp: Regular>(a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>) -> DomainOp {
-    var _a = a, _n = n
+    var a = a, n = n
     // Precondition: $\func{associative}(op) \wedge \func{positive}(n)$
-    while _n.even() {
-        _a = op(_a, _a)
-        _n = _n.halfNonnegative()
+    while n.even() {
+        a = op(a, a)
+        n = n.halfNonnegative()
     }
-    _n = _n.halfNonnegative()
-    if _n.zero() { return _a }
-    return powerAccumulatePositive(r: _a, a: op(_a, _a), n: _n, op: op)
+    n = n.halfNonnegative()
+    if n.zero() { return a }
+    return powerAccumulatePositive(r: a, a: op(a, a), n: n, op: op)
 }
 
 func power<DomainOp: Regular>(a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>, id: DomainOp) -> DomainOp {

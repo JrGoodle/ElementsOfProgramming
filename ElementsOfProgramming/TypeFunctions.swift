@@ -17,13 +17,13 @@ protocol Distance {
 
 //extension Distance where Self: Regular {
 //    func distance(to start: Self, f: Transformation<Self>) -> Int {
-//        var _x = self
+//        var x = self
 //        let y = start
 //        // Precondition: $y$ is reachable from $x$ under $f$
 //        typealias N = DistanceType
 //        var n = N(0)
-//        while _x != y {
-//            _x = f(_x)
+//        while x != y {
+//            x = f(x)
 //            n = n + N(1)
 //        }
 //        return n
@@ -32,13 +32,13 @@ protocol Distance {
 
 //extension Int: Distance {
 //    func distance<T>(to: Int, f: (T) -> T) -> Int where T : Equatable {
-//        var _x = self
+//        var x = self
 //        let y = to
 //        // Precondition: $y$ is reachable from $x$ under $f$
 //        typealias N = DistanceType
 //        var n = N(0)
-//        while _x != y {
-//            _x = f(_x)
+//        while x != y {
+//            x = f(x)
 //            n = n + N(1)
 //        }
 //        return n

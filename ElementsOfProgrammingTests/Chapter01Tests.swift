@@ -19,14 +19,14 @@ class Chapter01Tests: XCTestCase {
     
     func testConceptRegular() {
         let n = Int(0)
-        conceptRegular(x: n)
+        Concept.regular(x: n)
     }
     
     func testConceptTotallyOrderd() {
         let n0 = Int(0)
         let n1 = Int(1)
-        conceptRegular(x: n0)
-        conceptTotallyOrdered(x0: n0, x1: n1) // *****concept_Integer ?????
+        Concept.regular(x: n0)
+        Concept.totallyOrdered(x0: n0, x1: n1) // *****Concept.integer ?????
     }
     
     func testPlus() {
@@ -88,8 +88,8 @@ class Chapter01Tests: XCTestCase {
         let p1 = P01(m0: x01, m1: x11)
         
         // Regular
-        conceptRegular(x: p0)
-        conceptTotallyOrdered(x0: p0, x1: p1)
+        Concept.regular(x: p0)
+        Concept.totallyOrdered(x0: p0, x1: p1)
         
         // Member selection
         XCTAssert(p0.m0 == x00 && p0.m1 == x10)
@@ -108,8 +108,8 @@ class Chapter01Tests: XCTestCase {
         let t1 = Triple(m0: x01, m1: x11, m2: x21)
         
         // Regular
-        conceptRegular(x: t0)
-        conceptTotallyOrdered(x0: t0, x1: t1)
+        Concept.regular(x: t0)
+        Concept.totallyOrdered(x0: t0, x1: t1)
         
         // Member selection
         XCTAssert(t0.m0 == x00 &&
@@ -120,46 +120,4 @@ class Chapter01Tests: XCTestCase {
     func times<T: MultiplicativeSemigroup>(a: T, b: T) -> T {
         return a * b
     }
-}
-
-func conceptRegular<T: Regular>(x: T) {
-    // Default constructor (not really invoked until an object is initialized in Swift)
-    var y: T
-    
-    // Equality
-    XCTAssert(x == x)
-    
-    // Assignment
-    y = x
-    XCTAssert(y == x)
-    
-    // Copy constructor
-    let xCopy = x
-    XCTAssert(xCopy == x)
-    
-    // Default total ordering
-    XCTAssert(!less(x: x, y: x))
-    
-    // Underlying type
-    XCTAssert(type(of: x) == T.self)
-    
-    // Destructor
-}
-
-func conceptTotallyOrdered<T: TotallyOrdered>(x0: T, x1: T) {
-    // Precondition: x0 < x1
-    
-    XCTAssert(x0 != x1)
-    XCTAssert(!(x0 == x1))
-    
-    // Natural total ordering
-    XCTAssert(!(x0 < x0))
-    XCTAssert(x0 < x1)
-    XCTAssert(x1 > x0)
-    XCTAssert(x0 <= x1)
-    XCTAssert(x1 >= x0)
-    XCTAssert(!(x1 < x0))
-    XCTAssert(!(x0 > x1))
-    XCTAssert(!(x1 <= x0))
-    XCTAssert(!(x0 >= x1))
 }

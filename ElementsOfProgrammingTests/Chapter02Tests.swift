@@ -32,16 +32,16 @@ class Chapter02Tests: XCTestCase {
     }
     
     func testConceptTransformation() {
-        conceptTransformation(f: sq, x: 2)
+        Concept.transformation(f: sq, x: 2)
         
         let f = genOrbitTransformation(x: 0, h: 0, c: 5)
-        conceptTransformation(f: f, x: 0)
+        Concept.transformation(f: f, x: 0)
         
-        conceptTransformation(f: hf, x: 16)
+        Concept.transformation(f: hf, x: 16)
     }
     
     func testUnaryPredicate() {
-        conceptUnaryPredicate(p: genOrbitPredicate(x: 0, h: 0, c: 5), x: 0)
+        Concept.unaryPredicate(p: genOrbitPredicate(x: 0, h: 0, c: 5), x: 0)
     }
     
     func testPowerUnary() {
@@ -74,28 +74,6 @@ class Chapter02Tests: XCTestCase {
         XCTAssert(cpg == 32)
         cpg = convergentPointGuarded(x0: 1024, x1: 2047, y: 1, f: hf)
         XCTAssert(cpg == 1)
-    }
-    
-    func conceptTransformation<DomainF: Regular>(f: Transformation<DomainF>, x: DomainF) {
-        typealias CodomainF = DomainF
-        typealias X = DomainF
-        typealias Y = CodomainF
-        // X == Y
-        var y = x
-        XCTAssert(x == y)
-        y = f(y)
-        typealias N = DistanceType
-        var n = N(1)
-    }
-    
-    func conceptUnaryPredicate<DomainP: Regular>(p: UnaryPredicate<DomainP>, x: DomainP) {
-        typealias X = DomainP
-        var x0: X, x1: X
-        if p(x) {
-            x0 = x
-        } else {
-            x1 = x
-        }
     }
     
     func sq<T: Multipliable>(x: T) -> T { return x * x }
