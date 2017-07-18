@@ -80,7 +80,7 @@ class Chapter02Tests: XCTestCase {
     
     func hf(x: Int) -> Int { return x / N(2) }
     
-    func genOrbitTransformation(x: Int, h: N, c: N) -> ((Int) -> Int) {
+    func genOrbitTransformation(x: Int, h: N, c: N) -> Transformation<Int> {
         return { y in
             // Precondition: h < N(MaximumValue(I)) && c < N(MaximumValue(I))
             // Precondition: !negative(h) && !negative(c)
@@ -95,7 +95,7 @@ class Chapter02Tests: XCTestCase {
         }
     }
     
-    func genOrbitPredicate(x: Int, h: N, c: N) -> ((Int) -> Bool) {
+    func genOrbitPredicate(x: Int, h: N, c: N) -> UnaryPredicate<Int> {
         return { y in
             // Precondition: h < N(MaximumValue(I)) && c < N(MaximumValue(I))
             // Precondition: !negative(h) && !negative(c)

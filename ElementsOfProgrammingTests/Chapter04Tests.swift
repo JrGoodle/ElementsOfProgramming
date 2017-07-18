@@ -18,7 +18,7 @@ class Chapter04Testts: XCTestCase {
     }
     
     func testDerivedRelations() {
-        let lt: (Int, Int) -> Bool = less
+        let lt: Relation<Int> = less
         let ge = complement(r: lt)
         let gt = converse(r: lt)
         let le = complementOfConverse(r: lt)

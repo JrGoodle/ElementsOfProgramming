@@ -69,7 +69,7 @@ class Chapter03Testts: XCTestCase {
     
     func timesInt(a: Int, b: Int) -> Int { return a * b }
     
-    func algorithmPower(pow: (Int, Int, (Int, Int) -> Int) -> Int) {
+    func algorithmPower(pow: (Int, Int, BinaryOperation<Int>) -> Int) {
         XCTAssert(pow(1, 1, timesInt) == 1)
         XCTAssert(pow(10, 1, timesInt) == 10)
         XCTAssert(pow(1, 10, timesInt) == 1)
@@ -78,7 +78,7 @@ class Chapter03Testts: XCTestCase {
         XCTAssert(pow(10, 2, timesInt) == 100)
     }
     
-    func algorithmPowerAccumulate(pow: (Int, Int, Int, (Int, Int) -> Int) -> Int) {
+    func algorithmPowerAccumulate(pow: (Int, Int, Int, BinaryOperation<Int>) -> Int) {
         XCTAssert(pow(99, 1, 1, timesInt) == 99 * 1)
         XCTAssert(pow(99, 10, 1, timesInt) == 99 * 10)
         XCTAssert(pow(99, 1, 10, timesInt) == 99 * 1)
@@ -89,7 +89,7 @@ class Chapter03Testts: XCTestCase {
         XCTAssert(pow(99, 1, 0, timesInt) == 99)
     }
     
-    func algorithmPowerAccumulatePositive(pow: (Int, Int, Int, (Int, Int) -> Int) -> Int) {
+    func algorithmPowerAccumulatePositive(pow: (Int, Int, Int, BinaryOperation<Int>) -> Int) {
         XCTAssert(pow(99, 1, 1, timesInt) == 99 * 1)
         XCTAssert(pow(99, 10, 1, timesInt) == 99 * 10)
         XCTAssert(pow(99, 1, 10, timesInt) == 99 * 1)
@@ -98,7 +98,7 @@ class Chapter03Testts: XCTestCase {
         XCTAssert(pow(99, 10, 2, timesInt) == 99 * 100)
     }
     
-    func algorithmPowerWithIdentity(pow: (Int, Int, (Int, Int) -> Int, Int) -> Int) {
+    func algorithmPowerWithIdentity(pow: (Int, Int, BinaryOperation<Int>, Int) -> Int) {
         XCTAssert(pow(1, 1, timesInt, 1) == 1)
         XCTAssert(pow(10, 1, timesInt, 1) == 10)
         XCTAssert(pow(1, 10, timesInt, 1) == 1)
