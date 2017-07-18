@@ -202,7 +202,7 @@ class Chapter04Testts: XCTestCase {
             let eqf: (Pair<Int, Int>) -> Bool = eqFirst(x: 2)
 //            let f = findIf(f: l.pointee, l: l, p: eqf)
 //            XCTAssert(f != l && source(f) == r)
-        } while true
+        } while false
     }
     
     func algorithmSelect14StabilityIndices() {

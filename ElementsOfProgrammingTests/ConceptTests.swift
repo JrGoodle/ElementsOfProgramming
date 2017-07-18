@@ -53,7 +53,7 @@ class Concept {
     
     // MARK: Chapter 2
     
-    static func transformation<DomainF: Regular>(f: Transformation<DomainF>, x: DomainF) {
+    static func transformation<DomainF: Distance>(f: Transformation<DomainF>, x: DomainF) {
         typealias CodomainF = DomainF
         typealias X = DomainF
         typealias Y = CodomainF

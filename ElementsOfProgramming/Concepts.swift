@@ -31,7 +31,7 @@ typealias F<T: Regular> = UnaryOperation<T>
 // precondition: Returns true if and only if the inputs are within the
 //               definition space of the procedure
 
-typealias Transformation<T: Regular> = UnaryOperation<T>
+typealias Transformation<T: Distance> = UnaryOperation<T>
 
 // MARK: Chapter 3
 

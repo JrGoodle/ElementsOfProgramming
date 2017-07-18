@@ -54,7 +54,7 @@ class Chapter02Tests: XCTestCase {
     }
     
     func testDistance() {
-        XCTAssert(distance(x: 2, y: 65536, f: { $0 * $0 }) == 4)
+        XCTAssert(2.distance(to: 65536, f: { $0 * $0 }) == 4)
     }
     
     func testAlgorithmsOrbit() {
