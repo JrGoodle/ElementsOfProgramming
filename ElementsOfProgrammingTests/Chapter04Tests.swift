@@ -136,10 +136,11 @@ class Chapter04Testts: XCTestCase {
     }
     
     func testMinMax() {
-        XCTAssert(minSelect(a: Pair(m0: "a", m1: 3), b: Pair(m0: "a", m1: 4)) == Pair(m0: "a", m1: 3))
-        XCTAssert(minSelect(a: Pair(m0: "a", m1: 4), b: Pair(m0: "a", m1: 3)) == Pair(m0: "a", m1: 3))
-        XCTAssert(maxSelect(a: Pair(m0: "a", m1: 3), b: Pair(m0: "a", m1: 4)) == Pair(m0: "a", m1: 4))
-        XCTAssert(maxSelect(a: Pair(m0: "a", m1: 4), b: Pair(m0: "a", m1: 3)) == Pair(m0: "a", m1: 4))
+        typealias P = Pair
+        XCTAssert(minSelect(a: P(m0: "a", m1: 3), b: P(m0: "a", m1: 4)) == P(m0: "a", m1: 3))
+        XCTAssert(minSelect(a: P(m0: "a", m1: 4), b: P(m0: "a", m1: 3)) == P(m0: "a", m1: 3))
+        XCTAssert(maxSelect(a: P(m0: "a", m1: 3), b: P(m0: "a", m1: 4)) == P(m0: "a", m1: 4))
+        XCTAssert(maxSelect(a: P(m0: "a", m1: 4), b: P(m0: "a", m1: 3)) == P(m0: "a", m1: 4))
     }
     
     func propertyTotalyOrdering<DomainR: Regular>(r: Relation<DomainR>, x0: DomainR, x1: DomainR, x2: DomainR) {
@@ -191,6 +192,17 @@ class Chapter04Testts: XCTestCase {
     
     func algorithmSelect14() {
         // TODO: Implement
+        typealias T = Pair
+        let l = pointer(T(m0: 1, m1: 1), T(m0: 2, m1: 2), T(m0: 2, m1: 3), T(m0: 3, m1: 4))
+        repeat {
+            let fst: UnaryFunction<Pair<Int, Int>, Int> = first
+            let ls: Relation<Int> = less
+            let ko = keyOrdering(f: fst, r: ls)
+            let r = select14(a: l[0], b: l[1], c: l[2], d: l[3], r: ko)
+            let eqf: (Pair<Int, Int>) -> Bool = eqFirst(x: 2)
+//            let f = findIf(f: l.pointee, l: l, p: eqf)
+//            XCTAssert(f != l && source(f) == r)
+        } while true
     }
     
     func algorithmSelect14StabilityIndices() {
@@ -203,5 +215,17 @@ class Chapter04Testts: XCTestCase {
     
     func algorithmMedian5() {
         // TODO: Implement
+    }
+    
+    func nextPermutation<I, DomainR: TotallyOrdered>(f: I, l: I, r: Relation<DomainR>) -> Bool {
+        // TODO: Implement
+        // Precondition: weak_ordering(r)
+        return false
+    }
+    
+    func eqFirst<T0, T1>(x: T0) -> UnaryPredicate<Pair<T0, T1>> {
+        return { p in
+            return p.m0 == x
+        }
     }
 }

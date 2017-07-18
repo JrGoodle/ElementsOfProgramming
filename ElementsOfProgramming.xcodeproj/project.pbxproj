@@ -25,6 +25,10 @@
 		C66DB47E1F1AEED20019A2BB /* Integers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4791F1AC6060019A2BB /* Integers.swift */; };
 		C66DB4801F1AF5D20019A2BB /* Chapter01Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB47F1F1AF5D20019A2BB /* Chapter01Tests.swift */; };
 		C6910EB01F1D7442009F84EB /* ConceptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6910EAF1F1D7442009F84EB /* ConceptTests.swift */; };
+		C6910EB21F1D9F86009F84EB /* Pointers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6910EB11F1D9F86009F84EB /* Pointers.swift */; };
+		C6910EB31F1DA35F009F84EB /* Pointers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6910EB11F1D9F86009F84EB /* Pointers.swift */; };
+		C6910EB51F1DAB41009F84EB /* Chapter06.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6910EB41F1DAB41009F84EB /* Chapter06.swift */; };
+		C6910EB61F1DAB45009F84EB /* Chapter06.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6910EB41F1DAB41009F84EB /* Chapter06.swift */; };
 		C6FEC3901F16DA210001B732 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC38F1F16DA210001B732 /* main.swift */; };
 		C6FEC3971F16DA4C0001B732 /* Chapter01.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3961F16DA4C0001B732 /* Chapter01.swift */; };
 		C6FEC3991F16DA810001B732 /* Chapter02.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3981F16DA810001B732 /* Chapter02.swift */; };
@@ -58,6 +62,8 @@
 		C66DB47B1F1AE8110019A2BB /* Chapter03Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter03Tests.swift; sourceTree = "<group>"; };
 		C66DB47F1F1AF5D20019A2BB /* Chapter01Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter01Tests.swift; sourceTree = "<group>"; };
 		C6910EAF1F1D7442009F84EB /* ConceptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConceptTests.swift; sourceTree = "<group>"; };
+		C6910EB11F1D9F86009F84EB /* Pointers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pointers.swift; sourceTree = "<group>"; };
+		C6910EB41F1DAB41009F84EB /* Chapter06.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter06.swift; sourceTree = "<group>"; };
 		C6FEC38C1F16DA210001B732 /* ElementsOfProgramming */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ElementsOfProgramming; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6FEC38F1F16DA210001B732 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C6FEC3961F16DA4C0001B732 /* Chapter01.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chapter01.swift; sourceTree = "<group>"; };
@@ -131,7 +137,9 @@
 				C66DB4771F19B4BB0019A2BB /* Chapter03.swift */,
 				C65D60B01F1B275000F62E3B /* Chapter04.swift */,
 				C6FEC3A21F1735510001B732 /* Chapter05.swift */,
+				C6910EB41F1DAB41009F84EB /* Chapter06.swift */,
 				C6FEC3A01F172E910001B732 /* Drivers.swift */,
+				C6910EB11F1D9F86009F84EB /* Pointers.swift */,
 			);
 			path = ElementsOfProgramming;
 			sourceTree = "<group>";
@@ -231,6 +239,7 @@
 				C61124CE1F184B88005B18ED /* TypeFunctions.swift in Sources */,
 				C66DB4801F1AF5D20019A2BB /* Chapter01Tests.swift in Sources */,
 				C65D60B21F1B278C00F62E3B /* Chapter04.swift in Sources */,
+				C6910EB61F1DAB45009F84EB /* Chapter06.swift in Sources */,
 				C61124CF1F184B88005B18ED /* Concepts.swift in Sources */,
 				C61124D01F184B88005B18ED /* Chapter01.swift in Sources */,
 				C66DB47D1F1AEECE0019A2BB /* Chapter03.swift in Sources */,
@@ -240,6 +249,7 @@
 				C61124D31F184B88005B18ED /* Drivers.swift in Sources */,
 				C66DB47E1F1AEED20019A2BB /* Integers.swift in Sources */,
 				C6910EB01F1D7442009F84EB /* ConceptTests.swift in Sources */,
+				C6910EB31F1DA35F009F84EB /* Pointers.swift in Sources */,
 				C61124C81F184B74005B18ED /* Chapter02Tests.swift in Sources */,
 				C65D60B41F1C45BD00F62E3B /* Chapter04Tests.swift in Sources */,
 			);
@@ -254,10 +264,12 @@
 				C6FEC3A11F172E910001B732 /* Drivers.swift in Sources */,
 				C6FEC3901F16DA210001B732 /* main.swift in Sources */,
 				C6FEC39B1F16DAC10001B732 /* TypeFunctions.swift in Sources */,
+				C6910EB51F1DAB41009F84EB /* Chapter06.swift in Sources */,
 				C6FEC39D1F16ECD60001B732 /* Concepts.swift in Sources */,
 				C6FEC39F1F16F2540001B732 /* Terminology.swift in Sources */,
 				C6FEC3991F16DA810001B732 /* Chapter02.swift in Sources */,
 				C66DB4781F19B4BB0019A2BB /* Chapter03.swift in Sources */,
+				C6910EB21F1D9F86009F84EB /* Pointers.swift in Sources */,
 				C6FEC3A31F1735510001B732 /* Chapter05.swift in Sources */,
 				C6FEC3971F16DA4C0001B732 /* Chapter01.swift in Sources */,
 			);
