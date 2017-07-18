@@ -63,16 +63,16 @@ class Chapter01Tests: XCTestCase {
         typePair(x00: p0, x01: p1, x10: p2![0], x11: p2![1])
         
         // TODO: Implement this once related structs/functions are written
-//        array<int> a0;
-//        array<int> a1(3, 3, 0);
-//        iota(3, begin(a1));
-//        type_pair< array<int>, char >(a0, a1, 'a', 'z');
+//        array<int> a0
+//        array<int> a1(3, 3, 0)
+//        iota(3, begin(a1))
+//        type_pair< array<int>, char >(a0, a1, 'a', 'z')
 //
-//        slist<int> l0;
-//        slist<int> l1(a0);
-//        type_pair< slist<int>, char >(l0, l1, 'a', 'z');
+//        slist<int> l0
+//        slist<int> l1(a0)
+//        type_pair< slist<int>, char >(l0, l1, 'a', 'z')
 //
-//        type_pair< array<int>, slist<int> >(a0, a1, l0, l1);
+//        type_pair< array<int>, slist<int> >(a0, a1, l0, l1)
         
         typeTriple(x00: 0, x01: 99, x10: "a", x11: "z", x20: 1.0, x21: 2.0)
     }

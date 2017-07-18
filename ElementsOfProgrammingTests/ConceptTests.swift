@@ -87,7 +87,6 @@ class Concept {
     }
     
     static func integer(n: Integer)  {
-        // TODO: Implement
         typealias I = Integer
         let k = I(11)
         Concept.regular(x: n)
@@ -106,17 +105,17 @@ class Concept {
         m = m.halfNonnegative()
         m = m.binaryScaleDownNonnegative(k: I(1))
         m = m.binaryScaleUpNonnegative(k: I(1))
-        let bp = m.positive();
-        let bn = m.negative();
-        XCTAssert(!(bp && bn));
-        let bz = m.zero();
-        XCTAssert(bz && !(bn || bp) || !bz && (bn || bp));
-        let b1 = m.one();
-        XCTAssert(!(bz && b1));
-        XCTAssert(!b1 || bp);
-        let be = m.even();
-        let bo = m.odd();
-        XCTAssert(be != bo);
+        let bp = m.positive()
+        let bn = m.negative()
+        XCTAssert(!(bp && bn))
+        let bz = m.zero()
+        XCTAssert((bz && !(bn || bp)) || (!bz && (bn || bp)))
+        let b1 = m.one()
+        XCTAssert(!(bz && b1))
+        XCTAssert(!b1 || bp)
+        let be = m.even()
+        let bo = m.odd()
+        XCTAssert(be != bo)
     }
     
     // MARK: Chapter 4

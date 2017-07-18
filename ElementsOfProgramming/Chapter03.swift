@@ -19,9 +19,9 @@ func power0<DomainOp: Regular>(a: DomainOp, n: Integer, op: BinaryOperation<Doma
     // Precondition: $\func{associative}(op) \wedge n > 0$
     if n == Integer(1) { return a }
     if n % Integer(2) == Integer(0) {
-        return power0(a: op(a, a), n: n / Integer(2), op: op);
+        return power0(a: op(a, a), n: n / Integer(2), op: op)
     }
-    return op(power0(a: op(a, a), n: n / Integer(2), op: op), a);
+    return op(power0(a: op(a, a), n: n / Integer(2), op: op), a)
 }
 
 func power1<DomainOp: Regular>(a: DomainOp, n: Integer, op: BinaryOperation<DomainOp>) -> DomainOp {
