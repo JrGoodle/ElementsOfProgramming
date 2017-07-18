@@ -9,7 +9,7 @@ class Concept {
     
     // MARK: Chapter 1
     
-    static func regular<T: Regular>(x: T) {
+    static func regular<T: TotallyOrdered>(x: T) {
         // Default constructor (not really invoked until an object is initialized in Swift)
         var y: T
         
@@ -120,7 +120,7 @@ class Concept {
     
     // MARK: Chapter 4
     
-    static func relation<DomainR: Regular>(r: Relation<DomainR>, x: DomainR) {
+    static func relation<DomainR: TotallyOrdered>(r: Relation<DomainR>, x: DomainR) {
         typealias X = DomainR
         let y: X, z: X
         if r(x,x) {

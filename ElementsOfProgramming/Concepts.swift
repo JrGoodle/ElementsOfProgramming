@@ -5,7 +5,7 @@
 
 // MARK: Chapter 1
 
-typealias Regular = Equatable & Comparable
+typealias Regular = Equatable
 
 //typealias FunctionalProcedure<T> = (Any, Any...) -> T
 
@@ -42,7 +42,7 @@ typealias Op<T: Regular> = BinaryOperation<T>
 
 typealias Relation<T: TotallyOrdered> = (T, T) -> Bool
 
-typealias TotallyOrdered = Comparable
+typealias TotallyOrdered = Comparable & Regular
 
 // MARK: Chapter 5
 

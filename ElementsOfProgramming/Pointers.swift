@@ -3,8 +3,8 @@
 //  ElementsOfProgramming
 //
 
-// TODO: Implement once conditional protocol conformances are available
-//protocol Interator {
+//// TODO: Implement once conditional protocol conformances are available
+//protocol Iterator {
 //    associatedtype T
 //    associatedtype U
 //
@@ -19,7 +19,10 @@
 //    func deref<T: Regular>() -> T
 //}
 //
-//extension UnsafeMutablePointer: Iterator where T == Pair<Int, Int> {
+//extension UnsafeMutablePointer: Iterator where Pointee == Pair<Int, Int> {
+//    
+//    typealias T = Pair<Int, Int>
+//    
 //    func source<T: Regular>() -> T {
 //        return self.pointee
 //    }

@@ -25,9 +25,9 @@ class Chapter04Testts: XCTestCase {
         let eq = symmetricComplement(r: lt)
         let ne = complement(r: eq)
         
-        propertyTotalyOrdering(r: lt, x0: 0, x1: 1, x2: 2)
+        propertyTotalOrdering(r: lt, x0: 0, x1: 1, x2: 2)
         propertyReflexiveTotalOrdering(r: ge, x0: 2, x1: 1, x2: 0)
-        propertyTotalyOrdering(r: gt, x0: 2, x1: 1, x2: 0)
+        propertyTotalOrdering(r: gt, x0: 2, x1: 1, x2: 0)
         propertyReflexiveTotalOrdering(r: le, x0: 0, x1: 1, x2: 2)
         propertyTransitive(r: eq, x: 0, y: 0, z: 0)
         
@@ -65,73 +65,73 @@ class Chapter04Testts: XCTestCase {
         let b = 3
         let c = 4
         let d = 4
-        XCTAssert(select02(a: a, b: b, r: less) == a)
-        XCTAssert(select02(a: b, b: a, r: less) == b)
-        XCTAssert(select02(a: a, b: c, r: less) == a)
-        XCTAssert(select02(a: c, b: a, r: less) == a)
-        XCTAssert(select02(a: a, b: c, r: less) == a)
-        XCTAssert(select02(a: c, b: a, r: less) == a)
+        XCTAssert(select_0_2(a: a, b: b, r: less) == a)
+        XCTAssert(select_0_2(a: b, b: a, r: less) == b)
+        XCTAssert(select_0_2(a: a, b: c, r: less) == a)
+        XCTAssert(select_0_2(a: c, b: a, r: less) == a)
+        XCTAssert(select_0_2(a: a, b: c, r: less) == a)
+        XCTAssert(select_0_2(a: c, b: a, r: less) == a)
 
-        XCTAssert(select12(a: a, b: b, r: less) == b)
-        XCTAssert(select12(a: b, b: a, r: less) == a)
-        XCTAssert(select12(a: a, b: c, r: less) == c)
-        XCTAssert(select12(a: c, b: a, r: less) == c)
-        XCTAssert(select12(a: a, b: c, r: less) == c)
-        XCTAssert(select12(a: c, b: a, r: less) == c)
+        XCTAssert(select_1_2(a: a, b: b, r: less) == b)
+        XCTAssert(select_1_2(a: b, b: a, r: less) == a)
+        XCTAssert(select_1_2(a: a, b: c, r: less) == c)
+        XCTAssert(select_1_2(a: c, b: a, r: less) == c)
+        XCTAssert(select_1_2(a: a, b: c, r: less) == c)
+        XCTAssert(select_1_2(a: c, b: a, r: less) == c)
 
 //        let p1 = Pair(m0: 1, m1: 1)
 //        let p2 = Pair(m0: 1, m1: 2)
 //        let R: Relation<Pair<Int, Int>> = lessFirst
-//        XCTAssert(select02(ia: 1, ib: 2, a: p1, b: p2, r: lessFirst))
-//        XCTAssert(select02<1, 2, R>(p1, p2, R()) == p1)
-//        XCTAssert(select02<1, 2, R>(p2, p1, R()) == p2)
-//        XCTAssert(select12<1, 2, R>(p1, p2, R()) == p2)
-//        XCTAssert(select12<1, 2, R>(p2, p1, R()) == p1)
+//        XCTAssert(select_0_2(ia: 1, ib: 2, a: p1, b: p2, r: lessFirst))
+//        XCTAssert(select_0_2<1, 2, R>(p1, p2, R()) == p1)
+//        XCTAssert(select_0_2<1, 2, R>(p2, p1, R()) == p2)
+//        XCTAssert(select_1_2<1, 2, R>(p1, p2, R()) == p2)
+//        XCTAssert(select_1_2<1, 2, R>(p2, p1, R()) == p1)
 
-        XCTAssert(select03(a: a, b: b, c: c, r: less) == a)
-        XCTAssert(select03(a: a, b: c, c: b, r: less) == a)
-        XCTAssert(select03(a: b, b: a, c: c, r: less) == b)
-        XCTAssert(select03(a: b, b: c, c: a, r: less) == b)
-        XCTAssert(select03(a: c, b: a, c: b, r: less) == a)
-        XCTAssert(select03(a: c, b: b, c: a, r: less) == b)
-        XCTAssert(select03(a: a, b: c, c: d, r: less) == a)
-        XCTAssert(select03(a: c, b: a, c: d, r: less) == a)
-        XCTAssert(select03(a: d, b: c, c: a, r: less) == a)
+        XCTAssert(select_0_3(a: a, b: b, c: c, r: less) == a)
+        XCTAssert(select_0_3(a: a, b: c, c: b, r: less) == a)
+        XCTAssert(select_0_3(a: b, b: a, c: c, r: less) == b)
+        XCTAssert(select_0_3(a: b, b: c, c: a, r: less) == b)
+        XCTAssert(select_0_3(a: c, b: a, c: b, r: less) == a)
+        XCTAssert(select_0_3(a: c, b: b, c: a, r: less) == b)
+        XCTAssert(select_0_3(a: a, b: c, c: d, r: less) == a)
+        XCTAssert(select_0_3(a: c, b: a, c: d, r: less) == a)
+        XCTAssert(select_0_3(a: d, b: c, c: a, r: less) == a)
 
-        XCTAssert(select23(a: b, b: c, c: d, r: less) == d)
-        XCTAssert(select23(a: c, b: b, c: d, r: less) == d)
-        XCTAssert(select23(a: b, b: d, c: c, r: less) == c)
-        XCTAssert(select23(a: d, b: b, c: c, r: less) == c)
-        XCTAssert(select23(a: c, b: d, c: b, r: less) == d)
-        XCTAssert(select23(a: d, b: c, c: b, r: less) == c)
-        XCTAssert(select23(a: a, b: c, c: d, r: less) == d)
-        XCTAssert(select23(a: c, b: a, c: d, r: less) == c)
-        XCTAssert(select23(a: d, b: c, c: a, r: less) == c)
+        XCTAssert(select_2_3(a: b, b: c, c: d, r: less) == d)
+        XCTAssert(select_2_3(a: c, b: b, c: d, r: less) == d)
+        XCTAssert(select_2_3(a: b, b: d, c: c, r: less) == c)
+        XCTAssert(select_2_3(a: d, b: b, c: c, r: less) == c)
+        XCTAssert(select_2_3(a: c, b: d, c: b, r: less) == d)
+        XCTAssert(select_2_3(a: d, b: c, c: b, r: less) == c)
+        XCTAssert(select_2_3(a: a, b: c, c: d, r: less) == d)
+        XCTAssert(select_2_3(a: c, b: a, c: d, r: less) == c)
+        XCTAssert(select_2_3(a: d, b: c, c: a, r: less) == c)
 
         // Test select13ab
 
-        XCTAssert(select13(a: a, b: b, c: c, r: less) == b)
-        XCTAssert(select13(a: a, b: c, c: b, r: less) == b)
-        XCTAssert(select13(a: b, b: a, c: c, r: less) == a)
-        XCTAssert(select13(a: b, b: c, c: a, r: less) == a)
-        XCTAssert(select13(a: c, b: a, c: b, r: less) == b)
-        XCTAssert(select13(a: c, b: b, c: a, r: less) == a)
-        XCTAssert(select13(a: a, b: c, c: d, r: less) == c)
-        XCTAssert(select13(a: c, b: a, c: d, r: less) == c)
-        XCTAssert(select13(a: d, b: c, c: a, r: less) == c)
+        XCTAssert(select_1_3(a: a, b: b, c: c, r: less) == b)
+        XCTAssert(select_1_3(a: a, b: c, c: b, r: less) == b)
+        XCTAssert(select_1_3(a: b, b: a, c: c, r: less) == a)
+        XCTAssert(select_1_3(a: b, b: c, c: a, r: less) == a)
+        XCTAssert(select_1_3(a: c, b: a, c: b, r: less) == b)
+        XCTAssert(select_1_3(a: c, b: b, c: a, r: less) == a)
+        XCTAssert(select_1_3(a: a, b: c, c: d, r: less) == c)
+        XCTAssert(select_1_3(a: c, b: a, c: d, r: less) == c)
+        XCTAssert(select_1_3(a: d, b: c, c: a, r: less) == c)
 
-        // Test select14abcd
-        // Test select14ab
-        algorithmSelect14()
-        algorithmSelect14StabilityIndices()
-        algorithmSelect25StabilityIndices()
+        // Test select_1_4_ab_cd
+        // Test select_1_4_ab
+        algorithmSelect_1_4()
+        algorithmStabilityIndicesSelect_1_4()
+        algorithmStabilityIndicesSelect_2_5()
     }
     
     func testMedian() {
         let ca = 1, cb = 2, cc = 3, cd = 4, ce = 5
         let b = 12, d = 14
-        XCTAssert(median5(a: 1, b: cb, c: b, d: d, e: 15, r: less) == 12)
-        XCTAssert(median5(a: ca, b: cb, c: cc, d: cd, e: ce, r: less) == 3)
+        XCTAssert(median_5(a: 1, b: cb, c: b, d: d, e: 15, r: less) == 12)
+        XCTAssert(median_5(a: ca, b: cb, c: cc, d: cd, e: ce, r: less) == 3)
         algorithmMedian5()
     }
     
@@ -143,7 +143,7 @@ class Chapter04Testts: XCTestCase {
         XCTAssert(maxSelect(a: P(m0: "a", m1: 4), b: P(m0: "a", m1: 3)) == P(m0: "a", m1: 4))
     }
     
-    func propertyTotalyOrdering<DomainR: Regular>(r: Relation<DomainR>, x0: DomainR, x1: DomainR, x2: DomainR) {
+    func propertyTotalOrdering<DomainR: TotallyOrdered>(r: Relation<DomainR>, x0: DomainR, x1: DomainR, x2: DomainR) {
         // Precondition: total_ordering(r) /\ r(x0, x1) /\ r(x1, x2)
         
         XCTAssert(r(x0, x1) && r(x1, x2))
@@ -154,12 +154,12 @@ class Chapter04Testts: XCTestCase {
         XCTAssert(!r(x0, x0)) // irreflexive
     }
     
-    func propertyTransitive<DomainR: Regular>(r: Relation<DomainR>, x: DomainR, y: DomainR, z: DomainR) {
+    func propertyTransitive<DomainR: TotallyOrdered>(r: Relation<DomainR>, x: DomainR, y: DomainR, z: DomainR) {
         Concept.relation(r: r, x: x)
         XCTAssert(!r(x, y) || !r(y, z) || r(x, z))
     }
     
-    func propertyReflexiveTotalOrdering<DomainR: Regular>(r: Relation<DomainR>, x0: DomainR, x1: DomainR, x2: DomainR) {
+    func propertyReflexiveTotalOrdering<DomainR: TotallyOrdered>(r: Relation<DomainR>, x0: DomainR, x1: DomainR, x2: DomainR) {
         // Precondition: total_ordering(r) /\ r(x0, x1) /\ r(x1, x2)
         
         XCTAssert(r(x0, x1) && r(x1, x2))
@@ -190,7 +190,7 @@ class Chapter04Testts: XCTestCase {
         return p0.m0 < p1.m0
     }
     
-    func algorithmSelect14() {
+    func algorithmSelect_1_4() {
         // TODO: Implement
         typealias T = Pair
         let l = pointer(T(m0: 1, m1: 1), T(m0: 2, m1: 2), T(m0: 2, m1: 3), T(m0: 3, m1: 4))
@@ -198,18 +198,18 @@ class Chapter04Testts: XCTestCase {
             let fst: UnaryFunction<Pair<Int, Int>, Int> = first
             let ls: Relation<Int> = less
             let ko = keyOrdering(f: fst, r: ls)
-            let r = select14(a: l[0], b: l[1], c: l[2], d: l[3], r: ko)
+            let r = select_1_4(a: l[0], b: l[1], c: l[2], d: l[3], r: ko)
             let eqf: (Pair<Int, Int>) -> Bool = eqFirst(x: 2)
 //            let f = findIf(f: l.pointee, l: l, p: eqf)
 //            XCTAssert(f != l && source(f) == r)
         } while false
     }
     
-    func algorithmSelect14StabilityIndices() {
+    func algorithmStabilityIndicesSelect_1_4() {
         // TODO: Implement
     }
     
-    func algorithmSelect25StabilityIndices() {
+    func algorithmStabilityIndicesSelect_2_5() {
         // TODO: Implement
     }
     
