@@ -11,7 +11,7 @@ typealias Regular = Equatable & Comparable
 
 //typealias HomogeneousFunction<T, U: Regular> = (U, U ...) -> T
 
-typealias UnaryFunction<T: Regular> = (T) -> Any
+typealias UnaryFunction<T: Regular, U: Regular> = (T) -> U
 
 // MARK: Chapter 2
 
@@ -40,7 +40,7 @@ typealias Op<T: Regular> = BinaryOperation<T>
 
 // MARK: Chapter 4
 
-typealias Relation<T: Regular> = (T, T) -> Bool
+typealias Relation<T: TotallyOrdered> = (T, T) -> Bool
 
 typealias TotallyOrdered = Comparable
 

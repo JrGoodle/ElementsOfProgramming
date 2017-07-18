@@ -118,4 +118,16 @@ class Concept {
         let bo = m.odd();
         XCTAssert(be != bo);
     }
+    
+    // MARK: Chapter 4
+    
+    static func relation<DomainR: Regular>(r: Relation<DomainR>, x: DomainR) {
+        typealias X = DomainR
+        let y: X, z: X
+        if r(x,x) {
+            y = x
+        } else {
+            z = x
+        }
+    }
 }

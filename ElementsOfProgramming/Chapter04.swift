@@ -168,11 +168,11 @@ func less<T: TotallyOrdered>(x: T, y: T) -> Bool {
     return x < y
 }
 
-func min<T: TotallyOrdered>(a: T, b: T) -> T {
+func minSelect<T: TotallyOrdered>(a: T, b: T) -> T {
     return select02(a: a, b: b, r: less)
 }
 
-func max<T: TotallyOrdered>(a: T, b: T) -> T {
+func maxSelect<T: TotallyOrdered>(a: T, b: T) -> T {
     return select12(a: a, b: b, r: less)
 }
 
