@@ -14,6 +14,7 @@ protocol Iterator: Regular {
 }
 
 // TODO: Implement once conditional protocol conformances are available
+//extension UnsafeMutablePointer: Iterator where Iterator.T == Pair<Int, Int> {
 extension UnsafeMutablePointer: Iterator {
     func source<T: Regular>() -> T {
         return self.pointee as! T

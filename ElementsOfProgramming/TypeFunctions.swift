@@ -31,5 +31,60 @@ extension Distance {
     }
 }
 
-extension Int: Distance {}
+protocol MultiplicativeIdentity {
+    func multiplicativeIdentity() -> Self
+}
 
+protocol AdditiveIdentity {
+    func additiveIdentity() -> Self
+}
+
+protocol AdditiveInverse: Negatable {
+    func additiveInverse() -> Self
+}
+
+protocol MultiplicativeInverse: Divisible {
+    func multiplicativeInverse() -> Self
+}
+
+protocol Remainder {
+    static func %(lhs: Self, rhs: Self) -> Self
+}
+
+protocol Addable {
+    static func +(lhs: Self, rhs: Self) -> Self
+}
+
+protocol Subtractable {
+    static func -(lhs: Self, rhs: Self) -> Self
+}
+
+protocol Negatable {
+    static prefix func -(value: Self) -> Self
+}
+
+protocol Multipliable {
+    static func *(lhs: Self, rhs: Self) -> Self
+}
+
+protocol Divisible {
+    static func/(lhs: Self, rhs: Self) -> Self
+}
+
+protocol Relational {
+    associatedtype T: AdditiveMonoid
+    associatedtype S: CommutativeSemiring
+    func relation(from commutativeSemiring: S, to additiveMonoid: T) -> T
+}
+
+protocol Quotient {
+    func quotient() -> Int
+}
+
+protocol Halvable: Divisible {
+    func half() -> Self
+}
+
+protocol SubtractiveGCDNonzero {
+    func subtractiveGCDNonzero()
+}

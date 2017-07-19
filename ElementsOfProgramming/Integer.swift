@@ -1,9 +1,44 @@
 //
-//  Integers.swift
+//  Integer.swift
 //  ElementsOfProgramming
 //
 
 typealias Integer = Int
+
+// Natural Numbers
+typealias N = Int
+
+extension Int: Distance {}
+
+extension Int : MultiplicativeIdentity {
+    func multiplicativeIdentity() -> Int {
+        return 1
+    }
+}
+
+extension Int : AdditiveIdentity {
+    func additiveIdentity() -> Int {
+        return 0
+    }
+}
+
+extension Int: AdditiveInverse {
+    func additiveInverse() -> Int {
+        return -self
+    }
+}
+
+extension Int: MultiplicativeInverse {
+    func multiplicativeInverse() -> Int {
+        return 1/self
+    }
+}
+
+extension Int : Addable, Subtractable, Negatable, Multipliable, Divisible {}
+
+extension Int: Halvable {
+    func half() -> Int { return self / 2 }
+}
 
 protocol IntegerSpecialCaseProcedures {
     associatedtype T
@@ -64,11 +99,11 @@ extension Int: IntegerSpecialCaseProcedures {
     }
     
     func even() -> Bool {
-        return self & Integer(1) == Integer(0)
+        return (self & Integer(1)) == Integer(0)
     }
     
     func odd() -> Bool {
-        return self & Integer(1) != Integer(0)
+        return (self & Integer(1)) != Integer(0)
     }
     
     typealias T = Int
