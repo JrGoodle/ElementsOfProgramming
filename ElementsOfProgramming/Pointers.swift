@@ -3,50 +3,32 @@
 //  ElementsOfProgramming
 //
 
-//// TODO: Implement once conditional protocol conformances are available
-//protocol Iterator {
-//    associatedtype T
-//    associatedtype U
-//
-//    func source<T: Regular>() -> T
-//
-//    func successor<U>() -> U
-//
-//    func predecessor<U>() -> U
-//
-//    func sink<T: Regular>() -> T
-//
-//    func deref<T: Regular>() -> T
-//}
-//
-//extension UnsafeMutablePointer: Iterator where Pointee == Pair<Int, Int> {
-//    
-//    typealias T = Pair<Int, Int>
-//    
-//    func source<T: Regular>() -> T {
-//        return self.pointee
-//    }
-//
-//    func successor<T: Regular>() -> UnsafeMutablePointer<T> {
-//        return self + 1
-//    }
-//
-//    func predecessor<T: Regular>() -> UnsafeMutablePointer<T> {
-//        return self - 1
-//    }
-//
-//    func sink<T: Regular>() -> T {
-//        return self.pointee
-//    }
-//
-//    func deref<T: Regular>() -> T {
-//        return self.pointee
-//    }
-//
-//    //func address<T>(of x: UnsafeMutablePointer<T>) -> {
-//    //
-//    //}
-//}
+protocol Iterator: Regular {
+    associatedtype T: Regular
+
+    func source<T: Regular>() -> T
+    func successor() -> Self
+    func predecessor() -> Self
+    func sink<T: Regular>() -> T
+    func deref<T: Regular>() -> T
+}
+
+// TODO: Implement once conditional protocol conformances are available
+extension UnsafeMutablePointer: Iterator {
+    func source<T: Regular>() -> T {
+        return self.pointee as! T
+    }
+    
+    func sink<T: Regular>() -> T {
+        return self.pointee as! T
+    }
+    
+    func deref<T: Regular>() -> T {
+        return self.pointee as! T
+    }
+    
+    typealias T = Pair<Int, Int>
+}
 
 func source<T: Regular>(_ x: UnsafeMutablePointer<T>) -> T {
     return x.pointee

@@ -5,12 +5,10 @@
 
 // TODO: Readable, Iterator
 func findIf<DomainP: Regular>(f: UnsafeMutablePointer<DomainP>, l: UnsafeMutablePointer<DomainP>, p: UnaryPredicate<DomainP>) -> UnsafeMutablePointer<DomainP> {
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
     var f = f
-    var src = source(f)
-    while f != l && !p(src) {
+    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    while f != l && !p(source(f)) {
         f = successor(f)
-        src = source(f)
     }
     return f
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C60C392F1F1EE64200243F20 /* Chapter09.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60C392E1F1EE64200243F20 /* Chapter09.swift */; };
+		C60C39301F1EE64900243F20 /* Chapter09.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60C392E1F1EE64200243F20 /* Chapter09.swift */; };
 		C61124C81F184B74005B18ED /* Chapter02Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61124C71F184B74005B18ED /* Chapter02Tests.swift */; };
 		C61124CD1F184B88005B18ED /* Terminology.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC39E1F16F2540001B732 /* Terminology.swift */; };
 		C61124CE1F184B88005B18ED /* TypeFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC39A1F16DAC10001B732 /* TypeFunctions.swift */; };
@@ -52,6 +54,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C60C392E1F1EE64200243F20 /* Chapter09.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter09.swift; sourceTree = "<group>"; };
 		C61124C51F184B74005B18ED /* ElementsOfProgrammingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ElementsOfProgrammingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C61124C71F184B74005B18ED /* Chapter02Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter02Tests.swift; sourceTree = "<group>"; };
 		C61124C91F184B74005B18ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -138,6 +141,7 @@
 				C65D60B01F1B275000F62E3B /* Chapter04.swift */,
 				C6FEC3A21F1735510001B732 /* Chapter05.swift */,
 				C6910EB41F1DAB41009F84EB /* Chapter06.swift */,
+				C60C392E1F1EE64200243F20 /* Chapter09.swift */,
 				C6FEC3A01F172E910001B732 /* Drivers.swift */,
 				C6910EB11F1D9F86009F84EB /* Pointers.swift */,
 			);
@@ -247,6 +251,7 @@
 				C61124D21F184B88005B18ED /* Chapter05.swift in Sources */,
 				C66DB47C1F1AE8110019A2BB /* Chapter03Tests.swift in Sources */,
 				C61124D31F184B88005B18ED /* Drivers.swift in Sources */,
+				C60C39301F1EE64900243F20 /* Chapter09.swift in Sources */,
 				C66DB47E1F1AEED20019A2BB /* Integers.swift in Sources */,
 				C6910EB01F1D7442009F84EB /* ConceptTests.swift in Sources */,
 				C6910EB31F1DA35F009F84EB /* Pointers.swift in Sources */,
@@ -261,6 +266,7 @@
 			files = (
 				C65D60B11F1B275000F62E3B /* Chapter04.swift in Sources */,
 				C66DB47A1F1AC6060019A2BB /* Integers.swift in Sources */,
+				C60C392F1F1EE64200243F20 /* Chapter09.swift in Sources */,
 				C6FEC3A11F172E910001B732 /* Drivers.swift in Sources */,
 				C6FEC3901F16DA210001B732 /* main.swift in Sources */,
 				C6FEC39B1F16DAC10001B732 /* TypeFunctions.swift in Sources */,

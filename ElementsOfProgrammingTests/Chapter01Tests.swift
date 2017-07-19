@@ -51,16 +51,13 @@ class Chapter01Tests: XCTestCase {
     }
     
     func testTuples() {
-        // TODO: Implement
         typealias P = Pair
         
         typePair(x00: 0, x01: 99, x10: "a", x11: "a")
         typePair(x00: 0, x01: 0, x10: "a", x11: "z")
 
-        let p0 = P(m0: 0, m1: "a")
-        let p1 = P(m0: 1, m1: "Z")
-        let p2 = "aZ".cString(using: .utf8)
-        typePair(x00: p0, x01: p1, x10: p2![0], x11: p2![1])
+        let a = "aZ".cString(using: .utf8)
+        typePair(x00: P(m0: 0, m1: "a"), x01: P(m0: 1, m1: "Z"), x10: a![0], x11: a![1])
         
         // TODO: Implement this once related structs/functions are written
 //        array<int> a0

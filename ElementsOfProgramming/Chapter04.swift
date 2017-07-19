@@ -144,9 +144,9 @@ func select_2_5_ab<DomainR: TotallyOrdered>(ia: Int, ib: Int, ic: Int, id: Int, 
 
 func select_2_5<DomainR: TotallyOrdered>(ia: Int, ib: Int, ic: Int, id: Int, ie: Int, a: DomainR, b: DomainR, c: DomainR, d: DomainR, e: DomainR, r: Relation<DomainR>) -> DomainR {
     if compareStrictOrReflexive(ia < ib)(b, a, r) {
-        return select_2_5_ab_cd(ia: ib, ib: ia, ic: ic, id: id, ie: ie, a: b, b: a, c: c, d: d, e: e, r: r)
+        return select_2_5_ab(ia: ib, ib: ia, ic: ic, id: id, ie: ie, a: b, b: a, c: c, d: d, e: e, r: r)
     }
-    return select_2_5_ab_cd(ia: ia, ib: ib, ic: ic, id: id, ie: ie, a: a, b: b, c: c, d: d, e: e, r: r)
+    return select_2_5_ab(ia: ia, ib: ib, ic: ic, id: id, ie: ie, a: a, b: b, c: c, d: d, e: e, r: r)
 }
 
 // Exercise 4.5. Find an algorithm for median of 5 that does slightly fewer comparisons
