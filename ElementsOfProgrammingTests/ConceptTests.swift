@@ -129,4 +129,55 @@ class Concept {
             z = x
         }
     }
+    
+    // MARK: Chapter 5
+    
+    static func orderedAdditiveSemigroup<T: OrderedAdditiveSemigroup>(x: T, y: T, z: T) {
+        // Precondition: x < y
+        Concept.regular(x: x)
+        // + : T x T -> T
+        XCTAssert((x + y) + z == x + (y + z))
+        XCTAssert(x + y == y + x)
+        Concept.totallyOrdered(x0: x, x1: y)
+        XCTAssert(x + z < y + z)
+    }
+    
+    static func orderedAdditiveMonoid<T: OrderedAdditiveMonoid>(x: T, y: T, z: T) {
+        Concept.orderedAdditiveSemigroup(x: x, y: y, z: z)
+        // 0 in T
+        XCTAssert(x + T.additiveIdentity() == x)
+    }
+    
+    static func orderedAdditiveGroup<T: OrderedAdditiveGroup>(x: T, y: T, z: T) {
+        // Precondition: x < y
+        Concept.orderedAdditiveMonoid(x: x, y: y, z: z)
+        // - : T -> T
+        XCTAssert(x + (-x) == T.additiveIdentity())
+    }
+
+    static func cancellableMonoid<T: CancellableMonoid>(x: T, y: T, z: T) {
+        // Precondition: x < y
+        Concept.orderedAdditiveMonoid(x: x, y: y, z: z)
+        // - : T x T -> T
+        if x <= y {
+            let z = y - x // defined
+            XCTAssert(z + x == y)
+        }
+    }
+    
+    static func archimedeanMonoid<T: ArchimedeanMonoid>(x: T, y: T, z: T, n: QuotientType) {
+        // Precondition: x < y
+        Concept.cancellableMonoid(x: x, y: y, z: z)
+        typealias N = QuotientType
+        Concept.integer(n: n)
+        // slow_remainder terminates for all positive arguments
+    }
+    
+    static func archimedeanGroup<T: ArchimedeanGroup>(x: T, y: T, z: T, n: QuotientType) {
+        // Precondition: x < y
+        Concept.archimedeanMonoid(x: x, y: y, z: z, n: n)
+        let tmp = x - y
+        XCTAssert(tmp < T.additiveIdentity())
+        XCTAssert(-tmp == y - x)
+    }
 }

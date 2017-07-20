@@ -26,7 +26,19 @@ extension Int: Halvable {
     func half() -> Int { return self / 2 }
 }
 
-extension Int : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Remainder, Discrete, Norm, AdditiveInverse, MultiplicativeInverse {}
+extension Int: MultiplicativeInverse {
+    func multiplicativeInverse() -> Int {
+        return Int.multiplicativeIdentity() / self
+    }
+}
+
+extension Int: Remainder {
+    func remainder(_ value: Int) -> Int {
+        return self % value
+    }
+}
+
+extension Int : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, Norm, AdditiveInverse, Modulus {}
 
 protocol IntegerSpecialCaseProcedures {
     associatedtype T

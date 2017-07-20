@@ -49,25 +49,17 @@ extension AdditiveInverse {
     }
 }
 
-protocol MultiplicativeInverse: Divisible, MultiplicativeIdentity {
+protocol MultiplicativeInverse {
     func multiplicativeInverse() -> Self
 }
 
-extension MultiplicativeInverse {
-    func multiplicativeInverse() -> Self {
-        return Self.multiplicativeIdentity() / self
-    }
-}
 
-
-protocol Remainder {
+protocol Modulus {
     static func %(lhs: Self, rhs: Self) -> Self
 }
 
-extension Remainder {
-    func remainder(_ value: Self) -> Self {
-        return self % value
-    }
+protocol Remainder {
+    func remainder(_ value: Self) -> Self
 }
 
 protocol Addable {
@@ -119,7 +111,7 @@ protocol SubtractiveGCDNonzero {
 typealias NormType = Int
 
 protocol Norm: AdditiveInverse, AdditiveIdentity, TotallyOrdered {
-    func w() -> Int
+    func w() -> Self
 }
 
 extension Norm {

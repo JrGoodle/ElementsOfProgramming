@@ -7,7 +7,7 @@ func plus<T: AdditiveSemigroup>(x: T, y: T) -> T {
     return x + y
 }
 
-func plus<T: MultiplicativeSemigroup>(x: T, y: T) -> T {
+func multiplies<T: MultiplicativeSemigroup>(x: T, y: T) -> T {
     return x * y
 }
 
@@ -21,7 +21,7 @@ func negate<T: AdditiveGroup>(x: T) -> T {
     return -x
 }
 
-func abs<T: OrderedAdditiveGroup>(a: T) -> T {
+func absoluteValue<T: OrderedAdditiveGroup>(_ a: T) -> T {
     if a < T.additiveIdentity() {
         return -a
     } else {
