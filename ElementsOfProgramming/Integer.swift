@@ -11,34 +11,22 @@ typealias N = Int
 extension Int: Distance {}
 
 extension Int : MultiplicativeIdentity {
-    func multiplicativeIdentity() -> Int {
+    static func multiplicativeIdentity() -> Int {
         return 1
     }
 }
 
 extension Int : AdditiveIdentity {
-    func additiveIdentity() -> Int {
+    static func additiveIdentity() -> Int {
         return 0
     }
 }
 
-extension Int: AdditiveInverse {
-    func additiveInverse() -> Int {
-        return -self
-    }
-}
-
-extension Int: MultiplicativeInverse {
-    func multiplicativeInverse() -> Int {
-        return 1/self
-    }
-}
-
-extension Int : Addable, Subtractable, Negatable, Multipliable, Divisible {}
-
 extension Int: Halvable {
     func half() -> Int { return self / 2 }
 }
+
+extension Int : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Remainder, Discrete, Norm, AdditiveInverse, MultiplicativeInverse {}
 
 protocol IntegerSpecialCaseProcedures {
     associatedtype T

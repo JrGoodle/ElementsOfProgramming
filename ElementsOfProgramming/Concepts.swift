@@ -19,6 +19,8 @@ typealias Regular = Equatable
 
 typealias UnaryFunction<T: Regular, U: Regular> = (T) -> U
 
+typealias BinaryHomogeneousFunction<T: Regular, U: Regular> = (T, T) -> U
+
 // MARK: Chapter 2
 
 //typealias Predicate = (Any, ...Any) -> Bool
@@ -89,3 +91,15 @@ typealias ArchimedeanMonoid = CancellableMonoid & Quotient
 typealias HalvableMonoid = ArchimedeanMonoid & Halvable
 
 typealias EuclideanMonoid = ArchimedeanMonoid & SubtractiveGCDNonzero
+
+typealias EuclideanSemiring = CommutativeSemiring & Norm & Remainder & Quotient
+
+typealias EuclideanSemimodule = Semimodule & Remainder & Quotient
+
+typealias ArchimedeanGroup = ArchimedeanMonoid & AdditiveGroup
+
+typealias DiscreteArchimedeanSemiring = CommutativeSemiring & ArchimedeanMonoid & Discrete
+
+typealias NonnegativeDiscreteArchimedeanSemiring = DiscreteArchimedeanSemiring
+
+typealias DiscreteArchimedeanRing = DiscreteArchimedeanSemiring & AdditiveGroup

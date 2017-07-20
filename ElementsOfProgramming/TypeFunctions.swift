@@ -32,23 +32,42 @@ extension Distance {
 }
 
 protocol MultiplicativeIdentity {
-    func multiplicativeIdentity() -> Self
+    static func multiplicativeIdentity() -> Self
 }
 
 protocol AdditiveIdentity {
-    func additiveIdentity() -> Self
+    static func additiveIdentity() -> Self
 }
 
 protocol AdditiveInverse: Negatable {
     func additiveInverse() -> Self
 }
 
-protocol MultiplicativeInverse: Divisible {
+extension AdditiveInverse {
+    func additiveInverse() -> Self {
+        return -self
+    }
+}
+
+protocol MultiplicativeInverse: Divisible, MultiplicativeIdentity {
     func multiplicativeInverse() -> Self
 }
 
+extension MultiplicativeInverse {
+    func multiplicativeInverse() -> Self {
+        return Self.multiplicativeIdentity() / self
+    }
+}
+
+
 protocol Remainder {
     static func %(lhs: Self, rhs: Self) -> Self
+}
+
+extension Remainder {
+    func remainder(_ value: Self) -> Self {
+        return self % value
+    }
 }
 
 protocol Addable {
@@ -74,11 +93,19 @@ protocol Divisible {
 protocol Relational {
     associatedtype T: AdditiveMonoid
     associatedtype S: CommutativeSemiring
-    func relation(from commutativeSemiring: S, to additiveMonoid: T) -> T
+    static func relation(from commutativeSemiring: S, to additiveMonoid: T) -> T
 }
 
-protocol Quotient {
-    func quotient() -> Int
+typealias QuotientType = Int
+
+protocol Quotient: Divisible {
+    func quotient(_ value: Self) -> Self
+}
+
+extension Quotient {
+    func quotient(_ value: Self) -> Self {
+        return self / value
+    }
 }
 
 protocol Halvable: Divisible {
@@ -88,3 +115,24 @@ protocol Halvable: Divisible {
 protocol SubtractiveGCDNonzero {
     func subtractiveGCDNonzero()
 }
+
+typealias NormType = Int
+
+protocol Norm: AdditiveInverse, AdditiveIdentity, TotallyOrdered {
+    func w() -> Int
+}
+
+extension Norm {
+    func w() -> Self {
+        if self < Self.additiveIdentity() {
+            return -self
+        }
+        return self
+    }
+}
+
+//protocol Associative { }
+
+//protocol Commutative { }
+
+protocol Discrete { }
