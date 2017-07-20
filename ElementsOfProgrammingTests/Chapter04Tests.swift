@@ -158,7 +158,7 @@ class Chapter04Testts: XCTestCase {
     
     func keyOrdering<DomainFR: TotallyOrdered, CodomainFR: TotallyOrdered>(
         f: @escaping UnaryFunction<DomainFR, CodomainFR>,
-        r: @ escaping Relation<CodomainFR>)
+        r: @escaping Relation<CodomainFR>)
         -> Relation<DomainFR> {
         return { x, y in
             return r(f(x), f(y))

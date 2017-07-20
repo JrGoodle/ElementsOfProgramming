@@ -74,7 +74,7 @@ typealias Ring = AdditiveGroup & Semiring
 
 typealias CommutativeRing = AdditiveGroup & CommutativeSemiring
 
-typealias Semimodule = AdditiveMonoid & CommutativeSemiring & Relational
+typealias Semimodule = AdditiveMonoid & CommutativeSemiring //& Relational
 
 typealias Module = Semimodule & AdditiveGroup & Ring
 
@@ -90,7 +90,7 @@ typealias ArchimedeanMonoid = CancellableMonoid & Quotient
 
 typealias HalvableMonoid = ArchimedeanMonoid & Halvable
 
-typealias EuclideanMonoid = ArchimedeanMonoid & SubtractiveGCDNonzero
+typealias EuclideanMonoid = ArchimedeanMonoid //& SubtractiveGCDNonzero
 
 typealias EuclideanSemiring = CommutativeSemiring & Norm & Remainder & Quotient
 

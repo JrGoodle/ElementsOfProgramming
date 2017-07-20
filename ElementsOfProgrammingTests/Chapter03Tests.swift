@@ -75,7 +75,6 @@ class Chapter03Testts: XCTestCase {
         XCTAssert(pow(99, 2, 2, timesInt) == 99 * 4)
         XCTAssert(pow(99, 2, 10, timesInt) == 99 * 1024)
         XCTAssert(pow(99, 10, 2, timesInt) == 99 * 100)
-        
         XCTAssert(pow(99, 1, 0, timesInt) == 99)
     }
     
@@ -95,7 +94,6 @@ class Chapter03Testts: XCTestCase {
         XCTAssert(pow(2, 2, timesInt, 1) == 4)
         XCTAssert(pow(2, 10, timesInt, 1) == 1024)
         XCTAssert(pow(10, 2, timesInt, 1) == 100)
-        
         XCTAssert(pow(1, 0, timesInt, 1) == 1)
         XCTAssert(pow(1, 0, timesInt, 99) == 99)
     }

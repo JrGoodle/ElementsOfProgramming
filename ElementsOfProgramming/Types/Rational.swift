@@ -9,14 +9,15 @@ struct Rational {
     var numerator: Int
     var denominator: Int
     
-    init(numerator: Int, denominator: Int) {
-        XCTAssert(denominator != Int(0))
+    init?(numerator: Int, denominator: Int) {
+        if denominator == 0 { return nil }
         self.numerator = numerator
         self.denominator = denominator
     }
     
     init(_ n: Int) {
-        self.init(numerator: n, denominator: Int(1))
+        self.numerator = n
+        self.denominator = 1
     }
     
     func print() {
@@ -36,14 +37,14 @@ extension Rational: AdditiveInverse, Quotient { }
 extension Rational: Addable {
     static func +(lhs: Rational, rhs: Rational) -> Rational {
         return Rational(numerator: rhs.denominator * lhs.numerator + lhs.denominator * rhs.numerator,
-                        denominator: lhs.denominator * rhs.denominator)
+                        denominator: lhs.denominator * rhs.denominator)!
     }
 }
 
 extension Rational: Negatable {
     static prefix func -(value: Rational) -> Rational {
         return Rational(numerator: -value.numerator,
-                        denominator: value.denominator)
+                        denominator: value.denominator)!
     }
 }
 
@@ -56,7 +57,7 @@ extension Rational: Subtractable {
 extension Rational: Multipliable {
     static func *(lhs: Rational, rhs: Rational) -> Rational {
         return Rational(numerator: lhs.numerator * rhs.numerator,
-                        denominator: lhs.denominator * rhs.denominator)
+                        denominator: lhs.denominator * rhs.denominator)!
     }
 }
 
@@ -64,14 +65,14 @@ extension Rational: MultiplicativeInverse {
     func multiplicativeInverse() -> Rational {
         // Precondition: $x.p \neq 0$
         return Rational(numerator: self.denominator,
-                        denominator: self.numerator)
+                        denominator: self.numerator)!
     }
 }
 
 extension Rational: Divisible {
     static func /(lhs: Rational, rhs: Rational) -> Rational {
         return Rational(numerator: lhs.numerator * rhs.denominator,
-                        denominator: lhs.denominator * rhs.numerator)
+                        denominator: lhs.denominator * rhs.numerator)!
         // Postcondition: x * multiplicative_inverse(y)
     }
 }
@@ -80,7 +81,7 @@ extension Rational: Divisible {
 extension Rational {
     static func *(lhs: Int, rhs: Rational) -> Rational {
         return Rational(numerator: lhs * rhs.numerator,
-                        denominator: rhs.denominator)
+                        denominator: rhs.denominator)!
     }
 }
 
@@ -102,8 +103,70 @@ extension Rational: Comparable {
     }
 }
 
+extension Rational: MultiplicativeIdentity {
+    static func multiplicativeIdentity() -> Rational {
+        return Rational(1)
+    }
+    
+
+}
+
 extension Rational: AdditiveIdentity {
     static func additiveIdentity() -> Rational {
         return Rational(0)
+    }
+}
+
+extension Rational: Halvable {
+    func half() -> Rational {
+        return Rational(numerator: numerator,
+                        denominator: denominator.twice())!
+    }
+}
+
+extension Rational: IntegerSpecialCaseProcedures {
+    func successor() -> Rational {
+        return self + Rational(1)
+    }
+    
+    func predecessor() -> Rational {
+        return self - Rational(1)
+    }
+    
+    func twice() -> Rational {
+        return self + self
+    }
+    
+    func halfNonnegative() -> Rational {
+        let n = numerator < 0 ? -numerator : numerator
+        let d = denominator < 0 ? -denominator : denominator
+        return Rational(numerator: n, denominator: d.twice())!
+    }
+    
+    func positive() -> Bool {
+        return Rational(0) < self
+    }
+    
+    func negative() -> Bool {
+        return self < Rational.additiveIdentity()
+    }
+    
+    func zero() -> Bool {
+        return self == Rational(0)
+    }
+    
+    func one() -> Bool {
+        return self == Rational(1)
+    }
+    
+    func even() -> Bool {
+        if numerator < denominator { return false }
+        if numerator % denominator != 0 { return false }
+        if (numerator / denominator) % 2 != 0 { return false }
+        return true
+    }
+    
+    func odd() -> Bool {
+        return !self.even()
     }
 }

@@ -33,9 +33,18 @@ extension Int32: Remainder {
     }
 }
 
-extension Int32 : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, Norm, AdditiveInverse, Modulus {}
+extension Int32: Norm {
+    func w() -> Int32 {
+        if self < Int32.additiveIdentity() {
+            return -self
+        }
+        return self
+    }
+}
 
-extension Int32: IntegerSpecialCaseProcedures {
+extension Int32 : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus {}
+
+extension Int32: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
     func successor() -> Int32 {
         return self + Int32(1)
     }
@@ -83,6 +92,4 @@ extension Int32: IntegerSpecialCaseProcedures {
     func odd() -> Bool {
         return (self & Int32(1)) != Int32(0)
     }
-    
-    typealias T = Int32
 }

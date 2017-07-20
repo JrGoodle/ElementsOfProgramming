@@ -110,17 +110,8 @@ protocol SubtractiveGCDNonzero {
 
 typealias NormType = Int
 
-protocol Norm: AdditiveInverse, AdditiveIdentity, TotallyOrdered {
+protocol Norm: AdditiveIdentity, TotallyOrdered {
     func w() -> Self
-}
-
-extension Norm {
-    func w() -> Self {
-        if self < Self.additiveIdentity() {
-            return -self
-        }
-        return self
-    }
 }
 
 //protocol Associative { }

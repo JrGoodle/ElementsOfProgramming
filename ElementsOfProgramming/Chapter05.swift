@@ -161,7 +161,7 @@ func fastSubtractiveGCD<T: EuclideanMonoid>(a: T, b: T) -> T {
     }
 }
 
-func gcd<T: EuclideanSemiring>(a: T, b: T) -> T {
+func gcdEuclideanSemiring<T: EuclideanSemiring>(a: T, b: T) -> T {
     var a = a, b = b
     // Precondition: $\neg(a = 0 \wedge b = 0)$
     while true {
@@ -172,7 +172,7 @@ func gcd<T: EuclideanSemiring>(a: T, b: T) -> T {
     }
 }
 
-func gcd<T: EuclideanSemimodule>(a: T, b: T) -> T {
+func gcdEuclideanSemimodule<T: EuclideanSemimodule>(a: T, b: T) -> T {
     var a = a, b = b
     // Precondition: $\neg(a = 0 \wedge b = 0)$
     while true {

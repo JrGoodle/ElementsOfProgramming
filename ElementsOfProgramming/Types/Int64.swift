@@ -33,9 +33,18 @@ extension Int64: Remainder {
     }
 }
 
-extension Int64 : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, Norm, AdditiveInverse, Modulus {}
+extension Int64: Norm {
+    func w() -> Int64 {
+        if self < Int64.additiveIdentity() {
+            return -self
+        }
+        return self
+    }
+}
 
-extension Int64: IntegerSpecialCaseProcedures {
+extension Int64 : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus {}
+
+extension Int64: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
     func successor() -> Int64 {
         return self + Int64(1)
     }
@@ -83,7 +92,5 @@ extension Int64: IntegerSpecialCaseProcedures {
     func odd() -> Bool {
         return (self & Int64(1)) != Int64(0)
     }
-    
-    typealias T = Int64
 }
 

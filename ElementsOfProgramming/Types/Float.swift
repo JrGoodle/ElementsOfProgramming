@@ -25,4 +25,13 @@ extension Float: MultiplicativeInverse {
     }
 }
 
-extension Float : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, Norm, AdditiveInverse { }
+extension Float: Norm {
+    func w() -> Float {
+        if self < Float.additiveIdentity() {
+            return -self
+        }
+        return self
+    }
+}
+
+extension Float : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse { }

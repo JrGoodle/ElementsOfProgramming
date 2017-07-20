@@ -38,17 +38,22 @@ extension Int: Remainder {
     }
 }
 
-extension Int : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, Norm, AdditiveInverse, Modulus {}
+extension Int: Norm {
+    func w() -> Int {
+        if self < Int.additiveIdentity() {
+            return -self
+        }
+        return self
+    }
+}
+
+extension Int : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus {}
 
 protocol IntegerSpecialCaseProcedures {
-    associatedtype T
-    
-    func successor() -> T
-    func predecessor() -> T
-    func twice() -> T
-    func halfNonnegative() -> T
-    func binaryScaleDownNonnegative(k: T) -> T
-    func binaryScaleUpNonnegative(k: T) -> T
+    func successor() -> Self
+    func predecessor() -> Self
+    func twice() -> Self
+    func halfNonnegative() -> Self
     func positive() -> Bool
     func negative() -> Bool
     func zero() -> Bool
@@ -57,7 +62,12 @@ protocol IntegerSpecialCaseProcedures {
     func odd() -> Bool
 }
 
-extension Int: IntegerSpecialCaseProcedures {
+protocol BinaryIntegerSpecialCaseProcedures {
+    func binaryScaleDownNonnegative(k: Self) -> Self
+    func binaryScaleUpNonnegative(k: Self) -> Self
+}
+
+extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
     func successor() -> Int {
         return self + Integer(1)
     }
@@ -105,6 +115,4 @@ extension Int: IntegerSpecialCaseProcedures {
     func odd() -> Bool {
         return (self & Integer(1)) != Integer(0)
     }
-    
-    typealias T = Int
 }
