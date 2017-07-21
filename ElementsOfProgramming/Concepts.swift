@@ -13,6 +13,14 @@
 
 typealias Regular = Equatable
 
+//typealias Procedure<T> = (Any, ...Any) -> Void
+
+typealias UnaryProcedure<T> = (T) -> Void
+
+typealias BinaryProcedure<T, U> = (T, U) -> Void
+
+typealias HomogenousBinaryProcedure<T> = (T, T) -> Void
+
 //typealias FunctionalProcedure<T> = (Any, ...Any) -> T
 
 //typealias HomogeneousFunction<T, U: Regular> = (T, ...T) -> U
@@ -103,3 +111,22 @@ typealias DiscreteArchimedeanSemiring = CommutativeSemiring & ArchimedeanMonoid 
 typealias NonnegativeDiscreteArchimedeanSemiring = DiscreteArchimedeanSemiring
 
 typealias DiscreteArchimedeanRing = DiscreteArchimedeanSemiring & AdditiveGroup
+
+// MARK: Chapter 6
+
+//TODO: Make this it's own protocol once recursive constraints are available
+//protocol Readable: Regular {
+//    associatedtype Source: Readable
+//
+//    func source() -> Source
+//}
+
+protocol Iterator: Regular {
+    associatedtype Source: Regular
+    
+    func source() -> Source
+    func successor() -> Self
+    func predecessor() -> Self
+    func sink() -> Source
+    func deref() -> Source
+}

@@ -1,20 +1,17 @@
 //
-//  Pointers.swift
+//  Pointer.swift
 //  ElementsOfProgramming
 //
 
-protocol Iterator: Regular {
-    associatedtype T: Regular
+typealias Pointer<T> = UnsafeMutablePointer<T>
 
-    func source<T: Regular>() -> T
-    func successor() -> Self
-    func predecessor() -> Self
-    func sink<T: Regular>() -> T
-    func deref<T: Regular>() -> T
-}
+//TODO: Uncomment once recursive protocol constraints are available
+//extension UnsafeMutablePointer: Readable {
+//    func source<T: Iterator>() -> T {
+//        return self.pointee as! T
+//    }
+//}
 
-// TODO: Implement once conditional protocol conformances are available
-//extension UnsafeMutablePointer: Iterator where Iterator.T == Pair<Int, Int> {
 extension UnsafeMutablePointer: Iterator {
     func source<T: Regular>() -> T {
         return self.pointee as! T
@@ -28,7 +25,7 @@ extension UnsafeMutablePointer: Iterator {
         return self.pointee as! T
     }
     
-    typealias T = Pair<Int, Int>
+    typealias Source = Pair<Int, Int>
 }
 
 func source<T: Regular>(_ x: UnsafeMutablePointer<T>) -> T {
