@@ -31,7 +31,8 @@ func absoluteValue<T: OrderedAdditiveGroup>(_ a: T) -> T {
 
 func slowRemainder<T: CancellableMonoid>(a: T, b: T) -> T {
     var a = a
-    // Precondition: $a \geq 0 \wedge b > 0$
+    precondition(a >= T.additiveIdentity())
+    precondition(b > T.additiveIdentity())
     while b <= a {
         a = a - b
     }
@@ -40,7 +41,8 @@ func slowRemainder<T: CancellableMonoid>(a: T, b: T) -> T {
 
 func slowQuotient<T: ArchimedeanMonoid>(a: T, b: T) -> QuotientType {
     var a = a
-    // Precondition: $a \geq 0 \wedge b > 0$
+    precondition(a >= T.additiveIdentity())
+    precondition(b > T.additiveIdentity())
     var n = QuotientType(0)
     while b <= a {
         a = a - b
@@ -51,7 +53,8 @@ func slowQuotient<T: ArchimedeanMonoid>(a: T, b: T) -> QuotientType {
 
 func remainderRecursive<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     var a = a
-    // Precondition: $a \geq b > 0$
+    precondition(a >= b)
+    precondition(b > T.additiveIdentity())
     if a - b >= b {
         a = remainderRecursive(a: a, b: b + b)
         if a < b { return a }
@@ -60,7 +63,8 @@ func remainderRecursive<T: ArchimedeanMonoid>(a: T, b: T) -> T {
 }
 
 func remainderNonnegative<T: ArchimedeanMonoid>(a: T, b: T) -> T {
-    // Precondition: $a \geq 0 \wedge b > 0$
+    precondition(a >= T.additiveIdentity())
+    precondition(b > T.additiveIdentity())
     if a < b { return a }
     return remainderRecursive(a: a, b: b)
 }
@@ -74,7 +78,8 @@ func remainderNonnegative<T: ArchimedeanMonoid>(a: T, b: T) -> T {
 
 func remainderNonnegativeFibonacci<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     var a = a, b = b
-    // Precondition: $a \geq 0 \wedge b > 0$
+    precondition(a >= T.additiveIdentity())
+    precondition(b > T.additiveIdentity())
     if a < b { return a }
     var c = b
     
@@ -96,14 +101,16 @@ func remainderNonnegativeFibonacci<T: ArchimedeanMonoid>(a: T, b: T) -> T {
 
 func largestDoubling<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     var b = b
-    // Precondition: $a \geq b > 0$
+    precondition(a >= b)
+    precondition(b > T.additiveIdentity())
     while b <= a - b { b = b + b }
     return b
 }
 
 func remainderNonnegativeIterative<T: HalvableMonoid>(a: T, b: T) -> T {
     var a = a
-    // Precondition: $a \geq 0 \wedge b > 0$
+    precondition(a >= T.additiveIdentity())
+    precondition(b > T.additiveIdentity())
     if a < b { return a }
     var c = largestDoubling(a: a, b: b)
     a = a - c
@@ -118,7 +125,8 @@ func remainderNonnegativeIterative<T: HalvableMonoid>(a: T, b: T) -> T {
 
 func remainderNonnegativeWithLargestDoubling<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     var a = a
-    // Precondition: $a \geq T(0) \wedge b > T(0)$
+    precondition(a >= T.additiveIdentity())
+    precondition(b > T.additiveIdentity())
     while b <= a {
         a = a - largestDoubling(a: a, b: b)
     }
@@ -127,7 +135,8 @@ func remainderNonnegativeWithLargestDoubling<T: ArchimedeanMonoid>(a: T, b: T) -
 
 func subtractiveGCDNonzero<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     var a = a, b = b
-    // Precondition: $a > 0 \wedge b > 0$
+    precondition(a > T.additiveIdentity())
+    precondition(b > T.additiveIdentity())
     while true {
         if b < a {
             a = a - b
@@ -141,7 +150,9 @@ func subtractiveGCDNonzero<T: ArchimedeanMonoid>(a: T, b: T) -> T {
 
 func subtractiveGCD<T: EuclideanMonoid>(a: T, b: T) -> T {
     var a = a, b = b
-    // Precondition: $a \geq 0 \wedge b \geq 0 \wedge \neg(a = 0 \wedge b = 0)$
+    precondition(a >= T.additiveIdentity())
+    precondition(b >= T.additiveIdentity())
+    precondition(!(a == T.additiveIdentity() && b == T.additiveIdentity()))
     while true {
         if b == T.additiveIdentity() { return a }
         while b <= a { a = a - b }
@@ -152,7 +163,9 @@ func subtractiveGCD<T: EuclideanMonoid>(a: T, b: T) -> T {
 
 func fastSubtractiveGCD<T: EuclideanMonoid>(a: T, b: T) -> T {
     var a = a, b = b
-    // Precondition: $a \geq 0 \wedge b \geq 0 \wedge \neg(a = 0 \wedge b = 0)$
+    precondition(a >= T.additiveIdentity())
+    precondition(b >= T.additiveIdentity())
+    precondition(!(a == T.additiveIdentity() && b == T.additiveIdentity()))
     while true {
         if b == T.additiveIdentity() { return a }
         a = remainderNonnegative(a: a, b: b)
@@ -163,7 +176,7 @@ func fastSubtractiveGCD<T: EuclideanMonoid>(a: T, b: T) -> T {
 
 func gcdEuclideanSemiring<T: EuclideanSemiring>(a: T, b: T) -> T {
     var a = a, b = b
-    // Precondition: $\neg(a = 0 \wedge b = 0)$
+    precondition(!(a == T.additiveIdentity() && b == T.additiveIdentity()))
     while true {
         if b == T.additiveIdentity() { return a }
         a = a.remainder(b)
@@ -174,7 +187,7 @@ func gcdEuclideanSemiring<T: EuclideanSemiring>(a: T, b: T) -> T {
 
 func gcdEuclideanSemimodule<T: EuclideanSemimodule>(a: T, b: T) -> T {
     var a = a, b = b
-    // Precondition: $\neg(a = 0 \wedge b = 0)$
+    precondition(!(a == T.additiveIdentity() && b == T.additiveIdentity()))
     while true {
         if b == T.additiveIdentity() { return a }
         a = a.remainder(b)
@@ -188,7 +201,9 @@ func gcdEuclideanSemimodule<T: EuclideanSemimodule>(a: T, b: T) -> T {
 
 func steinGCDNonnegative(a: Integer, b: Integer) -> Integer {
     var a = a, b = b
-    // Precondition: $a \geq 0 \wedge b \geq 0 \wedge \neg(a = 0 \wedge b = 0)$
+    precondition(a >= 0)
+    precondition(b >= 0)
+    precondition(!(a == 0 && b == 0))
     if a.zero() { return b }
     if b.zero() { return a }
     var d = 0
@@ -214,7 +229,8 @@ func steinGCDNonnegative(a: Integer, b: Integer) -> Integer {
 
 func quotientRemainderNonnegative<T: ArchimedeanMonoid>(a: T, b: T) -> Pair<QuotientType, T> {
     var a = a
-    // Precondition: $a \geq 0 \wedge b > 0$
+    precondition(a >= T.additiveIdentity())
+    precondition(b > T.additiveIdentity())
     typealias N = QuotientType
     if a < b { return Pair(m0: N(0), m1: a) }
     if a - b < b { return Pair(m0: N(1), m1: a - b) }
@@ -230,7 +246,8 @@ func quotientRemainderNonnegative<T: ArchimedeanMonoid>(a: T, b: T) -> Pair<Quot
 
 func quotientRemainderNonnegativeIterative<T: HalvableMonoid>(a: T, b: T) -> Pair<QuotientType, T> {
     var a = a
-    // Precondition: $a \geq 0 \wedge b > 0$
+    precondition(a >= T.additiveIdentity())
+    precondition(b > T.additiveIdentity())
     typealias N = QuotientType
     if a < b { return Pair(m0: N(0), m1: a) }
     var c = largestDoubling(a: a, b: b)
@@ -248,8 +265,8 @@ func quotientRemainderNonnegativeIterative<T: HalvableMonoid>(a: T, b: T) -> Pai
 }
 
 func remainder<DomainOp: ArchimedeanGroup>(a: DomainOp, b: DomainOp, rem: BinaryOperation<DomainOp>) -> DomainOp {
-    // Precondition: $b \neq 0$
     typealias T = DomainOp
+    precondition(b != T.additiveIdentity())
     var r: T
     if a < T.additiveIdentity() {
         if b < T.additiveIdentity() {
@@ -270,8 +287,8 @@ func remainder<DomainOp: ArchimedeanGroup>(a: DomainOp, b: DomainOp, rem: Binary
 }
 
 func quotientRemainder<DomainF: ArchimedeanGroup>(a: DomainF, b: DomainF, quoRem: BinaryHomogeneousFunction<DomainF, Pair<QuotientType, DomainF>>) -> Pair<QuotientType, DomainF> {
-    // Precondition: $b \neq 0$
     typealias T = DomainF
+    precondition(b != T.additiveIdentity())
     var qr: Pair<QuotientType, T>
     if a < T.additiveIdentity() {
         if b < T.additiveIdentity() {

@@ -91,7 +91,8 @@ protocol Relational {
 typealias QuotientType = Int
 
 protocol Quotient: Divisible {
-    func quotient(_ value: Self) -> Self
+    associatedtype T
+    func quotient(_ value: Self) -> T
 }
 
 extension Quotient {

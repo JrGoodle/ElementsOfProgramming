@@ -37,8 +37,8 @@ class Chapter02Tests: XCTestCase {
     func testPowerUnary() {
         for i in 2..<5 {
             for j in 1..<5 {
-                let tmp = powerUnary(x: i, n: j - 1, f: sq)
-                XCTAssert(powerUnary(x: i, n: j, f: sq) == tmp * tmp)
+                let tmp = powerUnary(x: i, n: N(j - 1), f: sq)
+                XCTAssert(powerUnary(x: i, n: N(j), f: sq) == tmp * tmp)
             }
         }
     }
@@ -68,7 +68,7 @@ class Chapter02Tests: XCTestCase {
     
     func sq<T: Multipliable>(x: T) -> T { return x * x }
     
-    func hf(x: Int) -> Int { return x / N(2) }
+    func hf(x: Int) -> Int { return x / 2 }
     
     func genOrbitTransformation(x: Int, h: N, c: N) -> Transformation<Int> {
         return { y in
@@ -94,10 +94,8 @@ class Chapter02Tests: XCTestCase {
     }
     
     func algorithmsOrbit(x: Int, h: DistanceType, c: DistanceType) {
-        typealias T = Int
-        typealias N = DistanceType
-        let p = genOrbitPredicate(x: x, h: h, c: c)
-        let f = genOrbitTransformation(x: x, h: h, c: c)
+        let p = genOrbitPredicate(x: x, h: N(h), c: N(c))
+        let f = genOrbitTransformation(x: x, h: N(h), c: N(c))
         XCTAssert(zero(c) == terminating(x: x, f: f, p: p))
         if zero(h) && !zero(c) {
             XCTAssert(circular(x: x, f: f, p: p))
@@ -109,7 +107,7 @@ class Chapter02Tests: XCTestCase {
             }
         }
         let y = connectionPoint(x: x, f: f, p: p)
-        XCTAssert(powerUnary(x: x, n: h, f: f) == y)
+        XCTAssert(powerUnary(x: x, n: N(h), f: f) == y)
         if !zero(c) {
             XCTAssert(y == connectionPointNonterminatingOrbit(x: x, f: f))
         }

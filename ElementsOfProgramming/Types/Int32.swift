@@ -3,8 +3,6 @@
 //  ElementsOfProgramming
 //
 
-extension Int32: Distance {}
-
 extension Int32 : MultiplicativeIdentity {
     static func multiplicativeIdentity() -> Int32 {
         return 1
@@ -42,7 +40,7 @@ extension Int32: Norm {
     }
 }
 
-extension Int32 : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus {}
+extension Int32 : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus, Distance {}
 
 extension Int32: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
     func successor() -> Int32 {

@@ -5,9 +5,6 @@
 
 typealias Integer = Int
 
-// Natural Numbers
-typealias N = Int
-
 extension Int: Distance {}
 
 extension Int : MultiplicativeIdentity {

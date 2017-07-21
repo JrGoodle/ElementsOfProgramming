@@ -3,6 +3,9 @@
 //  ElementsOfProgramming
 //
 
+// Natural Numbers
+typealias N = UInt
+
 extension UInt: Distance {}
 
 extension UInt : MultiplicativeIdentity {

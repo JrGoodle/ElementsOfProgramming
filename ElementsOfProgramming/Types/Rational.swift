@@ -13,11 +13,13 @@ struct Rational {
         if denominator == 0 { return nil }
         self.numerator = numerator
         self.denominator = denominator
+        reduce()
+        normalize()
     }
     
     init(_ n: Int) {
-        self.numerator = n
-        self.denominator = 1
+        numerator = n
+        denominator = 1
     }
     
     func print() {
@@ -28,7 +30,20 @@ struct Rational {
         } else {
             Swift.print("\(numerator)/\(denominator)")
         }
-        
+    }
+    
+    private mutating func reduce() {
+        let gcd = gcdEuclideanSemiring(a: numerator, b: denominator)
+        numerator = numerator / gcd
+        denominator = denominator / gcd
+    }
+    
+    private mutating func normalize() {
+        if (numerator < 0 && denominator < 0) ||
+            denominator < 0 {
+            numerator = numerator * -1
+            denominator = denominator * -1
+        }
     }
 }
 

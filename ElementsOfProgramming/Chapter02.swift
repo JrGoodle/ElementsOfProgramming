@@ -128,13 +128,12 @@ func convergentPointGuarded<DomainF: Distance>(x0: DomainF, x1: DomainF, y: Doma
     logFunc()
     var x0 = x0, x1 = x1
     // Precondition: $\func{reachable}(x0, y, f) \wedge \func{reachable}(x1, y, f)$
-    typealias N = DistanceType
     let d0 = x0.distance(to: y, f: f)
     let d1 = x1.distance(to: y, f: f)
     if d0 < d1 {
-        x1 = powerUnary(x: x1, n: d1 - d0, f: f)
+        x1 = powerUnary(x: x1, n: N(d1 - d0), f: f)
     } else if d1 < d0 {
-        x0 = powerUnary(x: x0, n: d0 - d1, f: f)
+        x0 = powerUnary(x: x0, n: N(d0 - d1), f: f)
     }
     return convergentPoint(x0: x0, x1: x1, f: f)
 }
