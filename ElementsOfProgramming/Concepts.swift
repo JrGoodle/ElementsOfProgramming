@@ -70,13 +70,13 @@ typealias AdditiveMonoid = AdditiveSemigroup & AdditiveIdentity
 
 typealias MultiplicativeMonoid = MultiplicativeSemigroup & MultiplicativeIdentity
 
+typealias Semiring = AdditiveMonoid & MultiplicativeMonoid
+
 typealias AdditiveGroup = AdditiveMonoid & Subtractable & AdditiveInverse & Negatable
 
 typealias MultieplicativeGroup = MultiplicativeMonoid & MultiplicativeInverse & Divisible
 
-typealias Semiring = AdditiveMonoid & MultiplicativeMonoid
-
-typealias CommutativeSemiring = Semiring
+typealias CommutativeSemiring = Semiring //& Commutative
 
 typealias Ring = AdditiveGroup & Semiring
 
@@ -115,17 +115,15 @@ typealias DiscreteArchimedeanRing = DiscreteArchimedeanSemiring & AdditiveGroup
 // MARK: Chapter 6
 
 protocol Readable: Regular {
-    associatedtype Source: TotallyOrdered
+    associatedtype Source: Regular
     func source() -> Source?
 }
 
-protocol Iterator {
+protocol Iterator: Regular {
     func _successor() -> Self?
 }
 
-protocol ForwardIterator: Iterator where Self: Regular {
-    func _successor() -> Self?
-}
+protocol ForwardIterator: Iterator { }
 
 protocol IndexedIterator: ForwardIterator {
     static func +(lhs: Self, rhs: DistanceType) -> Self

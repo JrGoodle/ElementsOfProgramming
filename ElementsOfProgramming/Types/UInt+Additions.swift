@@ -92,3 +92,9 @@ extension UInt: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures
     }
 }
 
+extension UInt: Iterator {
+    func _successor() -> UInt? {
+        return self + 1
+    }
+}
+
