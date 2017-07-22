@@ -109,3 +109,9 @@ extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures 
         return (self & 1) != 0
     }
 }
+
+extension Int: Iterator {
+    func _successor() -> Int? {
+        return self + 1
+    }
+}

@@ -5,57 +5,63 @@
 
 typealias Pointer<T> = UnsafeMutablePointer<T>
 
-extension UnsafeMutablePointer: Iterator {
-    func _successor() -> UnsafeMutablePointer<Pointee>? {
+extension Pointer: Iterator {
+    func _successor() -> Pointer<Pointee>? {
         return self + 1
     }
 }
 
-extension UnsafeMutablePointer: BidirectionalIterator {
-    func _predecessor() -> UnsafeMutablePointer<Pointee>? {
+extension Pointer: BidirectionalIterator {
+    func _predecessor() -> Pointer<Pointee>? {
         return self - 1
     }
 }
 
-extension UnsafeMutablePointer: Readable {
-    func source<T: Regular>() -> T? {
+extension Pointer: Readable {
+    func _source<T: Regular>() -> T? {
         return self.pointee as? T
     }
     
     typealias Source = Pair<Int, Int>
 }
 
-func source<T: Regular>(_ x: UnsafeMutablePointer<T>) -> T {
+func source<T: Regular>(_ x: Pointer<T>) -> T {
     return x.pointee
 }
 
-func successor<T: Regular>(_ x: UnsafeMutablePointer<T>) -> UnsafeMutablePointer<T> {
+func successor<T: Regular>(_ x: Pointer<T>) -> Pointer<T> {
     return x + 1
 }
 
-func predecessor<T: Regular>(_ x: UnsafeMutablePointer<T>) -> UnsafeMutablePointer<T> {
+func predecessor<T: Regular>(_ x: Pointer<T>) -> Pointer<T> {
     return x - 1
 }
 
-func sink<T: Regular>(_ x: UnsafeMutablePointer<T>) -> T {
+func sink<T: Regular>(_ x: Pointer<T>) -> T {
     return x.pointee
 }
 
-func deref<T: Regular>(_ x: UnsafeMutablePointer<T>) -> T {
+func deref<T: Regular>(_ x: Pointer<T>) -> T {
     return x.pointee
 }
 
-//func address<T>(of x: UnsafeMutablePointer<T>) -> {
+//func address<T>(of x: Pointer<T>) -> {
 //
 //}
 
-func pointer<T: Regular>(_ args: T...) -> UnsafeMutablePointer<T> {
-    let a = UnsafeMutablePointer<T>.allocate(capacity: args.count)
+func pointer<T: Regular>(_ args: T...) -> Pointer<T> {
+    let a = Pointer<T>.allocate(capacity: args.count)
     a.initialize(to: args[0], count: args.count)
     var i = 0
     for arg in args {
         a[i] = arg
         i += 1
     }
+    return a
+}
+
+func pointer<T: Regular>(count: Int, value: T) -> Pointer<T> {
+    let a = Pointer<T>.allocate(capacity: count)
+    a.initialize(to: value, count: count)
     return a
 }

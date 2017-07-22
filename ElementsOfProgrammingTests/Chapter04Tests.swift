@@ -5,7 +5,7 @@
 
 import XCTest
 
-class Chapter04Testts: XCTestCase {
+class Chapter04Tests: XCTestCase {
 
     func testDerivedRelations() {
         let lt: Relation<Int> = less
@@ -345,7 +345,7 @@ class Chapter04Testts: XCTestCase {
         } while nextPermutation(f: p, l: p.advanced(by: 1), r: ls)
     }
     
-    func nextPermutation<T: TotallyOrdered, DomainR: TotallyOrdered>(f: UnsafeMutablePointer<T>, l: UnsafeMutablePointer<T>, r: Relation<DomainR>) -> Bool {
+    func nextPermutation<T: TotallyOrdered, DomainR: TotallyOrdered>(f: Pointer<T>, l: Pointer<T>, r: Relation<DomainR>) -> Bool {
         // Precondition: weak_ordering(r)
         if (f == l || f.successor() == l) { return false }
         var i = l._predecessor()!
@@ -353,11 +353,11 @@ class Chapter04Testts: XCTestCase {
         while true {
             let ii = i
             i = i.predecessor()
-            if r(i.source()!, ii.source()!) {
+            if r(i._source()!, ii._source()!) {
                 var j = l
                 repeat {
                     j = j.predecessor()
-                } while !r(i.source()!, j.source()!)
+                } while !r(i._source()!, j._source()!)
                 exchangeValues(x: i, y: j)
                 reverseBidirectional(f: ii, l: l)
                 return true

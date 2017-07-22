@@ -19,6 +19,9 @@
 		C65D60B11F1B275000F62E3B /* Chapter04.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65D60B01F1B275000F62E3B /* Chapter04.swift */; };
 		C65D60B21F1B278C00F62E3B /* Chapter04.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65D60B01F1B275000F62E3B /* Chapter04.swift */; };
 		C65D60B41F1C45BD00F62E3B /* Chapter04Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65D60B31F1C45BD00F62E3B /* Chapter04Tests.swift */; };
+		C66BEB271F2316A700BDECD8 /* Chapter06Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB261F2316A700BDECD8 /* Chapter06Tests.swift */; };
+		C66BEB291F231C1B00BDECD8 /* SList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB281F231C1B00BDECD8 /* SList.swift */; };
+		C66BEB2A1F231C1B00BDECD8 /* SList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB281F231C1B00BDECD8 /* SList.swift */; };
 		C66DB4781F19B4BB0019A2BB /* Chapter03.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4771F19B4BB0019A2BB /* Chapter03.swift */; };
 		C66DB47C1F1AE8110019A2BB /* Chapter03Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB47B1F1AE8110019A2BB /* Chapter03Tests.swift */; };
 		C66DB47D1F1AEECE0019A2BB /* Chapter03.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4771F19B4BB0019A2BB /* Chapter03.swift */; };
@@ -71,6 +74,8 @@
 		C61124C91F184B74005B18ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C65D60B01F1B275000F62E3B /* Chapter04.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter04.swift; sourceTree = "<group>"; };
 		C65D60B31F1C45BD00F62E3B /* Chapter04Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter04Tests.swift; sourceTree = "<group>"; };
+		C66BEB261F2316A700BDECD8 /* Chapter06Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter06Tests.swift; sourceTree = "<group>"; };
+		C66BEB281F231C1B00BDECD8 /* SList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SList.swift; sourceTree = "<group>"; };
 		C66DB4771F19B4BB0019A2BB /* Chapter03.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter03.swift; sourceTree = "<group>"; };
 		C66DB47B1F1AE8110019A2BB /* Chapter03Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter03Tests.swift; sourceTree = "<group>"; };
 		C66DB47F1F1AF5D20019A2BB /* Chapter01Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter01Tests.swift; sourceTree = "<group>"; };
@@ -121,6 +126,7 @@
 				C66DB47B1F1AE8110019A2BB /* Chapter03Tests.swift */,
 				C65D60B31F1C45BD00F62E3B /* Chapter04Tests.swift */,
 				C6B297901F203640000E53B6 /* Chapter05Tests.swift */,
+				C66BEB261F2316A700BDECD8 /* Chapter06Tests.swift */,
 				C6910EAF1F1D7442009F84EB /* ConceptTests.swift */,
 				C61124C91F184B74005B18ED /* Info.plist */,
 			);
@@ -138,6 +144,7 @@
 				C6B297B41F206AE1000E53B6 /* UInt+Additions.swift */,
 				C6F34C671F21C98400CF86E7 /* Pointer.swift */,
 				C6B297A71F2060E2000E53B6 /* Rational.swift */,
+				C66BEB281F231C1B00BDECD8 /* SList.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -270,6 +277,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C66BEB271F2316A700BDECD8 /* Chapter06Tests.swift in Sources */,
 				C61124CE1F184B88005B18ED /* TypeFunctions.swift in Sources */,
 				C66DB4801F1AF5D20019A2BB /* Chapter01Tests.swift in Sources */,
 				C65D60B21F1B278C00F62E3B /* Chapter04.swift in Sources */,
@@ -278,6 +286,7 @@
 				C6B297B51F206B56000E53B6 /* UInt+Additions.swift in Sources */,
 				C61124CF1F184B88005B18ED /* Concepts.swift in Sources */,
 				C61124D01F184B88005B18ED /* Chapter01.swift in Sources */,
+				C66BEB2A1F231C1B00BDECD8 /* SList.swift in Sources */,
 				C66DB47D1F1AEECE0019A2BB /* Chapter03.swift in Sources */,
 				C6B297A91F2060E2000E53B6 /* Double+Additions.swift in Sources */,
 				C61124D11F184B88005B18ED /* Chapter02.swift in Sources */,
@@ -314,6 +323,7 @@
 				C6910EB51F1DAB41009F84EB /* Chapter06.swift in Sources */,
 				C6FEC39D1F16ECD60001B732 /* Concepts.swift in Sources */,
 				C6F34C681F21CC2B00CF86E7 /* Pointer.swift in Sources */,
+				C66BEB291F231C1B00BDECD8 /* SList.swift in Sources */,
 				C6B297B61F206B57000E53B6 /* UInt+Additions.swift in Sources */,
 				C6FEC3991F16DA810001B732 /* Chapter02.swift in Sources */,
 				C66DB4781F19B4BB0019A2BB /* Chapter03.swift in Sources */,

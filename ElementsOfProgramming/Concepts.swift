@@ -116,7 +116,7 @@ typealias DiscreteArchimedeanRing = DiscreteArchimedeanSemiring & AdditiveGroup
 
 protocol Readable: Regular {
     associatedtype Source: Regular
-    func source() -> Source?
+    func _source() -> Source?
 }
 
 protocol Iterator: Regular {

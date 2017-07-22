@@ -5,7 +5,7 @@
 
 import XCTest
 
-class Chapter03Testts: XCTestCase {
+class Chapter03Tests: XCTestCase {
 
     func testConceptBinaryOperation() {
         Concept.binaryOperation(op: minusInt, x: 7)

@@ -5,7 +5,7 @@
 
 import XCTest
 
-class Chapter05Testts: XCTestCase {
+class Chapter05Tests: XCTestCase {
     
     func testAlgorithmAbs() {
         algorithmAbs(Int32(1))
