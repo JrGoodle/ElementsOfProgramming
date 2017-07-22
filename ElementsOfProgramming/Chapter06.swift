@@ -284,7 +284,7 @@ func findIfNotUnguarded<I: Readable & Iterator>(f: I, p: UnaryPredicate<I.Source
     return f
 }
 
-func findMismatch<I0: Readable & Iterator, I1: Readable & Iterator>(f0: I0, l0: I0, f1: I1, l1: I1, r: Relation<I0.Source>) -> Pair<I0, I1> where I1.Source : TotallyOrdered, I0.Source == I1.Source {
+func findMismatch<I0: Readable & Iterator, I1: Readable & Iterator>(f0: I0, l0: I0, f1: I1, l1: I1, r: Relation<I0.Source>) -> Pair<I0, I1> where I0.Source : TotallyOrdered, I0.Source == I1.Source {
     var f0 = f0, f1 = f1
     // Precondition: $\func{readable\_bounded\_range}(f0, l0)$
     // Precondition: $\func{readable\_bounded\_range}(f1, l1)$

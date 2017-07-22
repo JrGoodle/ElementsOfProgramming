@@ -22,6 +22,8 @@
 		C66BEB271F2316A700BDECD8 /* Chapter06Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB261F2316A700BDECD8 /* Chapter06Tests.swift */; };
 		C66BEB291F231C1B00BDECD8 /* SList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB281F231C1B00BDECD8 /* SList.swift */; };
 		C66BEB2A1F231C1B00BDECD8 /* SList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB281F231C1B00BDECD8 /* SList.swift */; };
+		C66BEB321F23F65A00BDECD8 /* Chapter07.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB311F23F65A00BDECD8 /* Chapter07.swift */; };
+		C66BEB331F23F65A00BDECD8 /* Chapter07.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB311F23F65A00BDECD8 /* Chapter07.swift */; };
 		C66DB4781F19B4BB0019A2BB /* Chapter03.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4771F19B4BB0019A2BB /* Chapter03.swift */; };
 		C66DB47C1F1AE8110019A2BB /* Chapter03Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB47B1F1AE8110019A2BB /* Chapter03Tests.swift */; };
 		C66DB47D1F1AEECE0019A2BB /* Chapter03.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4771F19B4BB0019A2BB /* Chapter03.swift */; };
@@ -76,6 +78,7 @@
 		C65D60B31F1C45BD00F62E3B /* Chapter04Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter04Tests.swift; sourceTree = "<group>"; };
 		C66BEB261F2316A700BDECD8 /* Chapter06Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter06Tests.swift; sourceTree = "<group>"; };
 		C66BEB281F231C1B00BDECD8 /* SList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SList.swift; sourceTree = "<group>"; };
+		C66BEB311F23F65A00BDECD8 /* Chapter07.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter07.swift; sourceTree = "<group>"; };
 		C66DB4771F19B4BB0019A2BB /* Chapter03.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter03.swift; sourceTree = "<group>"; };
 		C66DB47B1F1AE8110019A2BB /* Chapter03Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter03Tests.swift; sourceTree = "<group>"; };
 		C66DB47F1F1AF5D20019A2BB /* Chapter01Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter01Tests.swift; sourceTree = "<group>"; };
@@ -180,6 +183,7 @@
 				C65D60B01F1B275000F62E3B /* Chapter04.swift */,
 				C6FEC3A21F1735510001B732 /* Chapter05.swift */,
 				C6910EB41F1DAB41009F84EB /* Chapter06.swift */,
+				C66BEB311F23F65A00BDECD8 /* Chapter07.swift */,
 				C60C392E1F1EE64200243F20 /* Chapter09.swift */,
 				C6FEC3A01F172E910001B732 /* Drivers.swift */,
 			);
@@ -287,6 +291,7 @@
 				C61124CF1F184B88005B18ED /* Concepts.swift in Sources */,
 				C61124D01F184B88005B18ED /* Chapter01.swift in Sources */,
 				C66BEB2A1F231C1B00BDECD8 /* SList.swift in Sources */,
+				C66BEB331F23F65A00BDECD8 /* Chapter07.swift in Sources */,
 				C66DB47D1F1AEECE0019A2BB /* Chapter03.swift in Sources */,
 				C6B297A91F2060E2000E53B6 /* Double+Additions.swift in Sources */,
 				C61124D11F184B88005B18ED /* Chapter02.swift in Sources */,
@@ -317,6 +322,7 @@
 				C6FEC3901F16DA210001B732 /* main.swift in Sources */,
 				C6B297AC1F2060E2000E53B6 /* Int32+Additions.swift in Sources */,
 				C6FEC39B1F16DAC10001B732 /* TypeFunctions.swift in Sources */,
+				C66BEB321F23F65A00BDECD8 /* Chapter07.swift in Sources */,
 				C6B297AE1F2060E2000E53B6 /* Int64+Additions.swift in Sources */,
 				C6B297B21F2060E2000E53B6 /* Rational.swift in Sources */,
 				C6B297A81F2060E2000E53B6 /* Double+Additions.swift in Sources */,
