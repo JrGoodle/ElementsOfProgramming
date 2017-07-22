@@ -114,19 +114,12 @@ typealias DiscreteArchimedeanRing = DiscreteArchimedeanSemiring & AdditiveGroup
 
 // MARK: Chapter 6
 
-//TODO: Make this it's own protocol once recursive constraints are available
-//protocol Readable: Regular {
-//    associatedtype Source: Readable
-//
-//    func source() -> Source
-//}
+protocol Readable: Regular {
+    associatedtype Source: TotallyOrdered
+    func source() -> Source?
+}
 
 protocol Iterator: Regular {
-    associatedtype Source: Regular
-    
-    func source() -> Source
-    func successor() -> Self
-    func predecessor() -> Self
-    func sink() -> Source
-    func deref() -> Source
+    func _successor() -> Self?
+    func _predecessor() -> Self?
 }

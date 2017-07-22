@@ -13,16 +13,18 @@ typealias Pointer<T> = UnsafeMutablePointer<T>
 //}
 
 extension UnsafeMutablePointer: Iterator {
-    func source<T: Regular>() -> T {
-        return self.pointee as! T
+    func _predecessor() -> UnsafeMutablePointer<Pointee>? {
+        return self - 1
     }
     
-    func sink<T: Regular>() -> T {
-        return self.pointee as! T
+    func _successor() -> UnsafeMutablePointer<Pointee>? {
+        return self + 1
     }
-    
-    func deref<T: Regular>() -> T {
-        return self.pointee as! T
+}
+
+extension UnsafeMutablePointer: Readable {
+    func source<T: Regular>() -> T? {
+        return self.pointee as? T
     }
     
     typealias Source = Pair<Int, Int>
