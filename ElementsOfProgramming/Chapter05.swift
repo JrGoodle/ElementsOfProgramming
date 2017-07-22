@@ -199,7 +199,7 @@ func gcdEuclideanSemimodule<T: EuclideanSemimodule>(a: T, b: T) -> T {
 
 // Exercise 5.3:
 
-func steinGCDNonnegative(a: Integer, b: Integer) -> Integer {
+func steinGCDNonnegative(a: Int, b: Int) -> Int {
     var a = a, b = b
     precondition(a >= 0)
     precondition(b >= 0)

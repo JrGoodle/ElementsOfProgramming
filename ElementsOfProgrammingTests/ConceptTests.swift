@@ -85,8 +85,8 @@ class Concept {
         y = op(x, x)
     }
     
-    static func integer(n: Integer)  {
-        typealias I = Integer
+    static func integer(n: Int)  {
+        typealias I = Int
         let k = I(11)
         Concept.regular(x: n)
         var m: I

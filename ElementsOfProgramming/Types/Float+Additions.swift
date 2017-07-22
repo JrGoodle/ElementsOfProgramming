@@ -1,5 +1,5 @@
 //
-//  Float.swift
+//  Float+Additions
 //  ElementsOfProgramming
 //
 

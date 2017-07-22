@@ -1,9 +1,7 @@
 //
-//  Integer.swift
+//  Int+Additions.swift
 //  ElementsOfProgramming
 //
-
-typealias Integer = Int
 
 extension Int : MultiplicativeIdentity {
     static func multiplicativeIdentity() -> Int {
@@ -64,11 +62,11 @@ protocol BinaryIntegerSpecialCaseProcedures {
 
 extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
     func successor() -> Int {
-        return self + Integer(1)
+        return self + 1
     }
     
     func predecessor() -> Int {
-        return self - Integer(1)
+        return self - 1
     }
     
     func twice() -> Int {
@@ -76,7 +74,7 @@ extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures 
     }
     
     func halfNonnegative() -> Int {
-        return self >> Integer(1)
+        return self >> 1
     }
     
     func binaryScaleDownNonnegative(k: Int) -> Int {
@@ -88,26 +86,26 @@ extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures 
     }
     
     func positive() -> Bool {
-        return Integer(0) < self
+        return 0 < self
     }
     
     func negative() -> Bool {
-        return self < Integer(0)
+        return self < 0
     }
     
     func zero() -> Bool {
-        return self == Integer(0)
+        return self == 0
     }
     
     func one() -> Bool {
-        return self == Integer(1)
+        return self == 1
     }
     
     func even() -> Bool {
-        return (self & Integer(1)) == Integer(0)
+        return (self & 1) == 0
     }
     
     func odd() -> Bool {
-        return (self & Integer(1)) != Integer(0)
+        return (self & 1) != 0
     }
 }
