@@ -135,7 +135,9 @@ class Concept {
         // Precondition: x < y
         Concept.regular(x: x)
         // + : T x T -> T
-        XCTAssert((x + y) + z == x + (y + z))
+        let a = (x + y) + z
+        let b = x + (y + z)
+        XCTAssert(a == b)
         XCTAssert(x + y == y + x)
         Concept.totallyOrdered(x0: x, x1: y)
         XCTAssert(x + z < y + z)

@@ -5,20 +5,15 @@
 
 typealias Pointer<T> = UnsafeMutablePointer<T>
 
-//TODO: Uncomment once recursive protocol constraints are available
-//extension UnsafeMutablePointer: Readable {
-//    func source<T: Iterator>() -> T {
-//        return self.pointee as! T
-//    }
-//}
-
 extension UnsafeMutablePointer: Iterator {
-    func _predecessor() -> UnsafeMutablePointer<Pointee>? {
-        return self - 1
-    }
-    
     func _successor() -> UnsafeMutablePointer<Pointee>? {
         return self + 1
+    }
+}
+
+extension UnsafeMutablePointer: BidirectionalIterator {
+    func _predecessor() -> UnsafeMutablePointer<Pointee>? {
+        return self - 1
     }
 }
 

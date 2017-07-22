@@ -119,3 +119,5 @@ protocol Norm: AdditiveIdentity, TotallyOrdered {
 //protocol Commutative { }
 
 protocol Discrete { }
+
+typealias DifferenceType = Int

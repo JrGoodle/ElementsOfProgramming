@@ -19,7 +19,7 @@ func +<I: Iterator>(f: I, n: DistanceType) -> I {
     return f
 }
 
-func -<I: Iterator>(l: I, f: I) -> DistanceType {
+func -<I: Iterator & Regular>(l: I, f: I) -> DistanceType {
     var f = f
     // Precondition: $\property{bounded\_range}(f, l)$
     var n = DistanceType(0)

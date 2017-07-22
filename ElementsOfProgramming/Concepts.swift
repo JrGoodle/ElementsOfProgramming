@@ -119,7 +119,26 @@ protocol Readable: Regular {
     func source() -> Source?
 }
 
-protocol Iterator: Regular {
+protocol Iterator {
     func _successor() -> Self?
+}
+
+protocol ForwardIterator: Iterator where Self: Regular {
+    func _successor() -> Self?
+}
+
+protocol IndexedIterator: ForwardIterator {
+    static func +(lhs: Self, rhs: DistanceType) -> Self
+    static func -(lhs: Self, rhs: DistanceType) -> Self
+}
+
+protocol BidirectionalIterator: ForwardIterator {
     func _predecessor() -> Self?
 }
+
+protocol RandomAccessIterator: IndexedIterator, BidirectionalIterator, TotallyOrdered {
+    static func +(lhs: Self, rhs: DifferenceType) -> Self
+    static func -(lhs: Self, rhs: DifferenceType) -> Self
+    static func +(lhs: Self, rhs: Self) -> DifferenceType
+}
+
