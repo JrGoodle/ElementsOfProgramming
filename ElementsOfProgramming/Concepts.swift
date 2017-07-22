@@ -137,6 +137,22 @@ protocol BidirectionalIterator: ForwardIterator {
 protocol RandomAccessIterator: IndexedIterator, BidirectionalIterator, TotallyOrdered {
     static func +(lhs: Self, rhs: DifferenceType) -> Self
     static func -(lhs: Self, rhs: DifferenceType) -> Self
-    static func +(lhs: Self, rhs: Self) -> DifferenceType
+    static func -(lhs: Self, rhs: Self) -> DifferenceType
 }
 
+// MARK: Chapter 7
+
+typealias WeightType = UInt
+
+protocol BifurcateCoordinate: Regular {
+    func empty() -> Bool
+    func hasLeftSuccessor() -> Bool
+    func hasRightSuccessor() -> Bool
+    func leftSuccessor() -> Self?
+    func rightSuccessor() -> Self?
+}
+
+protocol BidirectionalBifurcateCoordinate: BifurcateCoordinate {
+    func hasPredecessor() -> Bool
+    func predecessor() -> Self?
+}
