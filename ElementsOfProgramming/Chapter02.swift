@@ -36,7 +36,6 @@ func distance<DomainF: Distance>(x: DomainF, y: DomainF, f: Transformation<Domai
     logFunc()
     var x = x
     // Precondition: $y$ is reachable from $x$ under $f$
-    typealias N = DistanceType
     var n = N(0)
     while x != y {
         x = f(x)
@@ -140,7 +139,6 @@ func convergentPointGuarded<DomainF: Distance>(x0: DomainF, x1: DomainF, y: Doma
 
 func orbitStructureNonterminatingOrbit<DomainF: Distance>(x: DomainF, f: Transformation<DomainF>) -> Triple<DistanceType, DistanceType, DomainF> {
     logFunc()
-    typealias N = DistanceType
     let y = connectionPointNonterminatingOrbit(x: x, f: f)
     return Triple(m0: x.distance(to: y, f: f),
                   m1: f(y).distance(to: y, f: f),
@@ -150,7 +148,6 @@ func orbitStructureNonterminatingOrbit<DomainF: Distance>(x: DomainF, f: Transfo
 func orbitStructure<DomainFP: Distance>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) -> Triple<DistanceType, DistanceType, DomainFP> {
     logFunc()
     // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
-    typealias N = DistanceType
     let y = connectionPoint(x: x, f: f, p: p)
     let m = x.distance(to: y, f: f)
     var n = N(0)

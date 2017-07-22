@@ -6,8 +6,6 @@
 // Natural Numbers
 typealias N = UInt
 
-extension UInt: Distance {}
-
 extension UInt : MultiplicativeIdentity {
     static func multiplicativeIdentity() -> UInt {
         return 1
@@ -42,15 +40,15 @@ extension UInt: Norm {
     }
 }
 
-extension UInt : Addable, Subtractable, Multipliable, Divisible, Quotient, Discrete, Modulus {}
+extension UInt : Addable, Subtractable, Multipliable, Divisible, Quotient, Discrete, Modulus, Distance {}
 
 extension UInt: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
     func successor() -> UInt {
-        return self + UInt(1)
+        return self + 1
     }
     
     func predecessor() -> UInt {
-        return self - UInt(1)
+        return self - 1
     }
     
     func twice() -> UInt {
@@ -58,7 +56,7 @@ extension UInt: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures
     }
     
     func halfNonnegative() -> UInt {
-        return self >> UInt(1)
+        return self >> 1
     }
     
     func binaryScaleDownNonnegative(k: UInt) -> UInt {
@@ -70,27 +68,27 @@ extension UInt: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures
     }
     
     func positive() -> Bool {
-        return UInt(0) < self
+        return 0 < self
     }
     
     func negative() -> Bool {
-        return self < UInt(0)
+        return self < 0
     }
     
     func zero() -> Bool {
-        return self == UInt(0)
+        return self == 0
     }
     
     func one() -> Bool {
-        return self == UInt(1)
+        return self == 1
     }
     
     func even() -> Bool {
-        return (self & UInt(1)) == UInt(0)
+        return (self & 1) == 0
     }
     
     func odd() -> Bool {
-        return (self & UInt(1)) != UInt(0)
+        return (self & 1) != 0
     }
 }
 

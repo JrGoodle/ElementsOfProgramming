@@ -61,7 +61,6 @@ class Concept {
         var y = x
         XCTAssert(x == y)
         y = f(y)
-        typealias N = DistanceType
         var n = N(1)
     }
     

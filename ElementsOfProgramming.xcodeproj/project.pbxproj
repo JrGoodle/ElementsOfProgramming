@@ -135,9 +135,9 @@
 				C6B297A41F2060E2000E53B6 /* Int32.swift */,
 				C6B297A51F2060E2000E53B6 /* Int64.swift */,
 				C6B297A61F2060E2000E53B6 /* Integer.swift */,
+				C6B297B41F206AE1000E53B6 /* UInt.swift */,
 				C6F34C671F21C98400CF86E7 /* Pointer.swift */,
 				C6B297A71F2060E2000E53B6 /* Rational.swift */,
-				C6B297B41F206AE1000E53B6 /* UInt.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";

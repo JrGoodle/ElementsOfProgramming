@@ -3,8 +3,6 @@
 //  ElementsOfProgramming
 //
 
-extension Int64: Distance {}
-
 extension Int64 : MultiplicativeIdentity {
     static func multiplicativeIdentity() -> Int64 {
         return 1
@@ -42,7 +40,7 @@ extension Int64: Norm {
     }
 }
 
-extension Int64 : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus {}
+extension Int64 : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus, Distance {}
 
 extension Int64: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
     func successor() -> Int64 {

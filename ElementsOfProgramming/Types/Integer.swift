@@ -5,8 +5,6 @@
 
 typealias Integer = Int
 
-extension Int: Distance {}
-
 extension Int : MultiplicativeIdentity {
     static func multiplicativeIdentity() -> Int {
         return 1
@@ -44,7 +42,7 @@ extension Int: Norm {
     }
 }
 
-extension Int : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus {}
+extension Int : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus, Distance {}
 
 protocol IntegerSpecialCaseProcedures {
     func successor() -> Self

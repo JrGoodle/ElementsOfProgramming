@@ -10,18 +10,17 @@
 // Domain: UnaryFunction -> Regular
 
 // Distance: Transformation -> Integer
-typealias DistanceType = Int
+typealias DistanceType = UInt
 
 protocol Distance: Regular {
-    func distance(to: Self, f: Transformation<Self>) -> Int
+    func distance(to: Self, f: Transformation<Self>) -> UInt
 }
 
 extension Distance {
-    func distance(to end: Self, f: Transformation<Self>) -> Int {
+    func distance(to end: Self, f: Transformation<Self>) -> UInt {
         var x = self
         let y = end
         // Precondition: $y$ is reachable from $x$ under $f$
-        typealias N = DistanceType
         var n = N(0)
         while x != y {
             x = f(x)
