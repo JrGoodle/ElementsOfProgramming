@@ -178,32 +178,15 @@ protocol BidirectionalBifurcateCoordinate: BifurcateCoordinate {
 
 // MARK: Chapter 8
 
-struct ForwardLinker<I: ForwardIterator> {
-    static func setLink(t: inout I, f: inout I) {
-        t = f
-    }
+protocol ForwardLinkedIterator: ForwardIterator {
+    var forwardLink: Self? { get set }
 }
 
-//typealias ForwardLinker = (inout ForwardIterator, inout ForwardIterator) -> Void
-
-//protocol ForwardLinker {
-//    associatedtype ForwardIteratorType
-//}
-//
-//extension ForwardLinker {
-//    typealias ForwardLinkType = Pointer<ForwardIterator>
-//    typealias ForwardIteratorType = ForwardIterator
-//}
-
-protocol BackwardLinker {
-    associatedtype BackwardIteratorType
+protocol BackwardLinkedIterator: BidirectionalIterator {
+    var backwardLink: Self? { get set }
 }
 
-extension BackwardLinker {
-    typealias BackwardIteratorType = BidirectionalIterator
-}
-
-protocol BidirectionalLinker: BackwardLinker { } // ForwardLinker
+protocol BidirectionalLinkedIterator: ForwardLinkedIterator, BackwardLinkedIterator { }
 
 protocol LinkedBifurcateCoordinate: BifurcateCoordinate {
     func setLeftSuccessor(_ ls: Self)

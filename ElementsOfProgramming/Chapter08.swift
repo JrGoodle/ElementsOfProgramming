@@ -7,18 +7,32 @@
 // Models of ForwardLinker, BackwardLinker, and BidirectionalLinker
 // assuming a particular representation of links
 
-//func forwardLinker<I: ForwardLinker & Writable>(x: inout I, y: I) {
-//    x.forwardLink = y
-//}
+struct ForwardLinker<I: ForwardLinkedIterator> {
+    static func setForwardLink(x: inout I, y: inout I) {
+        x.forwardLink = y
+    }
+}
 
-//func backwardLinker<I: BidirectionalLinker & Writable>(x: I, y: I) {
-//    y.p.sink.backwardLink = x.p
-//}
+struct BackwardLinker<I: BackwardLinkedIterator> {
+    static func setBackwardLink(x: inout I, y: inout I) {
+        y.backwardLink = x
+    }
+}
 
-//func bidirectionalLinker<I: BidirectionalLinker & Writable>(x: I, y: I) {
-//    x.p.sink.forwardLink = y.p
-//    y.p.sink.backwardLink = x.p
-//}
+struct BidirectionalLinker<I: BidirectionalLinkedIterator> {
+    static func setForwardLink(x: inout I, y: inout I) {
+        x.forwardLink = y
+    }
+    
+    static func setBackwardLink(x: inout I, y: inout I) {
+        y.backwardLink = x
+    }
+    
+    static func setBidirectionalLink(x: inout I, y: inout I) {
+        setForwardLink(x: &x, y: &y)
+        setBackwardLink(x: &x, y: &y)
+    }
+}
 
 func setLink<I: ForwardIterator>(t: inout I, f: inout I) {
     t = f
@@ -30,9 +44,9 @@ func advanceTail<I: ForwardIterator>(t: inout I, f: inout I) {
     f = f._successor()!
 }
 
-func linkerToTail<I: ForwardIterator>(t: inout I, f: inout I) {
+func linkerToTail<I: ForwardLinkedIterator>(t: inout I, f: inout I) {
     // Precondition: $\func{successor}(f)\text{ is defined}$
-    ForwardLinker.setLink(t: &t, f: &f)
+    ForwardLinker.setForwardLink(x: &t, y: &f)
     advanceTail(t: &t, f: &f)
 }
 
@@ -47,7 +61,7 @@ func findLast<I: ForwardIterator>(f: I, l: I) -> I {
     return t!
 }
 
-func splitLinkedS0<I: ForwardIterator>(f: inout I, l: inout I, t0: inout I, t1: inout I, h0: inout I, h1: inout I, p: UnaryPredicate<I>) -> Pair<Pair<I, I>, Pair<I, I>> {
+func splitLinkedS0<I: ForwardLinkedIterator>(f: inout I, l: inout I, t0: inout I, t1: inout I, h0: inout I, h1: inout I, p: UnaryPredicate<I>) -> Pair<Pair<I, I>, Pair<I, I>> {
     if f == l {
         return splitLinkedS4(f: &f, l: &l, t0: &t0, t1: &t1, h0: &h0, h1: &h1, p: p)
     }
@@ -61,7 +75,7 @@ func splitLinkedS0<I: ForwardIterator>(f: inout I, l: inout I, t0: inout I, t1: 
     }
 }
 
-func splitLinkedS1<I: ForwardIterator>(f: inout I, l: inout I, t0: inout I, t1: inout I, h0: inout I, h1: inout I, p: UnaryPredicate<I>) -> Pair<Pair<I, I>, Pair<I, I>> {
+func splitLinkedS1<I: ForwardLinkedIterator>(f: inout I, l: inout I, t0: inout I, t1: inout I, h0: inout I, h1: inout I, p: UnaryPredicate<I>) -> Pair<Pair<I, I>, Pair<I, I>> {
     if f == l {
         return splitLinkedS4(f: &f, l: &l, t0: &t0, t1: &t1, h0: &h0, h1: &h1, p: p)
     }
@@ -76,7 +90,7 @@ func splitLinkedS1<I: ForwardIterator>(f: inout I, l: inout I, t0: inout I, t1: 
     }
 }
 
-func splitLinkedS2<I: ForwardIterator>(f: inout I, l: inout I, t0: inout I, t1: inout I, h0: inout I, h1: inout I, p: UnaryPredicate<I>) -> Pair<Pair<I, I>, Pair<I, I>> {
+func splitLinkedS2<I: ForwardLinkedIterator>(f: inout I, l: inout I, t0: inout I, t1: inout I, h0: inout I, h1: inout I, p: UnaryPredicate<I>) -> Pair<Pair<I, I>, Pair<I, I>> {
     if f == l {
         return splitLinkedS4(f: &f, l: &l, t0: &t0, t1: &t1, h0: &h0, h1: &h1, p: p)
     }
@@ -89,7 +103,7 @@ func splitLinkedS2<I: ForwardIterator>(f: inout I, l: inout I, t0: inout I, t1: 
     }
 }
 
-func splitLinkedS3<I: ForwardIterator>(f: inout I, l: inout I, t0: inout I, t1: inout I, h0: inout I, h1: inout I, p: UnaryPredicate<I>) -> Pair<Pair<I, I>, Pair<I, I>> {
+func splitLinkedS3<I: ForwardLinkedIterator>(f: inout I, l: inout I, t0: inout I, t1: inout I, h0: inout I, h1: inout I, p: UnaryPredicate<I>) -> Pair<Pair<I, I>, Pair<I, I>> {
     if f == l {
         return splitLinkedS4(f: &f, l: &l, t0: &t0, t1: &t1, h0: &h0, h1: &h1, p: p)
     }
@@ -106,7 +120,7 @@ func splitLinkedS4<I: ForwardIterator>(f: inout I, l: inout I, t0: inout I, t1: 
     return Pair(m0: Pair(m0: h0, m1: t0), m1: Pair(m0: h1, m1: t1))
 }
 
-func splitLinked<I: ForwardIterator>(f: I, l: I, p: UnaryPredicate<I>) -> Pair<Pair<I, I>, Pair<I, I>> {
+func splitLinked<I: ForwardLinkedIterator>(f: I, l: I, p: UnaryPredicate<I>) -> Pair<Pair<I, I>, Pair<I, I>> {
     var f = f, l = l
     // Precondition: $\property{bounded\_range}(f, l)$
     var h0 = l, h1 = l
@@ -129,7 +143,7 @@ func splitLinked<I: ForwardIterator>(f: I, l: I, p: UnaryPredicate<I>) -> Pair<P
 // Exercise 8.1: Explain the postcondition of split_linked
 
 
-func combineLinkedNonemptyS0<I: ForwardIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
+func combineLinkedNonemptyS0<I: ForwardLinkedIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
     if f0 == l0 {
         return combineLinkedNonemptyS2(f0: &f0, l0: &l0, f1: &f1, l1: &l1, h: &h, t: &t, r: r)
     }
@@ -142,7 +156,7 @@ func combineLinkedNonemptyS0<I: ForwardIterator & Comparable>(f0: inout I, l0: i
     }
 }
 
-func combineLinkedNonemptyS1<I: ForwardIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
+func combineLinkedNonemptyS1<I: ForwardLinkedIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
     if f1 == l1 {
         return combineLinkedNonemptyS3(f0: &f0, l0: &l0, f1: &f1, l1: &l1, h: &h, t: &t, r: r)
     }
@@ -155,17 +169,17 @@ func combineLinkedNonemptyS1<I: ForwardIterator & Comparable>(f0: inout I, l0: i
     }
 }
 
-func combineLinkedNonemptyS2<I: ForwardIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
-    ForwardLinker.setLink(t: &t, f: &f1)
+func combineLinkedNonemptyS2<I: ForwardLinkedIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
+    ForwardLinker.setForwardLink(x: &t, y: &f1)
     return Triple(m0: h, m1: t, m2: l1)
 }
 
-func combineLinkedNonemptyS3<I: ForwardIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
-    ForwardLinker.setLink(t: &t, f: &f0)
+func combineLinkedNonemptyS3<I: ForwardLinkedIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
+    ForwardLinker.setForwardLink(x: &t, y: &f0)
     return Triple(m0: h, m1: t, m2: l0)
 }
 
-func combineLinkedNonempty<I: ForwardIterator & Comparable>(f0: I, l0: I, f1: I, l1: I, r: Relation<I>) -> Triple<I, I, I> {
+func combineLinkedNonempty<I: ForwardLinkedIterator & Comparable>(f0: I, l0: I, f1: I, l1: I, r: Relation<I>) -> Triple<I, I, I> {
     var f0 = f0, f1 = f1
     var l0 = l0, l1 = l1
     // Precondition: $\property{bounded\_range}(f0, l0) \wedge
@@ -190,15 +204,15 @@ func combineLinkedNonempty<I: ForwardIterator & Comparable>(f0: I, l0: I, f1: I,
 // Exercise 8.2: combine_linked
 
 
-func linkerToHead<I: ForwardIterator>(h: inout I, f: inout I) {
+func linkerToHead<I: ForwardLinkedIterator>(h: inout I, f: inout I) {
     // Precondition: $\func{successor}(f)$ is defined
     let tmp = f._successor()!
-    ForwardLinker.setLink(t: &f, f: &h)
+    ForwardLinker.setForwardLink(x: &f, y: &h)
     h = f
     f = tmp
 }
 
-func reverseAppend<I: ForwardIterator>(f: I, l: I, h: I) -> I {
+func reverseAppend<I: ForwardLinkedIterator>(f: I, l: I, h: I) -> I {
     var f = f, h = h
     // Precondition: $\property{bounded\_range}(f, l) \wedge h \notin [f, l)$
     while f != l { linkerToHead(h: &h, f: &f) }
@@ -211,7 +225,7 @@ func predicateSource<I: Readable>(p: @escaping UnaryPredicate<I.Source>) -> Unar
     }
 }
 
-func partitionLinked<I: Readable & ForwardIterator>(f: I, l: I, p: @escaping UnaryPredicate<I.Source>) -> Pair<Pair<I, I>, Pair<I, I>> {
+func partitionLinked<I: Readable & ForwardLinkedIterator>(f: I, l: I, p: @escaping UnaryPredicate<I.Source>) -> Pair<Pair<I, I>, Pair<I, I>> {
     // Precondition: $\property{bounded\_range}(f, l)$
     let ps: UnaryPredicate<I> = predicateSource(p: p)
     return splitLinked(f: f, l: l, p: ps)
@@ -223,7 +237,7 @@ func relationSource<I0: Readable, I1: Readable>(r: @escaping Relation<I0.Source>
     }
 }
 
-func mergeLinkedNonempty<I: Readable & ForwardIterator>(f0: I, l0: I, f1: I, l1: I, r: @escaping Relation<I.Source>) -> Pair<I, I> where I.Source : TotallyOrdered {
+func mergeLinkedNonempty<I: Readable & ForwardLinkedIterator>(f0: I, l0: I, f1: I, l1: I, r: @escaping Relation<I.Source>) -> Pair<I, I> where I.Source : TotallyOrdered {
     var l1 = l1
     // Precondition: $f0 \neq l0 \wedge f1 \neq l1$
     // Precondition: $\property{increasing\_range}(f0, l0, r)$
@@ -231,11 +245,11 @@ func mergeLinkedNonempty<I: Readable & ForwardIterator>(f0: I, l0: I, f1: I, l1:
     let rs: Relation<I> = relationSource(r: r)
     let t = combineLinkedNonempty(f0: f0, l0: l0, f1: f1, l1: l1, r: rs)
     var last = findLast(f: t.m1, l: t.m2)
-    ForwardLinker.setLink(t: &last, f: &l1)
+    ForwardLinker.setForwardLink(x: &last, y: &l1)
     return Pair(m0: t.m0, m1: l1)
 }
 
-func sortLinkedNonempty<I: Readable & ForwardIterator>(f: I, n: DistanceType, r: @escaping Relation<I.Source>) -> Pair<I, I> where I.Source : TotallyOrdered {
+func sortLinkedNonempty<I: Readable & ForwardLinkedIterator>(f: I, n: DistanceType, r: @escaping Relation<I.Source>) -> Pair<I, I> where I.Source : TotallyOrdered {
     // Precondition: $\property{counted\_range}(f, n) \wedge
     //                n > 0 \wedge \func{weak\_ordering}(r)$
     if n == N(1) { return Pair(m0: f, m1: f._successor()!) }
