@@ -197,8 +197,22 @@ protocol EmptyLinkedBifurcateCoordinate: LinkedBifurcateCoordinate {
     func empty() -> Bool
 }
 
+// MARK: Chapter 9
+
 protocol Writable {
-    associatedtype ValueType
-    var sink: ValueType? { get set }
+    associatedtype WritableType
+    var sink: WritableType? { get set }
 }
+
+protocol Mutable: Readable, Writable {
+    associatedtype MutableType
+    func deref() -> MutableType
+}
+
+extension Mutable {
+    typealias WritableType = Source
+    typealias MutableType = Source
+}
+
+
 
