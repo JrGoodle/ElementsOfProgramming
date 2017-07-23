@@ -200,8 +200,8 @@ protocol EmptyLinkedBifurcateCoordinate: LinkedBifurcateCoordinate {
 // MARK: Chapter 9
 
 protocol Writable {
-    associatedtype WritableType
-    var sink: WritableType? { get set }
+    associatedtype Sink
+    var sink: Sink? { get set }
 }
 
 protocol Mutable: Readable, Writable {
@@ -210,7 +210,7 @@ protocol Mutable: Readable, Writable {
 }
 
 extension Mutable {
-    typealias WritableType = Source
+    typealias Sink = Source
     typealias MutableType = Source
 }
 

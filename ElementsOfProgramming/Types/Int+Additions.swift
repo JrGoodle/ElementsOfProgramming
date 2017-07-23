@@ -115,3 +115,9 @@ extension Int: Iterator {
         return self + 1
     }
 }
+
+extension Int: Readable {
+    func _source() -> Int? {
+        return self
+    }
+}
