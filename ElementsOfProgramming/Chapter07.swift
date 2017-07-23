@@ -40,18 +40,18 @@ enum Visit: Int, Comparable {
     }
 }
 
-func traverseNonempty<C: BifurcateCoordinate>(c: C, proc: @escaping BinaryProcedure<Visit, C>) -> BinaryProcedure<Visit, C> {
+func traverseNonempty<C: BifurcateCoordinate, P: BinaryProcedure>(c: C, proc: P) -> P where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     var proc = proc
     // Precondition: $\property{tree}(c) \wedge \neg \func{empty}(c)$
-    proc(.pre, c)
+    proc.call(.pre, c)
     if c.hasLeftSuccessor() {
         proc = traverseNonempty(c: c.leftSuccessor()!, proc: proc)
     }
-    proc(.in, c)
+    proc.call(.in, c)
     if c.hasRightSuccessor() {
         proc = traverseNonempty(c: c.rightSuccessor()!, proc: proc)
     }
-    proc(.post, c)
+    proc.call(.post, c)
     return proc
 }
 
@@ -136,16 +136,16 @@ func height<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
     return n
 }
 
-func traverse<C: BidirectionalBifurcateCoordinate>(c: C, proc: @escaping BinaryProcedure<Visit, C>) -> BinaryProcedure<Visit, C> {
+func traverse<C: BidirectionalBifurcateCoordinate, P: BinaryProcedure>(c: C, proc: P) -> P where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     var c = c
     // Precondition: $\property{tree}(c)$
     if c.empty() { return proc }
     let root = c
     var v = Visit.pre
-    proc(.pre, c)
+    proc.call(.pre, c)
     repeat {
         _ = traverseStep(v: &v, c: &c)
-        proc(v, c)
+        proc.call(v, c)
     } while c != root || v != .post
     return proc
 }

@@ -15,17 +15,32 @@ typealias Regular = Equatable
 
 //typealias Procedure<T> = (Any, ...Any) -> Void
 
-typealias UnaryProcedure<T> = (T) -> Void
+//typealias UnaryProcedure<T> = (T) -> Void
+protocol UnaryProcedure {
+    associatedtype UnaryProcedureType
+    func call(_ arg: UnaryProcedureType)
+}
 
-typealias BinaryProcedure<T, U> = (T, U) -> Void
+//typealias BinaryProcedure<T, U> = (T, U) -> Void
+protocol BinaryProcedure {
+    associatedtype BinaryProcedureType1
+    associatedtype BinaryProcedureType2
+    func call(_ arg1: BinaryProcedureType1, _ arg2: BinaryProcedureType2)
+}
 
-typealias HomogenousBinaryProcedure<T> = (T, T) -> Void
+//typealias BinaryHomogeneousProcedure<T> = (T, T) -> Void
+protocol BinaryHomogeneousProcedure {
+    associatedtype BinaryHomogeneousProcedureType
+    func call(_ arg1: BinaryHomogeneousProcedureType, _ arg2: BinaryHomogeneousProcedureType)
+}
 
 //typealias FunctionalProcedure<T> = (Any, ...Any) -> T
 
 //typealias HomogeneousFunction<T, U: Regular> = (T, ...T) -> U
 
 typealias UnaryFunction<T: Regular, U: Regular> = (T) -> U
+
+typealias BinaryFunction<T: Regular, U: Regular, V: Regular> = (T, U) -> V
 
 typealias BinaryHomogeneousFunction<T: Regular, U: Regular> = (T, T) -> U
 
@@ -56,7 +71,11 @@ typealias Op<T: Regular> = BinaryOperation<T>
 
 // MARK: Chapter 4
 
-typealias Relation<T: TotallyOrdered> = (T, T) -> Bool
+typealias BinaryRelation<T, U> = (T, U) -> Bool
+
+typealias BinaryHomogeneousRelation<T> = (T, T) -> Bool
+
+typealias Relation<T: TotallyOrdered> = BinaryHomogeneousRelation<T>
 
 typealias TotallyOrdered = Comparable & Regular
 
@@ -156,3 +175,47 @@ protocol BidirectionalBifurcateCoordinate: BifurcateCoordinate {
     func hasPredecessor() -> Bool
     func predecessor() -> Self?
 }
+
+// MARK: Chapter 8
+
+struct ForwardLinker<I: ForwardIterator> {
+    static func setLink(t: inout I, f: inout I) {
+        t = f
+    }
+}
+
+//typealias ForwardLinker = (inout ForwardIterator, inout ForwardIterator) -> Void
+
+//protocol ForwardLinker {
+//    associatedtype ForwardIteratorType
+//}
+//
+//extension ForwardLinker {
+//    typealias ForwardLinkType = Pointer<ForwardIterator>
+//    typealias ForwardIteratorType = ForwardIterator
+//}
+
+protocol BackwardLinker {
+    associatedtype BackwardIteratorType
+}
+
+extension BackwardLinker {
+    typealias BackwardIteratorType = BidirectionalIterator
+}
+
+protocol BidirectionalLinker: BackwardLinker { } // ForwardLinker
+
+protocol LinkedBifurcateCoordinate: BifurcateCoordinate {
+    func setLeftSuccessor(_ ls: Self)
+    func setRightSuccessor(_ ls: Self)
+}
+
+protocol EmptyLinkedBifurcateCoordinate: LinkedBifurcateCoordinate {
+    func empty() -> Bool
+}
+
+protocol Writable {
+    associatedtype ValueType
+    var sink: ValueType? { get set }
+}
+

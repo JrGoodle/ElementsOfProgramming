@@ -30,11 +30,11 @@ func -<I: Iterator>(l: I, f: I) -> DistanceType {
     return n
 }
 
-func forEach<I: Readable & Iterator>(f: I, l: I, proc: @escaping UnaryProcedure<I.Source>) -> UnaryProcedure<I.Source> {
+func forEach<I: Readable & Iterator, P: UnaryProcedure>(f: I, l: I, proc: P) -> P where P.UnaryProcedureType == I.Source {
     var f = f
     // Precondition: $\func{readable\_bounded\_range}(f, l)$
     while f != l {
-        proc(f._source()!)
+        proc.call(f._source()!)
         f = f._successor()!
     }
     return proc
