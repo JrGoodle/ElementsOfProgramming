@@ -53,6 +53,8 @@ typealias BinaryHomogeneousFunction<T: Regular, U: Regular> = (T, T) -> U
 typealias UnaryPredicate<T: Regular> = (T) -> Bool
 typealias P<T: Regular> = UnaryPredicate<T>
 
+typealias BinaryPredicate<T: Regular, U: Regular> = (T, U) -> Bool
+
 // typealias Operation<T: Regular> = (T, ...T) -> T
 
 typealias UnaryOperation<T: Regular> = (T) -> T
@@ -204,15 +206,10 @@ protocol Writable {
     var sink: Sink? { get set }
 }
 
-protocol Mutable: Readable, Writable {
-    associatedtype MutableType
-    func deref() -> MutableType
+protocol Mutable: Readable, Writable where Source == Sink {
+    func deref() -> Source
 }
 
-extension Mutable {
-    typealias Sink = Source
-    typealias MutableType = Source
-}
 
 
 

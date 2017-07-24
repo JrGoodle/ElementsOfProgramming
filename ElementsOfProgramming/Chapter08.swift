@@ -351,7 +351,3 @@ func traversePhasedRotating<C: EmptyLinkedBifurcateCoordinate, P: UnaryProcedure
     let applicator = PhasedApplicator(period: 3, phase: phase, n: 0, proc: proc)
     return traverseRotating(c: c, proc: applicator).proc
 }
-
-
-
-

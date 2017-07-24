@@ -61,7 +61,7 @@ func countDown(n: inout N) -> Bool {
     return true
 }
 
-func copy<I: Readable & Iterator, O: Writable & Iterator>(fi: I, n: N, fo: O) -> Pair<I, O> where I.Source == O.Sink {
+func copyN<I: Readable & Iterator, O: Writable & Iterator>(fi: I, n: N, fo: O) -> Pair<I, O> where I.Source == O.Sink {
     var fi = fi, n = n, fo = fo
     // Precondition: $\property{not\_overlapped\_forward}(f_i, f_i+n, f_o, f_o+n)$
     while countDown(n: &n) { copyStep(fi: &fi, fo: &fo) }
@@ -163,25 +163,185 @@ func splitCopyN<I: Readable & Iterator, OF: Writable & Iterator, OT: Writable & 
     return Pair(m0: ff, m1: ft)
 }
 
-
-
-
-
-func exchangeValues<T: Regular>(x: Pointer<T>, y: Pointer<T>) {
-    // Precondition: $\func{deref}(x)$ and $\func{deref}(y)$ are defined
-    let t = source(x)
-    x.pointee = source(y)
-    y.pointee = t
+func partitionCopy<I: Readable & Iterator, OF: Writable & Iterator, OT: Writable & Iterator>(fi: I, li: I, ff: OF, ft: OT, p: @escaping UnaryPredicate<I.Source>) -> Pair<OF, OT> where I.Source == OF.Sink, I.Source == OT.Sink {
+    // Precondition: same as $\func{split\_copy}$
+    let ps: UnaryPredicate<I> = predicateSource(p: p)
+    return splitCopy(fi: fi, li: li, ff: ff, ft: ft, p: ps)
 }
 
-func reverseBidirectional<T: Regular>(f: Pointer<T>, l: Pointer<T>) {
-    var f = f, l = l
-    // Precondition: $\property{mutable\_bounded\_range}(f, l)$
-    while true {
-        if f == l { return }
-        l = l.predecessor()
-        if f == l { return }
-        exchangeValues(x: f, y: l)
-        f = f.successor()
+func partitionCopyN<I: Readable & Iterator, OF: Writable & Iterator, OT: Writable & Iterator>(fi: I, n: DistanceType, ff: OF, ft: OT, p: @escaping UnaryPredicate<I.Source>) -> Pair<OF, OT> where I.Source == OF.Sink, I.Source == OT.Sink {
+    // Precondition: see $\func{partition_copy}$
+    let ps: UnaryPredicate<I> = predicateSource(p: p)
+    return splitCopyN(fi: fi, ni: n, ff: ff, ft: ft, p: ps)
+}
+
+func combineCopy<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, fo: O, r: BinaryPredicate<I1, I0>) -> O where I0.Source == O.Sink, I1.Source == O.Sink {
+    var fi0 = fi0, fi1 = fi1, fo = fo
+    // Precondition: see section 9.3 of Elements of Programming
+    while fi0 != li0 && fi1 != li1 {
+        if r(fi1, fi0) { copyStep(fi: &fi1, fo: &fo) }
+        else { copyStep(fi: &fi0, fo: &fo) }
     }
+    return copy(fi: fi1, li: li1, fo: copy(fi: fi0, li: li0, fo: fo))
+}
+
+func combineCopyN<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, ni0: DistanceType, fi1: I1, ni1: DistanceType, fo: O, r: BinaryPredicate<I1, I0>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink {
+    var fi0 = fi0, ni0 = ni0, fi1 = fi1, ni1 = ni1, fo = fo
+    // Precondition: see $\func{combine_copy}$
+    while true {
+        if ni0.zero() {
+            let p = copyN(fi: fi1, n: ni1, fo: fo)
+            return Triple(m0: fi0, m1: p.m0, m2: p.m1)
+        }
+        if ni1.zero() {
+            let p = copyN(fi: fi0, n: ni0, fo: fo)
+            return Triple(m0: p.m0, m1: fi1, m2: p.m1)
+        }
+        if r(fi1, fi0) {
+            copyStep(fi: &fi1, fo: &fo)
+            ni1 = ni1.predecessor()
+        } else {
+            copyStep(fi: &fi0, fo: &fo)
+            ni0 = ni0.predecessor()
+        }
+    }
+}
+
+func combineCopyBackward<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, lo: O, r: BinaryPredicate<I1, I0>) -> O where I0.Source == O.Sink, I1.Source == O.Sink {
+    var li0 = li0, li1 = li1, lo = lo
+    // Precondition: see section 9.3 of Elements of Programming
+    while fi0 != li0 && fi1 != li1 {
+        if r(li1._predecessor()!, li0._predecessor()!) {
+            copyBackwardStep(li: &li0, lo: &lo)
+        } else {
+            copyBackwardStep(li: &li1, lo: &lo)
+        }
+    }
+    return copyBackward(fi: fi0, li: li0, lo: copyBackward(fi: fi1, li: li1, lo: lo))
+}
+
+func combineCopyBackwardN<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(li0: I0, ni0: DistanceType, li1: I1, ni1: DistanceType, lo: O, r: BinaryPredicate<I1, I0>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink {
+    var li0 = li0, ni0 = ni0, li1 = li1, ni1 = ni1, lo = lo
+    // Precondition: see $\func{combine\_copy\_backward}$
+    while true {
+        if ni0.zero() {
+            let p = copyBackwardN(li: li1, n: ni1, lo: lo)
+            return Triple(m0: li0, m1: p.m0, m2: p.m1)
+        }
+        if ni1.zero() {
+            let p = copyBackwardN(li: li0, n: ni0, lo: lo)
+            return Triple(m0: p.m0, m1: li1, m2: p.m1)
+        }
+        if r(li1._predecessor()!, li0._predecessor()!) {
+            copyBackwardStep(li: &li0, lo: &lo)
+            ni0 = ni0.predecessor()
+        } else {
+            copyBackwardStep(li: &li1, lo: &lo)
+            ni1 = ni1.predecessor()
+        }
+    }
+}
+
+func mergeCopy<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, fo: O, r: @escaping Relation<I0.Source>) -> O where I0.Source == O.Sink, I1.Source == O.Sink, I0.Source : TotallyOrdered {
+    // Precondition: in addition to that for $\func{combine\_copy}$:
+    // \hspace*{1em} $\property{weak\_ordering}(r) \wedge {}$
+    // \hspace*{1em} $\func{increasing\_range}(f_{i_0}, l_{i_0}, r) \wedge
+    //                \property{increasing\_range}(f_{i_1}, l_{i_1}, r)$
+    let rs: BinaryRelation<I1, I0> = relationSource(r: r)
+    return combineCopy(fi0: fi0, li0: li0, fi1: fi1, li1: li1, fo: fo, r: rs)
+}
+
+func mergeCopyN<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, ni0: DistanceType, fi1: I1, ni1: DistanceType, o: O, r: @escaping Relation<I0.Source>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink, I0.Source : TotallyOrdered {
+    // Precondition: see $\func{merge\_copy}$
+    let rs: BinaryPredicate<I1, I0> = relationSource(r: r)
+    return combineCopyN(fi0: fi0, ni0: ni0, fi1: fi1, ni1: ni1, fo: o, r: rs)
+}
+
+func mergeCopyBackward<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, lo: O, r: @escaping Relation<I0.Source>) -> O where I0.Source == O.Sink, I1.Source == O.Sink, I0.Source : TotallyOrdered {
+    // Precondition: in addition to that for $\func{combine\_copy\_backward}$:
+    //               $\property{weak\_ordering}(r) \wedge {}$
+    //               $\func{increasing\_range}(f_{i_0}, l_{i_0}, r) \wedge
+    //                \property{increasing\_range}(f_{i_1}, l_{i_1}, r)$
+    let rs: BinaryPredicate<I1, I0> = relationSource(r: r)
+    return combineCopyBackward(fi0: fi0, li0: li0, fi1: fi1, li1: li1, lo: lo, r: rs)
+}
+
+func mergeCopyBackwardN<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(li0: I0, ni0: DistanceType, li1: I1, ni1: DistanceType, lo: O, r: @escaping Relation<I0.Source>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink, I0.Source : TotallyOrdered {
+    // Precondition: see $\func{merge\_copy\_backward}$
+    let rs: BinaryPredicate<I1, I0> = relationSource(r: r)
+    return combineCopyBackwardN(li0: li0, ni0: ni0, li1: li1, ni1: ni1, lo: lo, r: rs)
+}
+
+func exchangeValues<I0: Mutable, I1: Mutable>(x: I0, y: I1) where I0.Source == I1.Source {
+    var x = x, y = y
+    // Precondition: $\func{deref}(x)$ and $\func{deref}(y)$ are defined
+    let t = x._source()!
+    x.sink = y._source()!
+    y.sink = t
+}
+
+func swapStep<I0: Mutable & ForwardIterator, I1: Mutable & ForwardIterator>(f0: inout I0, f1: inout I1) where I0.Source == I1.Source {
+    // Precondition: $\func{deref}(f_0)$ and $\func{deref}(f_1)$ are defined
+    exchangeValues(x: f0, y: f1)
+    f0 = f0._successor()!
+    f1 = f1._successor()!
+}
+
+func swapRanges<I0: Mutable & ForwardIterator, I1: Mutable & ForwardIterator>(f0: I0, l0: I0, f1: I1) -> I1 where I0.Source == I1.Source {
+    var f0 = f0, f1 = f1
+    // Precondition: $\property{mutable\_bounded\_range}(f_0, l_0)$
+    // Precondition: $\property{mutable\_counted\_range}(f_1, l_0-f_0)$
+    while f0 != l0 { swapStep(f0: &f0, f1: &f1) }
+    return f1
+}
+
+
+func swapRangesBounded<I0: Mutable & ForwardIterator, I1: Mutable & ForwardIterator>(f0: I0, l0: I0, f1: I1, l1: I1) -> Pair<I0, I1> where I0.Source == I1.Source {
+    var f0 = f0, f1 = f1
+    // Precondition: $\property{mutable\_bounded\_range}(f_0, l_0)$
+    // Precondition: $\property{mutable\_bounded\_range}(f_1, l_1)$
+    while f0 != l0 && f1 != l1 { swapStep(f0: &f0, f1: &f1) }
+    return Pair(m0: f0, m1: f1)
+}
+
+func swapRangesN<I0: Mutable & ForwardIterator, I1: Mutable & ForwardIterator>(f0: I0, f1: I1, n: N) -> Pair<I0, I1> where I0.Source == I1.Source {
+    var f0 = f0, f1 = f1, n = n
+    // Precondition: $\property{mutable\_counted\_range}(f_0, n)$
+    // Precondition: $\property{mutable\_counted\_range}(f_1, n)$
+    while countDown(n: &n) { swapStep(f0: &f0, f1: &f1) }
+    return Pair(m0: f0, m1: f1)
+}
+
+func reverseSwapStep<I0: Mutable & BidirectionalIterator, I1: Mutable & ForwardIterator>(l0: inout I0, f1: inout I1) where I0.Source == I1.Source {
+    // Precondition: $\func{deref}(\func{predecessor}(l_0))$ and
+    //               $\func{deref}(f_1)$ are defined
+    l0 = l0._predecessor()!
+    exchangeValues(x: l0, y: f1)
+    f1 = f1._successor()!
+}
+
+func reverseSwapRanges<I0: Mutable & BidirectionalIterator, I1: Mutable & ForwardIterator>(f0: I0, l0: I0, f1: I1) -> I1 where I0.Source == I1.Source {
+    var l0 = l0, f1 = f1
+    // Precondition: $\property{mutable\_bounded\_range}(f_0, l_0)$
+    // Precondition: $\property{mutable\_counted\_range}(f_1, l_0-f_0)$
+    while f0 != l0 { reverseSwapStep(l0: &l0, f1: &f1) }
+    return f1
+}
+
+func reverseSwapRangesBounded<I0: Mutable & BidirectionalIterator, I1: Mutable & ForwardIterator>(f0: I0, l0: I0, f1: I1, l1: I1) -> Pair<I0, I1> where I0.Source == I1.Source {
+    var l0 = l0, f1 = f1
+    // Precondition: $\property{mutable\_bounded\_range}(f_0, l_0)$
+    // Precondition:  $\property{mutable\_bounded\_range}(f_1, l_1)$
+    while f0 != l0 && f1 != l1 {
+        reverseSwapStep(l0: &l0, f1: &f1)
+    }
+    return Pair(m0: l0, m1: f1)
+}
+
+func reverseSwapRangesN<I0: Mutable & BidirectionalIterator, I1: Mutable & ForwardIterator>(l0: I0, f1: I1, n: N) -> Pair<I0, I1> where I0.Source == I1.Source {
+    var l0 = l0, f1 = f1, n = n
+    // Precondition: $\property{mutable\_counted\_range}(l_0-n, n)$
+    // Precondition: $\property{mutable\_counted\_range}(f_1, n)$
+    while countDown(n: &n) { reverseSwapStep(l0: &l0, f1: &f1) }
+    return Pair(m0: l0, m1: f1)
 }
