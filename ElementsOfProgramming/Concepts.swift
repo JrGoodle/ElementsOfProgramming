@@ -152,7 +152,7 @@ protocol IndexedIterator: ForwardIterator {
 }
 
 protocol BidirectionalIterator: ForwardIterator {
-    func _predecessor() -> Self?
+    var iteratorPredecessor: Self? { get }
 }
 
 protocol RandomAccessIterator: IndexedIterator, BidirectionalIterator, TotallyOrdered {
@@ -175,7 +175,7 @@ protocol BifurcateCoordinate: Regular {
 
 protocol BidirectionalBifurcateCoordinate: BifurcateCoordinate {
     func hasPredecessor() -> Bool
-    func predecessor() -> Self?
+    var iteratorPredecessor: Self? { get }
 }
 
 // MARK: Chapter 8

@@ -12,7 +12,7 @@ extension Pointer: Iterator {
 }
 
 extension Pointer: BidirectionalIterator {
-    func _predecessor() -> Pointer<Pointee>? {
+    var iteratorPredecessor: Pointer<Pointee>? {
         return self - 1
     }
 }

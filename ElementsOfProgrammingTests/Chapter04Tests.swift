@@ -353,7 +353,7 @@ class Chapter04Tests: XCTestCase {
 //    func nextPermutation<T: TotallyOrdered, DomainR: TotallyOrdered>(f: Pointer<T>, l: Pointer<T>, r: Relation<DomainR>) -> Bool {
 //        // Precondition: weak_ordering(r)
 //        if (f == l || f.successor() == l) { return false }
-//        var i = l._predecessor()!
+//        var i = l.iteratorPredecessor!
 //
 //        while true {
 //            let ii = i

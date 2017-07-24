@@ -78,8 +78,8 @@ func copyBackwardStep<I: Readable & BidirectionalIterator, O: Writable & Bidirec
     // Precondition: $\func{source}(\property{predecessor}(l_i))$ and
     //               $\func{sink}(\property{predecessor}(l_o))$
     //               are defined
-    li = li._predecessor()!
-    lo = lo._predecessor()!
+    li = li.iteratorPredecessor!
+    lo = lo.iteratorPredecessor!
     lo.sink = li.source!
 }
 
@@ -99,7 +99,7 @@ func copyBackwardN<I: Readable & BidirectionalIterator, O: Writable & Bidirectio
 func reverseCopyStep<I: Readable & BidirectionalIterator, O: Writable & Iterator>(li: inout I, fo: inout O) where I.Source == O.Sink {
     // Precondition: $\func{source}(\func{predecessor}(l_i))$ and
     //               $\func{sink}(f_o)$ are defined
-    li = li._predecessor()!
+    li = li.iteratorPredecessor!
     fo.sink = li.source!
     fo = fo.iteratorSuccessor!
 }
@@ -107,7 +107,7 @@ func reverseCopyStep<I: Readable & BidirectionalIterator, O: Writable & Iterator
 func reverseCopyBackwardStep<I: Readable & Iterator, O: Writable & BidirectionalIterator>(fi: inout I, lo: inout O) where I.Source == O.Sink {
     // Precondition: $\func{source}(f_i)$ and
     //               $\func{sink}(\property{predecessor}(l_o))$ are defined
-    lo = lo._predecessor()!
+    lo = lo.iteratorPredecessor!
     lo.sink = fi.source!
     fi = fi.iteratorSuccessor!
 }
@@ -211,7 +211,7 @@ func combineCopyBackward<I0: Readable & BidirectionalIterator, I1: Readable & Bi
     var li0 = li0, li1 = li1, lo = lo
     // Precondition: see section 9.3 of Elements of Programming
     while fi0 != li0 && fi1 != li1 {
-        if r(li1._predecessor()!, li0._predecessor()!) {
+        if r(li1.iteratorPredecessor!, li0.iteratorPredecessor!) {
             copyBackwardStep(li: &li0, lo: &lo)
         } else {
             copyBackwardStep(li: &li1, lo: &lo)
@@ -232,7 +232,7 @@ func combineCopyBackwardN<I0: Readable & BidirectionalIterator, I1: Readable & B
             let p = copyBackwardN(li: li0, n: ni0, lo: lo)
             return Triple(m0: p.m0, m1: li1, m2: p.m1)
         }
-        if r(li1._predecessor()!, li0._predecessor()!) {
+        if r(li1.iteratorPredecessor!, li0.iteratorPredecessor!) {
             copyBackwardStep(li: &li0, lo: &lo)
             ni0 = ni0.predecessor()
         } else {
@@ -315,7 +315,7 @@ func swapRangesN<I0: Mutable & ForwardIterator, I1: Mutable & ForwardIterator>(f
 func reverseSwapStep<I0: Mutable & BidirectionalIterator, I1: Mutable & ForwardIterator>(l0: inout I0, f1: inout I1) where I0.Source == I1.Source {
     // Precondition: $\func{deref}(\func{predecessor}(l_0))$ and
     //               $\func{deref}(f_1)$ are defined
-    l0 = l0._predecessor()!
+    l0 = l0.iteratorPredecessor!
     exchangeValues(x: l0, y: f1)
     f1 = f1.iteratorSuccessor!
 }

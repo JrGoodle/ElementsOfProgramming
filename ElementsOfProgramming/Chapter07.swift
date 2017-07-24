@@ -57,13 +57,13 @@ func traverseNonempty<C: BifurcateCoordinate, P: BinaryProcedure>(c: C, proc: P)
 
 func isLeftSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
     // Precondition: $\func{has\_predecessor}(j)$
-    let i = j.predecessor()!
+    let i = j.iteratorPredecessor!
     return i.hasLeftSuccessor() && i.leftSuccessor()! == j
 }
 
 func isRightSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
     // Precondition: $\func{has\_predecessor}(j)$
-    let i = j.predecessor()!
+    let i = j.iteratorPredecessor!
     return i.hasRightSuccessor() && i.rightSuccessor()! == j
 }
 
@@ -89,7 +89,7 @@ func traverseStep<C: BidirectionalBifurcateCoordinate>(v: inout Visit, c: inout 
         if isLeftSuccessor(j: c) {
             v = .in
         }
-        c = c.predecessor()!
+        c = c.iteratorPredecessor!
         return -1
     }
 }

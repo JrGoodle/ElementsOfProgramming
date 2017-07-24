@@ -402,7 +402,7 @@ func -<I: BidirectionalIterator>(l: I, n: DistanceType) -> I {
     // Precondition: $n \geq 0 \wedge (\exists f \in I)\,(\func{weak\_range}(f, n) \wedge l = f+n)$
     while !n.zero() {
         n = n.predecessor()
-        l = l._predecessor()!
+        l = l.iteratorPredecessor!
     }
     return l
 }
@@ -410,8 +410,8 @@ func -<I: BidirectionalIterator>(l: I, n: DistanceType) -> I {
 func findBackwardIf<I: Readable & BidirectionalIterator>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
     var l = l
     // Precondition: $\func{readable\_bounded\_range}(f, l)$
-    while l != f && !p(l._predecessor()!.source!) {
-        l = l._predecessor()!
+    while l != f && !p(l.iteratorPredecessor!.source!) {
+        l = l.iteratorPredecessor!
     }
     return l
 }
@@ -419,8 +419,8 @@ func findBackwardIf<I: Readable & BidirectionalIterator>(f: I, l: I, p: UnaryPre
 func findBackwardIfNot<I: Readable & BidirectionalIterator>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
     var l = l
     // Precondition: $\func{readable\_bounded\_range}(f, l)$
-    while l != f && p(l._predecessor()!.source!) {
-        l = l._predecessor()!
+    while l != f && p(l.iteratorPredecessor!.source!) {
+        l = l.iteratorPredecessor!
     }
     return l
 }
@@ -436,7 +436,7 @@ func findBackwardIfUnguarded<I: Readable & BidirectionalIterator>(l: I, p: Unary
     var l = l
     // Precondition:
     // $(\exists f \in I)\,\property{readable\_bounded\_range}(f, l) \wedge \property{some}(f, l, p)$
-    repeat { l = l._predecessor()! } while !p(l.source!)
+    repeat { l = l.iteratorPredecessor! } while !p(l.source!)
     return l
     // Postcondition: $p(\func{source}(l))$
 }
@@ -445,7 +445,7 @@ func findBackwardIfNotUnguarded<I: Readable & BidirectionalIterator>(l: I, p: Un
     var l = l
     // Precondition:
     // $(\exists f \in I)\,\property{readable\_bounded\_range}(f, l) \wedge \property{not\_all}(f, l, p)$
-    repeat { l = l._predecessor()! } while p(l.source!)
+    repeat { l = l.iteratorPredecessor! } while p(l.source!)
     return l
     // Postcondition: $\neg p(\func{source}(l))$
 }
