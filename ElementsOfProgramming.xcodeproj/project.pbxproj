@@ -48,6 +48,8 @@
 		C6B297B31F2060E2000E53B6 /* Rational.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B297A71F2060E2000E53B6 /* Rational.swift */; };
 		C6B297B51F206B56000E53B6 /* UInt+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B297B41F206AE1000E53B6 /* UInt+Additions.swift */; };
 		C6B297B61F206B57000E53B6 /* UInt+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B297B41F206AE1000E53B6 /* UInt+Additions.swift */; };
+		C6F3083A1F25A2D100AFBEB3 /* Chapter10.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F308391F25A2D100AFBEB3 /* Chapter10.swift */; };
+		C6F3083B1F25A3A900AFBEB3 /* Chapter10.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F308391F25A2D100AFBEB3 /* Chapter10.swift */; };
 		C6F34C681F21CC2B00CF86E7 /* Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F34C671F21C98400CF86E7 /* Pointer.swift */; };
 		C6F34C691F21CC2C00CF86E7 /* Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F34C671F21C98400CF86E7 /* Pointer.swift */; };
 		C6FEC3901F16DA210001B732 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC38F1F16DA210001B732 /* main.swift */; };
@@ -95,6 +97,7 @@
 		C6B297A61F2060E2000E53B6 /* Int+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Additions.swift"; sourceTree = "<group>"; };
 		C6B297A71F2060E2000E53B6 /* Rational.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rational.swift; sourceTree = "<group>"; };
 		C6B297B41F206AE1000E53B6 /* UInt+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UInt+Additions.swift"; sourceTree = "<group>"; };
+		C6F308391F25A2D100AFBEB3 /* Chapter10.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter10.swift; sourceTree = "<group>"; };
 		C6F34C671F21C98400CF86E7 /* Pointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pointer.swift; sourceTree = "<group>"; };
 		C6FEC38C1F16DA210001B732 /* ElementsOfProgramming */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ElementsOfProgramming; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6FEC38F1F16DA210001B732 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -189,6 +192,7 @@
 				C66BEB311F23F65A00BDECD8 /* Chapter07.swift */,
 				C66BEB341F24210200BDECD8 /* Chapter08.swift */,
 				C60C392E1F1EE64200243F20 /* Chapter09.swift */,
+				C6F308391F25A2D100AFBEB3 /* Chapter10.swift */,
 				C6FEC3A01F172E910001B732 /* Drivers.swift */,
 			);
 			path = ElementsOfProgramming;
@@ -295,6 +299,7 @@
 				C61124CF1F184B88005B18ED /* Concepts.swift in Sources */,
 				C61124D01F184B88005B18ED /* Chapter01.swift in Sources */,
 				C66BEB361F24210200BDECD8 /* Chapter08.swift in Sources */,
+				C6F3083B1F25A3A900AFBEB3 /* Chapter10.swift in Sources */,
 				C66BEB2A1F231C1B00BDECD8 /* SList.swift in Sources */,
 				C66BEB331F23F65A00BDECD8 /* Chapter07.swift in Sources */,
 				C66DB47D1F1AEECE0019A2BB /* Chapter03.swift in Sources */,
@@ -339,6 +344,7 @@
 				C6B297B61F206B57000E53B6 /* UInt+Additions.swift in Sources */,
 				C6FEC3991F16DA810001B732 /* Chapter02.swift in Sources */,
 				C66DB4781F19B4BB0019A2BB /* Chapter03.swift in Sources */,
+				C6F3083A1F25A2D100AFBEB3 /* Chapter10.swift in Sources */,
 				C6B297AA1F2060E2000E53B6 /* Float+Additions.swift in Sources */,
 				C6FEC3A31F1735510001B732 /* Chapter05.swift in Sources */,
 				C6FEC3971F16DA4C0001B732 /* Chapter01.swift in Sources */,
