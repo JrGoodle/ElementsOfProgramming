@@ -169,8 +169,8 @@ protocol BifurcateCoordinate: Regular {
     func empty() -> Bool
     func hasLeftSuccessor() -> Bool
     func hasRightSuccessor() -> Bool
-    func leftSuccessor() -> Self?
-    func rightSuccessor() -> Self?
+    var leftSuccessor: Self? { get }
+    var rightSuccessor: Self? { get }
 }
 
 protocol BidirectionalBifurcateCoordinate: BifurcateCoordinate {

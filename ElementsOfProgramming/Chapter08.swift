@@ -268,8 +268,8 @@ func sortLinkedNonempty<I: Readable & ForwardLinkedIterator>(f: I, n: DistanceTy
 
 func treeRotate<C: EmptyLinkedBifurcateCoordinate>(curr: inout C, prev: inout C) {
     // Precondition: $\neg \func{empty}(curr)$
-    let tmp = curr.leftSuccessor()!
-    curr.setLeftSuccessor(curr.rightSuccessor()!)
+    let tmp = curr.leftSuccessor!
+    curr.setLeftSuccessor(curr.rightSuccessor!)
     curr.setRightSuccessor(prev)
     if tmp.empty() {
         prev = tmp

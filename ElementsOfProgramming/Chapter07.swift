@@ -9,10 +9,10 @@ func weightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     var l = N(0)
     var r = N(0)
     if c.hasLeftSuccessor() {
-        l = weightRecursive(c: c.leftSuccessor()!)
+        l = weightRecursive(c: c.leftSuccessor!)
     }
     if c.hasRightSuccessor() {
-        r = weightRecursive(c: c.rightSuccessor()!)
+        r = weightRecursive(c: c.rightSuccessor!)
     }
     let t = l + r
     return t.successor()
@@ -24,10 +24,10 @@ func heightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     var l = N(0)
     var r = N(0)
     if c.hasLeftSuccessor() {
-        l = heightRecursive(c: c.leftSuccessor()!)
+        l = heightRecursive(c: c.leftSuccessor!)
     }
     if c.hasRightSuccessor() {
-        r = heightRecursive(c: c.rightSuccessor()!)
+        r = heightRecursive(c: c.rightSuccessor!)
     }
     return maxSelect(a: l, b: r).successor()
 }
@@ -45,11 +45,11 @@ func traverseNonempty<C: BifurcateCoordinate, P: BinaryProcedure>(c: C, proc: P)
     // Precondition: $\property{tree}(c) \wedge \neg \func{empty}(c)$
     proc.call(.pre, c)
     if c.hasLeftSuccessor() {
-        proc = traverseNonempty(c: c.leftSuccessor()!, proc: proc)
+        proc = traverseNonempty(c: c.leftSuccessor!, proc: proc)
     }
     proc.call(.in, c)
     if c.hasRightSuccessor() {
-        proc = traverseNonempty(c: c.rightSuccessor()!, proc: proc)
+        proc = traverseNonempty(c: c.rightSuccessor!, proc: proc)
     }
     proc.call(.post, c)
     return proc
@@ -58,13 +58,13 @@ func traverseNonempty<C: BifurcateCoordinate, P: BinaryProcedure>(c: C, proc: P)
 func isLeftSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
     // Precondition: $\func{has\_predecessor}(j)$
     let i = j.iteratorPredecessor!
-    return i.hasLeftSuccessor() && i.leftSuccessor()! == j
+    return i.hasLeftSuccessor() && i.leftSuccessor! == j
 }
 
 func isRightSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
     // Precondition: $\func{has\_predecessor}(j)$
     let i = j.iteratorPredecessor!
-    return i.hasRightSuccessor() && i.rightSuccessor()! == j
+    return i.hasRightSuccessor() && i.rightSuccessor! == j
 }
 
 func traverseStep<C: BidirectionalBifurcateCoordinate>(v: inout Visit, c: inout C) -> Int {
@@ -72,7 +72,7 @@ func traverseStep<C: BidirectionalBifurcateCoordinate>(v: inout Visit, c: inout 
     switch v {
     case .pre:
         if c.hasLeftSuccessor() {
-            c = c.leftSuccessor()!
+            c = c.leftSuccessor!
             return 1
         }
         v = .in
@@ -80,7 +80,7 @@ func traverseStep<C: BidirectionalBifurcateCoordinate>(v: inout Visit, c: inout 
     case .in:
         if c.hasRightSuccessor() {
             v = .pre
-            c = c.rightSuccessor()!
+            c = c.rightSuccessor!
             return 1
         }
         v = .post
@@ -160,7 +160,7 @@ func bifurcateIsomorphicNonempty<C0: BifurcateCoordinate, C1: BifurcateCoordinat
     // $\property{tree}(c0) \wedge \property{tree}(c1) \wedge \neg \func{empty}(c0) \wedge \neg \func{empty}(c1)$
     if c0.hasLeftSuccessor() {
         if c1.hasLeftSuccessor() {
-            if !bifurcateIsomorphicNonempty(c0: c0.leftSuccessor()!, c1: c1.leftSuccessor()!) {
+            if !bifurcateIsomorphicNonempty(c0: c0.leftSuccessor!, c1: c1.leftSuccessor!) {
                 return false
             }
         } else { return false }
@@ -168,7 +168,7 @@ func bifurcateIsomorphicNonempty<C0: BifurcateCoordinate, C1: BifurcateCoordinat
     
     if c0.hasRightSuccessor() {
         if c0.hasRightSuccessor() {
-            if !bifurcateIsomorphicNonempty(c0: c0.rightSuccessor()!, c1: c1.rightSuccessor()!) {
+            if !bifurcateIsomorphicNonempty(c0: c0.rightSuccessor!, c1: c1.rightSuccessor!) {
                 return false
             }
         } else { return false }
@@ -220,7 +220,7 @@ func bifurcateEquivalentNonempty<C0: Readable & BifurcateCoordinate, C1: Readabl
     if !r(c0.source!, c1.source!) { return false }
     if c0.hasLeftSuccessor() {
         if c1.hasLeftSuccessor() {
-            if !bifurcateEquivalentNonempty(c0: c0.leftSuccessor()!, c1: c1.leftSuccessor()!, r: r) {
+            if !bifurcateEquivalentNonempty(c0: c0.leftSuccessor!, c1: c1.leftSuccessor!, r: r) {
                 return false
             }
         } else { return false }
@@ -228,7 +228,7 @@ func bifurcateEquivalentNonempty<C0: Readable & BifurcateCoordinate, C1: Readabl
     
     if c0.hasRightSuccessor() {
         if c1.hasRightSuccessor() {
-            if !bifurcateEquivalentNonempty(c0: c0.rightSuccessor()!, c1: c1.rightSuccessor()!, r: r) {
+            if !bifurcateEquivalentNonempty(c0: c0.rightSuccessor!, c1: c1.rightSuccessor!, r: r) {
                 return false
             }
         } else { return false }
@@ -341,14 +341,14 @@ func bifurcateCompareNonempty<C0: Readable & BifurcateCoordinate, C1: Readable &
     if tmp != 0 { return tmp }
     if c0.hasLeftSuccessor() {
         if c1.hasLeftSuccessor() {
-            tmp = bifurcateCompareNonempty(c0: c0.leftSuccessor()!, c1: c1.leftSuccessor()!, comp: comp)
+            tmp = bifurcateCompareNonempty(c0: c0.leftSuccessor!, c1: c1.leftSuccessor!, comp: comp)
             if tmp != 0 { return tmp }
         } else { return -1 }
     } else if c1.hasLeftSuccessor() { return 1 }
     
     if c0.hasRightSuccessor() {
         if c1.hasRightSuccessor() {
-            tmp = bifurcateCompareNonempty(c0: c0.rightSuccessor()!, c1: c1.rightSuccessor()!, comp: comp)
+            tmp = bifurcateCompareNonempty(c0: c0.rightSuccessor!, c1: c1.rightSuccessor!, comp: comp)
             if tmp != 0 { return tmp }
         } else { return -1 }
     } else if c1.hasRightSuccessor() { return 1 }
