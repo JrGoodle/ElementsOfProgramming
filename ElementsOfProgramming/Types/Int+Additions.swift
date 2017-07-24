@@ -111,7 +111,7 @@ extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures 
 }
 
 extension Int: Iterator {
-    func _successor() -> Int? {
+    var iteratorSuccessor: Int? {
         return self + 1
     }
 }

@@ -6,7 +6,7 @@
 typealias Pointer<T> = UnsafeMutablePointer<T>
 
 extension Pointer: Iterator {
-    func _successor() -> Pointer<Pointee>? {
+    var iteratorSuccessor: Pointer<Pointee>? {
         return self + 1
     }
 }

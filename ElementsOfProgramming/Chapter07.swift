@@ -29,7 +29,7 @@ func heightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     if c.hasRightSuccessor() {
         r = heightRecursive(c: c.rightSuccessor()!)
     }
-    return max(l, r)._successor()!
+    return maxSelect(a: l, b: r).successor()
 }
 
 enum Visit: Int, Comparable {
@@ -210,7 +210,7 @@ func lexicographicalEqual<I0: Readable & Iterator, I1: Readable & Iterator>(f0: 
 func lexicographicalEqual<I0: Readable & ForwardIterator, I1: Readable & ForwardIterator>(k: Int, f0: I0, f1: I1) -> Bool where I0.Source == I1.Source {
     if k == 0 { return true }
     if f0.source! != f1.source! { return false }
-    return lexicographicalEqual(k: k - 1, f0: f0._successor()!, f1: f1._successor()!)
+    return lexicographicalEqual(k: k - 1, f0: f0.iteratorSuccessor!, f1: f1.iteratorSuccessor!)
 }
 
 func bifurcateEquivalentNonempty<C0: Readable & BifurcateCoordinate, C1: Readable & BifurcateCoordinate>(c0: C0, c1: C1, r: Relation<C0.Source>) -> Bool where C0.Source : TotallyOrdered, C0.Source == C1.Source, C0 : TotallyOrdered, C1 : TotallyOrdered {
@@ -271,8 +271,8 @@ func lexicographicalCompare<I0: Readable & Iterator, I1: Readable & Iterator>(f0
         if f0 == l0 { return true }
         if r(f0.source!, f1.source!) { return true }
         if r(f1.source!, f0.source!) { return false }
-        f0 = f0._successor()!
-        f1 = f1._successor()!
+        f0 = f0.iteratorSuccessor!
+        f1 = f1.iteratorSuccessor!
     }
 }
 
@@ -284,7 +284,7 @@ func lexicographicalLess<I0: Readable & ForwardIterator, I1: Readable & ForwardI
     if k == 0 { return false }
     if f0.source! < f1.source! { return true }
     if f0.source! > f1.source! { return false }
-    return lexicographicalLess(k: k - 1, f0: f0._successor()!, f1: f1._successor()!)
+    return lexicographicalLess(k: k - 1, f0: f0.iteratorSuccessor!, f1: f1.iteratorSuccessor!)
 }
 
 
@@ -328,8 +328,8 @@ func lexicographicalCompareThreeWay<I0: Readable & Iterator, I1: Readable & Iter
         if f1 == l1 { return -1 }
         let tmp = comp(f0.source!, f1.source!)
         if tmp != 0 { return tmp }
-        f0 = f0._successor()!
-        f1 = f1._successor()!
+        f0 = f0.iteratorSuccessor!
+        f1 = f1.iteratorSuccessor!
     }
 }
 

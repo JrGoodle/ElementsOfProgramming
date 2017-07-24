@@ -141,7 +141,7 @@ protocol Readable: Regular {
 }
 
 protocol Iterator: Regular {
-    func _successor() -> Self?
+    var iteratorSuccessor: Self? { get }
 }
 
 protocol ForwardIterator: Iterator { }

@@ -6,8 +6,8 @@
 func copyStep<I: Readable & Iterator, O: Writable & Iterator>(fi: inout I, fo: inout O) where I.Source == O.Sink {
     // Precondition: $\func{source}(f_i)$ and $\func{sink}(f_o)$ are defined
     fo.sink = fi.source!
-    fi = fi._successor()!
-    fo = fo._successor()!
+    fi = fi.iteratorSuccessor!
+    fo = fo.iteratorSuccessor!
 }
 
 func copy<I: Readable & Iterator, O: Writable & Iterator>(fi: I, li: I, fo: O) -> O where I.Source == O.Sink {
@@ -20,7 +20,7 @@ func copy<I: Readable & Iterator, O: Writable & Iterator>(fi: I, li: I, fo: O) -
 
 func fillStep<I: Writable & Iterator>(fo: inout I, x: I.Sink) {
     fo.sink = x
-    fo = fo._successor()!
+    fo = fo.iteratorSuccessor!
 }
 
 func fill<I: Writable & Iterator>(f: I, l: I, x: I.Sink) -> I {
@@ -42,7 +42,7 @@ func iotaEqual<I: Readable & Iterator>(f: I, l: I, n: Int = 0) -> Bool where I.S
     while f != l {
         if f.source! != n { return false }
         n = n.successor()
-        f = f._successor()!
+        f = f.iteratorSuccessor!
     }
     return true
 }
@@ -101,7 +101,7 @@ func reverseCopyStep<I: Readable & BidirectionalIterator, O: Writable & Iterator
     //               $\func{sink}(f_o)$ are defined
     li = li._predecessor()!
     fo.sink = li.source!
-    fo = fo._successor()!
+    fo = fo.iteratorSuccessor!
 }
 
 func reverseCopyBackwardStep<I: Readable & Iterator, O: Writable & BidirectionalIterator>(fi: inout I, lo: inout O) where I.Source == O.Sink {
@@ -109,7 +109,7 @@ func reverseCopyBackwardStep<I: Readable & Iterator, O: Writable & Bidirectional
     //               $\func{sink}(\property{predecessor}(l_o))$ are defined
     lo = lo._predecessor()!
     lo.sink = fi.source!
-    fi = fi._successor()!
+    fi = fi.iteratorSuccessor!
 }
 
 func reverseCopy<I: Readable & BidirectionalIterator, O: Writable & Iterator>(fi: I, li: I, fo: O) -> O where I.Source == O.Sink {
@@ -132,7 +132,7 @@ func copySelect<I: Readable & Iterator, O: Writable & Iterator>(fi: I, li: I, ft
     // where $n_t$ is an upper bound for the number of iterators satisfying $p$
     while fi != li {
         if p(fi) { copyStep(fi: &fi, fo: &ft) }
-        else { fi = fi._successor()! }
+        else { fi = fi.iteratorSuccessor! }
     }
     return ft
 }
@@ -283,8 +283,8 @@ func exchangeValues<I0: Mutable, I1: Mutable>(x: I0, y: I1) where I0.Source == I
 func swapStep<I0: Mutable & ForwardIterator, I1: Mutable & ForwardIterator>(f0: inout I0, f1: inout I1) where I0.Source == I1.Source {
     // Precondition: $\func{deref}(f_0)$ and $\func{deref}(f_1)$ are defined
     exchangeValues(x: f0, y: f1)
-    f0 = f0._successor()!
-    f1 = f1._successor()!
+    f0 = f0.iteratorSuccessor!
+    f1 = f1.iteratorSuccessor!
 }
 
 func swapRanges<I0: Mutable & ForwardIterator, I1: Mutable & ForwardIterator>(f0: I0, l0: I0, f1: I1) -> I1 where I0.Source == I1.Source {
@@ -317,7 +317,7 @@ func reverseSwapStep<I0: Mutable & BidirectionalIterator, I1: Mutable & ForwardI
     //               $\func{deref}(f_1)$ are defined
     l0 = l0._predecessor()!
     exchangeValues(x: l0, y: f1)
-    f1 = f1._successor()!
+    f1 = f1.iteratorSuccessor!
 }
 
 func reverseSwapRanges<I0: Mutable & BidirectionalIterator, I1: Mutable & ForwardIterator>(f0: I0, l0: I0, f1: I1) -> I1 where I0.Source == I1.Source {

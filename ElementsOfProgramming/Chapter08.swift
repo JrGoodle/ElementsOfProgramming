@@ -41,7 +41,7 @@ func setLink<I: ForwardIterator>(t: inout I, f: inout I) {
 func advanceTail<I: ForwardIterator>(t: inout I, f: inout I) {
     // Precondition: $\func{successor}(f)\text{ is defined}$
     t = f
-    f = f._successor()!
+    f = f.iteratorSuccessor!
 }
 
 func linkerToTail<I: ForwardLinkedIterator>(t: inout I, f: inout I) {
@@ -206,7 +206,7 @@ func combineLinkedNonempty<I: ForwardLinkedIterator & Comparable>(f0: I, l0: I, 
 
 func linkerToHead<I: ForwardLinkedIterator>(h: inout I, f: inout I) {
     // Precondition: $\func{successor}(f)$ is defined
-    let tmp = f._successor()!
+    let tmp = f.iteratorSuccessor!
     ForwardLinker.setForwardLink(x: &f, y: &h)
     h = f
     f = tmp
@@ -252,7 +252,7 @@ func mergeLinkedNonempty<I: Readable & ForwardLinkedIterator>(f0: I, l0: I, f1: 
 func sortLinkedNonempty<I: Readable & ForwardLinkedIterator>(f: I, n: DistanceType, r: @escaping Relation<I.Source>) -> Pair<I, I> where I.Source : TotallyOrdered {
     // Precondition: $\property{counted\_range}(f, n) \wedge
     //                n > 0 \wedge \func{weak\_ordering}(r)$
-    if n == N(1) { return Pair(m0: f, m1: f._successor()!) }
+    if n == N(1) { return Pair(m0: f, m1: f.iteratorSuccessor!) }
     let h = n.halfNonnegative()
     let p0 = sortLinkedNonempty(f: f, n: h, r: r)
     let p1 = sortLinkedNonempty(f: p0.m1, n: n - h, r: r)
