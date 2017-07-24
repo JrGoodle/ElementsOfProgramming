@@ -221,7 +221,7 @@ func reverseAppend<I: ForwardLinkedIterator>(f: I, l: I, h: I) -> I {
 
 func predicateSource<I: Readable>(p: @escaping UnaryPredicate<I.Source>) -> UnaryPredicate<I> {
     return { i in
-        return p(i._source()!)
+        return p(i.source!)
     }
 }
 
@@ -233,7 +233,7 @@ func partitionLinked<I: Readable & ForwardLinkedIterator>(f: I, l: I, p: @escapi
 
 func relationSource<I0: Readable, I1: Readable>(r: @escaping Relation<I0.Source>) -> BinaryRelation<I0, I1> where I0.Source == I1.Source, I0.Source : TotallyOrdered {
     return { i0, i1 in
-        return r(i0._source()!, i1._source()!)
+        return r(i0.source!, i1.source!)
     }
 }
 

@@ -18,8 +18,8 @@ extension Pointer: BidirectionalIterator {
 }
 
 extension Pointer: Readable {
-    func _source<T: Regular>() -> T? {
-        return self.pointee as? T
+    var source: Pair<Int, Int>? {
+        return self.pointee as? Pair<Int, Int>
     }
     
     typealias Source = Pair<Int, Int>

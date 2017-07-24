@@ -209,7 +209,7 @@ func lexicographicalEqual<I0: Readable & Iterator, I1: Readable & Iterator>(f0: 
 
 func lexicographicalEqual<I0: Readable & ForwardIterator, I1: Readable & ForwardIterator>(k: Int, f0: I0, f1: I1) -> Bool where I0.Source == I1.Source {
     if k == 0 { return true }
-    if f0._source()! != f1._source()! { return false }
+    if f0.source! != f1.source! { return false }
     return lexicographicalEqual(k: k - 1, f0: f0._successor()!, f1: f1._successor()!)
 }
 
@@ -217,7 +217,7 @@ func bifurcateEquivalentNonempty<C0: Readable & BifurcateCoordinate, C1: Readabl
     // Precondition: $\property{readable\_tree}(c0) \wedge \property{readable\_tree}(c1)$
     // Precondition: $\neg \func{empty}(c0) \wedge \neg \func{empty}(c1)$
     // Precondition: $\property{equivalence}(r)$
-    if !r(c0._source()!, c1._source()!) { return false }
+    if !r(c0.source!, c1.source!) { return false }
     if c0.hasLeftSuccessor() {
         if c1.hasLeftSuccessor() {
             if !bifurcateEquivalentNonempty(c0: c0.leftSuccessor()!, c1: c1.leftSuccessor()!, r: r) {
@@ -247,7 +247,7 @@ func bifurcateEquivalent<C0: Readable & BidirectionalBifurcateCoordinate, C1: Re
     var v0 = Visit.pre
     var v1 = Visit.pre
     while true {
-        if v0 == .pre && !r(c0._source()!, c1._source()!) {
+        if v0 == .pre && !r(c0.source!, c1.source!) {
             return false
         }
         _ = traverseStep(v: &v0, c: &c0)
@@ -269,8 +269,8 @@ func lexicographicalCompare<I0: Readable & Iterator, I1: Readable & Iterator>(f0
     while true {
         if f1 == l1 { return false }
         if f0 == l0 { return true }
-        if r(f0._source()!, f1._source()!) { return true }
-        if r(f1._source()!, f0._source()!) { return false }
+        if r(f0.source!, f1.source!) { return true }
+        if r(f1.source!, f0.source!) { return false }
         f0 = f0._successor()!
         f1 = f1._successor()!
     }
@@ -282,8 +282,8 @@ func lexicographicalLess<I0: Readable & Iterator, I1: Readable & Iterator>(f0: I
 
 func lexicographicalLess<I0: Readable & ForwardIterator, I1: Readable & ForwardIterator>(k: Int, f0: I0, f1: I1) -> Bool where I0.Source : TotallyOrdered, I0.Source == I1.Source {
     if k == 0 { return false }
-    if f0._source()! < f1._source()! { return true }
-    if f0._source()! > f1._source()! { return false }
+    if f0.source! < f1.source! { return true }
+    if f0.source! > f1.source! { return false }
     return lexicographicalLess(k: k - 1, f0: f0._successor()!, f1: f1._successor()!)
 }
 
@@ -326,7 +326,7 @@ func lexicographicalCompareThreeWay<I0: Readable & Iterator, I1: Readable & Iter
             else { return 1 }
         }
         if f1 == l1 { return -1 }
-        let tmp = comp(f0._source()!, f1._source()!)
+        let tmp = comp(f0.source!, f1.source!)
         if tmp != 0 { return tmp }
         f0 = f0._successor()!
         f1 = f1._successor()!
@@ -337,7 +337,7 @@ func bifurcateCompareNonempty<C0: Readable & BifurcateCoordinate, C1: Readable &
     // Precondition: $\property{readable\_tree}(c0) \wedge \property{readable\_tree}(c1)$
     // Precondition: $\neg \func{empty}(c0) \wedge \neg \func{empty}(c1)$
     // Precondition: $\property{three\_way\_compare}(comp)$
-    var tmp = comp(c0._source()!, c1._source()!)
+    var tmp = comp(c0.source!, c1.source!)
     if tmp != 0 { return tmp }
     if c0.hasLeftSuccessor() {
         if c1.hasLeftSuccessor() {
@@ -368,8 +368,8 @@ func bifurcateCompare<C0: Readable & BidirectionalBifurcateCoordinate, C1: Reada
     var v1 = Visit.pre
     while true {
         if v0 == .pre {
-            if r(c0._source()!, c1._source()!) { return true }
-            if r(c1._source()!, c0._source()!) { return false }
+            if r(c0.source!, c1.source!) { return true }
+            if r(c1.source!, c0.source!) { return false }
         }
         _ = traverseStep(v: &v0, c: &c0)
         _ = traverseStep(v: &v1, c: &c1)

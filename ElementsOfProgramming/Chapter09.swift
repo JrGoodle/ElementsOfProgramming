@@ -5,7 +5,7 @@
 
 func copyStep<I: Readable & Iterator, O: Writable & Iterator>(fi: inout I, fo: inout O) where I.Source == O.Sink {
     // Precondition: $\func{source}(f_i)$ and $\func{sink}(f_o)$ are defined
-    fo.sink = fi._source()!
+    fo.sink = fi.source!
     fi = fi._successor()!
     fo = fo._successor()!
 }
@@ -40,7 +40,7 @@ func iotaEqual<I: Readable & Iterator>(f: I, l: I, n: Int = 0) -> Bool where I.S
     var f = f, n = n
     // Precondition: $\property{readable\_bounded\_range}(f, l)$
     while f != l {
-        if f._source()! != n { return false }
+        if f.source! != n { return false }
         n = n.successor()
         f = f._successor()!
     }
@@ -80,7 +80,7 @@ func copyBackwardStep<I: Readable & BidirectionalIterator, O: Writable & Bidirec
     //               are defined
     li = li._predecessor()!
     lo = lo._predecessor()!
-    lo.sink = li._source()!
+    lo.sink = li.source!
 }
 
 func copyBackward<I: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(fi: I, li: I, lo: O) -> O where I.Source == O.Sink {
@@ -100,7 +100,7 @@ func reverseCopyStep<I: Readable & BidirectionalIterator, O: Writable & Iterator
     // Precondition: $\func{source}(\func{predecessor}(l_i))$ and
     //               $\func{sink}(f_o)$ are defined
     li = li._predecessor()!
-    fo.sink = li._source()!
+    fo.sink = li.source!
     fo = fo._successor()!
 }
 
@@ -108,7 +108,7 @@ func reverseCopyBackwardStep<I: Readable & Iterator, O: Writable & Bidirectional
     // Precondition: $\func{source}(f_i)$ and
     //               $\func{sink}(\property{predecessor}(l_o))$ are defined
     lo = lo._predecessor()!
-    lo.sink = fi._source()!
+    lo.sink = fi.source!
     fi = fi._successor()!
 }
 
@@ -275,8 +275,8 @@ func mergeCopyBackwardN<I0: Readable & BidirectionalIterator, I1: Readable & Bid
 func exchangeValues<I0: Mutable, I1: Mutable>(x: I0, y: I1) where I0.Source == I1.Source {
     var x = x, y = y
     // Precondition: $\func{deref}(x)$ and $\func{deref}(y)$ are defined
-    let t = x._source()!
-    x.sink = y._source()!
+    let t = x.source!
+    x.sink = y.source!
     y.sink = t
 }
 

@@ -358,11 +358,11 @@ class Chapter04Tests: XCTestCase {
 //        while true {
 //            let ii = i
 //            i = i.predecessor()
-//            if r(i._source()!, ii._source()!) {
+//            if r(i.source!, ii.source!) {
 //                var j = l
 //                repeat {
 //                    j = j.predecessor()
-//                } while !r(i._source()!, j._source()!)
+//                } while !r(i.source!, j.source!)
 //                exchangeValues(x: i, y: j)
 //                reverseBidirectional(f: ii, l: l)
 //                return true
