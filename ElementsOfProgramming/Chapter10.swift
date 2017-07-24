@@ -261,3 +261,139 @@ func reverseIndexed<I: Mutable & IndexedIterator>(f: I, l: I) {
 //        // $(\forall i \in [f, l)) \func{sink}(i) \text{is in a partially-formed state}$
 //    }
 //}
+//
+//template<typename I>
+//requires(Writeable(I) && ForwardIterator(I))
+//void destroy_all(I f, I l)
+//{
+//    // Precondition:
+//    // $(\forall i \in [f, l)) \func{sink}(i) \text{is in a partially-formed state}$
+//    // Postcondition:
+//    // $(\forall i \in [f, l)) \func{sink}(i) \text{refers to raw memory, not an object}$
+//    // We assume if an iterator is writeable, its value can be destroyed
+//    destroy_all(f, l, NeedsDestruction(ValueType(I))());
+//}
+//
+//template<typename I>
+//requires(Writeable(I) && ForwardIterator(I))
+//void destroy_all(I f, I l, true_type)
+//{
+//    // Precondition: $(\forall i \in [f, l)) \func{sink}(i) \text{is in a partially-formed state}$
+//    // Postcondition: $(\forall i \in [f, l)) \func{sink}(i) \text{refers to raw memory, not an object}$
+//    // We assume if an iterator is writeable, its value can be destroyed
+//    while (f != l) {
+//        destroy(sink(f));
+//        f = successor(f);
+//    }
+//}
+//
+//template<typename I>
+//requires(Writeable(I) && ForwardIterator(I) &&
+//    NeedsDestruction(ValueType(I)) == false_type)
+//void destroy_all(I /*f*/, I /*l*/, false_type)
+//{
+//    // Precondition:
+//    // $(\forall i \in [f, l)) \func{sink}(i) \text{is in a partially-formed state}$
+//    // Postcondition:
+//    // $(\forall i \in [f, l)) \func{sink}(i) \text{is in a partially-formed state}$
+//}
+//
+//// NeedsConstruction and NeedsDestruction should be overloaded for every POD type
+//
+//template<typename T>
+//requires(Regular(T))
+//struct temporary_buffer
+//{
+//    typedef pointer(T) P;
+//    typedef DistanceType(P) N;
+//    P p;
+//    N n;
+//    temporary_buffer(N n_) : n(n_)
+//    {
+//    while (true) {
+//    p = P(malloc(n * sizeof(T)));
+//    if (p != P(0)) {
+//    construct_all(p, p + n);
+//    return;
+//    }
+//    n = half_nonnegative(n);
+//    }
+//    }
+//    ~temporary_buffer()
+//    {
+//    destroy_all(p, p + n);
+//    free(p);
+//    }
+//    private:
+//    // We use private only to signal lack of regularity of a type
+//    temporary_buffer(const temporary_buffer&) { }
+//    void operator=(const temporary_buffer&) { }
+//};
+//
+//template<typename T>
+//requires(Regular(T))
+//DistanceType(pointer(T)) size(const temporary_buffer<T>& b)
+//{
+//    return b.n;
+//}
+//
+//template<typename T>
+//requires(Regular(T))
+//pointer(T) begin(temporary_buffer<T>& b)
+//{
+//    return b.p;
+//}
+//
+//func reverseNWithTemporaryBuffer<I: Mutable & ForwardIterator>(f: I, n: DistanceType) {
+//    // Precondition: $\property{mutable\_counted\_range}(f, n)$
+//    temporary_buffer<ValueType(I)> b(n);
+//    reverseNAdaptive(fi: f, ni: n, fb: b.begin(), nb: b.size())
+//}
+
+func rotate<I: Mutable & ForwardIterator>(f: I, m: I, l: I) -> I {
+    // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge m \in [f, l]$
+    if m == f { return l }
+    if m == l { return f }
+    return rotateNontrivialForward(f: f, m: m, l: l)
+}
+
+func rotate<I: Mutable & BidirectionalIterator & TotallyOrdered>(f: I, m: I, l: I) -> I {
+    // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge m \in [f, l]$
+    if m == f { return l }
+    if m == l { return f }
+    return rotateNontrivialBidirectional(f: f, m: m, l: l)
+}
+
+func rotate<I: Mutable & IndexedIterator & Distance>(f: I, m: I, l: I) -> I {
+    // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge m \in [f, l]$
+    if m == f { return l }
+    if m == l { return f }
+    return rotateNontrivialIndexed(f: f, m: m, l: l)
+}
+
+func rotate<I: Mutable & RandomAccessIterator & Distance>(f: I, m: I, l: I) -> I {
+    // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge m \in [f, l]$
+    if m == f { return l }
+    if m == l { return f }
+    return rotateNontrivialRandomAccess(f: f, m: m, l: l)
+}
+
+func rotateNontrivialForward<I: Mutable & ForwardIterator>(f: I, m: I, l: I) -> I {
+    // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
+    return rotateForwardNontrivial(f: f, m: m, l: l)
+}
+
+func rotateNontrivialBidirectional<I: Mutable & BidirectionalIterator & TotallyOrdered>(f: I, m: I, l: I) -> I {
+    // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
+    return rotateBidirectionalNonTrivial(f: f, m: m, l: l)
+}
+
+func rotateNontrivialIndexed<I: Mutable & IndexedIterator & Distance>(f: I, m: I, l: I) -> I {
+    // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
+    return rotateIndexedNontrivial(f: f, m: m, l: l)
+}
+
+func rotateNontrivialRandomAccess<I: Mutable & RandomAccessIterator & Distance>(f: I, m: I, l: I) -> I {
+    // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
+    return rotateRandomAccessNontrivial(f: f, m: m, l: l)
+}
