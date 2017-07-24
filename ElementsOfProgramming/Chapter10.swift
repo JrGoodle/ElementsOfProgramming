@@ -261,8 +261,3 @@ func reverseIndexed<I: Mutable & IndexedIterator>(f: I, l: I) {
 //        // $(\forall i \in [f, l)) \func{sink}(i) \text{is in a partially-formed state}$
 //    }
 //}
-
-
-
-
-

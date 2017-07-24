@@ -175,7 +175,7 @@ func partitionCopyN<I: Readable & Iterator, OF: Writable & Iterator, OT: Writabl
     return splitCopyN(fi: fi, ni: n, ff: ff, ft: ft, p: ps)
 }
 
-func combineCopy<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, fo: O, r: BinaryPredicate<I1, I0>) -> O where I0.Source == O.Sink, I1.Source == O.Sink {
+func combineCopy<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, fo: O, r: BinaryRelation<I1, I0>) -> O where I0.Source == O.Sink, I1.Source == O.Sink {
     var fi0 = fi0, fi1 = fi1, fo = fo
     // Precondition: see section 9.3 of Elements of Programming
     while fi0 != li0 && fi1 != li1 {
@@ -185,7 +185,7 @@ func combineCopy<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable &
     return copy(fi: fi1, li: li1, fo: copy(fi: fi0, li: li0, fo: fo))
 }
 
-func combineCopyN<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, ni0: DistanceType, fi1: I1, ni1: DistanceType, fo: O, r: BinaryPredicate<I1, I0>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink {
+func combineCopyN<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, ni0: DistanceType, fi1: I1, ni1: DistanceType, fo: O, r: BinaryRelation<I1, I0>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink {
     var fi0 = fi0, ni0 = ni0, fi1 = fi1, ni1 = ni1, fo = fo
     // Precondition: see $\func{combine_copy}$
     while true {
@@ -207,7 +207,7 @@ func combineCopyN<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable 
     }
 }
 
-func combineCopyBackward<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, lo: O, r: BinaryPredicate<I1, I0>) -> O where I0.Source == O.Sink, I1.Source == O.Sink {
+func combineCopyBackward<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, lo: O, r: BinaryRelation<I1, I0>) -> O where I0.Source == O.Sink, I1.Source == O.Sink {
     var li0 = li0, li1 = li1, lo = lo
     // Precondition: see section 9.3 of Elements of Programming
     while fi0 != li0 && fi1 != li1 {
@@ -220,7 +220,7 @@ func combineCopyBackward<I0: Readable & BidirectionalIterator, I1: Readable & Bi
     return copyBackward(fi: fi0, li: li0, lo: copyBackward(fi: fi1, li: li1, lo: lo))
 }
 
-func combineCopyBackwardN<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(li0: I0, ni0: DistanceType, li1: I1, ni1: DistanceType, lo: O, r: BinaryPredicate<I1, I0>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink {
+func combineCopyBackwardN<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(li0: I0, ni0: DistanceType, li1: I1, ni1: DistanceType, lo: O, r: BinaryRelation<I1, I0>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink {
     var li0 = li0, ni0 = ni0, li1 = li1, ni1 = ni1, lo = lo
     // Precondition: see $\func{combine\_copy\_backward}$
     while true {
@@ -253,7 +253,7 @@ func mergeCopy<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & I
 
 func mergeCopyN<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, ni0: DistanceType, fi1: I1, ni1: DistanceType, o: O, r: @escaping Relation<I0.Source>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink, I0.Source : TotallyOrdered {
     // Precondition: see $\func{merge\_copy}$
-    let rs: BinaryPredicate<I1, I0> = relationSource(r: r)
+    let rs: BinaryRelation<I1, I0> = relationSource(r: r)
     return combineCopyN(fi0: fi0, ni0: ni0, fi1: fi1, ni1: ni1, fo: o, r: rs)
 }
 
@@ -262,13 +262,13 @@ func mergeCopyBackward<I0: Readable & BidirectionalIterator, I1: Readable & Bidi
     //               $\property{weak\_ordering}(r) \wedge {}$
     //               $\func{increasing\_range}(f_{i_0}, l_{i_0}, r) \wedge
     //                \property{increasing\_range}(f_{i_1}, l_{i_1}, r)$
-    let rs: BinaryPredicate<I1, I0> = relationSource(r: r)
+    let rs: BinaryRelation<I1, I0> = relationSource(r: r)
     return combineCopyBackward(fi0: fi0, li0: li0, fi1: fi1, li1: li1, lo: lo, r: rs)
 }
 
 func mergeCopyBackwardN<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(li0: I0, ni0: DistanceType, li1: I1, ni1: DistanceType, lo: O, r: @escaping Relation<I0.Source>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink, I0.Source : TotallyOrdered {
     // Precondition: see $\func{merge\_copy\_backward}$
-    let rs: BinaryPredicate<I1, I0> = relationSource(r: r)
+    let rs: BinaryRelation<I1, I0> = relationSource(r: r)
     return combineCopyBackwardN(li0: li0, ni0: ni0, li1: li1, ni1: ni1, lo: lo, r: rs)
 }
 

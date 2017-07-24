@@ -53,8 +53,6 @@ typealias BinaryHomogeneousFunction<T: Regular, U: Regular> = (T, T) -> U
 typealias UnaryPredicate<T: Regular> = (T) -> Bool
 typealias P<T: Regular> = UnaryPredicate<T>
 
-typealias BinaryPredicate<T: Regular, U: Regular> = (T, U) -> Bool
-
 // typealias Operation<T: Regular> = (T, ...T) -> T
 
 typealias UnaryOperation<T: Regular> = (T) -> T
