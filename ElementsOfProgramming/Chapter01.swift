@@ -11,7 +11,7 @@ func plus1(a: Int, b: Int) -> Int {
     return a + b
 }
 
-func plus2(a: UnsafePointer<Int>, b: UnsafePointer<Int>, c: Pointer<Int>) {
+func plus2(a: UnsafePointer<Int>, b: UnsafePointer<Int>, c: UnsafeMutablePointer<Int>) {
     c.pointee = a.pointee + b.pointee
 }
 
