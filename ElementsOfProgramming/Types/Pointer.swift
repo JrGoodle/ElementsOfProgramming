@@ -11,18 +11,37 @@ extension Pointer: Iterator {
     }
 }
 
+extension Pointer: ForwardIterator { }
+
 extension Pointer: BidirectionalIterator {
     var iteratorPredecessor: Pointer<Pointee>? {
         return self - 1
     }
 }
 
+typealias PointeeType = Int
+
 extension Pointer: Readable {
-    var source: Pair<Int, Int>? {
-        return self.pointee as? Pair<Int, Int>
+    var source: PointeeType? {
+        return self.pointee as? PointeeType
     }
-    
-    typealias Source = Pair<Int, Int>
+}
+
+extension Pointer: Writable {
+    var sink: PointeeType? {
+        get {
+            return nil
+        }
+        set {
+            self.pointee = newValue as! Pointee
+        }
+    }
+}
+
+extension Pointer: Mutable {
+    func deref() -> PointeeType? {
+        return self.pointee as! PointeeType
+    }
 }
 
 func source<T: Regular>(_ x: Pointer<T>) -> T {
@@ -52,10 +71,8 @@ func deref<T: Regular>(_ x: Pointer<T>) -> T {
 func pointer<T: Regular>(_ args: T...) -> Pointer<T> {
     let a = Pointer<T>.allocate(capacity: args.count)
     a.initialize(to: args[0], count: args.count)
-    var i = 0
-    for arg in args {
-        a[i] = arg
-        i += 1
+    for n in 0..<args.count {
+        a[n] = args[n]
     }
     return a
 }

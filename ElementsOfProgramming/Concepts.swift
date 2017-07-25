@@ -205,7 +205,7 @@ protocol Writable {
 }
 
 protocol Mutable: Readable, Writable where Source == Sink {
-    func deref() -> Source
+    func deref() -> Source?
 }
 
 

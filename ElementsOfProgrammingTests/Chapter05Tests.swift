@@ -127,7 +127,7 @@ class Chapter05Tests: XCTestCase {
         XCTAssert(gcdEuclideanSemiring(a: UInt(1000), b: UInt(0)) == UInt(1000))
         XCTAssert(gcdEuclideanSemiring(a: UInt(0), b: UInt(990)) == UInt(990))
         
-        // TODO: Implement
+        // TODO: Implement this test
 //        typedef polynomial< rational<int> > Q_X
 //        Q_X a = shift_left(Q_X(1), 2) - Q_X(1) // x^2 - 1
 //        Q_X b = shift_left(Q_X(1), 1) + Q_X(1) // x   + 1
