@@ -208,6 +208,17 @@ protocol Mutable: Readable, Writable where Source == Sink {
     func deref() -> Source?
 }
 
+// Chapter 11
 
+protocol Linearizable: Regular {
+    associatedtype LinearizableIteratorType: Regular
+    associatedtype LinearizableValueType: Regular
+    
+    var begin: LinearizableIteratorType { get }
+    var end: LinearizableIteratorType { get }
+    var size: Int { get }
+    func isEmpty() -> Bool
+    subscript(index: Int) -> LinearizableValueType { get set }
+}
 
 
