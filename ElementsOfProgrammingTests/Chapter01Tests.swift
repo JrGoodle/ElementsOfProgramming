@@ -65,7 +65,7 @@ class Chapter01Tests: XCTestCase {
         typeTriple(x00: 0, x01: 99, x10: "a", x11: "z", x20: 1.0, x21: 2.0)
     }
     
-    func typePair<T0: TotallyOrdered, T1: TotallyOrdered>(x00: T0, x01: T0, x10: T1, x11: T1) {
+    func typePair<T0: Regular, T1: Regular>(x00: T0, x01: T0, x10: T1, x11: T1) {
         // Precondition: x00 < x01 || (x00 == x01 && x10 < x11)
         XCTAssert(x00 < x01 || (x00 == x01 && x10 < x11))
         
@@ -83,7 +83,7 @@ class Chapter01Tests: XCTestCase {
         XCTAssert(p0.m0 == x00 && p0.m1 == x10)
     }
     
-    func typeTriple<T0: TotallyOrdered, T1: TotallyOrdered, T2: TotallyOrdered>(
+    func typeTriple<T0: Regular, T1: Regular, T2: Regular>(
         x00: T0, x01: T0,
         x10: T1, x11: T1,
         x20: T2, x21: T2) {

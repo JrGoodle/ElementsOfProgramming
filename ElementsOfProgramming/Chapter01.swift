@@ -31,23 +31,15 @@ func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
 
 // TODO: Conditional conformance
 //struct Pair<T0, T1> {
-struct Pair<T0: TotallyOrdered, T1: TotallyOrdered> {
+struct Pair<T0: Regular, T1: Regular>: Regular {
     var m0: T0
     var m1: T1
-}
 
-// TODO: Conditional conformance
-//extension Pair: Regular where T0: Regular, T1: Regular {
-extension Pair: Regular {
     static func == (x: Pair, y: Pair) -> Bool {
         logFunc()
         return x.m0 == y.m0 && x.m1 == y.m1
     }
-}
 
-// TODO: Conditional conformance
-//extension Pair: TotallyOrdered where T0: TotallyOrdered, T1: TotallyOrdered {
-extension Pair: TotallyOrdered {
     static func < (x: Pair, y: Pair) -> Bool {
         logFunc()
         return x.m0 < y.m0 || (!(y.m0 < x.m0) && x.m1 < y.m1)
@@ -57,20 +49,16 @@ extension Pair: TotallyOrdered {
 // type triple (see Exercise 12.2 of Elements of Programming)
 // model Regular(triple)
 
-struct Triple<T0: TotallyOrdered, T1: TotallyOrdered, T2: TotallyOrdered> {
+struct Triple<T0: Regular, T1: Regular, T2: Regular>: Regular {
     var m0: T0
     var m1: T1
     var m2: T2
-}
 
-extension Triple: Regular {
     static func == (x: Triple, y: Triple) -> Bool {
         logFunc()
         return x.m0 == y.m0 && x.m1 == y.m1 && x.m2 == y.m2
     }
-}
 
-extension Triple: TotallyOrdered {
     static func < (x: Triple, y: Triple) -> Bool {
         logFunc()
         return x.m0 < y.m0 ||

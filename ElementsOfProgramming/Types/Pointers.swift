@@ -25,6 +25,10 @@ struct IntPointer: Regular {
     static func ==(lhs: IntPointer, rhs: IntPointer) -> Bool {
         return lhs.p == rhs.p
     }
+    
+    static func <(lhs: IntPointer, rhs: IntPointer) -> Bool {
+        return lhs.p < rhs.p
+    }
 }
 
 extension IntPointer: Readable {

@@ -124,7 +124,7 @@ class Chapter04Tests: XCTestCase {
         XCTAssert(maxSelect(a: P(m0: "a", m1: 4), b: P(m0: "a", m1: 3)) == P(m0: "a", m1: 4))
     }
     
-    func propertyTotalOrdering<DomainR: TotallyOrdered>(r: Relation<DomainR>, x0: DomainR, x1: DomainR, x2: DomainR) {
+    func propertyTotalOrdering<DomainR: Regular>(r: Relation<DomainR>, x0: DomainR, x1: DomainR, x2: DomainR) {
         // Precondition: total_ordering(r) /\ r(x0, x1) /\ r(x1, x2)
         
         XCTAssert(r(x0, x1) && r(x1, x2))
@@ -135,12 +135,12 @@ class Chapter04Tests: XCTestCase {
         XCTAssert(!r(x0, x0)) // irreflexive
     }
     
-    func propertyTransitive<DomainR: TotallyOrdered>(r: Relation<DomainR>, x: DomainR, y: DomainR, z: DomainR) {
+    func propertyTransitive<DomainR: Regular>(r: Relation<DomainR>, x: DomainR, y: DomainR, z: DomainR) {
         Concept.relation(r: r, x: x)
         XCTAssert(!r(x, y) || !r(y, z) || r(x, z))
     }
     
-    func propertyReflexiveTotalOrdering<DomainR: TotallyOrdered>(r: Relation<DomainR>, x0: DomainR, x1: DomainR, x2: DomainR) {
+    func propertyReflexiveTotalOrdering<DomainR: Regular>(r: Relation<DomainR>, x0: DomainR, x1: DomainR, x2: DomainR) {
         // Precondition: total_ordering(r) /\ r(x0, x1) /\ r(x1, x2)
         
         XCTAssert(r(x0, x1) && r(x1, x2))
@@ -158,7 +158,7 @@ class Chapter04Tests: XCTestCase {
         return x.m0
     }
     
-    func keyOrdering<DomainFR: TotallyOrdered, CodomainFR: TotallyOrdered>(
+    func keyOrdering<DomainFR: Regular, CodomainFR: Regular>(
         f: @escaping UnaryFunction<DomainFR, CodomainFR>,
         r: @escaping Relation<CodomainFR>)
         -> Relation<DomainFR> {
@@ -350,7 +350,7 @@ class Chapter04Tests: XCTestCase {
 //    }
     
     // FIXME: Fix this method
-//    func nextPermutation<T: TotallyOrdered, DomainR: TotallyOrdered>(f: Pointer<T>, l: Pointer<T>, r: Relation<DomainR>) -> Bool {
+//    func nextPermutation<T: Regular, DomainR: Regular>(f: Pointer<T>, l: Pointer<T>, r: Relation<DomainR>) -> Bool {
 //        // Precondition: weak_ordering(r)
 //        if (f == l || f.successor() == l) { return false }
 //        var i = l.iteratorPredecessor!

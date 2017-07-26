@@ -134,8 +134,8 @@ class Chapter05Tests: XCTestCase {
 //        XCTAssert(gcdEuclideanSemiring<Q_X>(a, b) == b)
     }
     
-    func testGCDEuclideanSemimodule() {
-        // FIXME: Fix this
+//    func testGCDEuclideanSemimodule() {
+//        // FIXME: Fix this
 //        XCTAssert(gcdEuclideanSemimodule(a: 1000, b: 990) == 10)
 //        XCTAssert(gcdEuclideanSemimodule(a: 1000, b: 0) == 1000)
 //        XCTAssert(gcdEuclideanSemimodule(a: 0, b: 990) == 990)
@@ -151,7 +151,7 @@ class Chapter05Tests: XCTestCase {
 //                                         b: Rational(numerator: 0, denominator: 2)!) == Rational(numerator: 3, denominator: 4)!)
 //        XCTAssert(gcdEuclideanSemimodule(a: Rational(numerator: 0, denominator: 4)!,
 //                                         b: Rational(numerator: 1, denominator: 2)!) == Rational(numerator: 1, denominator: 2)!)
-    }
+//    }
     
     func testAlgorithmsSignedQR() {
         algorithmsSignedQR(min: Int32(-10), max: Int32(10))

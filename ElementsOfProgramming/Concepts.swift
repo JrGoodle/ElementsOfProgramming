@@ -11,7 +11,7 @@
 
 // MARK: Chapter 1
 
-protocol Regular: Equatable {}
+protocol Regular: Comparable {} // Equatable
 
 //typealias Procedure<T> = (Any, ...Any) -> Void
 
@@ -53,7 +53,7 @@ typealias Relation<T: Regular> = (T, T) -> Bool
 
 typealias BinaryRelation<T, U> = (T, U) -> Bool
 
-protocol TotallyOrdered: Comparable, Regular {}
+//protocol TotallyOrdered: Comparable {}
 
 // MARK: Chapter 5
 
@@ -84,7 +84,7 @@ protocol Semimodule: AdditiveMonoid {
 
 protocol Module: Semimodule, AdditiveGroup where CS: Ring {}
 
-protocol OrderedAdditiveSemigroup: AdditiveSemigroup, TotallyOrdered {}
+protocol OrderedAdditiveSemigroup: AdditiveSemigroup {}
 
 protocol OrderedAdditiveMonoid: OrderedAdditiveSemigroup, AdditiveMonoid {}
 
@@ -132,7 +132,7 @@ protocol BidirectionalIterator: ForwardIterator {
     var iteratorPredecessor: Self? { get }
 }
 
-protocol RandomAccessIterator: IndexedIterator, BidirectionalIterator, TotallyOrdered {
+protocol RandomAccessIterator: IndexedIterator, BidirectionalIterator {
     static func +(lhs: Self, rhs: DifferenceType) -> Self
     static func -(lhs: Self, rhs: DifferenceType) -> Self
     static func -(lhs: Self, rhs: Self) -> DifferenceType

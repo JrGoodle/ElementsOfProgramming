@@ -61,20 +61,20 @@ func reverseBidirectional<I: Mutable & BidirectionalIterator>(f: I, l: I) {
     }
 }
 
-func reverseNBidirectional<I: Mutable & BidirectionalIterator>(f: I, l: I, n: DistanceType) where I : TotallyOrdered {
+func reverseNBidirectional<I: Mutable & BidirectionalIterator>(f: I, l: I, n: DistanceType) {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge 0 \leq n \leq l - f$
     let n = n.halfNonnegative()
     _ = reverseSwapRangesN(l0: l, f1: f, n: n)
 }
 
-func reverseNWithBuffer<I: Mutable & ForwardIterator, B: Mutable & BidirectionalIterator>(fi: I, n: DistanceType, fb: B) -> I where I.Source == B.Source, I : TotallyOrdered , B : TotallyOrdered {
+func reverseNWithBuffer<I: Mutable & ForwardIterator, B: Mutable & BidirectionalIterator>(fi: I, n: DistanceType, fb: B) -> I where I.Source == B.Source {
     // Precondition: $\property{mutable\_counted\_range}(f_i, n)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n)$
     let p = copyN(fi: fi, n: n, fo: fb)
     return reverseCopy(fi: fb, li: p.m1, fo: fi)
 }
 
-func reverseNForward<I: Mutable & ForwardIterator>(f: I, n: DistanceType) -> I where I : TotallyOrdered {
+func reverseNForward<I: Mutable & ForwardIterator>(f: I, n: DistanceType) -> I {
     // Precondition: $\property{mutable\_counted\_range}(f, n)$
     if n < N(2) { return f + n }
     let h = n.halfNonnegative()
@@ -85,7 +85,7 @@ func reverseNForward<I: Mutable & ForwardIterator>(f: I, n: DistanceType) -> I w
     return l
 }
 
-func reverseNAdaptive<I: Mutable & ForwardIterator, B: Mutable & BidirectionalIterator>(fi: I, ni: DistanceType, fb: B, nb: DistanceType) -> I where I.Source == B.Source, I : TotallyOrdered, B : TotallyOrdered {
+func reverseNAdaptive<I: Mutable & ForwardIterator, B: Mutable & BidirectionalIterator>(fi: I, ni: DistanceType, fb: B, nb: DistanceType) -> I where I.Source == B.Source {
     // Precondition: $\property{mutable\_counted\_range}(f_i, n_i)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n_b)$
     if ni < N(2) {
@@ -146,7 +146,7 @@ func rotateRandomAccessNontrivial<I: Mutable & RandomAccessIterator & Distance>(
     return rotateCycles(f: f, m: m, l: l, from: p)
 }
 
-func rotateBidirectionalNonTrivial<I: Mutable & BidirectionalIterator & TotallyOrdered>(f: I, m: I, l: I) -> I {
+func rotateBidirectionalNonTrivial<I: Mutable & BidirectionalIterator & Regular>(f: I, m: I, l: I) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     reverseBidirectional(f: f, l: m)
     reverseBidirectional(f: m, l: l)
@@ -156,7 +156,7 @@ func rotateBidirectionalNonTrivial<I: Mutable & BidirectionalIterator & TotallyO
     else { return p.m0 }
 }
 
-func rotateForwardAnnotated<I: Mutable & ForwardIterator & TotallyOrdered>(f: I, m: I, l: I) {
+func rotateForwardAnnotated<I: Mutable & ForwardIterator & Regular>(f: I, m: I, l: I) {
     var f = f, m = m
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     var a = m - f
@@ -357,7 +357,7 @@ func rotate<I: Mutable & ForwardIterator>(f: I, m: I, l: I) -> I {
     return rotateNontrivialForward(f: f, m: m, l: l)
 }
 
-func rotate<I: Mutable & BidirectionalIterator & TotallyOrdered>(f: I, m: I, l: I) -> I {
+func rotate<I: Mutable & BidirectionalIterator & Regular>(f: I, m: I, l: I) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge m \in [f, l]$
     if m == f { return l }
     if m == l { return f }
@@ -383,7 +383,7 @@ func rotateNontrivialForward<I: Mutable & ForwardIterator>(f: I, m: I, l: I) -> 
     return rotateForwardNontrivial(f: f, m: m, l: l)
 }
 
-func rotateNontrivialBidirectional<I: Mutable & BidirectionalIterator & TotallyOrdered>(f: I, m: I, l: I) -> I {
+func rotateNontrivialBidirectional<I: Mutable & BidirectionalIterator & Regular>(f: I, m: I, l: I) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     return rotateBidirectionalNonTrivial(f: f, m: m, l: l)
 }

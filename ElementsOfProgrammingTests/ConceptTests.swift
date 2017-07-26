@@ -9,7 +9,7 @@ class Concept {
     
     // MARK: Chapter 1
     
-    static func regular<T: TotallyOrdered>(x: T) {
+    static func regular<T: Regular>(x: T) {
         // Default constructor (not really invoked until an object is initialized in Swift)
         var y: T
         
@@ -33,7 +33,7 @@ class Concept {
         // Destructor
     }
     
-    static func totallyOrdered<T: TotallyOrdered>(x0: T, x1: T) {
+    static func totallyOrdered<T: Regular>(x0: T, x1: T) {
         // Precondition: x0 < x1
         
         XCTAssert(x0 != x1)
@@ -119,7 +119,7 @@ class Concept {
     
     // MARK: Chapter 4
     
-    static func relation<DomainR: TotallyOrdered>(r: Relation<DomainR>, x: DomainR) {
+    static func relation<DomainR: Regular>(r: Relation<DomainR>, x: DomainR) {
         typealias X = DomainR
         let y: X, z: X
         if r(x,x) {

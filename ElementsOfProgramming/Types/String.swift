@@ -3,6 +3,6 @@
 //  ElementsOfProgramming
 //
 
-extension String: TotallyOrdered {}
+extension String: Regular {}
 
-extension CChar: TotallyOrdered {}
+extension CChar: Regular {}

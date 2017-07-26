@@ -242,7 +242,7 @@ func combineCopyBackwardN<I0: Readable & BidirectionalIterator, I1: Readable & B
     }
 }
 
-func mergeCopy<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, fo: O, r: @escaping Relation<I0.Source>) -> O where I0.Source == O.Sink, I1.Source == O.Sink, I0.Source : TotallyOrdered {
+func mergeCopy<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, fo: O, r: @escaping Relation<I0.Source>) -> O where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: in addition to that for $\func{combine\_copy}$:
     // \hspace*{1em} $\property{weak\_ordering}(r) \wedge {}$
     // \hspace*{1em} $\func{increasing\_range}(f_{i_0}, l_{i_0}, r) \wedge
@@ -251,13 +251,13 @@ func mergeCopy<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & I
     return combineCopy(fi0: fi0, li0: li0, fi1: fi1, li1: li1, fo: fo, r: rs)
 }
 
-func mergeCopyN<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, ni0: DistanceType, fi1: I1, ni1: DistanceType, o: O, r: @escaping Relation<I0.Source>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink, I0.Source : TotallyOrdered {
+func mergeCopyN<I0: Readable & Iterator, I1: Readable & Iterator, O: Writable & Iterator>(fi0: I0, ni0: DistanceType, fi1: I1, ni1: DistanceType, o: O, r: @escaping Relation<I0.Source>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: see $\func{merge\_copy}$
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
     return combineCopyN(fi0: fi0, ni0: ni0, fi1: fi1, ni1: ni1, fo: o, r: rs)
 }
 
-func mergeCopyBackward<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, lo: O, r: @escaping Relation<I0.Source>) -> O where I0.Source == O.Sink, I1.Source == O.Sink, I0.Source : TotallyOrdered {
+func mergeCopyBackward<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(fi0: I0, li0: I0, fi1: I1, li1: I1, lo: O, r: @escaping Relation<I0.Source>) -> O where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: in addition to that for $\func{combine\_copy\_backward}$:
     //               $\property{weak\_ordering}(r) \wedge {}$
     //               $\func{increasing\_range}(f_{i_0}, l_{i_0}, r) \wedge
@@ -266,7 +266,7 @@ func mergeCopyBackward<I0: Readable & BidirectionalIterator, I1: Readable & Bidi
     return combineCopyBackward(fi0: fi0, li0: li0, fi1: fi1, li1: li1, lo: lo, r: rs)
 }
 
-func mergeCopyBackwardN<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(li0: I0, ni0: DistanceType, li1: I1, ni1: DistanceType, lo: O, r: @escaping Relation<I0.Source>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink, I0.Source : TotallyOrdered {
+func mergeCopyBackwardN<I0: Readable & BidirectionalIterator, I1: Readable & BidirectionalIterator, O: Writable & BidirectionalIterator>(li0: I0, ni0: DistanceType, li1: I1, ni1: DistanceType, lo: O, r: @escaping Relation<I0.Source>) -> Triple<I0, I1, O> where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: see $\func{merge\_copy\_backward}$
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
     return combineCopyBackwardN(li0: li0, ni0: ni0, li1: li1, ni1: ni1, lo: lo, r: rs)

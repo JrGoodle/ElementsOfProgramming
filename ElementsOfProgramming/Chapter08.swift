@@ -231,13 +231,13 @@ func partitionLinked<I: Readable & ForwardLinkedIterator>(f: I, l: I, p: @escapi
     return splitLinked(f: f, l: l, p: ps)
 }
 
-func relationSource<I0: Readable, I1: Readable>(r: @escaping Relation<I0.Source>) -> BinaryRelation<I0, I1> where I0.Source == I1.Source, I0.Source : TotallyOrdered {
+func relationSource<I0: Readable, I1: Readable>(r: @escaping Relation<I0.Source>) -> BinaryRelation<I0, I1> where I0.Source == I1.Source {
     return { i0, i1 in
         return r(i0.source!, i1.source!)
     }
 }
 
-func mergeLinkedNonempty<I: Readable & ForwardLinkedIterator>(f0: I, l0: I, f1: I, l1: I, r: @escaping Relation<I.Source>) -> Pair<I, I> where I.Source : TotallyOrdered {
+func mergeLinkedNonempty<I: Readable & ForwardLinkedIterator>(f0: I, l0: I, f1: I, l1: I, r: @escaping Relation<I.Source>) -> Pair<I, I> {
     var l1 = l1
     // Precondition: $f0 \neq l0 \wedge f1 \neq l1$
     // Precondition: $\property{increasing\_range}(f0, l0, r)$
@@ -249,7 +249,7 @@ func mergeLinkedNonempty<I: Readable & ForwardLinkedIterator>(f0: I, l0: I, f1: 
     return Pair(m0: t.m0, m1: l1)
 }
 
-func sortLinkedNonempty<I: Readable & ForwardLinkedIterator>(f: I, n: DistanceType, r: @escaping Relation<I.Source>) -> Pair<I, I> where I.Source : TotallyOrdered {
+func sortLinkedNonempty<I: Readable & ForwardLinkedIterator>(f: I, n: DistanceType, r: @escaping Relation<I.Source>) -> Pair<I, I> {
     // Precondition: $\property{counted\_range}(f, n) \wedge
     //                n > 0 \wedge \func{weak\_ordering}(r)$
     if n == N(1) { return Pair(m0: f, m1: f.iteratorSuccessor!) }

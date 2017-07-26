@@ -284,7 +284,7 @@ func findIfNotUnguarded<I: Readable & Iterator>(f: I, p: UnaryPredicate<I.Source
     return f
 }
 
-func findMismatch<I0: Readable & Iterator, I1: Readable & Iterator>(f0: I0, l0: I0, f1: I1, l1: I1, r: Relation<I0.Source>) -> Pair<I0, I1> where I0.Source : TotallyOrdered, I0.Source == I1.Source {
+func findMismatch<I0: Readable & Iterator, I1: Readable & Iterator>(f0: I0, l0: I0, f1: I1, l1: I1, r: Relation<I0.Source>) -> Pair<I0, I1> where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
     // Precondition: $\func{readable\_bounded\_range}(f0, l0)$
     // Precondition: $\func{readable\_bounded\_range}(f1, l1)$
@@ -295,7 +295,7 @@ func findMismatch<I0: Readable & Iterator, I1: Readable & Iterator>(f0: I0, l0: 
     return Pair(m0: f0, m1: f1)
 }
 
-func findAdjacentMismatch<I: Readable & Iterator>(f: I, l: I, r: Relation<I.Source>) -> I where I.Source : TotallyOrdered {
+func findAdjacentMismatch<I: Readable & Iterator>(f: I, l: I, r: Relation<I.Source>) -> I {
     var f = f
     // Precondition: $\func{readable\_bounded\_range}(f, l)$
     if f == l { return l }
@@ -307,18 +307,18 @@ func findAdjacentMismatch<I: Readable & Iterator>(f: I, l: I, r: Relation<I.Sour
     return f
 }
 
-func relationPreserving<I: Readable & Iterator>(f: I, l: I, r: Relation<I.Source>) -> Bool where I.Source : TotallyOrdered {
+func relationPreserving<I: Readable & Iterator>(f: I, l: I, r: Relation<I.Source>) -> Bool {
     // Precondition: $\func{readable\_bounded\_range}(f, l)$
     return l == findAdjacentMismatch(f: f, l: l, r: r)
 }
 
-func strictlyIncreasingRange<I: Readable & Iterator>(f: I, l: I, r: Relation<I.Source>) -> Bool where I.Source : TotallyOrdered {
+func strictlyIncreasingRange<I: Readable & Iterator>(f: I, l: I, r: Relation<I.Source>) -> Bool {
     // Precondition:
     // $\func{readable\_bounded\_range}(f, l) \wedge \func{weak\_ordering}(r)$
     return relationPreserving(f: f, l: l, r: r)
 }
 
-func increasingRange<I: Readable & Iterator>(f: I, l: I, r: @escaping Relation<I.Source>) -> Bool where I.Source : TotallyOrdered {
+func increasingRange<I: Readable & Iterator>(f: I, l: I, r: @escaping Relation<I.Source>) -> Bool {
     // Precondition:
     // $\func{readable\_bounded\_range}(f, l) \wedge \func{weak\_ordering}(r)$
     return relationPreserving(f: f,
@@ -337,7 +337,7 @@ func partitioned<I: Readable & Iterator>(f: I, l: I, p: UnaryPredicate<I.Source>
 // Exercise 6.6: partitioned_n
 
 
-func findAdjacentMismatch<I: Readable & ForwardIterator>(f: I, l: I, r: Relation<I.Source>) -> I where I.Source : TotallyOrdered {
+func findAdjacentMismatch<I: Readable & ForwardIterator>(f: I, l: I, r: Relation<I.Source>) -> I {
     var f = f
     // Precondition: $\func{readable\_bounded\_range}(f, l)$
     if f == l { return l }
@@ -372,22 +372,22 @@ func partitionPoint<I: Readable & ForwardIterator>(f: I, l: I, p: UnaryPredicate
     return partitionPointN(f: f, n: l - f, p: p)
 }
 
-func lowerBoundPredicate<DomainR: TotallyOrdered>(a: DomainR, r: @escaping Relation<DomainR>) -> UnaryPredicate<DomainR> {
+func lowerBoundPredicate<DomainR: Regular>(a: DomainR, r: @escaping Relation<DomainR>) -> UnaryPredicate<DomainR> {
     return { x in !r(x, a) }
 }
 
-func lowerBoundN<I: Readable & ForwardIterator>(f: I, n: DistanceType, a: I.Source, r: @escaping Relation<I.Source>) -> I where I.Source : TotallyOrdered {
+func lowerBoundN<I: Readable & ForwardIterator>(f: I, n: DistanceType, a: I.Source, r: @escaping Relation<I.Source>) -> I {
     // Precondition:
     // $\property{weak\_ordering(r)} \wedge \property{increasing\_counted\_range}(f, n, r)$
     let p = lowerBoundPredicate(a: a, r: r)
     return partitionPointN(f: f, n: n, p: p)
 }
 
-func upperBoundPredicate<DomainR: TotallyOrdered>(a: DomainR, r: @escaping Relation<DomainR>) -> UnaryPredicate<DomainR> {
+func upperBoundPredicate<DomainR: Regular>(a: DomainR, r: @escaping Relation<DomainR>) -> UnaryPredicate<DomainR> {
     return { x in r(a, x) }
 }
 
-func upperBoundN<I: Readable & ForwardIterator>(f: I, n: DistanceType, a: I.Source, r: @escaping Relation<I.Source>) -> I where I.Source : TotallyOrdered {
+func upperBoundN<I: Readable & ForwardIterator>(f: I, n: DistanceType, a: I.Source, r: @escaping Relation<I.Source>) -> I {
     // Precondition:
     // $\property{weak\_ordering(r)} \wedge \property{increasing\_counted\_range}(f, n, r)$
     let p = upperBoundPredicate(a: a, r: r)

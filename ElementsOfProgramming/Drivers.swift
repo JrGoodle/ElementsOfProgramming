@@ -7,7 +7,7 @@ func logFunc(functionName: String = #function) {
     print("\(functionName)")
 }
 
-func outputOrbitStructure<DomainFP: Distance & TotallyOrdered>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) {
+func outputOrbitStructure<DomainFP: Distance & Regular>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) {
     logFunc()
     let t = orbitStructure(x: x, f: f, p: p)
     if !p(t.m2) {

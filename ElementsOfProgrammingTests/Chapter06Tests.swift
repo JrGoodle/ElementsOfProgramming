@@ -5,9 +5,9 @@
 
 import XCTest
 
-class Chapter06Tests: XCTestCase {
-    
-    // TODO: Implement tests
+//class Chapter06Tests: XCTestCase {
+//
+//    // TODO: Implement tests
 //    func testIncrement() {
 //        var i = 0
 //        increment(x: &i)
@@ -20,5 +20,5 @@ class Chapter06Tests: XCTestCase {
 //        increment(x: &fx)
 //        XCTAssert(fx == x + 100)
 //    }
-}
+//}
 

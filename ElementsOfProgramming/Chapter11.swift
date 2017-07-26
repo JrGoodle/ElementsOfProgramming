@@ -163,7 +163,7 @@ func partitionIndexed<I: Mutable & IndexedIterator>(f: I, l: I, p: UnaryPredicat
     }
 }
 
-func partitionStableWithBuffer<I: Mutable & ForwardIterator & TotallyOrdered, B: Mutable & ForwardIterator & TotallyOrdered>(f: I, l: I, fb: B, p: @escaping UnaryPredicate<I.Source>) -> I where I.Source == B.Sink {
+func partitionStableWithBuffer<I: Mutable & ForwardIterator & Regular, B: Mutable & ForwardIterator & Regular>(f: I, l: I, fb: B, p: @escaping UnaryPredicate<I.Source>) -> I where I.Source == B.Sink {
     // Precondition: $\property{mutable\_bounded\_range}(f, l)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, l-f)$
     let x: Pair<I, B> = partitionCopy(fi: f, li: l, ff: f, ft: fb, p: p)
@@ -204,7 +204,7 @@ func partitionStableN<I: Mutable & ForwardIterator>(f: I, n: DistanceType, p: Un
 // Exercise 11.10: partition_stable_n_adaptive
 
 
-func partitionStable<I: Mutable & ForwardIterator & TotallyOrdered>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
+func partitionStable<I: Mutable & ForwardIterator & Regular>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l)$
     return partitionStableN(f: f, n: l - f, p: p).m0
 }
@@ -306,14 +306,14 @@ func transposeOperation<DomainOp: Regular>(op: @escaping BinaryOperation<DomainO
 //        ).m0;
 //}
 
-func mergeNWithBuffer<I: Mutable & ForwardIterator & TotallyOrdered, B: Mutable & ForwardIterator & TotallyOrdered>(f0: I,n0: DistanceType, f1: I, n1: DistanceType, fb: B, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source, I.Source : TotallyOrdered {
+func mergeNWithBuffer<I: Mutable & ForwardIterator & Regular, B: Mutable & ForwardIterator & Regular>(f0: I,n0: DistanceType, f1: I, n1: DistanceType, fb: B, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source {
     // Precondition: $\func{mergeable}(f_0, n_0, f_1, n_1, r)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n_0)$
     _ = copyN(fi: f0, n: n0, fo: fb)
     return mergeCopyN(fi0: fb, ni0: n0, fi1: f1, ni1: n1, o: f0, r: r).m2
 }
 
-func sortNWithBuffer<I: Mutable & ForwardIterator, B: Mutable & ForwardIterator>(f: I, n: DistanceType, fb: B, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source, I.Source : TotallyOrdered, B : TotallyOrdered, I : TotallyOrdered {
+func sortNWithBuffer<I: Mutable & ForwardIterator, B: Mutable & ForwardIterator>(f: I, n: DistanceType, fb: B, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source {
     // Property:
     // $\property{mutable\_counted\_range}(f, n) \wedge \property{weak\_ordering}(r)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, \lceil n/2 \rceil)$
@@ -324,7 +324,7 @@ func sortNWithBuffer<I: Mutable & ForwardIterator, B: Mutable & ForwardIterator>
     return mergeNWithBuffer(f0: f, n0: h, f1: m, n1: n - h, fb: fb, r: r)
 }
 
-func mergeNStep0<I: Mutable & ForwardIterator>(f0: I, n0: DistanceType, f1: I, n1: DistanceType, r: @escaping Relation<I.Source>, f00: inout I, n00: inout DistanceType, f01: inout I, n01: inout DistanceType, f10: inout I, n10: inout DistanceType, f11: inout I, n11: inout DistanceType) where I.Source : TotallyOrdered {
+func mergeNStep0<I: Mutable & ForwardIterator>(f0: I, n0: DistanceType, f1: I, n1: DistanceType, r: @escaping Relation<I.Source>, f00: inout I, n00: inout DistanceType, f01: inout I, n01: inout DistanceType, f10: inout I, n10: inout DistanceType, f11: inout I, n11: inout DistanceType) {
     // Precondition: $\property{mergeable}(f_0, n_0, f_1, n_1, r)$
     f00 = f0
     n00 = n0.halfNonnegative()
@@ -338,7 +338,7 @@ func mergeNStep0<I: Mutable & ForwardIterator>(f0: I, n0: DistanceType, f1: I, n
     n11 = n1 - n01
 }
 
-func mergeNStep1<I: Mutable & ForwardIterator>(f0: I, n0: DistanceType, f1: I, n1: DistanceType, r: @escaping Relation<I.Source>, f00: inout I, n00: inout DistanceType, f01: inout I, n01: inout DistanceType, f10: inout I, n10: inout DistanceType, f11: inout I, n11: inout DistanceType) where I.Source : TotallyOrdered {
+func mergeNStep1<I: Mutable & ForwardIterator>(f0: I, n0: DistanceType, f1: I, n1: DistanceType, r: @escaping Relation<I.Source>, f00: inout I, n00: inout DistanceType, f01: inout I, n01: inout DistanceType, f10: inout I, n10: inout DistanceType, f11: inout I, n11: inout DistanceType) {
     // Precondition: $\property{mergeable}(f_0, n_0, f_1, n_1, r)$
     f00 = f0
     n01 = n1.halfNonnegative()
@@ -352,7 +352,7 @@ func mergeNStep1<I: Mutable & ForwardIterator>(f0: I, n0: DistanceType, f1: I, n
     n11 = tmp.predecessor()
 }
 
-func mergeNAdaptive<I: Mutable & ForwardIterator & TotallyOrdered, B: Mutable & ForwardIterator & TotallyOrdered>(f0: I, n0: DistanceType, f1: I, n1: DistanceType, fb: B, nb: DistanceType, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source, I.Source : TotallyOrdered {
+func mergeNAdaptive<I: Mutable & ForwardIterator & Regular, B: Mutable & ForwardIterator & Regular>(f0: I, n0: DistanceType, f1: I, n1: DistanceType, fb: B, nb: DistanceType, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source {
     // Precondition: $\property{mergeable}(f_0, n_0, f_1, n_1, r)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n_b)$
     if n0.zero() || n1.zero() { return f0 + n0 + n1 }
@@ -371,7 +371,7 @@ func mergeNAdaptive<I: Mutable & ForwardIterator & TotallyOrdered, B: Mutable & 
     return mergeNAdaptive(f0: f10!, n0: n10!, f1: f11!, n1: n11!, fb: fb, nb: nb, r: r)
 }
 
-func sortNAdaptive<I: Mutable & ForwardIterator & TotallyOrdered, B: Mutable & ForwardIterator & TotallyOrdered>(f: I, n: DistanceType, fb: B, nb: DistanceType, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source, I.Source : TotallyOrdered {
+func sortNAdaptive<I: Mutable & ForwardIterator & Regular, B: Mutable & ForwardIterator & Regular>(f: I, n: DistanceType, fb: B, nb: DistanceType, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source {
     // Precondition:
     // $\property{mutable\_counted\_range}(f, n) \wedge \property{weak\_ordering}(r)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n_b)$
@@ -383,7 +383,7 @@ func sortNAdaptive<I: Mutable & ForwardIterator & TotallyOrdered, B: Mutable & F
 }
 
 // TODO: Port this
-//func sortN<I: Mutable & ForwardIterator>(f: I, n: DistanceType, r: Relation<I.Source>) -> I where I.Source : TotallyOrdered {
+//func sortN<I: Mutable & ForwardIterator>(f: I, n: DistanceType, r: Relation<I.Source>) -> I where I.Source : Regular {
 //    // Precondition:
 //    // $\property{mutable\_counted\_range}(f, n) \wedge \property{weak\_ordering}(r)$
 //    temporary_buffer<ValueType(I)> b(half_nonnegative(n));
