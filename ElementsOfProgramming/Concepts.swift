@@ -36,7 +36,7 @@ protocol BinaryHomogeneousProcedure {
 
 //typealias FunctionalProcedure<T> = (Any, ...Any) -> T
 
-//typealias HomogeneousFunction<T, U: Regular> = (T, ...T) -> U
+//typealias HomogeneousFunction<T, U> = (T, ...T) -> U
 
 typealias UnaryFunction<T: Regular, U: Regular> = (T) -> U
 
@@ -51,12 +51,10 @@ typealias BinaryHomogeneousFunction<T: Regular, U: Regular> = (T, T) -> U
 //typealias HomogeneousPredicate<T: Regular> = (T, ...T) -> Bool
 
 typealias UnaryPredicate<T: Regular> = (T) -> Bool
-typealias P<T: Regular> = UnaryPredicate<T>
 
 // typealias Operation<T: Regular> = (T, ...T) -> T
 
 typealias UnaryOperation<T: Regular> = (T) -> T
-typealias F<T: Regular> = UnaryOperation<T>
 
 // typealias DefinitionSpacePredicate (Any, ...Any) -> Bool
 // precondition: Returns true if and only if the inputs are within the
@@ -67,15 +65,12 @@ typealias Transformation<T: Distance> = UnaryOperation<T>
 // MARK: Chapter 3
 
 typealias BinaryOperation<T: Regular> = (T, T) -> T
-typealias Op<T: Regular> = BinaryOperation<T>
 
 // MARK: Chapter 4
 
+typealias Relation<T: Regular> = (T, T) -> Bool
+
 typealias BinaryRelation<T, U> = (T, U) -> Bool
-
-typealias BinaryHomogeneousRelation<T> = (T, T) -> Bool
-
-typealias Relation<T: TotallyOrdered> = BinaryHomogeneousRelation<T>
 
 typealias TotallyOrdered = Comparable & Regular
 
@@ -101,9 +96,12 @@ typealias Ring = AdditiveGroup & Semiring
 
 typealias CommutativeRing = AdditiveGroup & CommutativeSemiring
 
-typealias Semimodule = AdditiveMonoid & CommutativeSemiring //& Relational
+protocol Semimodule: AdditiveMonoid {
+    associatedtype CS: CommutativeSemiring
+    static func *(lhs: CS, rhs: Self) -> Self
+}
 
-typealias Module = Semimodule & AdditiveGroup & Ring
+protocol Module: Semimodule, AdditiveGroup where CS: Ring {}
 
 typealias OrderedAdditiveSemigroup = AdditiveSemigroup & TotallyOrdered
 
@@ -127,7 +125,7 @@ typealias ArchimedeanGroup = ArchimedeanMonoid & AdditiveGroup
 
 typealias DiscreteArchimedeanSemiring = CommutativeSemiring & ArchimedeanMonoid & Discrete
 
-typealias NonnegativeDiscreteArchimedeanSemiring = DiscreteArchimedeanSemiring
+typealias NonnegativeDiscreteArchimedeanSemiring = DiscreteArchimedeanSemiring //& Nonnegative
 
 typealias DiscreteArchimedeanRing = DiscreteArchimedeanSemiring & AdditiveGroup
 
@@ -138,11 +136,11 @@ protocol Readable: Regular {
     var source: Source? { get }
 }
 
-protocol Iterator: Regular {
+protocol Iterator: Distance {
     var iteratorSuccessor: Self? { get }
 }
 
-protocol ForwardIterator: Iterator { }
+protocol ForwardIterator: Iterator { } // iteratorSuccessor is a Regular Unary Function
 
 protocol IndexedIterator: ForwardIterator {
     static func +(lhs: Self, rhs: DistanceType) -> Self
@@ -205,7 +203,7 @@ protocol Writable {
 }
 
 protocol Mutable: Readable, Writable where Source == Sink {
-    func deref() -> Source?
+    var deref: Source? { get set }
 }
 
 // Chapter 11

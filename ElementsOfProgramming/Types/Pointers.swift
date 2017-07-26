@@ -45,8 +45,13 @@ extension IntPointer: Writable {
 }
 
 extension IntPointer: Mutable {
-    func deref() -> Int? {
-        return p.pointee
+    var deref: Int? {
+        get {
+            return p.pointee
+        }
+        set {
+            p.pointee = newValue!
+        }
     }
 }
 
