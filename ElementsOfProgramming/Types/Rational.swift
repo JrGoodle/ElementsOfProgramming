@@ -3,8 +3,6 @@
 //  ElementsOfProgramming
 //
 
-import XCTest
-
 struct Rational {
     var numerator: Int
     var denominator: Int
@@ -47,7 +45,19 @@ struct Rational {
     }
 }
 
-extension Rational: AdditiveInverse, Quotient { }
+extension Rational: AdditiveInverse, ArchimedeanMonoid {
+    static func -(lhs: Rational, rhs: Rational) -> Rational {
+        return lhs + (-rhs)
+    }
+    
+    static func <(lhs: Rational, rhs: Rational) -> Bool {
+        return lhs.numerator * rhs.denominator < rhs.numerator * lhs.denominator
+    }
+    
+    static func additiveIdentity() -> Rational {
+        return Rational(0)
+    }
+}
 
 extension Rational: Addable {
     static func +(lhs: Rational, rhs: Rational) -> Rational {
@@ -60,12 +70,6 @@ extension Rational: Negatable {
     static prefix func -(value: Rational) -> Rational {
         return Rational(numerator: -value.numerator,
                         denominator: value.denominator)!
-    }
-}
-
-extension Rational: Subtractable {
-    static func -(lhs: Rational, rhs: Rational) -> Rational {
-        return lhs + (-rhs)
     }
 }
 
@@ -106,15 +110,9 @@ extension Rational: Remainder {
     }
 }
 
-extension Rational: Equatable {
+extension Rational: Regular {
     static func ==(lhs: Rational, rhs: Rational) -> Bool {
         return lhs.numerator * rhs.denominator == rhs.numerator * lhs.denominator
-    }
-}
-
-extension Rational: Comparable {
-    static func <(lhs: Rational, rhs: Rational) -> Bool {
-        return lhs.numerator * rhs.denominator < rhs.numerator * lhs.denominator
     }
 }
 
@@ -124,12 +122,6 @@ extension Rational: MultiplicativeIdentity {
     }
     
 
-}
-
-extension Rational: AdditiveIdentity {
-    static func additiveIdentity() -> Rational {
-        return Rational(0)
-    }
 }
 
 extension Rational: Halvable {

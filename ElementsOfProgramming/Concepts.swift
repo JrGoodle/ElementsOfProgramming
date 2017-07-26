@@ -11,28 +11,9 @@
 
 // MARK: Chapter 1
 
-typealias Regular = Equatable
+protocol Regular: Equatable {}
 
 //typealias Procedure<T> = (Any, ...Any) -> Void
-
-//typealias UnaryProcedure<T> = (T) -> Void
-protocol UnaryProcedure {
-    associatedtype UnaryProcedureType
-    func call(_ arg: UnaryProcedureType)
-}
-
-//typealias BinaryProcedure<T, U> = (T, U) -> Void
-protocol BinaryProcedure {
-    associatedtype BinaryProcedureType1
-    associatedtype BinaryProcedureType2
-    func call(_ arg1: BinaryProcedureType1, _ arg2: BinaryProcedureType2)
-}
-
-//typealias BinaryHomogeneousProcedure<T> = (T, T) -> Void
-protocol BinaryHomogeneousProcedure {
-    associatedtype BinaryHomogeneousProcedureType
-    func call(_ arg1: BinaryHomogeneousProcedureType, _ arg2: BinaryHomogeneousProcedureType)
-}
 
 //typealias FunctionalProcedure<T> = (Any, ...Any) -> T
 
@@ -72,29 +53,29 @@ typealias Relation<T: Regular> = (T, T) -> Bool
 
 typealias BinaryRelation<T, U> = (T, U) -> Bool
 
-typealias TotallyOrdered = Comparable & Regular
+protocol TotallyOrdered: Comparable, Regular {}
 
 // MARK: Chapter 5
 
-typealias AdditiveSemigroup = Regular & Addable
+protocol AdditiveSemigroup: Regular, Addable {}
 
-typealias MultiplicativeSemigroup = Regular & Multipliable
+protocol MultiplicativeSemigroup: Regular, Multipliable {}
 
-typealias AdditiveMonoid = AdditiveSemigroup & AdditiveIdentity
+protocol AdditiveMonoid: AdditiveSemigroup, AdditiveIdentity {}
 
-typealias MultiplicativeMonoid = MultiplicativeSemigroup & MultiplicativeIdentity
+protocol MultiplicativeMonoid: MultiplicativeSemigroup, MultiplicativeIdentity {}
 
-typealias Semiring = AdditiveMonoid & MultiplicativeMonoid
+protocol Semiring: AdditiveMonoid, MultiplicativeMonoid {}
 
-typealias AdditiveGroup = AdditiveMonoid & Subtractable & AdditiveInverse & Negatable
+protocol AdditiveGroup: AdditiveMonoid, Subtractable, AdditiveInverse {}
 
-typealias MultieplicativeGroup = MultiplicativeMonoid & MultiplicativeInverse & Divisible
+protocol MultiplicativeGroup: MultiplicativeMonoid, MultiplicativeInverse, Divisible {}
 
-typealias CommutativeSemiring = Semiring //& Commutative
+protocol CommutativeSemiring: Semiring {} //& Commutative
 
-typealias Ring = AdditiveGroup & Semiring
+protocol Ring: AdditiveGroup, Semiring {}
 
-typealias CommutativeRing = AdditiveGroup & CommutativeSemiring
+protocol CommutativeRing: AdditiveGroup, CommutativeSemiring {}
 
 protocol Semimodule: AdditiveMonoid {
     associatedtype CS: CommutativeSemiring
@@ -103,31 +84,31 @@ protocol Semimodule: AdditiveMonoid {
 
 protocol Module: Semimodule, AdditiveGroup where CS: Ring {}
 
-typealias OrderedAdditiveSemigroup = AdditiveSemigroup & TotallyOrdered
+protocol OrderedAdditiveSemigroup: AdditiveSemigroup, TotallyOrdered {}
 
-typealias OrderedAdditiveMonoid = OrderedAdditiveSemigroup & AdditiveMonoid
+protocol OrderedAdditiveMonoid: OrderedAdditiveSemigroup, AdditiveMonoid {}
 
-typealias OrderedAdditiveGroup = OrderedAdditiveMonoid & AdditiveGroup
+protocol OrderedAdditiveGroup: OrderedAdditiveMonoid, AdditiveGroup {}
 
-typealias CancellableMonoid = OrderedAdditiveMonoid & Subtractable
+protocol CancellableMonoid: OrderedAdditiveMonoid, Subtractable {}
 
-typealias ArchimedeanMonoid = CancellableMonoid & Quotient
+protocol ArchimedeanMonoid: CancellableMonoid, Quotient {}
 
-typealias HalvableMonoid = ArchimedeanMonoid & Halvable
+protocol HalvableMonoid: ArchimedeanMonoid, Halvable {}
 
-typealias EuclideanMonoid = ArchimedeanMonoid //& SubtractiveGCDNonzero
+protocol EuclideanMonoid: ArchimedeanMonoid {} //& SubtractiveGCDNonzero
 
-typealias EuclideanSemiring = CommutativeSemiring & Norm & Remainder & Quotient
+protocol EuclideanSemiring: CommutativeSemiring, Norm, Remainder, Quotient {}
 
-typealias EuclideanSemimodule = Semimodule & Remainder & Quotient
+protocol EuclideanSemimodule: Semimodule, Remainder, Quotient {}
 
-typealias ArchimedeanGroup = ArchimedeanMonoid & AdditiveGroup
+protocol ArchimedeanGroup: ArchimedeanMonoid, AdditiveGroup {}
 
-typealias DiscreteArchimedeanSemiring = CommutativeSemiring & ArchimedeanMonoid & Discrete
+protocol DiscreteArchimedeanSemiring: CommutativeSemiring, ArchimedeanMonoid, Discrete {}
 
-typealias NonnegativeDiscreteArchimedeanSemiring = DiscreteArchimedeanSemiring //& Nonnegative
+protocol NonnegativeDiscreteArchimedeanSemiring: DiscreteArchimedeanSemiring {} //& Nonnegative
 
-typealias DiscreteArchimedeanRing = DiscreteArchimedeanSemiring & AdditiveGroup
+protocol DiscreteArchimedeanRing: DiscreteArchimedeanSemiring, AdditiveGroup {}
 
 // MARK: Chapter 6
 
@@ -155,6 +136,25 @@ protocol RandomAccessIterator: IndexedIterator, BidirectionalIterator, TotallyOr
     static func +(lhs: Self, rhs: DifferenceType) -> Self
     static func -(lhs: Self, rhs: DifferenceType) -> Self
     static func -(lhs: Self, rhs: Self) -> DifferenceType
+}
+
+//typealias UnaryProcedure<T> = (T) -> Void
+protocol UnaryProcedure {
+    associatedtype UnaryProcedureType
+    func call(_ arg: UnaryProcedureType)
+}
+
+//typealias BinaryProcedure<T, U> = (T, U) -> Void
+protocol BinaryProcedure {
+    associatedtype BinaryProcedureType1
+    associatedtype BinaryProcedureType2
+    func call(_ arg1: BinaryProcedureType1, _ arg2: BinaryProcedureType2)
+}
+
+//typealias BinaryHomogeneousProcedure<T> = (T, T) -> Void
+protocol BinaryHomogeneousProcedure {
+    associatedtype BinaryHomogeneousProcedureType
+    func call(_ arg1: BinaryHomogeneousProcedureType, _ arg2: BinaryHomogeneousProcedureType)
 }
 
 // MARK: Chapter 7
