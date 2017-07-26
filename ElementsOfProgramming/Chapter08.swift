@@ -143,7 +143,7 @@ func splitLinked<I: ForwardLinkedIterator>(f: I, l: I, p: UnaryPredicate<I>) -> 
 // Exercise 8.1: Explain the postcondition of split_linked
 
 
-func combineLinkedNonemptyS0<I: ForwardLinkedIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
+func combineLinkedNonemptyS0<I: ForwardLinkedIterator>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
     if f0 == l0 {
         return combineLinkedNonemptyS2(f0: &f0, l0: &l0, f1: &f1, l1: &l1, h: &h, t: &t, r: r)
     }
@@ -156,7 +156,7 @@ func combineLinkedNonemptyS0<I: ForwardLinkedIterator & Comparable>(f0: inout I,
     }
 }
 
-func combineLinkedNonemptyS1<I: ForwardLinkedIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
+func combineLinkedNonemptyS1<I: ForwardLinkedIterator>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
     if f1 == l1 {
         return combineLinkedNonemptyS3(f0: &f0, l0: &l0, f1: &f1, l1: &l1, h: &h, t: &t, r: r)
     }
@@ -169,17 +169,17 @@ func combineLinkedNonemptyS1<I: ForwardLinkedIterator & Comparable>(f0: inout I,
     }
 }
 
-func combineLinkedNonemptyS2<I: ForwardLinkedIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
+func combineLinkedNonemptyS2<I: ForwardLinkedIterator>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
     ForwardLinker.setForwardLink(x: &t, y: &f1)
     return Triple(m0: h, m1: t, m2: l1)
 }
 
-func combineLinkedNonemptyS3<I: ForwardLinkedIterator & Comparable>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
+func combineLinkedNonemptyS3<I: ForwardLinkedIterator>(f0: inout I, l0: inout I, f1: inout I, l1: inout I, h: inout I, t: inout I, r: Relation<I>) -> Triple<I, I, I> {
     ForwardLinker.setForwardLink(x: &t, y: &f0)
     return Triple(m0: h, m1: t, m2: l0)
 }
 
-func combineLinkedNonempty<I: ForwardLinkedIterator & Comparable>(f0: I, l0: I, f1: I, l1: I, r: Relation<I>) -> Triple<I, I, I> {
+func combineLinkedNonempty<I: ForwardLinkedIterator >(f0: I, l0: I, f1: I, l1: I, r: Relation<I>) -> Triple<I, I, I> {
     var f0 = f0, f1 = f1
     var l0 = l0, l1 = l1
     // Precondition: $\property{bounded\_range}(f0, l0) \wedge

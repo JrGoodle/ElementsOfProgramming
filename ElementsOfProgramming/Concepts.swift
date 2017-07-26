@@ -199,6 +199,7 @@ protocol EmptyLinkedBifurcateCoordinate: LinkedBifurcateCoordinate {
 
 protocol Writable {
     associatedtype Sink
+    // Shouldn't really be gettable, but can't do that in Swift
     var sink: Sink? { get set }
 }
 
