@@ -7,17 +7,23 @@ func plus0(a: Int, b: Int) -> Int {
     return a + b
 }
 
-func plus1(a: Int, b: Int) -> Int {
+// Swift dosen't have a way to express a const &
+func plus1(a: inout Int, b: inout Int) -> Int {
     return a + b
 }
 
-func plus2(a: UnsafePointer<Int>, b: UnsafePointer<Int>, c: UnsafeMutablePointer<Int>) {
+func plus2(a: UnsafePointer<Int>,
+           b: UnsafePointer<Int>,
+           c: UnsafeMutablePointer<Int>) {
     c.pointee = a.pointee + b.pointee
 }
 
 func square(n: Int) -> Int { return n * n }
 
-func square<DomainOp: Regular>(x: DomainOp, op: BinaryOperation<DomainOp>) -> DomainOp {
+func square<DomainOp: Regular>(
+    x: DomainOp,
+   op: BinaryOperation<DomainOp>
+) -> DomainOp {
     return op(x, x)
 }
 
@@ -29,8 +35,6 @@ func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
 // type pair (see chapter 12 of Elements of Programming)
 // model Regular(Pair)
 
-// TODO: Conditional conformance
-//struct Pair<T0, T1> {
 struct Pair<T0: Regular, T1: Regular>: Regular {
     var m0: T0
     var m1: T1

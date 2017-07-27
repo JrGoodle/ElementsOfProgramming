@@ -61,20 +61,34 @@ func reverseBidirectional<I: Mutable & BidirectionalIterator>(f: I, l: I) {
     }
 }
 
-func reverseNBidirectional<I: Mutable & BidirectionalIterator>(f: I, l: I, n: DistanceType) {
+func reverseNBidirectional<I: Mutable & BidirectionalIterator>(
+    f: I, l: I,
+    n: DistanceType
+) {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge 0 \leq n \leq l - f$
     let n = n.halfNonnegative()
     _ = reverseSwapRangesN(l0: l, f1: f, n: n)
 }
 
-func reverseNWithBuffer<I: Mutable & ForwardIterator, B: Mutable & BidirectionalIterator>(fi: I, n: DistanceType, fb: B) -> I where I.Source == B.Source {
+func reverseNWithBuffer<
+    I: Mutable & ForwardIterator,
+    B: Mutable & BidirectionalIterator
+>(
+    fi: I,
+    n: DistanceType,
+    fb: B
+) -> I
+where I.Source == B.Source {
     // Precondition: $\property{mutable\_counted\_range}(f_i, n)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n)$
     let p = copyN(fi: fi, n: n, fo: fb)
     return reverseCopy(fi: fb, li: p.m1, fo: fi)
 }
 
-func reverseNForward<I: Mutable & ForwardIterator>(f: I, n: DistanceType) -> I {
+func reverseNForward<I: Mutable & ForwardIterator>(
+    f: I,
+    n: DistanceType
+) -> I {
     // Precondition: $\property{mutable\_counted\_range}(f, n)$
     if n < N(2) { return f + n }
     let h = n.halfNonnegative()
@@ -85,7 +99,16 @@ func reverseNForward<I: Mutable & ForwardIterator>(f: I, n: DistanceType) -> I {
     return l
 }
 
-func reverseNAdaptive<I: Mutable & ForwardIterator, B: Mutable & BidirectionalIterator>(fi: I, ni: DistanceType, fb: B, nb: DistanceType) -> I where I.Source == B.Source {
+func reverseNAdaptive<
+    I: Mutable & ForwardIterator,
+    B: Mutable & BidirectionalIterator
+>(
+    fi: I,
+    ni: DistanceType,
+    fb: B,
+    nb: DistanceType
+) -> I
+where I.Source == B.Source {
     // Precondition: $\property{mutable\_counted\_range}(f_i, n_i)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n_b)$
     if ni < N(2) {
@@ -102,7 +125,9 @@ func reverseNAdaptive<I: Mutable & ForwardIterator, B: Mutable & BidirectionalIt
     return li
 }
 
-func kRotateFromPermutationRandomAccess<I: RandomAccessIterator>(f: I, m: I, l: I) -> UnaryOperation<I> {
+func kRotateFromPermutationRandomAccess<I: RandomAccessIterator>(
+    f: I, m: I, l: I
+) -> UnaryOperation<I> {
     // Precondition: $\property{bounded\_range}(f, l) \wedge m \in [f, l)$
     let k = l - m
     let n_minus_k = m - f
@@ -114,7 +139,9 @@ func kRotateFromPermutationRandomAccess<I: RandomAccessIterator>(f: I, m: I, l: 
     }
 }
 
-func kRotateFromPermutationIndexed<I: IndexedIterator>(f: I, m: I, l: I) -> UnaryOperation<I> {
+func kRotateFromPermutationIndexed<I: IndexedIterator>(
+    f: I, m: I, l: I
+) -> UnaryOperation<I> {
     // Precondition: $\property{bounded\_range}(f, l) \wedge m \in [f, l)$
     let k = l - m
     let n_minus_k = m - f
@@ -126,7 +153,10 @@ func kRotateFromPermutationIndexed<I: IndexedIterator>(f: I, m: I, l: I) -> Unar
     }
 }
 
-func rotateCycles<I: Mutable & IndexedIterator & Distance>(f: I, m: I, l: I, from: Transformation<I>) -> I {
+func rotateCycles<I: Mutable & IndexedIterator & Distance>(
+    f: I, m: I, l: I,
+    from: Transformation<I>
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge m \in [f, l]$
     // Precondition: $from$ is a from-permutation on $[f, l)$
     var d = gcdEuclideanSemiring(a: m - f, b: l - m)
@@ -134,19 +164,29 @@ func rotateCycles<I: Mutable & IndexedIterator & Distance>(f: I, m: I, l: I, fro
     return f + (l - m)
 }
 
-func rotateIndexedNontrivial<I: Mutable & IndexedIterator & Distance>(f: I, m: I, l: I) -> I {
+func rotateIndexedNontrivial<I: Mutable & IndexedIterator & Distance>(
+    f: I, m: I, l: I
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     let p = kRotateFromPermutationIndexed(f: f, m: m, l: l)
     return rotateCycles(f: f, m: m, l: l, from: p)
 }
 
-func rotateRandomAccessNontrivial<I: Mutable & RandomAccessIterator & Distance>(f: I, m: I, l: I) -> I {
+func rotateRandomAccessNontrivial<
+    I: Mutable & RandomAccessIterator & Distance
+>(
+    f: I, m: I, l: I
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     let p = kRotateFromPermutationRandomAccess(f: f, m: m, l: l)
     return rotateCycles(f: f, m: m, l: l, from: p)
 }
 
-func rotateBidirectionalNonTrivial<I: Mutable & BidirectionalIterator & Regular>(f: I, m: I, l: I) -> I {
+func rotateBidirectionalNonTrivial<
+    I: Mutable & BidirectionalIterator & Regular
+>(
+    f: I, m: I, l: I
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     reverseBidirectional(f: f, l: m)
     reverseBidirectional(f: m, l: l)
@@ -156,7 +196,9 @@ func rotateBidirectionalNonTrivial<I: Mutable & BidirectionalIterator & Regular>
     else { return p.m0 }
 }
 
-func rotateForwardAnnotated<I: Mutable & ForwardIterator & Regular>(f: I, m: I, l: I) {
+func rotateForwardAnnotated<I: Mutable & ForwardIterator & Regular>(
+    f: I, m: I, l: I
+) {
     var f = f, m = m
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     var a = m - f
@@ -179,7 +221,10 @@ func rotateForwardAnnotated<I: Mutable & ForwardIterator & Regular>(f: I, m: I, 
     }
 }
 
-func rotateForwardStep<I: Mutable & ForwardIterator>(f: inout I, m: inout I, l: I) {
+func rotateForwardStep<I: Mutable & ForwardIterator>(
+    f: inout I, m: inout I,
+    l: I
+) {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     var c = m
     repeat {
@@ -188,7 +233,9 @@ func rotateForwardStep<I: Mutable & ForwardIterator>(f: inout I, m: inout I, l: 
     } while c != l
 }
 
-func rotateForwardNontrivial<I: Mutable & ForwardIterator>(f: I, m: I, l: I) -> I {
+func rotateForwardNontrivial<I: Mutable & ForwardIterator>(
+    f: I, m: I, l: I
+) -> I {
     var f = f, m = m
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     rotateForwardStep(f: &f, m: &m, l: l)
@@ -197,7 +244,9 @@ func rotateForwardNontrivial<I: Mutable & ForwardIterator>(f: I, m: I, l: I) -> 
     return m_prime
 }
 
-func rotatePartialNontrivial<I: Mutable & ForwardIterator>(f: I, m: I, l: I) -> I {
+func rotatePartialNontrivial<I: Mutable & ForwardIterator>(
+    f: I, m: I, l: I
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     return swapRanges(f0: m, l0: l, f1: f)
 }
@@ -205,7 +254,14 @@ func rotatePartialNontrivial<I: Mutable & ForwardIterator>(f: I, m: I, l: I) -> 
 // swap_ranges_backward
 // rotate_partial_backward_nontrivial
 
-func rotateWithBufferNontrivial<I: Mutable & ForwardIterator, B: Mutable & ForwardIterator>(f: I, m: I, l: I, fb: B) -> I where I.Source == B.Source {
+func rotateWithBufferNontrivial<
+    I: Mutable & ForwardIterator,
+    B: Mutable & ForwardIterator
+>(
+    f: I, m: I, l: I,
+    fb: B
+) -> I
+where I.Source == B.Source {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     // Precondition: $\property{mutable\_counted\_range}(f_b, l-f)$
     let lb = copy(fi: f, li: m, fo: fb)
@@ -214,7 +270,14 @@ func rotateWithBufferNontrivial<I: Mutable & ForwardIterator, B: Mutable & Forwa
     return m_prime
 }
 
-func rotateWithBufferBackwardNontrivial<I: Mutable & BidirectionalIterator, B: Mutable & ForwardIterator>(f: I, m: I, l: I, fb: B) -> I where I.Source == B.Source {
+func rotateWithBufferBackwardNontrivial<
+    I: Mutable & BidirectionalIterator,
+    B: Mutable & ForwardIterator
+>(
+    f: I, m: I, l: I,
+    fb: B
+) -> I
+where I.Source == B.Source {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     // Precondition: $\property{mutable\_counted\_range}(f_b, l-f)$
     let lb = copy(fi: m, li: l, fo: fb)
@@ -357,43 +420,61 @@ func rotate<I: Mutable & ForwardIterator>(f: I, m: I, l: I) -> I {
     return rotateNontrivialForward(f: f, m: m, l: l)
 }
 
-func rotate<I: Mutable & BidirectionalIterator & Regular>(f: I, m: I, l: I) -> I {
+func rotate<I: Mutable & BidirectionalIterator & Regular>(
+    f: I, m: I, l: I
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge m \in [f, l]$
     if m == f { return l }
     if m == l { return f }
     return rotateNontrivialBidirectional(f: f, m: m, l: l)
 }
 
-func rotate<I: Mutable & IndexedIterator & Distance>(f: I, m: I, l: I) -> I {
+func rotate<I: Mutable & IndexedIterator & Distance>(
+    f: I, m: I, l: I
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge m \in [f, l]$
     if m == f { return l }
     if m == l { return f }
     return rotateNontrivialIndexed(f: f, m: m, l: l)
 }
 
-func rotate<I: Mutable & RandomAccessIterator & Distance>(f: I, m: I, l: I) -> I {
+func rotate<I: Mutable & RandomAccessIterator & Distance>(
+    f: I, m: I, l: I
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge m \in [f, l]$
     if m == f { return l }
     if m == l { return f }
     return rotateNontrivialRandomAccess(f: f, m: m, l: l)
 }
 
-func rotateNontrivialForward<I: Mutable & ForwardIterator>(f: I, m: I, l: I) -> I {
+func rotateNontrivialForward<I: Mutable & ForwardIterator>(
+    f: I, m: I, l: I
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     return rotateForwardNontrivial(f: f, m: m, l: l)
 }
 
-func rotateNontrivialBidirectional<I: Mutable & BidirectionalIterator & Regular>(f: I, m: I, l: I) -> I {
+func rotateNontrivialBidirectional<
+    I: Mutable & BidirectionalIterator & Regular
+>(
+    f: I, m: I, l: I
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     return rotateBidirectionalNonTrivial(f: f, m: m, l: l)
 }
 
-func rotateNontrivialIndexed<I: Mutable & IndexedIterator & Distance>(f: I, m: I, l: I) -> I {
+func rotateNontrivialIndexed<I: Mutable & IndexedIterator & Distance>(
+    f: I, m: I, l: I
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     return rotateIndexedNontrivial(f: f, m: m, l: l)
 }
 
-func rotateNontrivialRandomAccess<I: Mutable & RandomAccessIterator & Distance>(f: I, m: I, l: I) -> I {
+func rotateNontrivialRandomAccess<
+    I: Mutable & RandomAccessIterator & Distance
+>(
+    f: I, m: I, l: I
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l) \wedge f \prec m \prec l$
     return rotateRandomAccessNontrivial(f: f, m: m, l: l)
 }

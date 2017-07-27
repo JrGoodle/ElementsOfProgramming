@@ -11,7 +11,12 @@ func multiplies<T: MultiplicativeSemigroup>(x: T, y: T) -> T {
     return x * y
 }
 
-func multipliesTransformation<DomainOp: MultiplicativeSemigroup & Distance>(x: DomainOp, op: @escaping BinaryOperation<DomainOp>) -> Transformation<DomainOp> {
+func multipliesTransformation<
+    DomainOp: MultiplicativeSemigroup & Distance
+>(
+    x: DomainOp,
+    op: @escaping BinaryOperation<DomainOp>
+) -> Transformation<DomainOp> {
     return { y in
         return op(x, y)
     }
@@ -123,7 +128,11 @@ func remainderNonnegativeIterative<T: HalvableMonoid>(a: T, b: T) -> T {
 
 // Jon Brandt suggested this algorithm (it is not mentioned in chapter 5):
 
-func remainderNonnegativeWithLargestDoubling<T: ArchimedeanMonoid>(a: T, b: T) -> T {
+func remainderNonnegativeWithLargestDoubling<
+    T: ArchimedeanMonoid
+>(
+    a: T, b: T
+) -> T {
     var a = a
     precondition(a >= T.additiveIdentity())
     precondition(b > T.additiveIdentity())
@@ -227,7 +236,9 @@ func steinGCDNonnegative(a: Int, b: Int) -> Int {
     }
 }
 
-func quotientRemainderNonnegative<T: ArchimedeanMonoid>(a: T, b: T) -> Pair<QuotientType, T> {
+func quotientRemainderNonnegative<T: ArchimedeanMonoid>(
+    a: T, b: T
+) -> Pair<QuotientType, T> {
     var a = a
     precondition(a >= T.additiveIdentity())
     precondition(b > T.additiveIdentity())
@@ -244,7 +255,9 @@ func quotientRemainderNonnegative<T: ArchimedeanMonoid>(a: T, b: T) -> Pair<Quot
     }
 }
 
-func quotientRemainderNonnegativeIterative<T: HalvableMonoid>(a: T, b: T) -> Pair<QuotientType, T> {
+func quotientRemainderNonnegativeIterative<T: HalvableMonoid>(
+    a: T, b: T
+) -> Pair<QuotientType, T> {
     var a = a
     precondition(a >= T.additiveIdentity())
     precondition(b > T.additiveIdentity())
@@ -264,7 +277,10 @@ func quotientRemainderNonnegativeIterative<T: HalvableMonoid>(a: T, b: T) -> Pai
     return Pair(m0: n, m1: a)
 }
 
-func remainder<DomainOp: ArchimedeanGroup>(a: DomainOp, b: DomainOp, rem: BinaryOperation<DomainOp>) -> DomainOp {
+func remainder<DomainOp: ArchimedeanGroup>(
+    a: DomainOp, b: DomainOp,
+    rem: BinaryOperation<DomainOp>
+) -> DomainOp {
     typealias T = DomainOp
     precondition(b != T.additiveIdentity())
     var r: T
@@ -286,7 +302,10 @@ func remainder<DomainOp: ArchimedeanGroup>(a: DomainOp, b: DomainOp, rem: Binary
     return r
 }
 
-func quotientRemainder<DomainF: ArchimedeanGroup>(a: DomainF, b: DomainF, quoRem: BinaryHomogeneousFunction<DomainF, Pair<QuotientType, DomainF>>) -> Pair<QuotientType, DomainF> {
+func quotientRemainder<DomainF: ArchimedeanGroup>(
+    a: DomainF, b: DomainF,
+    quoRem: BinaryHomogeneousFunction<DomainF,Pair<QuotientType, DomainF>>
+) -> Pair<QuotientType, DomainF> {
     typealias T = DomainF
     precondition(b != T.additiveIdentity())
     var qr: Pair<QuotientType, T>

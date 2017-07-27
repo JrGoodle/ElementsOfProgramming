@@ -84,7 +84,8 @@ protocol Divisible {
 protocol Relational {
     associatedtype T: AdditiveMonoid
     associatedtype S: CommutativeSemiring
-    static func relation(from commutativeSemiring: S, to additiveMonoid: T) -> T
+    static func relation(from commutativeSemiring: S,
+                         to additiveMonoid: T) -> T
 }
 
 typealias QuotientType = Int

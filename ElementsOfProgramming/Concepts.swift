@@ -53,6 +53,7 @@ typealias Relation<T: Regular> = (T, T) -> Bool
 
 typealias BinaryRelation<T, U> = (T, U) -> Bool
 
+// FIXME: Strictly speaking, TotallyOrdered shouldn't conform to Equatable, just <
 //protocol TotallyOrdered: Comparable {}
 
 // MARK: Chapter 5

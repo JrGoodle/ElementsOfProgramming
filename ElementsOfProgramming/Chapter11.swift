@@ -5,7 +5,10 @@
 
 // Exercise 11.1:
 
-func partitionedAtPoint<I: Readable & Iterator>(f: I, m: I, l: I, p: UnaryPredicate<I.Source>) -> Bool {
+func partitionedAtPoint<I: Readable & Iterator>(
+    f: I, m: I, l: I,
+    p: UnaryPredicate<I.Source>
+) -> Bool {
     // Precondition: $\property{readable\_bounded\_range}(f, l) \wedge m \in [f, l]$
     return none(f: f, l: m, p: p) && all(f: m, l: l, p: p)
 }
@@ -13,12 +16,18 @@ func partitionedAtPoint<I: Readable & Iterator>(f: I, m: I, l: I, p: UnaryPredic
 
 // Exercise 11.2:
 
-func potentialPartitionPoint<I: Readable & ForwardIterator>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
+func potentialPartitionPoint<I: Readable & ForwardIterator>(
+    f: I, l: I,
+    p: UnaryPredicate<I.Source>
+) -> I {
     // Precondition: $\property{readable\_bounded\_range}(f, l)$
     return countIfNot(f: f, l: l, p: p, j: f)
 }
 
-func partitionSemistable<I: Mutable & ForwardIterator>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
+func partitionSemistable<I: Mutable & ForwardIterator>(
+    f: I, l: I,
+    p: UnaryPredicate<I.Source>
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l)$
     var i = findIf(f: f, l: l, p: p)
     if i == l { return i }
@@ -36,7 +45,10 @@ func partitionSemistable<I: Mutable & ForwardIterator>(f: I, l: I, p: UnaryPredi
 
 // Exercise 11.4: substitute copy_step(j, i) for swap_step(i, j) in partition_semistable
 
-func removeIf<I: Mutable & ForwardIterator>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
+func removeIf<I: Mutable & ForwardIterator>(
+    f: I, l: I,
+    p: UnaryPredicate<I.Source>
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l)$
     var i = findIf(f: f, l: l, p: p)
     if i == l { return i }
@@ -60,7 +72,10 @@ func removeIf<I: Mutable & ForwardIterator>(f: I, l: I, p: UnaryPredicate<I.Sour
 //    ...
 //}
 
-func partitionBidirectional<I: Mutable & BidirectionalIterator>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
+func partitionBidirectional<I: Mutable & BidirectionalIterator>(
+    f: I, l: I,
+    p: UnaryPredicate<I.Source>
+) -> I {
     var f = f, l = l
     // Precondition: $\property{mutable\_bounded\_range}(f, l)$
     while true {
@@ -73,7 +88,10 @@ func partitionBidirectional<I: Mutable & BidirectionalIterator>(f: I, l: I, p: U
 
 // Exercise 11.6:
 
-func partitionForward<I: Mutable & ForwardIterator>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
+func partitionForward<I: Mutable & ForwardIterator>(
+    f: I, l: I,
+    p: UnaryPredicate<I.Source>
+) -> I {
     var f = f
     // Precondition: $\property{mutable\_bounded\_range}(f, l)$
     let i = countIfNot(f: f, l: l, p: p, j: f)
@@ -88,7 +106,10 @@ func partitionForward<I: Mutable & ForwardIterator>(f: I, l: I, p: UnaryPredicat
 
 // Exercise 11.7: partition_single_cycle
 
-func partitonSingleCycle<I: Mutable & BidirectionalIterator>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
+func partitonSingleCycle<I: Mutable & BidirectionalIterator>(
+    f: I, l: I,
+    p: UnaryPredicate<I.Source>
+) -> I {
     var f = f, l = l
     // Precondition: $\property{mutable\_bounded\_range}(f, l)$
     f = findIf(f: f, l: l, p: p)
@@ -111,7 +132,10 @@ func partitonSingleCycle<I: Mutable & BidirectionalIterator>(f: I, l: I, p: Unar
 
 // Exercise 11.8: partition_sentinel
 
-func partitionBidirectionalUnguarded<I: Mutable & BidirectionalIterator>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
+func partitionBidirectionalUnguarded<I: Mutable & BidirectionalIterator>(
+    f: I, l: I,
+    p: UnaryPredicate<I.Source>
+) -> I {
     var f = f, l = l
     // Precondition:
     // $(\neg \func{all}(f, l, p) \wedge \func{some}(f, l, p)) \vee
@@ -125,7 +149,10 @@ func partitionBidirectionalUnguarded<I: Mutable & BidirectionalIterator>(f: I, l
     }
 }
 
-func partitionSentinel<I: Mutable & BidirectionalIterator>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
+func partitionSentinel<I: Mutable & BidirectionalIterator>(
+    f: I, l: I,
+    p: UnaryPredicate<I.Source>
+) -> I {
     var f = f, l = l
     // Precondition: $\property{mutable\_bounded\_range}(f, l)$
     f = findIf(f: f, l: l, p: p)
@@ -141,7 +168,10 @@ func partitionSentinel<I: Mutable & BidirectionalIterator>(f: I, l: I, p: UnaryP
 // Exercise 11.9: partition_single_cycle_sentinel
 
 
-func partitionIndexed<I: Mutable & IndexedIterator>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
+func partitionIndexed<I: Mutable & IndexedIterator>(
+    f: I, l: I,
+    p: UnaryPredicate<I.Source>
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l)$
     var i = N(0)
     var j = l - f
@@ -163,15 +193,28 @@ func partitionIndexed<I: Mutable & IndexedIterator>(f: I, l: I, p: UnaryPredicat
     }
 }
 
-func partitionStableWithBuffer<I: Mutable & ForwardIterator & Regular, B: Mutable & ForwardIterator & Regular>(f: I, l: I, fb: B, p: @escaping UnaryPredicate<I.Source>) -> I where I.Source == B.Sink {
+func partitionStableWithBuffer<
+    I: Mutable & ForwardIterator & Regular,
+    B: Mutable & ForwardIterator & Regular
+>(
+    f: I, l: I,
+    fb: B,
+    p: @escaping UnaryPredicate<I.Source>
+) -> I
+where I.Source == B.Sink {
     // Precondition: $\property{mutable\_bounded\_range}(f, l)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, l-f)$
-    let x: Pair<I, B> = partitionCopy(fi: f, li: l, ff: f, ft: fb, p: p)
+    let x: Pair<I, B> = partitionCopy(fi: f, li: l,
+                                      ff: f, ft: fb,
+                                      p: p)
     _ = copy(fi: fb, li: x.m1, fo: x.m0)
     return x.m0
 }
 
-func partitionStableSingleton<I: Mutable & ForwardIterator>(f: I, p: UnaryPredicate<I.Source>) -> Pair<I, I> {
+func partitionStableSingleton<I: Mutable & ForwardIterator>(
+    f: I,
+    p: UnaryPredicate<I.Source>
+) -> Pair<I, I> {
     var f = f
     // Precondition: $\property{readable\_bounded\_range}(f, \func{successor}(f))$
     let l = f.iteratorSuccessor!
@@ -179,13 +222,20 @@ func partitionStableSingleton<I: Mutable & ForwardIterator>(f: I, p: UnaryPredic
     return Pair(m0: f, m1: l)
 }
 
-func combineRanges<I: Mutable & ForwardIterator>(x: Pair<I, I>, y: Pair<I, I>) -> Pair<I, I> {
+func combineRanges<I: Mutable & ForwardIterator>(
+    x: Pair<I, I>, y: Pair<I, I>
+) -> Pair<I, I> {
     // Precondition: $\property{mutable\_bounded\_range}(x.m0, y.m0)$
     // Precondition: $x.m1 \in [x.m0, y.m0]$
-    return Pair(m0: rotate(f: x.m0, m: x.m1, l: y.m0), m1: y.m1)
+    return Pair(m0: rotate(f: x.m0, m: x.m1, l: y.m0),
+                m1: y.m1)
 }
 
-func partitionStableNNonempty<I: Mutable & ForwardIterator>(f: I, n: DistanceType, p: UnaryPredicate<I.Source>) -> Pair<I, I> {
+func partitionStableNNonempty<I: Mutable & ForwardIterator>(
+    f: I,
+    n: DistanceType,
+    p: UnaryPredicate<I.Source>
+) -> Pair<I, I> {
     // Precondition: $\property{mutable\_counted\_range}(f, n) \wedge n > 0$
     if n.one() { return partitionStableSingleton(f: f, p: p) }
     let h = n.halfNonnegative()
@@ -194,7 +244,11 @@ func partitionStableNNonempty<I: Mutable & ForwardIterator>(f: I, n: DistanceTyp
     return combineRanges(x: x, y: y)
 }
 
-func partitionStableN<I: Mutable & ForwardIterator>(f: I, n: DistanceType, p: UnaryPredicate<I.Source>) -> Pair<I, I> {
+func partitionStableN<I: Mutable & ForwardIterator>(
+    f: I,
+    n: DistanceType,
+    p: UnaryPredicate<I.Source>
+) -> Pair<I, I> {
     // Precondition: $\property{mutable\_counted\_range}(f, n)$
     if n.zero() { return Pair(m0: f, m1: f) }
     return partitionStableNNonempty(f: f, n: n, p: p)
@@ -204,18 +258,27 @@ func partitionStableN<I: Mutable & ForwardIterator>(f: I, n: DistanceType, p: Un
 // Exercise 11.10: partition_stable_n_adaptive
 
 
-func partitionStable<I: Mutable & ForwardIterator & Regular>(f: I, l: I, p: UnaryPredicate<I.Source>) -> I {
+func partitionStable<I: Mutable & ForwardIterator & Regular>(
+    f: I, l: I,
+    p: UnaryPredicate<I.Source>
+) -> I {
     // Precondition: $\property{mutable\_bounded\_range}(f, l)$
     return partitionStableN(f: f, n: l - f, p: p).m0
 }
 
-func partitionTrivial<I: Mutable & ForwardIterator>(p: @escaping UnaryPredicate<I.Source>) -> UnaryFunction<I, Pair<I, I>> {
+func partitionTrivial<I: Mutable & ForwardIterator>(
+    p: @escaping UnaryPredicate<I.Source>
+) -> UnaryFunction<I, Pair<I, I>> {
     return { i in
         return partitionStableSingleton(f: i, p: p)
     }
 }
 
-func addToCounter<I: Mutable & ForwardIterator>(f: I, l: I, op: BinaryOperation<I.Source>, x: I.Source, z: I.Source) -> I.Source {
+func addToCounter<I: Mutable & ForwardIterator>(
+    f: I, l: I,
+    op: BinaryOperation<I.Source>,
+    x: I.Source, z: I.Source
+) -> I.Source {
     var f = f, x = x
     if x == z { return z }
     while f != l {
@@ -254,7 +317,9 @@ func addToCounter<I: Mutable & ForwardIterator>(f: I, l: I, op: BinaryOperation<
 //    }
 //}
 
-func transposeOperation<DomainOp: Regular>(op: @escaping BinaryOperation<DomainOp>) -> BinaryOperation<DomainOp> {
+func transposeOperation<DomainOp: Regular>(
+    op: @escaping BinaryOperation<DomainOp>
+) -> BinaryOperation<DomainOp> {
     return { x, y in
         return op(y, x)
     }
@@ -306,25 +371,61 @@ func transposeOperation<DomainOp: Regular>(op: @escaping BinaryOperation<DomainO
 //        ).m0;
 //}
 
-func mergeNWithBuffer<I: Mutable & ForwardIterator & Regular, B: Mutable & ForwardIterator & Regular>(f0: I,n0: DistanceType, f1: I, n1: DistanceType, fb: B, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source {
+func mergeNWithBuffer<
+    I: Mutable & ForwardIterator & Regular,
+    B: Mutable & ForwardIterator & Regular
+>(
+    f0: I, n0: DistanceType,
+    f1: I, n1: DistanceType,
+    fb: B,
+    r: @escaping Relation<I.Source>
+) -> I
+where I.Source == B.Source {
     // Precondition: $\func{mergeable}(f_0, n_0, f_1, n_1, r)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n_0)$
     _ = copyN(fi: f0, n: n0, fo: fb)
-    return mergeCopyN(fi0: fb, ni0: n0, fi1: f1, ni1: n1, o: f0, r: r).m2
+    return mergeCopyN(fi0: fb, ni0: n0,
+                      fi1: f1, ni1: n1,
+                      o: f0,
+                      r: r).m2
 }
 
-func sortNWithBuffer<I: Mutable & ForwardIterator, B: Mutable & ForwardIterator>(f: I, n: DistanceType, fb: B, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source {
+func sortNWithBuffer<
+    I: Mutable & ForwardIterator,
+    B: Mutable & ForwardIterator
+>(
+    f: I,
+    n: DistanceType,
+    fb: B,
+    r: @escaping Relation<I.Source>
+) -> I
+where I.Source == B.Source {
     // Property:
     // $\property{mutable\_counted\_range}(f, n) \wedge \property{weak\_ordering}(r)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, \lceil n/2 \rceil)$
     let h = n.halfNonnegative()
     if h.zero() { return f + n }
-    let m = sortNWithBuffer(f: f, n: h, fb: fb, r: r)
-    _ = sortNWithBuffer(f: m, n: n - h, fb: fb, r: r)
-    return mergeNWithBuffer(f0: f, n0: h, f1: m, n1: n - h, fb: fb, r: r)
+    let m = sortNWithBuffer(f: f, n: h,
+                            fb: fb,
+                            r: r)
+    _ = sortNWithBuffer(f: m, n: n - h,
+                        fb: fb,
+                        r: r)
+    return mergeNWithBuffer(f0: f, n0: h,
+                            f1: m, n1: n - h,
+                            fb: fb,
+                            r: r)
 }
 
-func mergeNStep0<I: Mutable & ForwardIterator>(f0: I, n0: DistanceType, f1: I, n1: DistanceType, r: @escaping Relation<I.Source>, f00: inout I, n00: inout DistanceType, f01: inout I, n01: inout DistanceType, f10: inout I, n10: inout DistanceType, f11: inout I, n11: inout DistanceType) {
+func mergeNStep0<I: Mutable & ForwardIterator>(
+    f0: I, n0: DistanceType,
+    f1: I, n1: DistanceType,
+    r: @escaping Relation<I.Source>,
+    f00: inout I, n00: inout DistanceType,
+    f01: inout I, n01: inout DistanceType,
+    f10: inout I, n10: inout DistanceType,
+    f11: inout I, n11: inout DistanceType
+) {
     // Precondition: $\property{mergeable}(f_0, n_0, f_1, n_1, r)$
     f00 = f0
     n00 = n0.halfNonnegative()
@@ -338,7 +439,15 @@ func mergeNStep0<I: Mutable & ForwardIterator>(f0: I, n0: DistanceType, f1: I, n
     n11 = n1 - n01
 }
 
-func mergeNStep1<I: Mutable & ForwardIterator>(f0: I, n0: DistanceType, f1: I, n1: DistanceType, r: @escaping Relation<I.Source>, f00: inout I, n00: inout DistanceType, f01: inout I, n01: inout DistanceType, f10: inout I, n10: inout DistanceType, f11: inout I, n11: inout DistanceType) {
+func mergeNStep1<I: Mutable & ForwardIterator>(
+    f0: I, n0: DistanceType,
+    f1: I, n1: DistanceType,
+    r: @escaping Relation<I.Source>,
+    f00: inout I, n00: inout DistanceType,
+    f01: inout I, n01: inout DistanceType,
+    f10: inout I, n10: inout DistanceType,
+    f11: inout I, n11: inout DistanceType
+) {
     // Precondition: $\property{mergeable}(f_0, n_0, f_1, n_1, r)$
     f00 = f0
     n01 = n1.halfNonnegative()
@@ -352,34 +461,79 @@ func mergeNStep1<I: Mutable & ForwardIterator>(f0: I, n0: DistanceType, f1: I, n
     n11 = tmp.predecessor()
 }
 
-func mergeNAdaptive<I: Mutable & ForwardIterator & Regular, B: Mutable & ForwardIterator & Regular>(f0: I, n0: DistanceType, f1: I, n1: DistanceType, fb: B, nb: DistanceType, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source {
+func mergeNAdaptive<
+    I: Mutable & ForwardIterator & Regular,
+    B: Mutable & ForwardIterator & Regular
+>(
+    f0: I, n0: DistanceType,
+    f1: I, n1: DistanceType,
+    fb: B, nb: DistanceType,
+    r: @escaping Relation<I.Source>
+) -> I
+where I.Source == B.Source {
     // Precondition: $\property{mergeable}(f_0, n_0, f_1, n_1, r)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n_b)$
     if n0.zero() || n1.zero() { return f0 + n0 + n1 }
     if n0 <= N(nb) {
-        return mergeNWithBuffer(f0: f0, n0: n0, f1: f1, n1: n1, fb: fb, r: r)
+        return mergeNWithBuffer(f0: f0, n0: n0,
+                                f1: f1, n1: n1,
+                                fb: fb,
+                                r: r)
     }
     // FIXME: Optional abuse to match original C++
     var f00: I?, f01: I?, f10: I?, f11: I?
     var n00: N?, n01: N?, n10: N?, n11: N?
     if n0 < n1 {
-        mergeNStep0(f0: f0, n0: n0, f1: f1, n1: n1, r: r, f00: &f00!, n00: &n00!, f01: &f01!, n01: &n01!, f10: &f10!, n10: &n10!, f11: &f11!, n11: &n11!)
+        mergeNStep0(f0: f0, n0: n0,
+                    f1: f1, n1: n1,
+                    r: r,
+                    f00: &f00!, n00: &n00!,
+                    f01: &f01!, n01: &n01!,
+                    f10: &f10!, n10: &n10!,
+                    f11: &f11!, n11: &n11!)
     } else {
-        mergeNStep1(f0: f0, n0: n0, f1: f1, n1: n1, r: r, f00: &f00!, n00: &n00!, f01: &f01!, n01: &n01!, f10: &f10!, n10: &n10!, f11: &f11!, n11: &n11!)
+        mergeNStep1(f0: f0, n0: n0,
+                    f1: f1, n1: n1,
+                    r: r,
+                    f00: &f00!, n00: &n00!,
+                    f01: &f01!, n01: &n01!,
+                    f10: &f10!, n10: &n10!,
+                    f11: &f11!, n11: &n11!)
     }
-    _ = mergeNAdaptive(f0: f00!, n0: n00!, f1: f01!, n1: n01!, fb: fb, nb: nb, r: r)
-    return mergeNAdaptive(f0: f10!, n0: n10!, f1: f11!, n1: n11!, fb: fb, nb: nb, r: r)
+    _ = mergeNAdaptive(f0: f00!, n0: n00!,
+                       f1: f01!, n1: n01!,
+                       fb: fb, nb: nb,
+                       r: r)
+    return mergeNAdaptive(f0: f10!, n0: n10!,
+                          f1: f11!, n1: n11!,
+                          fb: fb, nb: nb,
+                          r: r)
 }
 
-func sortNAdaptive<I: Mutable & ForwardIterator & Regular, B: Mutable & ForwardIterator & Regular>(f: I, n: DistanceType, fb: B, nb: DistanceType, r: @escaping Relation<I.Source>) -> I where I.Source == B.Source {
+func sortNAdaptive<
+    I: Mutable & ForwardIterator & Regular,
+    B: Mutable & ForwardIterator & Regular
+>(
+    f: I, n: DistanceType,
+    fb: B, nb: DistanceType,
+    r: @escaping Relation<I.Source>
+) -> I
+where I.Source == B.Source {
     // Precondition:
     // $\property{mutable\_counted\_range}(f, n) \wedge \property{weak\_ordering}(r)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n_b)$
     let h = n.halfNonnegative()
     if h.zero() { return f + n }
-    let m = sortNAdaptive(f: f, n: h, fb: fb, nb: nb, r: r)
-    _ = sortNAdaptive(f: m, n: n - h, fb: fb, nb: nb, r: r)
-    return mergeNAdaptive(f0: f, n0: h, f1: m, n1: n - h, fb: fb, nb: nb, r: r)
+    let m = sortNAdaptive(f: f, n: h,
+                          fb: fb, nb: nb,
+                          r: r)
+    _ = sortNAdaptive(f: m, n: n - h,
+                      fb: fb, nb: nb,
+                      r: r)
+    return mergeNAdaptive(f0: f, n0: h,
+                          f1: m, n1: n - h,
+                          fb: fb, nb: nb,
+                          r: r)
 }
 
 // TODO: Port this

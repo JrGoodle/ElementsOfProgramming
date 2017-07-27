@@ -40,7 +40,14 @@ enum Visit: Int, Comparable {
     }
 }
 
-func traverseNonempty<C: BifurcateCoordinate, P: BinaryProcedure>(c: C, proc: P) -> P where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
+func traverseNonempty<
+    C: BifurcateCoordinate,
+    P: BinaryProcedure
+>(
+    c: C,
+    proc: P
+) -> P
+where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     var proc = proc
     // Precondition: $\property{tree}(c) \wedge \neg \func{empty}(c)$
     proc.call(.pre, c)
@@ -67,7 +74,10 @@ func isRightSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
     return i.hasRightSuccessor() && i.rightSuccessor! == j
 }
 
-func traverseStep<C: BidirectionalBifurcateCoordinate>(v: inout Visit, c: inout C) -> Int {
+func traverseStep<C: BidirectionalBifurcateCoordinate>(
+    v: inout Visit,
+    c: inout C
+) -> Int {
     // Precondition: $\func{has\_predecessor}(c) \vee v \neq post$
     switch v {
     case .pre:
@@ -94,7 +104,9 @@ func traverseStep<C: BidirectionalBifurcateCoordinate>(v: inout Visit, c: inout 
     }
 }
 
-func reachable<C: BidirectionalBifurcateCoordinate>(x: C, y: C) -> Bool {
+func reachable<C: BidirectionalBifurcateCoordinate>(
+    x: C, y: C
+) -> Bool {
     var x = x
     // Precondition: $\property{tree}(x)$
     if x.empty() { return false }
@@ -136,7 +148,14 @@ func height<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
     return n
 }
 
-func traverse<C: BidirectionalBifurcateCoordinate, P: BinaryProcedure>(c: C, proc: P) -> P where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
+func traverse<
+    C: BidirectionalBifurcateCoordinate,
+    P: BinaryProcedure
+>(
+    c: C,
+    proc: P
+) -> P
+where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     var c = c
     // Precondition: $\property{tree}(c)$
     if c.empty() { return proc }
@@ -155,12 +174,19 @@ func traverse<C: BidirectionalBifurcateCoordinate, P: BinaryProcedure>(c: C, pro
 // whether the descendants of a bidirectional bifurcate coordinate form a DAG
 
 
-func bifurcateIsomorphicNonempty<C0: BifurcateCoordinate, C1: BifurcateCoordinate>(c0: C0, c1: C1) -> Bool {
+func bifurcateIsomorphicNonempty<
+    C0: BifurcateCoordinate,
+    C1: BifurcateCoordinate
+>(
+    c0: C0,
+    c1: C1
+) -> Bool {
     // Precondition:
     // $\property{tree}(c0) \wedge \property{tree}(c1) \wedge \neg \func{empty}(c0) \wedge \neg \func{empty}(c1)$
     if c0.hasLeftSuccessor() {
         if c1.hasLeftSuccessor() {
-            if !bifurcateIsomorphicNonempty(c0: c0.leftSuccessor!, c1: c1.leftSuccessor!) {
+            if !bifurcateIsomorphicNonempty(c0: c0.leftSuccessor!,
+                                            c1: c1.leftSuccessor!) {
                 return false
             }
         } else { return false }
@@ -168,7 +194,8 @@ func bifurcateIsomorphicNonempty<C0: BifurcateCoordinate, C1: BifurcateCoordinat
     
     if c0.hasRightSuccessor() {
         if c0.hasRightSuccessor() {
-            if !bifurcateIsomorphicNonempty(c0: c0.rightSuccessor!, c1: c1.rightSuccessor!) {
+            if !bifurcateIsomorphicNonempty(c0: c0.rightSuccessor!,
+                                            c1: c1.rightSuccessor!) {
                 return false
             }
         } else { return false }
@@ -177,7 +204,13 @@ func bifurcateIsomorphicNonempty<C0: BifurcateCoordinate, C1: BifurcateCoordinat
     return true
 }
 
-func bifurcateIsomorphic<C0: BidirectionalBifurcateCoordinate, C1: BidirectionalBifurcateCoordinate>(c0: C0, c1: C1) -> Bool {
+func bifurcateIsomorphic<
+    C0: BidirectionalBifurcateCoordinate,
+    C1: BidirectionalBifurcateCoordinate
+>(
+    c0: C0,
+    c1: C1
+) -> Bool {
     var c0 = c0, c1 = c1
     // Precondition: $\property{tree}(c0) \wedge \property{tree}(c1)$
     if c0.empty() { return c1.empty() }
@@ -193,34 +226,73 @@ func bifurcateIsomorphic<C0: BidirectionalBifurcateCoordinate, C1: Bidirectional
     }
 }
 
-func lexicographicalEquivalent<I0: Readable & Iterator, I1: Readable & Iterator>(f0: I0, l0: I0, f1: I1, l1: I1, r: Relation<I0.Source>) -> Bool where I0.Source == I1.Source {
+func lexicographicalEquivalent<
+    I0: Readable & Iterator,
+    I1: Readable & Iterator
+>(
+    f0: I0, l0: I0,
+    f1: I1, l1: I1,
+    r: Relation<I0.Source>
+) -> Bool
+where I0.Source == I1.Source {
     // Precondition: $\property{readable\_bounded\_range}(f0, l0)$
     // Precondition: $\property{readable\_bounded\_range}(f1, l1)$
     // Precondition: $\property{equivalence}(r)$
-    let p: Pair<I0, I1> = findMismatch(f0: f0, l0: l0, f1: f1, l1: l1, r: r)
+    let p: Pair<I0, I1> = findMismatch(f0: f0, l0: l0,
+                                       f1: f1, l1: l1,
+                                       r: r)
     return p.m0 == l0 && p.m1 == l1
 }
 
-func lexicographicalEqual<I0: Readable & Iterator, I1: Readable & Iterator>(f0: I0, l0: I0, f1: I1, l1: I1) -> Bool where I0.Source == I1.Source {
-    return lexicographicalEquivalent(f0: f0, l0: l0, f1: f1, l1: l1, r: equal)
+func lexicographicalEqual<
+    I0: Readable & Iterator,
+    I1: Readable & Iterator
+>(
+    f0: I0, l0: I0,
+    f1: I1, l1: I1
+) -> Bool
+where I0.Source == I1.Source {
+    return lexicographicalEquivalent(f0: f0, l0: l0,
+                                     f1: f1, l1: l1,
+                                     r: equal)
 }
 
 // Could specialize to use lexicographic_equal for k > some cutoff
 
-func lexicographicalEqual<I0: Readable & ForwardIterator, I1: Readable & ForwardIterator>(k: Int, f0: I0, f1: I1) -> Bool where I0.Source == I1.Source {
+func lexicographicalEqual<
+    I0: Readable & ForwardIterator,
+    I1: Readable & ForwardIterator
+>(
+    k: Int,
+    f0: I0,
+    f1: I1
+) -> Bool
+where I0.Source == I1.Source {
     if k == 0 { return true }
     if f0.source! != f1.source! { return false }
-    return lexicographicalEqual(k: k - 1, f0: f0.iteratorSuccessor!, f1: f1.iteratorSuccessor!)
+    return lexicographicalEqual(k: k - 1,
+                                f0: f0.iteratorSuccessor!,
+                                f1: f1.iteratorSuccessor!)
 }
 
-func bifurcateEquivalentNonempty<C0: Readable & BifurcateCoordinate, C1: Readable & BifurcateCoordinate>(c0: C0, c1: C1, r: Relation<C0.Source>) -> Bool where C0.Source == C1.Source {
+func bifurcateEquivalentNonempty<
+    C0: Readable & BifurcateCoordinate,
+    C1: Readable & BifurcateCoordinate
+>(
+    c0: C0,
+    c1: C1,
+    r: Relation<C0.Source>
+) -> Bool
+where C0.Source == C1.Source {
     // Precondition: $\property{readable\_tree}(c0) \wedge \property{readable\_tree}(c1)$
     // Precondition: $\neg \func{empty}(c0) \wedge \neg \func{empty}(c1)$
     // Precondition: $\property{equivalence}(r)$
     if !r(c0.source!, c1.source!) { return false }
     if c0.hasLeftSuccessor() {
         if c1.hasLeftSuccessor() {
-            if !bifurcateEquivalentNonempty(c0: c0.leftSuccessor!, c1: c1.leftSuccessor!, r: r) {
+            if !bifurcateEquivalentNonempty(c0: c0.leftSuccessor!,
+                                            c1: c1.leftSuccessor!,
+                                            r: r) {
                 return false
             }
         } else { return false }
@@ -228,7 +300,9 @@ func bifurcateEquivalentNonempty<C0: Readable & BifurcateCoordinate, C1: Readabl
     
     if c0.hasRightSuccessor() {
         if c1.hasRightSuccessor() {
-            if !bifurcateEquivalentNonempty(c0: c0.rightSuccessor!, c1: c1.rightSuccessor!, r: r) {
+            if !bifurcateEquivalentNonempty(c0: c0.rightSuccessor!,
+                                            c1: c1.rightSuccessor!,
+                                            r: r) {
                 return false
             }
         } else { return false }
@@ -237,7 +311,15 @@ func bifurcateEquivalentNonempty<C0: Readable & BifurcateCoordinate, C1: Readabl
     return true
 }
 
-func bifurcateEquivalent<C0: Readable & BidirectionalBifurcateCoordinate, C1: Readable & BidirectionalBifurcateCoordinate>(c0: C0, c1: C1, r: Relation<C0.Source>) -> Bool where C0.Source == C1.Source {
+func bifurcateEquivalent<
+    C0: Readable & BidirectionalBifurcateCoordinate,
+    C1: Readable & BidirectionalBifurcateCoordinate
+>(
+    c0: C0,
+    c1: C1,
+    r: Relation<C0.Source>
+) -> Bool
+where C0.Source == C1.Source {
     var c0 = c0, c1 = c1
     // Precondition: $\property{readable\_tree}(c0) \wedge \property{readable\_tree}(c1)$
     // Precondition: $\property{equivalence}(r)$
@@ -257,11 +339,26 @@ func bifurcateEquivalent<C0: Readable & BidirectionalBifurcateCoordinate, C1: Re
     }
 }
 
-func bifurcateEqual<C0: Readable & BidirectionalBifurcateCoordinate, C1: Readable & BidirectionalBifurcateCoordinate>(c0: C0, c1: C1) -> Bool where C0.Source == C1.Source {
+func bifurcateEqual<
+    C0: Readable & BidirectionalBifurcateCoordinate,
+    C1: Readable & BidirectionalBifurcateCoordinate
+>(
+    c0: C0,
+    c1: C1
+) -> Bool
+where C0.Source == C1.Source {
     return bifurcateEquivalent(c0: c0, c1: c1, r: equal)
 }
 
-func lexicographicalCompare<I0: Readable & Iterator, I1: Readable & Iterator>(f0: I0, l0: I0, f1: I1, l1: I1, r: Relation<I0.Source>) -> Bool where I0.Source == I1.Source {
+func lexicographicalCompare<
+    I0: Readable & Iterator,
+    I1: Readable & Iterator
+>(
+    f0: I0, l0: I0,
+    f1: I1, l1: I1,
+    r: Relation<I0.Source>
+) -> Bool
+where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
     // Precondition: $\property{readable\_bounded\_range}(f0, l0)$
     // Precondition: $\property{readable\_bounded\_range}(f1, l1)$
@@ -276,11 +373,28 @@ func lexicographicalCompare<I0: Readable & Iterator, I1: Readable & Iterator>(f0
     }
 }
 
-func lexicographicalLess<I0: Readable & Iterator, I1: Readable & Iterator>(f0: I0, l0: I0, f1: I1, l1: I1) -> Bool where I0.Source == I1.Source {
-    return lexicographicalCompare(f0: f0, l0: l0, f1: f1, l1: l1, r: less)
+func lexicographicalLess<
+    I0: Readable & Iterator,
+    I1: Readable & Iterator
+>(
+    f0: I0, l0: I0,
+    f1: I1, l1: I1
+) -> Bool
+where I0.Source == I1.Source {
+    return lexicographicalCompare(f0: f0, l0: l0,
+                                  f1: f1, l1: l1,
+                                  r: less)
 }
 
-func lexicographicalLess<I0: Readable & ForwardIterator, I1: Readable & ForwardIterator>(k: Int, f0: I0, f1: I1) -> Bool where I0.Source == I1.Source {
+func lexicographicalLess<
+    I0: Readable & ForwardIterator,
+    I1: Readable & ForwardIterator
+>(
+    k: Int,
+    f0: I0,
+    f1: I1
+) -> Bool
+where I0.Source == I1.Source {
     if k == 0 { return false }
     if f0.source! < f1.source! { return true }
     if f0.source! > f1.source! { return false }
@@ -305,7 +419,9 @@ func lexicographicalLess<I0: Readable & ForwardIterator, I1: Readable & ForwardI
 //  Should sense of positive/negative be flipped?
 
 
-func comparatorThreeWay<DomainR: Regular>(r: @escaping Relation<DomainR>) -> BinaryHomogeneousFunction<DomainR, Int> {
+func comparatorThreeWay<DomainR: Regular>(
+    r: @escaping Relation<DomainR>
+) -> BinaryHomogeneousFunction<DomainR, Int> {
     // Precondition: $\property{weak\_ordering}(r)$
     // Postcondition: three_way_compare(comparator_3_way(r))
     return { a, b in
@@ -315,7 +431,15 @@ func comparatorThreeWay<DomainR: Regular>(r: @escaping Relation<DomainR>) -> Bin
     }
 }
 
-func lexicographicalCompareThreeWay<I0: Readable & Iterator, I1: Readable & Iterator>(f0: I0, l0: I0, f1: I1, l1: I1, comp: BinaryHomogeneousFunction<I0.Source, Int>) -> Int where I0.Source == I1.Source {
+func lexicographicalCompareThreeWay<
+    I0: Readable & Iterator,
+    I1: Readable & Iterator
+>(
+    f0: I0, l0: I0,
+    f1: I1, l1: I1,
+    comp: BinaryHomogeneousFunction<I0.Source, Int>
+) -> Int
+where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
     // Precondition: $\property{readable\_bounded\_range}(f0, l0)$
     // Precondition: $\property{readable\_bounded\_range}(f1, l1)$
@@ -333,7 +457,15 @@ func lexicographicalCompareThreeWay<I0: Readable & Iterator, I1: Readable & Iter
     }
 }
 
-func bifurcateCompareNonempty<C0: Readable & BifurcateCoordinate, C1: Readable & BifurcateCoordinate>(c0: C0, c1: C1, comp: BinaryHomogeneousFunction<C0.Source, Int>) -> Int where C0.Source == C1.Source {
+func bifurcateCompareNonempty<
+    C0: Readable & BifurcateCoordinate,
+    C1: Readable & BifurcateCoordinate
+>(
+    c0: C0,
+    c1: C1,
+    comp: BinaryHomogeneousFunction<C0.Source, Int>
+) -> Int
+where C0.Source == C1.Source {
     // Precondition: $\property{readable\_tree}(c0) \wedge \property{readable\_tree}(c1)$
     // Precondition: $\neg \func{empty}(c0) \wedge \neg \func{empty}(c1)$
     // Precondition: $\property{three\_way\_compare}(comp)$
@@ -341,14 +473,18 @@ func bifurcateCompareNonempty<C0: Readable & BifurcateCoordinate, C1: Readable &
     if tmp != 0 { return tmp }
     if c0.hasLeftSuccessor() {
         if c1.hasLeftSuccessor() {
-            tmp = bifurcateCompareNonempty(c0: c0.leftSuccessor!, c1: c1.leftSuccessor!, comp: comp)
+            tmp = bifurcateCompareNonempty(c0: c0.leftSuccessor!,
+                                           c1: c1.leftSuccessor!,
+                                           comp: comp)
             if tmp != 0 { return tmp }
         } else { return -1 }
     } else if c1.hasLeftSuccessor() { return 1 }
     
     if c0.hasRightSuccessor() {
         if c1.hasRightSuccessor() {
-            tmp = bifurcateCompareNonempty(c0: c0.rightSuccessor!, c1: c1.rightSuccessor!, comp: comp)
+            tmp = bifurcateCompareNonempty(c0: c0.rightSuccessor!,
+                                           c1: c1.rightSuccessor!,
+                                           comp: comp)
             if tmp != 0 { return tmp }
         } else { return -1 }
     } else if c1.hasRightSuccessor() { return 1 }
@@ -356,7 +492,15 @@ func bifurcateCompareNonempty<C0: Readable & BifurcateCoordinate, C1: Readable &
     return 0
 }
 
-func bifurcateCompare<C0: Readable & BidirectionalBifurcateCoordinate, C1: Readable & BidirectionalBifurcateCoordinate>(c0: C0, c1: C1, r: Relation<C0.Source>) -> Bool where C0.Source == C1.Source {
+func bifurcateCompare<
+    C0: Readable & BidirectionalBifurcateCoordinate,
+    C1: Readable & BidirectionalBifurcateCoordinate
+>(
+    c0: C0,
+    c1: C1,
+    r: Relation<C0.Source>
+) -> Bool
+where C0.Source == C1.Source {
     var c0 = c0, c1 = c1
     // Precondition: $\property{readable\_tree}(c0) \wedge
     //                \property{readable\_tree}(c1) \wedge
@@ -378,7 +522,14 @@ func bifurcateCompare<C0: Readable & BidirectionalBifurcateCoordinate, C1: Reada
     }
 }
 
-func bifurcateLess<C0: Readable & BidirectionalBifurcateCoordinate, C1: Readable & BidirectionalBifurcateCoordinate>(c0: C0, c1: C1) -> Bool where C0.Source == C1.Source {
+func bifurcateLess<
+    C0: Readable & BidirectionalBifurcateCoordinate,
+    C1: Readable & BidirectionalBifurcateCoordinate
+>(
+    c0: C0,
+    c1: C1
+) -> Bool
+where C0.Source == C1.Source {
     // Precondition: $\property{readable\_tree}(c0) \wedge
     //                \property{readable\_tree}(c1)
     let ls: Relation<C0.Source> = less
@@ -389,7 +540,14 @@ func alwaysFalse<T: Regular>(x: T, y: T) -> Bool {
     return false
 }
 
-func bifurcateShapeCompare<C0: Readable & BidirectionalBifurcateCoordinate, C1: Readable & BidirectionalBifurcateCoordinate>(c0: C0, c1: C1) -> Bool where C0.Source == C1.Source {
+func bifurcateShapeCompare<
+    C0: Readable & BidirectionalBifurcateCoordinate,
+    C1: Readable & BidirectionalBifurcateCoordinate
+>(
+    c0: C0,
+    c1: C1
+) -> Bool
+where C0.Source == C1.Source {
     // Precondition: $\property{readable\_tree}(c0) \wedge
     //                \property{readable\_tree}(c1)
     return bifurcateCompare(c0: c0, c1: c1, r: alwaysFalse)
