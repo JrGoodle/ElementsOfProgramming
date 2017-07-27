@@ -23,7 +23,7 @@
 //    let k: Int
 //
 //    subscript(index: Int) -> T {
-//        // Precondition: $0 \leq i < \func{size}(x)$
+//        // Precondition: 0 ≤ i < size(x)
 //        get {
 //            return a[index]
 //        }

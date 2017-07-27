@@ -4,7 +4,7 @@
 //
 
 func weightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
-    // Precondition: $\property{tree}(c)$
+    // Precondition: tree(c)
     if c.isEmpty() { return N(0) }
     var l = N(0)
     var r = N(0)
@@ -19,7 +19,7 @@ func weightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
 }
 
 func heightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
-    // Precondition: $\property{tree}(c)$
+    // Precondition: tree(c)
     if c.isEmpty() { return N(0) }
     var l = N(0)
     var r = N(0)
@@ -49,7 +49,7 @@ func traverseNonempty<
 ) -> P
 where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     var proc = proc
-    // Precondition: $\property{tree}(c) \wedge \neg \func{empty}(c)$
+    // Precondition: tree(c) ∧ ￢empty(c)
     proc.call(.pre, c)
     if c.hasLeftSuccessor() {
         proc = traverseNonempty(c: c.leftSuccessor!, proc: proc)
@@ -63,13 +63,13 @@ where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
 }
 
 func isLeftSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
-    // Precondition: $\func{has\_predecessor}(j)$
+    // Precondition: has_predecessor(j)
     let i = j.iteratorPredecessor!
     return i.hasLeftSuccessor() && i.leftSuccessor! == j
 }
 
 func isRightSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
-    // Precondition: $\func{has\_predecessor}(j)$
+    // Precondition: has_predecessor(j)
     let i = j.iteratorPredecessor!
     return i.hasRightSuccessor() && i.rightSuccessor! == j
 }
@@ -78,7 +78,7 @@ func traverseStep<C: BidirectionalBifurcateCoordinate>(
     v: inout Visit,
     c: inout C
 ) -> Int {
-    // Precondition: $\func{has\_predecessor}(c) \vee v \neq post$
+    // Precondition: has_predecessor(c) ∨ v ≠ post
     switch v {
     case .pre:
         if c.hasLeftSuccessor() {
@@ -108,7 +108,7 @@ func reachable<C: BidirectionalBifurcateCoordinate>(
     x: C, y: C
 ) -> Bool {
     var x = x
-    // Precondition: $\property{tree}(x)$
+    // Precondition: tree(x)
     if x.isEmpty() { return false }
     let root = x
     var v = Visit.pre
@@ -121,11 +121,11 @@ func reachable<C: BidirectionalBifurcateCoordinate>(
 
 func weight<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
     var c = c
-    // Precondition: $\property{tree}(c)$
+    // Precondition: tree(c)
     if c.isEmpty() { return N(0) }
     let root = c
     var v = Visit.pre
-    var n = N(1) // Invariant: $n$ is count of $\type{pre}$ visits so far
+    var n = N(1) // Invariant: n is count of .pre visits so far
     repeat {
         _ = traverseStep(v: &v, c: &c)
         if v == .pre { n = n.successor() }
@@ -135,12 +135,12 @@ func weight<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
 
 func height<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
     var c = c
-    // Precondition: $\property{tree}(c)$
+    // Precondition: tree(c)
     if c.isEmpty() { return N(0) }
     let root = c
     var v = Visit.pre
-    var n = N(1) // Invariant: $n$ is max of height of $\type{pre}$ visits so far
-    var m = N(1) // Invariant: $m$ is height of current $\type{pre}$ visit
+    var n = N(1) // Invariant: n is max of height of .pre visits so far
+    var m = N(1) // Invariant: m is height of current .pre visit
     repeat {
         m = (m - N(1)) + N(traverseStep(v: &v, c: &c) + 1)
         n = max(n, m)
@@ -157,7 +157,7 @@ func traverse<
 ) -> P
 where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     var c = c
-    // Precondition: $\property{tree}(c)$
+    // Precondition: tree(c)
     if c.isEmpty() { return proc }
     let root = c
     var v = Visit.pre
@@ -181,8 +181,7 @@ func bifurcateIsomorphicNonempty<
     c0: C0,
     c1: C1
 ) -> Bool {
-    // Precondition:
-    // $\property{tree}(c0) \wedge \property{tree}(c1) \wedge \neg \func{empty}(c0) \wedge \neg \func{empty}(c1)$
+    // Precondition: tree(c0) ∧ tree(c1) ∧ ￢empty(c0) ∧ ￢empty(c1)
     if c0.hasLeftSuccessor() {
         if c1.hasLeftSuccessor() {
             if !bifurcateIsomorphicNonempty(c0: c0.leftSuccessor!,
@@ -212,7 +211,7 @@ func bifurcateIsomorphic<
     c1: C1
 ) -> Bool {
     var c0 = c0, c1 = c1
-    // Precondition: $\property{tree}(c0) \wedge \property{tree}(c1)$
+    // Precondition: tree(c0) ∧ tree(c1)
     if c0.isEmpty() { return c1.isEmpty() }
     if c1.isEmpty() { return false }
     let root0 = c0
@@ -235,9 +234,9 @@ func lexicographicalEquivalent<
     r: Relation<I0.Source>
 ) -> Bool
 where I0.Source == I1.Source {
-    // Precondition: $\property{readable\_bounded\_range}(f0, l0)$
-    // Precondition: $\property{readable\_bounded\_range}(f1, l1)$
-    // Precondition: $\property{equivalence}(r)$
+    // Precondition: readable_bounded_range(f0, l0)
+    // Precondition: readable_bounded_range(f1, l1)
+    // Precondition: equivalence(r)
     let p: Pair<I0, I1> = findMismatch(f0: f0, l0: l0,
                                        f1: f1, l1: l1,
                                        r: r)
@@ -284,9 +283,9 @@ func bifurcateEquivalentNonempty<
     r: Relation<C0.Source>
 ) -> Bool
 where C0.Source == C1.Source {
-    // Precondition: $\property{readable\_tree}(c0) \wedge \property{readable\_tree}(c1)$
-    // Precondition: $\neg \func{empty}(c0) \wedge \neg \func{empty}(c1)$
-    // Precondition: $\property{equivalence}(r)$
+    // Precondition: readable_tree(c0) ∧ readable_tree(c1)
+    // Precondition: ￢empty(c0) ∧ ￢empty(c1)
+    // Precondition: equivalence(r)
     if !r(c0.source!, c1.source!) { return false }
     if c0.hasLeftSuccessor() {
         if c1.hasLeftSuccessor() {
@@ -321,8 +320,8 @@ func bifurcateEquivalent<
 ) -> Bool
 where C0.Source == C1.Source {
     var c0 = c0, c1 = c1
-    // Precondition: $\property{readable\_tree}(c0) \wedge \property{readable\_tree}(c1)$
-    // Precondition: $\property{equivalence}(r)$
+    // Precondition: readable_tree(c0) ∧ readable_tree(c1)
+    // Precondition: equivalence(r)
     if c0.isEmpty() { return c1.isEmpty() }
     if c1.isEmpty() { return false }
     let root0 = c0
@@ -360,9 +359,9 @@ func lexicographicalCompare<
 ) -> Bool
 where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
-    // Precondition: $\property{readable\_bounded\_range}(f0, l0)$
-    // Precondition: $\property{readable\_bounded\_range}(f1, l1)$
-    // Precondition: $\property{weak\_ordering}(r)$
+    // Precondition: readable_bounded_range(f0, l0)
+    // Precondition: readable_bounded_range(f1, l1)
+    // Precondition: weak_ordering(r)
     while true {
         if f1 == l1 { return false }
         if f0 == l0 { return true }
@@ -422,7 +421,7 @@ where I0.Source == I1.Source {
 func comparatorThreeWay<DomainR: Regular>(
     r: @escaping Relation<DomainR>
 ) -> BinaryHomogeneousFunction<DomainR, Int> {
-    // Precondition: $\property{weak\_ordering}(r)$
+    // Precondition: weak_ordering(r)
     // Postcondition: three_way_compare(comparator_3_way(r))
     return { a, b in
         if r(a, b) { return 1 }
@@ -441,9 +440,9 @@ func lexicographicalCompareThreeWay<
 ) -> Int
 where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
-    // Precondition: $\property{readable\_bounded\_range}(f0, l0)$
-    // Precondition: $\property{readable\_bounded\_range}(f1, l1)$
-    // Precondition: $\property{three\_way\_compare}(comp)$
+    // Precondition: readable_bounded_range(f0, l0)
+    // Precondition: readable_bounded_range(f1, l1)
+    // Precondition: three_way_compare(comp)
     while true {
         if f0 == l0 {
             if f1 == l1 { return 0 }
@@ -466,9 +465,9 @@ func bifurcateCompareNonempty<
     comp: BinaryHomogeneousFunction<C0.Source, Int>
 ) -> Int
 where C0.Source == C1.Source {
-    // Precondition: $\property{readable\_tree}(c0) \wedge \property{readable\_tree}(c1)$
-    // Precondition: $\neg \func{empty}(c0) \wedge \neg \func{empty}(c1)$
-    // Precondition: $\property{three\_way\_compare}(comp)$
+    // Precondition: readable_tree(c0) ∧ readable_tree(c1)
+    // Precondition: ￢empty(c0) ∧ ￢empty(c1)
+    // Precondition: three_way_compare(comp)
     var tmp = comp(c0.source!, c1.source!)
     if tmp != 0 { return tmp }
     if c0.hasLeftSuccessor() {
@@ -502,9 +501,7 @@ func bifurcateCompare<
 ) -> Bool
 where C0.Source == C1.Source {
     var c0 = c0, c1 = c1
-    // Precondition: $\property{readable\_tree}(c0) \wedge
-    //                \property{readable\_tree}(c1) \wedge
-    //                \property{weak\_ordering}(r)$
+    // Precondition: readable_tree(c0) ∧ readable_tree(c1) ∧ weak_ordering(r)
     if c1.isEmpty() { return false }
     if c0.isEmpty() { return true }
     let root0 = c0
@@ -530,8 +527,7 @@ func bifurcateLess<
     c1: C1
 ) -> Bool
 where C0.Source == C1.Source {
-    // Precondition: $\property{readable\_tree}(c0) \wedge
-    //                \property{readable\_tree}(c1)
+    // Precondition: readable_tree(c0) ∧ readable_tree(c1)
     let ls: Relation<C0.Source> = less
     return bifurcateCompare(c0: c0, c1: c1, r: ls)
 }
@@ -548,7 +544,6 @@ func bifurcateShapeCompare<
     c1: C1
 ) -> Bool
 where C0.Source == C1.Source {
-    // Precondition: $\property{readable\_tree}(c0) \wedge
-    //                \property{readable\_tree}(c1)
+    // Precondition: readable_tree(c0) ∧ readable_tree(c1)
     return bifurcateCompare(c0: c0, c1: c1, r: alwaysFalse)
 }

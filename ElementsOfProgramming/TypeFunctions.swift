@@ -20,7 +20,7 @@ extension Distance {
     func distance(to end: Self, f: Transformation<Self>) -> UInt {
         var x = self
         let y = end
-        // Precondition: $y$ is reachable from $x$ under $f$
+        // Precondition: y is reachable from x under f
         var n = N(0)
         while x != y {
             x = f(x)

@@ -10,7 +10,7 @@ func copyStep<
     fi: inout I,
     fo: inout O
 ) where I.Source == O.Sink {
-    // Precondition: $\func{source}(f_i)$ and $\func{sink}(f_o)$ are defined
+    // Precondition: source(f_i) and sink(f_o) are defined
     fo.sink = fi.source!
     fi = fi.iteratorSuccessor!
     fo = fo.iteratorSuccessor!
@@ -25,8 +25,7 @@ func copy<
 ) -> O
 where I.Source == O.Sink {
     var fi = fi, fo = fo
-    // Precondition:
-    // $\property{not\_overlapped\_forward}(f_i, l_i, f_o, f_o + (l_i - f_i))$
+    // Precondition: not_overlapped_forward(f_i, l_i, f_o, f_o + (l_i - f_i))
     while fi != li { copyStep(fi: &fi, fo: &fo) }
     return fo
 }
@@ -42,13 +41,13 @@ func fill<I: Writable & Iterator>(f: I, l: I, x: I.Sink) -> I {
     return f
 }
 
-// like APL $\iota$
+// like APL \iota
 func iota<O: Writable & Iterator>(
     n: Int,
     o: O
 ) -> O
 where O.Sink == Int {
-    // Precondition: $\property{writable\_counted\_range}(o, n) \wedge n \geq 0$
+    // Precondition: writable_counted_range(o, n) ∧ n ≥ 0
     return copy(fi: 0, li: n, fo: o)
 }
 
@@ -59,7 +58,7 @@ func iotaEqual<I: Readable & Iterator>(
 ) -> Bool
 where I.Source == Int {
     var f = f, n = n
-    // Precondition: $\property{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while f != l {
         if f.source! != n { return false }
         n = n.successor()
@@ -77,7 +76,7 @@ func copyBounded<
 ) -> Pair<I, O>
 where I.Source == O.Sink {
     var fi = fi, fo = fo
-    // Precondition: $\property{not\_overlapped\_forward}(f_i, l_i, f_o, l_o)$
+    // Precondition: not_overlapped_forward(f_i, l_i, f_o, l_o)
     while fi != li && fo != lo { copyStep(fi: &fi, fo: &fo) }
     return Pair(m0: fi, m1: fo)
 }
@@ -99,7 +98,7 @@ func copyN<
 ) -> Pair<I, O>
 where I.Source == O.Sink {
     var fi = fi, n = n, fo = fo
-    // Precondition: $\property{not\_overlapped\_forward}(f_i, f_i+n, f_o, f_o+n)$
+    // Precondition: not_overlapped_forward(f_i, f_i + n, f_o, f_o + n)
     while countDown(n: &n) { copyStep(fi: &fi, fo: &fo) }
     return Pair(m0: fi, m1: fo)
 }
@@ -121,8 +120,7 @@ func copyBackwardStep<
     li: inout I,
     lo: inout O
 ) where I.Source == O.Sink{
-    // Precondition: $\func{source}(\property{predecessor}(l_i))$ and
-    //               $\func{sink}(\property{predecessor}(l_o))$
+    // Precondition: source(predecessor(l_i)) and sink(predecessor(l_o))
     //               are defined
     li = li.iteratorPredecessor!
     lo = lo.iteratorPredecessor!
@@ -138,7 +136,7 @@ func copyBackward<
 ) -> O
 where I.Source == O.Sink {
     var li = li, lo = lo
-    // Precondition: $\property{not\_overlapped\_backward}(f_i, l_i, l_o-(l_i-f_i), l_o)$
+    // Precondition: not_overlapped_backward(f_i, l_i, l_o-(l_i - f_i), l_o)
     while fi != li { copyBackwardStep(li: &li, lo: &lo) }
     return lo
 }
@@ -164,8 +162,7 @@ func reverseCopyStep<
     li: inout I,
     fo: inout O
 ) where I.Source == O.Sink {
-    // Precondition: $\func{source}(\func{predecessor}(l_i))$ and
-    //               $\func{sink}(f_o)$ are defined
+    // Precondition: source(predecessor(l_i)) and sink(f_o) are defined
     li = li.iteratorPredecessor!
     fo.sink = li.source!
     fo = fo.iteratorSuccessor!
@@ -178,8 +175,7 @@ func reverseCopyBackwardStep<
     fi: inout I,
     lo: inout O
 ) where I.Source == O.Sink {
-    // Precondition: $\func{source}(f_i)$ and
-    //               $\func{sink}(\property{predecessor}(l_o))$ are defined
+    // Precondition: source(f_i) and sink(predecessor(l_o)) are defined
     lo = lo.iteratorPredecessor!
     lo.sink = fi.source!
     fi = fi.iteratorSuccessor!
@@ -194,7 +190,7 @@ func reverseCopy<
 ) -> O
 where I.Source == O.Sink {
     var li = li, fo = fo
-    // Precondition: $\property{not\_overlapped}(f_i, l_i, f_o, f_o+(l_i-f_i))$
+    // Precondition: not_overlapped(f_i, l_i, f_o, f_o + (l_i - f_i))
     while fi != li { reverseCopyStep(li: &li, fo: &fo) }
     return fo
 }
@@ -208,7 +204,7 @@ func reverseCopyBackward<
 ) -> O
 where I.Source == O.Sink {
     var fi = fi, lo = lo
-    // Precondition: $\property{not\_overlapped}(f_i, l_i, l_o-(l_i-f_i), l_o)$
+    // Precondition: not_overlapped(f_i, l_i, l_o - (l_i - f_i), l_o)
     while fi != li { reverseCopyBackwardStep(fi: &fi, lo: &lo) }
     return lo
 }
@@ -223,8 +219,8 @@ func copySelect<
 ) -> O
 where I.Source == O.Sink {
     var fi = fi, ft = ft
-    // Precondition: $\property{not\_overlapped\_forward}(f_i, l_i, f_t, f_t+n_t)$
-    // where $n_t$ is an upper bound for the number of iterators satisfying $p$
+    // Precondition: not_overlapped_forward(f_i, l_i, f_t, f_t + n_t)
+    // where n_t is an upper bound for the number of iterators satisfying p
     while fi != li {
         if p(fi) { copyStep(fi: &fi, fo: &ft) }
         else { fi = fi.iteratorSuccessor! }
@@ -241,7 +237,7 @@ func copyIf<
     p: @escaping UnaryPredicate<I.Source>
 ) -> O
 where I.Source == O.Sink {
-    // Precondition: same as for $\func{copy\_select}$
+    // Precondition: same as for copy_select
     let ps: UnaryPredicate<I> = predicateSource(p: p)
     return copySelect(fi: fi, li: li, ft: ft, p: ps)
 }
@@ -298,7 +294,7 @@ func partitionCopy<
     p: @escaping UnaryPredicate<I.Source>
 ) -> Pair<OF, OT>
 where I.Source == OF.Sink, I.Source == OT.Sink {
-    // Precondition: same as $\func{split\_copy}$
+    // Precondition: same as split_copy
     let ps: UnaryPredicate<I> = predicateSource(p: p)
     return splitCopy(fi: fi, li: li, ff: ff, ft: ft, p: ps)
 }
@@ -315,7 +311,7 @@ func partitionCopyN<
     p: @escaping UnaryPredicate<I.Source>
 ) -> Pair<OF, OT>
 where I.Source == OF.Sink, I.Source == OT.Sink {
-    // Precondition: see $\func{partition_copy}$
+    // Precondition: see partition_copy
     let ps: UnaryPredicate<I> = predicateSource(p: p)
     return splitCopyN(fi: fi, ni: n, ff: ff, ft: ft, p: ps)
 }
@@ -357,7 +353,7 @@ where I0.Source == O.Sink, I1.Source == O.Sink {
     var fi0 = fi0, ni0 = ni0
     var fi1 = fi1, ni1 = ni1
     var fo = fo
-    // Precondition: see $\func{combine_copy}$
+    // Precondition: see combine_copy
     while true {
         if ni0.isEqualToZero() {
             let p = copyN(fi: fi1, n: ni1, fo: fo)
@@ -416,7 +412,7 @@ where I0.Source == O.Sink, I1.Source == O.Sink {
     var li0 = li0, ni0 = ni0
     var li1 = li1, ni1 = ni1
     var lo = lo
-    // Precondition: see $\func{combine\_copy\_backward}$
+    // Precondition: see combine_copy_backward
     while true {
         if ni0.isEqualToZero() {
             let p = copyBackwardN(li: li1, n: ni1, lo: lo)
@@ -447,10 +443,10 @@ func mergeCopy<
     r: @escaping Relation<I0.Source>
 ) -> O
 where I0.Source == O.Sink, I1.Source == O.Sink {
-    // Precondition: in addition to that for $\func{combine\_copy}$:
-    // \hspace*{1em} $\property{weak\_ordering}(r) \wedge {}$
-    // \hspace*{1em} $\func{increasing\_range}(f_{i_0}, l_{i_0}, r) \wedge
-    //                \property{increasing\_range}(f_{i_1}, l_{i_1}, r)$
+    // Precondition: in addition to that for combine_copy:
+    //               weak_ordering(r) ∧
+    //               increasing_range(f_{i_0}, l_{i_0}, r) ∧
+    //               increasing_range(f_{i_1}, l_{i_1}, r)
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
     return combineCopy(fi0: fi0, li0: li0,
                        fi1: fi1, li1: li1,
@@ -469,7 +465,7 @@ func mergeCopyN<
     r: @escaping Relation<I0.Source>
 ) -> Triple<I0, I1, O>
 where I0.Source == O.Sink, I1.Source == O.Sink {
-    // Precondition: see $\func{merge\_copy}$
+    // Precondition: see merge_copy
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
     return combineCopyN(fi0: fi0, ni0: ni0,
                         fi1: fi1, ni1: ni1,
@@ -488,10 +484,10 @@ func mergeCopyBackward<
     r: @escaping Relation<I0.Source>
 ) -> O
 where I0.Source == O.Sink, I1.Source == O.Sink {
-    // Precondition: in addition to that for $\func{combine\_copy\_backward}$:
-    //               $\property{weak\_ordering}(r) \wedge {}$
-    //               $\func{increasing\_range}(f_{i_0}, l_{i_0}, r) \wedge
-    //                \property{increasing\_range}(f_{i_1}, l_{i_1}, r)$
+    // Precondition: in addition to that for combine_copy_backward:
+    //               weak_ordering(r) ∧
+    //               increasing_range(f_{i_0}, l_{i_0}, r) ∧
+    //               increasing_range(f_{i_1}, l_{i_1}, r)
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
     return combineCopyBackward(fi0: fi0, li0: li0,
                                fi1: fi1, li1: li1,
@@ -510,7 +506,7 @@ func mergeCopyBackwardN<
     r: @escaping Relation<I0.Source>
 ) -> Triple<I0, I1, O>
 where I0.Source == O.Sink, I1.Source == O.Sink {
-    // Precondition: see $\func{merge\_copy\_backward}$
+    // Precondition: see merge_copy_backward
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
     return combineCopyBackwardN(li0: li0, ni0: ni0,
                                 li1: li1, ni1: ni1,
@@ -526,7 +522,7 @@ func exchangeValues<
     y: I1
 ) where I0.Source == I1.Source {
     var x = x, y = y
-    // Precondition: $\func{deref}(x)$ and $\func{deref}(y)$ are defined
+    // Precondition: deref(x) and deref(y) are defined
     let t = x.source!
     x.sink = y.source!
     y.sink = t
@@ -539,7 +535,7 @@ func swapStep<
     f0: inout I0,
     f1: inout I1
 ) where I0.Source == I1.Source {
-    // Precondition: $\func{deref}(f_0)$ and $\func{deref}(f_1)$ are defined
+    // Precondition: deref(f_0) and deref(f_1) are defined
     exchangeValues(x: f0, y: f1)
     f0 = f0.iteratorSuccessor!
     f1 = f1.iteratorSuccessor!
@@ -554,8 +550,8 @@ func swapRanges<
 ) -> I1
 where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
-    // Precondition: $\property{mutable\_bounded\_range}(f_0, l_0)$
-    // Precondition: $\property{mutable\_counted\_range}(f_1, l_0-f_0)$
+    // Precondition: mutable_bounded_range(f_0, l_0)
+    // Precondition: mutable_counted_range(f_1, l_0 - f_0)
     while f0 != l0 { swapStep(f0: &f0, f1: &f1) }
     return f1
 }
@@ -570,8 +566,8 @@ func swapRangesBounded<
 ) -> Pair<I0, I1>
 where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
-    // Precondition: $\property{mutable\_bounded\_range}(f_0, l_0)$
-    // Precondition: $\property{mutable\_bounded\_range}(f_1, l_1)$
+    // Precondition: mutable_bounded_range(f_0, l_0)
+    // Precondition: mutable_bounded_range(f_1, l_1)
     while f0 != l0 && f1 != l1 { swapStep(f0: &f0, f1: &f1) }
     return Pair(m0: f0, m1: f1)
 }
@@ -586,8 +582,8 @@ func swapRangesN<
 ) -> Pair<I0, I1>
 where I0.Source == I1.Source {
     var f0 = f0, f1 = f1, n = n
-    // Precondition: $\property{mutable\_counted\_range}(f_0, n)$
-    // Precondition: $\property{mutable\_counted\_range}(f_1, n)$
+    // Precondition: mutable_counted_range(f_0, n)
+    // Precondition: mutable_counted_range(f_1, n)
     while countDown(n: &n) { swapStep(f0: &f0, f1: &f1) }
     return Pair(m0: f0, m1: f1)
 }
@@ -599,8 +595,7 @@ func reverseSwapStep<
     l0: inout I0,
     f1: inout I1
 ) where I0.Source == I1.Source {
-    // Precondition: $\func{deref}(\func{predecessor}(l_0))$ and
-    //               $\func{deref}(f_1)$ are defined
+    // Precondition: deref(predecessor(l_0)) and deref(f_1) are defined
     l0 = l0.iteratorPredecessor!
     exchangeValues(x: l0, y: f1)
     f1 = f1.iteratorSuccessor!
@@ -615,8 +610,8 @@ func reverseSwapRanges<
 ) -> I1
 where I0.Source == I1.Source {
     var l0 = l0, f1 = f1
-    // Precondition: $\property{mutable\_bounded\_range}(f_0, l_0)$
-    // Precondition: $\property{mutable\_counted\_range}(f_1, l_0-f_0)$
+    // Precondition: mutable_bounded_range(f_0, l_0)
+    // Precondition: mutable_counted_range(f_1, l_0 - f_0)
     while f0 != l0 { reverseSwapStep(l0: &l0, f1: &f1) }
     return f1
 }
@@ -630,8 +625,8 @@ func reverseSwapRangesBounded<
 ) -> Pair<I0, I1>
 where I0.Source == I1.Source {
     var l0 = l0, f1 = f1
-    // Precondition: $\property{mutable\_bounded\_range}(f_0, l_0)$
-    // Precondition:  $\property{mutable\_bounded\_range}(f_1, l_1)$
+    // Precondition: mutable_bounded_range(f_0, l_0)
+    // Precondition: mutable_bounded_range(f_1, l_1)
     while f0 != l0 && f1 != l1 {
         reverseSwapStep(l0: &l0, f1: &f1)
     }
@@ -648,8 +643,8 @@ func reverseSwapRangesN<
 ) -> Pair<I0, I1>
 where I0.Source == I1.Source {
     var l0 = l0, f1 = f1, n = n
-    // Precondition: $\property{mutable\_counted\_range}(l_0-n, n)$
-    // Precondition: $\property{mutable\_counted\_range}(f_1, n)$
+    // Precondition: mutable_counted_range(l_0 - n, n)
+    // Precondition: mutable_counted_range(f_1, n)
     while countDown(n: &n) { reverseSwapStep(l0: &l0, f1: &f1) }
     return Pair(m0: l0, m1: f1)
 }

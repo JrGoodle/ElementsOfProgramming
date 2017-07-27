@@ -82,7 +82,7 @@ extension Rational: Multipliable {
 
 extension Rational: MultiplicativeInverse {
     func multiplicativeInverse() -> Rational {
-        // Precondition: $x.p \neq 0$
+        // Precondition: $x.p ≠ 0$
         return Rational(numerator: self.denominator,
                         denominator: self.numerator)!
     }

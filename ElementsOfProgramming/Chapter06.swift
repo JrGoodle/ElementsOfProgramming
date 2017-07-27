@@ -4,13 +4,13 @@
 //
 
 func increment<I: Iterator>(x: inout I) {
-    // Precondition: $\func{successor}(x)$ is defined
+    // Precondition: successor(x) is defined
     x = x.iteratorSuccessor!
 }
 
 func +<I: Iterator>(f: I, n: DistanceType) -> I {
     var f = f, n = n
-    // Precondition: \property{weak\_range}(f, n)$
+    // Precondition: weak_range(f, n)
     precondition(n >= 0)
     while !n.isEqualToZero() {
         n = n.predecessor()
@@ -21,7 +21,7 @@ func +<I: Iterator>(f: I, n: DistanceType) -> I {
 
 func -<I: Iterator>(l: I, f: I) -> DistanceType {
     var f = f
-    // Precondition: $\property{bounded\_range}(f, l)$
+    // Precondition: bounded_range(f, l)
     var n = DistanceType(0)
     while f != l {
         n = n.successor()
@@ -38,7 +38,7 @@ func forEach<
     proc: P
 ) -> P where P.UnaryProcedureType == I.Source {
     var f = f
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while f != l {
         proc.call(f.source!)
         f = f.iteratorSuccessor!
@@ -48,14 +48,14 @@ func forEach<
 
 func find<I: Readable & Iterator>(f: I, l: I, x: I.Source) -> I {
     var f = f
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while f != l && f.source! != x { f = f.iteratorSuccessor! }
     return f
 }
 
 func findNot<I: Readable & Iterator>(f: I, l: I, x: I.Source) -> I {
     var f = f
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while f != l && f.source! == x { f = f.iteratorSuccessor! }
     return f
 }
@@ -65,7 +65,7 @@ func findIf<I: Readable & Iterator>(
     p: UnaryPredicate<I.Source>
 ) -> I {
     var f = f
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while f != l && !p(f.source!) { f = f.iteratorSuccessor! }
     return f
 }
@@ -75,7 +75,7 @@ func findIfNot<I: Readable & Iterator>(
     p: UnaryPredicate<I.Source>
 ) -> I {
     var f = f
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while f != l && p(f.source!) { f = f.iteratorSuccessor! }
     return f
 }
@@ -86,7 +86,7 @@ func all<I: Readable & Iterator>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
 ) -> Bool {
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     return l == findIfNot(f: f, l: l, p: p)
 }
 
@@ -94,7 +94,7 @@ func none<I: Readable & Iterator>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
 ) -> Bool {
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     return l == findIf(f: f, l: l, p: p)
 }
 
@@ -102,7 +102,7 @@ func notAll<I: Readable & Iterator>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
 ) -> Bool {
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     return !all(f: f, l: l, p: p)
 }
 
@@ -110,7 +110,7 @@ func some<I: Readable & Iterator>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
 ) -> Bool {
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     return !none(f: f, l: l, p: p)
 }
 
@@ -122,7 +122,7 @@ func countIf<
     p: UnaryPredicate<I.Source>, j: J
 ) -> J {
     var f = f, j = j
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while f != l {
         if p(f.source!) { j = j.iteratorSuccessor! }
         f = f.iteratorSuccessor!
@@ -136,7 +136,7 @@ func countIf<I: Readable & Iterator>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
 ) -> DistanceType {
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     return countIf(f: f, l: l, p: p, j: DistanceType(0))
 }
 
@@ -149,7 +149,7 @@ func count<
     j: J
 ) -> J{
     var f = f, j = j
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while f != l {
         if f.source! == x { j = j.iteratorSuccessor! }
         f = f.iteratorSuccessor!
@@ -161,7 +161,7 @@ func count<I: Readable & Iterator>(
     f: I, l: I,
     x: I.Source
 ) -> DistanceType {
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     return count(f: f, l: l, x: x, j: DistanceType(0))
 }
 
@@ -174,7 +174,7 @@ func countNot<
     j: J
 ) -> J {
     var f = f, j = j
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while f != l {
         if f.source! != x { j = j.iteratorSuccessor! }
         f = f.iteratorSuccessor!
@@ -186,7 +186,7 @@ func countNot<I: Readable & Iterator>(
     f: I, l: I,
     x: I.Source
 ) -> DistanceType {
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     return countNot(f: f, l: l, x: x, j: DistanceType(0))
 }
 
@@ -199,7 +199,7 @@ func countIfNot<
     j: J
 ) -> J {
     var f = f, j = j
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while f != l {
         if !p(f.source!) { j = j.iteratorSuccessor! }
         f = f.iteratorSuccessor!
@@ -211,7 +211,7 @@ func countIfNot<I: Readable & Iterator>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
 ) -> DistanceType {
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     return countIfNot(f: f, l: l, p: p, j: DistanceType(0))
 }
 
@@ -224,9 +224,9 @@ func reduceNonempty<
     fun: UnaryFunction<I, DomainOp>
 ) -> DomainOp {
     var f = f
-    // Precondition: $\property{bounded\_range}(f, l) \wedge f \neq l$
-    // Precondition: $\property{partially\_associative}(op)$
-    // Precondition: $(\forall x \in [f, l))\,fun(x)$ is defined
+    // Precondition: bounded_range(f, l) ∧ f ≠ l
+    // Precondition: partially_associative(op)
+    // Precondition: (∀x ∈ [f, l)), fun(x) is defined
     var r = fun(f)
     f = f.iteratorSuccessor!
     while f != l {
@@ -241,8 +241,8 @@ func reduceNonempty<I: Readable & Iterator>(
     op: BinaryOperation<I.Source>
 ) -> I.Source {
     var f = f
-    // Precondition: $\property{readable\_bounded\_range}(f, l) \wedge f \neq l$
-    // Precondition: $\property{partially\_associative}(op)$
+    // Precondition: readable_bounded_range(f, l) ∧ f ≠ l
+    // Precondition: partially_associative(op)
     var r = f.source!
     f = f.iteratorSuccessor!
     while f != l {
@@ -261,9 +261,9 @@ func reduce<
     fun: UnaryFunction<I, DomainOp>,
     z: DomainOp
 ) -> DomainOp {
-    // Precondition: $\property{bounded\_range}(f, l)$
-    // Precondition: $\property{partially\_associative}(op)$
-    // Precondition: $(\forall x \in [f, l))\,fun(x)$ is defined
+    // Precondition: bounded_range(f, l)
+    // Precondition: partially_associative(op)
+    // Precondition: (∀x ∈ [f, l)), fun(x) is defined
     if f == l { return z }
     return reduceNonempty(f: f, l: l, op: op, fun: fun)
 }
@@ -273,8 +273,8 @@ func reduce<I: Readable & Iterator>(
     op: BinaryOperation<I.Source>,
     z: I.Source
 ) -> I.Source {
-    // Precondition: $\property{readable\_bounded\_range}(f, l)$
-    // Precondition: $\property{partially\_associative}(op)$
+    // Precondition: readable_bounded_range(f, l)
+    // Precondition: partially_associative(op)
     if f == l { return z }
     return reduceNonempty(f: f, l: l, op: op)
 }
@@ -289,9 +289,9 @@ func reduceNonzeroes<
     z: DomainOp
 ) -> DomainOp {
     var f = f
-    // Precondition: $\property{bounded\_range}(f, l)$
-    // Precondition: $\property{partially\_associative}(op)$
-    // Precondition: $(\forall x \in [f, l))\,fun(x)$ is defined
+    // Precondition: bounded_range(f, l)
+    // Precondition: partially_associative(op)
+    // Precondition: (∀x ∈ [f, l)), fun(x) is defined
     var x: DomainOp
     repeat {
         if f == l { return z }
@@ -313,8 +313,8 @@ func reduceNonzeroes<I: Readable & Iterator>(
     z: I.Source
 ) -> I.Source {
     var f = f
-    // Precondition: $\property{readable\_bounded\_range}(f, l)$
-    // Precondition: $\property{partially\_associative}(op)$
+    // Precondition: readable_bounded_range(f, l)
+    // Precondition: partially_associative(op)
     var x: I.Source
     repeat {
         if f == l { return z }
@@ -334,7 +334,7 @@ func reduce<I: Readable & Iterator>(
     f: I, l: I
 ) -> I.Source
 where I.Source : AdditiveMonoid {
-    // Precondition: $\property{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     typealias T = I.Source
     return reduce(f: f, l: l, op: plus, z: T.additiveIdentity())
 }
@@ -345,7 +345,7 @@ where I.Source : AdditiveMonoid {
 //    proc: UnaryProcedure<I.Source>
 //) -> Pair<UnaryProcedure<I.Source>, I> {
 //    var f = f, n = n
-//    // Precondition: $\property{readable\_weak\_range}(f, n)$
+//    // Precondition: readable_weak_range(f, n)
 //    while !n.zero() {
 //        n = n.predecessor()
 //        proc(f.source()!)
@@ -360,7 +360,7 @@ func findN<I: Readable & Iterator>(
     x: I.Source
 ) -> Pair<I, DistanceType> {
     var f = f, n = n
-    // Precondition: $\property{readable\_weak\_range}(f, n)$
+    // Precondition: readable_weak_range(f, n)
     while !n.isEqualToZero() && f.source! != x {
         n = n.predecessor()
         f = f.iteratorSuccessor!
@@ -378,11 +378,10 @@ func findIfUnguarded<I: Readable & Iterator>(
     p: UnaryPredicate<I.Source>
 ) -> I {
     var f = f
-    // Precondition:
-    // $(\exists l)\,\func{readable\_bounded\_range}(f, l) \wedge \func{some}(f, l, p)$
+    // Precondition: (∃l), readable_bounded_range(f, l) ∧ some(f, l, p)
     while !p(f.source!) { f = f.iteratorSuccessor! }
     return f
-    // Postcondition: $p(\func{source}(f))$
+    // Postcondition: p(source(f))
 }
 
 func findIfNotUnguarded<I: Readable & Iterator>(
@@ -390,9 +389,8 @@ func findIfNotUnguarded<I: Readable & Iterator>(
     p: UnaryPredicate<I.Source>
 ) -> I {
     var f = f
-    // Let $l$ be the end of the implied range starting with $f$
-    // Precondition:
-    // $\func{readable\_bounded\_range}(f, l) \wedge \func{not\_all}(f, l, p)$
+    // Let l be the end of the implied range starting with f
+    // Precondition: readable_bounded_range(f, l) ∧ not_all(f, l, p)
     while p(f.source!) { f = f.iteratorSuccessor! }
     return f
 }
@@ -407,8 +405,8 @@ func findMismatch<
 ) -> Pair<I0, I1>
 where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
-    // Precondition: $\func{readable\_bounded\_range}(f0, l0)$
-    // Precondition: $\func{readable\_bounded\_range}(f1, l1)$
+    // Precondition: readable_bounded_range(f0, l0)
+    // Precondition: readable_bounded_range(f1, l1)
     while f0 != l0 && f1 != l1 && r(f0.source!, f1.source!) {
         f0 = f0.iteratorSuccessor!
         f1 = f1.iteratorSuccessor!
@@ -421,7 +419,7 @@ func findAdjacentMismatch<I: Readable & Iterator>(
     r: Relation<I.Source>
 ) -> I {
     var f = f
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     if f == l { return l }
     var x = f.source!
     while f != l && r(x, f.source!) {
@@ -435,7 +433,7 @@ func relationPreserving<I: Readable & Iterator>(
     f: I, l: I,
     r: Relation<I.Source>
 ) -> Bool {
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     return l == findAdjacentMismatch(f: f, l: l, r: r)
 }
 
@@ -444,7 +442,7 @@ func strictlyIncreasingRange<I: Readable & Iterator>(
     r: Relation<I.Source>
 ) -> Bool {
     // Precondition:
-    // $\func{readable\_bounded\_range}(f, l) \wedge \func{weak\_ordering}(r)$
+    // readable_bounded_range(f, l) ∧ weak_ordering(r)
     return relationPreserving(f: f, l: l, r: r)
 }
 
@@ -453,7 +451,7 @@ func increasingRange<I: Readable & Iterator>(
     r: @escaping Relation<I.Source>
 ) -> Bool {
     // Precondition:
-    // $\func{readable\_bounded\_range}(f, l) \wedge \func{weak\_ordering}(r)$
+    // readable_bounded_range(f, l) ∧ weak_ordering(r)
     return relationPreserving(f: f,
                               l: l,
                               r: complementOfConverse(r: r))
@@ -463,7 +461,7 @@ func partitioned<I: Readable & Iterator>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
 ) -> Bool {
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     return l == findIfNot(f: findIf(f: f, l: l, p: p),
                           l: l,
                           p: p)
@@ -478,7 +476,7 @@ func findAdjacentMismatch<I: Readable & ForwardIterator>(
     r: Relation<I.Source>
 ) -> I {
     var f = f
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     if f == l { return l }
     var t: I
     repeat {
@@ -495,7 +493,7 @@ func partitionPointN<I: Readable & ForwardIterator>(
 ) -> I {
     var f = f, n = n
     // Precondition:
-    // $\func{readable\_counted\_range}(f, n) \wedge \func{partitioned\_n}(f, n, p)$
+    // readable_counted_range(f, n) ∧ partitioned_n(f, n, p)
     while !n.isEqualToZero() {
         let h = n.halfNonnegative()
         let m = f + h
@@ -514,7 +512,7 @@ func partitionPoint<I: Readable & ForwardIterator>(
     p: UnaryPredicate<I.Source>
 ) -> I {
     // Precondition:
-    // $\func{readable\_bounded\_range}(f, l) \wedge \func{partitioned}(f, l, p)$
+    // readable_bounded_range(f, l) ∧ partitioned(f, l, p)
     return partitionPointN(f: f, n: l - f, p: p)
 }
 
@@ -532,7 +530,7 @@ func lowerBoundN<I: Readable & ForwardIterator>(
     r: @escaping Relation<I.Source>
 ) -> I {
     // Precondition:
-    // $\property{weak\_ordering(r)} \wedge \property{increasing\_counted\_range}(f, n, r)$
+    // weak_ordering(r) ∧ increasing_counted_range(f, n, r)
     let p = lowerBoundPredicate(a: a, r: r)
     return partitionPointN(f: f, n: n, p: p)
 }
@@ -551,7 +549,7 @@ func upperBoundN<I: Readable & ForwardIterator>(
     r: @escaping Relation<I.Source>
 ) -> I {
     // Precondition:
-    // $\property{weak\_ordering(r)} \wedge \property{increasing\_counted\_range}(f, n, r)$
+    // weak_ordering(r) ∧ increasing_counted_range(f, n, r)
     let p = upperBoundPredicate(a: a, r: r)
     return partitionPointN(f: f, n: n, p: p)
 }
@@ -564,7 +562,7 @@ func -<I: BidirectionalIterator>(
     n: DistanceType
 ) -> I {
     var l = l, n = n
-    // Precondition: $n \geq 0 \wedge (\exists f \in I)\,(\func{weak\_range}(f, n) \wedge l = f+n)$
+    // Precondition: n ≥ 0 ∧ (∃f ∈ I), (weak_range(f, n) ∧ l = f + n)
     while !n.isEqualToZero() {
         n = n.predecessor()
         l = l.iteratorPredecessor!
@@ -579,7 +577,7 @@ func findBackwardIf<
     p: UnaryPredicate<I.Source>
 ) -> I {
     var l = l
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while l != f && !p(l.iteratorPredecessor!.source!) {
         l = l.iteratorPredecessor!
     }
@@ -593,7 +591,7 @@ func findBackwardIfNot<
     p: UnaryPredicate<I.Source>
 ) -> I {
     var l = l
-    // Precondition: $\func{readable\_bounded\_range}(f, l)$
+    // Precondition: readable_bounded_range(f, l)
     while l != f && p(l.iteratorPredecessor!.source!) {
         l = l.iteratorPredecessor!
     }
@@ -615,10 +613,10 @@ func findBackwardIfUnguarded<
 ) -> I {
     var l = l
     // Precondition:
-    // $(\exists f \in I)\,\property{readable\_bounded\_range}(f, l) \wedge \property{some}(f, l, p)$
+    // (∃f ∈ I), readable_bounded_range(f, l) ∧ some(f, l, p)
     repeat { l = l.iteratorPredecessor! } while !p(l.source!)
     return l
-    // Postcondition: $p(\func{source}(l))$
+    // Postcondition: p(source(l))
 }
 
 func findBackwardIfNotUnguarded<
@@ -629,8 +627,8 @@ func findBackwardIfNotUnguarded<
 ) -> I {
     var l = l
     // Precondition:
-    // $(\exists f \in I)\,\property{readable\_bounded\_range}(f, l) \wedge \property{not\_all}(f, l, p)$
+    // (∃f ∈ I), readable_bounded_range(f, l) ∧ not_all(f, l, p)
     repeat { l = l.iteratorPredecessor! } while p(l.source!)
     return l
-    // Postcondition: $\neg p(\func{source}(l))$
+    // Postcondition: ￢p(source(l))
 }

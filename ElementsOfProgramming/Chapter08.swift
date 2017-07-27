@@ -39,20 +39,20 @@ func setLink<I: ForwardIterator>(t: inout I, f: inout I) {
 }
 
 func advanceTail<I: ForwardIterator>(t: inout I, f: inout I) {
-    // Precondition: $\func{successor}(f)\text{ is defined}$
+    // Precondition: successor(f) is defined
     t = f
     f = f.iteratorSuccessor!
 }
 
 func linkerToTail<I: ForwardLinkedIterator>(t: inout I, f: inout I) {
-    // Precondition: $\func{successor}(f)\text{ is defined}$
+    // Precondition: successor(f) is defined
     ForwardLinker.setForwardLink(x: &t, y: &f)
     advanceTail(t: &t, f: &f)
 }
 
 func findLast<I: ForwardIterator>(f: I, l: I) -> I {
     var f = f
-    // Precondition: $\property{bounded\_range}(f, l) \wedge f \neq l$
+    // Precondition: bounded_range(f, l) ∧ f ≠ l
     // FIXME: Abusing impliticly unwrapped optionals to match the original C++
     var t : I?
     repeat {
@@ -187,7 +187,7 @@ func splitLinked<I: ForwardLinkedIterator>(
     p: UnaryPredicate<I>
 ) -> Pair<Pair<I, I>, Pair<I, I>> {
     var f = f, l = l
-    // Precondition: $\property{bounded\_range}(f, l)$
+    // Precondition: bounded_range(f, l)
     var h0 = l, h1 = l
     var t0 = l, t1 = l
     if f == l {
@@ -298,10 +298,8 @@ func combineLinkedNonempty<I: ForwardLinkedIterator>(
 ) -> Triple<I, I, I> {
     var f0 = f0, f1 = f1
     var l0 = l0, l1 = l1
-    // Precondition: $\property{bounded\_range}(f0, l0) \wedge
-    //                \property{bounded\_range}(f1, l1)$
-    // Precondition: $f0 \neq l0 \wedge f1 \neq l1 \wedge
-    //                \property{disjoint}(f0, l0, f1, l1)$
+    // Precondition: bounded_range(f0, l0) ∧ bounded_range(f1, l1)
+    // Precondition: f0 ≠ l0 ∧ f1 ≠ l1 ∧ disjoint(f0, l0, f1, l1)
     var h: I
     // FIXME: Abusing impliticly unwrapped optionals to match the original C++
     var t: I?
@@ -327,7 +325,7 @@ func combineLinkedNonempty<I: ForwardLinkedIterator>(
 
 
 func linkerToHead<I: ForwardLinkedIterator>(h: inout I, f: inout I) {
-    // Precondition: $\func{successor}(f)$ is defined
+    // Precondition: successor(f) is defined
     let tmp = f.iteratorSuccessor!
     ForwardLinker.setForwardLink(x: &f, y: &h)
     h = f
@@ -336,7 +334,7 @@ func linkerToHead<I: ForwardLinkedIterator>(h: inout I, f: inout I) {
 
 func reverseAppend<I: ForwardLinkedIterator>(f: I, l: I, h: I) -> I {
     var f = f, h = h
-    // Precondition: $\property{bounded\_range}(f, l) \wedge h \notin [f, l)$
+    // Precondition: bounded_range(f, l) ∧ h ∉ [f, l)
     while f != l { linkerToHead(h: &h, f: &f) }
     return h
 }
@@ -353,7 +351,7 @@ func partitionLinked<I: Readable & ForwardLinkedIterator>(
     f: I, l: I,
     p: @escaping UnaryPredicate<I.Source>
 ) -> Pair<Pair<I, I>, Pair<I, I>> {
-    // Precondition: $\property{bounded\_range}(f, l)$
+    // Precondition: bounded_range(f, l)
     let ps: UnaryPredicate<I> = predicateSource(p: p)
     return splitLinked(f: f, l: l, p: ps)
 }
@@ -376,9 +374,9 @@ func mergeLinkedNonempty<I: Readable & ForwardLinkedIterator>(
     r: @escaping Relation<I.Source>
 ) -> Pair<I, I> {
     var l1 = l1
-    // Precondition: $f0 \neq l0 \wedge f1 \neq l1$
-    // Precondition: $\property{increasing\_range}(f0, l0, r)$
-    // Precondition: $\property{increasing\_range}(f1, l1, r)$
+    // Precondition: f0 ≠ l0 ∧ f1 ≠ l1
+    // Precondition: increasing_range(f0, l0, r)
+    // Precondition: increasing_range(f1, l1, r)
     let rs: Relation<I> = relationSource(r: r)
     let t = combineLinkedNonempty(f0: f0, l0: l0, f1: f1, l1: l1, r: rs)
     var last = findLast(f: t.m1, l: t.m2)
@@ -391,8 +389,8 @@ func sortLinkedNonempty<I: Readable & ForwardLinkedIterator>(
     n: DistanceType,
     r: @escaping Relation<I.Source>
 ) -> Pair<I, I> {
-    // Precondition: $\property{counted\_range}(f, n) \wedge
-    //                n > 0 \wedge \func{weak\_ordering}(r)$
+    // Precondition: counted_range(f, n) ∧
+    //                n > 0 ∧ weak_ordering(r)
     if n == N(1) { return Pair(m0: f, m1: f.iteratorSuccessor!) }
     let h = n.halfNonnegative()
     let p0 = sortLinkedNonempty(f: f, n: h, r: r)
@@ -411,7 +409,7 @@ func treeRotate<C: EmptyLinkedBifurcateCoordinate>(
     curr: inout C,
     prev: inout C
 ) {
-    // Precondition: $\neg \func{empty}(curr)$
+    // Precondition: ￢empty(curr)
     let tmp = curr.leftSuccessor!
     curr.leftSuccessor = curr.rightSuccessor!
     curr.rightSuccessor = prev
@@ -431,7 +429,7 @@ func traverseRotating<
     proc: P
 ) -> P
 where P.UnaryProcedureType == C {
-    // Precondition: $\property{tree}(c)$
+    // Precondition: tree(c)
     if c.isEmpty() { return proc }
     var curr = c
     // FIXME: Abusing impliticly unwrapped optionals to match the original C++
@@ -471,13 +469,13 @@ class Counter<T>: UnaryProcedure {
 }
 
 func weightRotating<C: EmptyLinkedBifurcateCoordinate>(c: C) -> WeightType {
-    // Precondition: $\property{tree}(c)$
+    // Precondition: tree(c)
     let counter = Counter<C>()
     return traverseRotating(c: c, proc: counter).n / N(3)
 }
 
 class PhasedApplicator<P: UnaryProcedure>: UnaryProcedure {
-    // Invariant: $n, phase \in [0, period)$
+    // Invariant: n, phase ∈ [0, period)
     var period: N
     var phase: N
     var n: N
@@ -505,7 +503,7 @@ func traversePhasedRotating<
     phase: N, proc: P
 ) -> P
 where P.UnaryProcedureType == C {
-    // Precondition: $\property{tree}(c) \wedge 0 \leq phase < 3$
+    // Precondition: tree(c) ∧ 0 ≤ phase < 3
     let applicator = PhasedApplicator(period: 3,
                                       phase: phase,
                                       n: 0,

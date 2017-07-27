@@ -43,7 +43,7 @@ func select_0_2<DomainR: Regular>(
     a: DomainR, b: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    // Precondition: $\func{weak\_ordering}(r)$
+    // Precondition: weak_ordering(r)
     if r(b, a) { return b }
     return a
 }
@@ -52,7 +52,7 @@ func select_1_2<DomainR: Regular>(
     a: DomainR, b: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    // Precondition: $\func{weak\_ordering}(r)$
+    // Precondition: weak_ordering(r)
     if r(b, a) { return a }
     return b
 }
@@ -79,8 +79,8 @@ func select_1_3_ab<DomainR: Regular>(
     a: DomainR, b: DomainR, c: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    if !r(c, b) { return b }          // $a$, $b$, $c$ are sorted
-    return select_1_2(a: a, b: c, r: r) // $b$ is not the median
+    if !r(c, b) { return b }          // a, b, c are sorted
+    return select_1_2(a: a, b: c, r: r) // b is not the median
 }
 
 func select_1_3<DomainR: Regular>(
@@ -131,7 +131,7 @@ func compareStrictOrReflexiveFalse<DomainR: Regular>(
     a: DomainR, b: DomainR,
     r: Relation<DomainR>
 ) -> Bool {
-    return !r(b, a) // $\func{complement\_of\_converse}_r(a, b)$
+    return !r(b, a) // complement_of_converse(r(a, b))
 }
 
 func compareStrictOrReflexive<DomainR: Regular>(

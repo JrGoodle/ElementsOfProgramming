@@ -26,7 +26,7 @@ func powerUnary<DomainF: Distance>(
     var x = x, n = n
     precondition(n >= 0, "n >= 0")
     // Precondition:
-    // $n \geq 0 \wedge (\forall i \in N)\,0 < i \leq n \Rightarrow f^i(x)$ is defined
+    // n ≥ 0 ∧ (∀i ∈ N), 0 < i ≤ n ⇒ f^i(x) is defined
     
     while n != N(0) {
         n = n - N(1)
@@ -43,7 +43,7 @@ func distance<DomainF: Distance>(
 ) -> DistanceType {
     logFunc()
     var x = x
-    // Precondition: $y$ is reachable from $x$ under $f$
+    // Precondition: y is reachable from x under f
     var n = N(0)
     while x != y {
         x = f(x)
@@ -58,7 +58,7 @@ func collisionPoint<DomainFP: Distance>(
     p: UnaryPredicate<DomainFP>
 ) -> DomainFP {
     logFunc()
-    // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
+    // Precondition: p(x) ⇔ f(x) is defined
     if !p(x) { return x }
     
     var slow = x
@@ -81,7 +81,7 @@ func terminating<DomainFP: Distance>(
     p: UnaryPredicate<DomainFP>
 ) -> Bool{
     logFunc()
-    // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
+    // Precondition: p(x) ⇔ f(x) is defined
     return !p(collisionPoint(x: x, f: f, p: p))
 }
 
@@ -115,7 +115,7 @@ func circular<DomainFP: Distance>(
     p: UnaryPredicate<DomainFP>
 ) -> Bool {
     logFunc()
-    // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
+    // Precondition: p(x) ⇔ f(x) is defined
     let y = collisionPoint(x: x, f: f, p: p)
     return p(y) && x == f(y)
 }
@@ -127,7 +127,7 @@ func convergentPoint<DomainF: Distance>(
 ) -> DomainF {
     logFunc()
     var x0 = x0, x1 = x1
-    // Precondition: $(\exists n \in \func{DistanceType}(F))\,n \geq 0 \wedge f^n(x0) = f^n(x1)$
+    // Precondition: (∃n ∈ DistanceType(F)), n ≥ 0 ∧ f^n(x0) = f^n(x1)
     while x0 != x1 {
         x0 = f(x0)
         x1 = f(x1)
@@ -151,7 +151,7 @@ func connectionPoint<DomainFP: Distance>(
     p: UnaryPredicate<DomainFP>
 ) -> DomainFP {
     logFunc()
-    // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
+    // Precondition: p(x) ⇔ f(x) is defined
     let y = collisionPoint(x: x, f: f, p: p)
     if !p(y) { return y }
     return convergentPoint(x0: x, x1: f(y), f: f)
@@ -167,7 +167,7 @@ func convergentPointGuarded<DomainF: Distance>(
 ) -> DomainF {
     logFunc()
     var x0 = x0, x1 = x1
-    // Precondition: $\func{reachable}(x0, y, f) \wedge \func{reachable}(x1, y, f)$
+    // Precondition: reachable(x0, y, f) ∧ reachable(x1, y, f)
     let d0 = x0.distance(to: y, f: f)
     let d1 = x1.distance(to: y, f: f)
     if d0 < d1 {
@@ -195,12 +195,12 @@ func orbitStructure<DomainFP: Distance>(
     p: UnaryPredicate<DomainFP>
 ) -> Triple<DistanceType, DistanceType, DomainFP> {
     logFunc()
-    // Precondition: $p(x) \Leftrightarrow \text{$f(x)$ is defined}$
+    // Precondition: p(x) ⇔ f(x) is defined
     let y = connectionPoint(x: x, f: f, p: p)
     let m = x.distance(to: y, f: f)
     var n = N(0)
     if p(y) { n = f(y).distance(to: y, f: f) }
-    // Terminating: $m = h - 1 \wedge n = 0$
-    // Otherwise:   $m = h \wedge n = c - 1$
+    // Terminating: m = h - 1 ∧ n = 0
+    // Otherwise:   m = h ∧ n = c - 1
     return Triple(m0: m, m1: n, m2: y)
 }
