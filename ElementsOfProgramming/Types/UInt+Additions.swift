@@ -67,27 +67,27 @@ extension UInt: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures
         return self << k
     }
     
-    func positive() -> Bool {
+    func isPositive() -> Bool {
         return 0 < self
     }
     
-    func negative() -> Bool {
+    func isNegative() -> Bool {
         return self < 0
     }
     
-    func zero() -> Bool {
+    func isEqualToZero() -> Bool {
         return self == 0
     }
     
-    func one() -> Bool {
+    func isEqualToOne() -> Bool {
         return self == 1
     }
     
-    func even() -> Bool {
+    func isEven() -> Bool {
         return (self & 1) == 0
     }
     
-    func odd() -> Bool {
+    func isOdd() -> Bool {
         return (self & 1) != 0
     }
 }

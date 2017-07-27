@@ -47,12 +47,12 @@ protocol IntegerSpecialCaseProcedures {
     func predecessor() -> Self
     func twice() -> Self
     func halfNonnegative() -> Self
-    func positive() -> Bool
-    func negative() -> Bool
-    func zero() -> Bool
-    func one() -> Bool
-    func even() -> Bool
-    func odd() -> Bool
+    func isPositive() -> Bool
+    func isNegative() -> Bool
+    func isEqualToZero() -> Bool
+    func isEqualToOne() -> Bool
+    func isEven() -> Bool
+    func isOdd() -> Bool
 }
 
 protocol BinaryIntegerSpecialCaseProcedures {
@@ -85,27 +85,27 @@ extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures 
         return self << k
     }
     
-    func positive() -> Bool {
+    func isPositive() -> Bool {
         return 0 < self
     }
     
-    func negative() -> Bool {
+    func isNegative() -> Bool {
         return self < 0
     }
     
-    func zero() -> Bool {
+    func isEqualToZero() -> Bool {
         return self == 0
     }
     
-    func one() -> Bool {
+    func isEqualToOne() -> Bool {
         return self == 1
     }
     
-    func even() -> Bool {
+    func isEven() -> Bool {
         return (self & 1) == 0
     }
     
-    func odd() -> Bool {
+    func isOdd() -> Bool {
         return (self & 1) != 0
     }
 }

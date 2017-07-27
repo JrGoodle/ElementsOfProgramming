@@ -213,23 +213,23 @@ func steinGCDNonnegative(a: Int, b: Int) -> Int {
     precondition(a >= 0)
     precondition(b >= 0)
     precondition(!(a == 0 && b == 0))
-    if a.zero() { return b }
-    if b.zero() { return a }
+    if a.isEqualToZero() { return b }
+    if b.isEqualToZero() { return a }
     var d = 0
-    while a.even() && b.even() {
+    while a.isEven() && b.isEven() {
         a = a.halfNonnegative()
         b = b.halfNonnegative()
         d = d + 1
     }
-    while a.even() { a = a.halfNonnegative() }
-    while b.even() { b = b.halfNonnegative() }
+    while a.isEven() { a = a.halfNonnegative() }
+    while b.isEven() { b = b.halfNonnegative() }
     while true {
         if a < b {
             b = b - a
-            repeat { b = b.halfNonnegative() } while b.even()
+            repeat { b = b.halfNonnegative() } while b.isEven()
         } else if b < a {
             a = a - b
-            repeat { a = a.halfNonnegative() } while a.even()
+            repeat { a = a.halfNonnegative() } while a.isEven()
         } else {
             return a.binaryScaleUpNonnegative(k: d)
         }

@@ -12,7 +12,7 @@ func +<I: Iterator>(f: I, n: DistanceType) -> I {
     var f = f, n = n
     // Precondition: \property{weak\_range}(f, n)$
     precondition(n >= 0)
-    while !n.zero() {
+    while !n.isEqualToZero() {
         n = n.predecessor()
         f = f.iteratorSuccessor!
     }
@@ -361,7 +361,7 @@ func findN<I: Readable & Iterator>(
 ) -> Pair<I, DistanceType> {
     var f = f, n = n
     // Precondition: $\property{readable\_weak\_range}(f, n)$
-    while !n.zero() && f.source! != x {
+    while !n.isEqualToZero() && f.source! != x {
         n = n.predecessor()
         f = f.iteratorSuccessor!
     }
@@ -496,7 +496,7 @@ func partitionPointN<I: Readable & ForwardIterator>(
     var f = f, n = n
     // Precondition:
     // $\func{readable\_counted\_range}(f, n) \wedge \func{partitioned\_n}(f, n, p)$
-    while !n.zero() {
+    while !n.isEqualToZero() {
         let h = n.halfNonnegative()
         let m = f + h
         if p(m.source!) {
@@ -565,7 +565,7 @@ func -<I: BidirectionalIterator>(
 ) -> I {
     var l = l, n = n
     // Precondition: $n \geq 0 \wedge (\exists f \in I)\,(\func{weak\_range}(f, n) \wedge l = f+n)$
-    while !n.zero() {
+    while !n.isEqualToZero() {
         n = n.predecessor()
         l = l.iteratorPredecessor!
     }

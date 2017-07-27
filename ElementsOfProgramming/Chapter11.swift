@@ -237,7 +237,7 @@ func partitionStableNNonempty<I: Mutable & ForwardIterator>(
     p: UnaryPredicate<I.Source>
 ) -> Pair<I, I> {
     // Precondition: $\property{mutable\_counted\_range}(f, n) \wedge n > 0$
-    if n.one() { return partitionStableSingleton(f: f, p: p) }
+    if n.isEqualToOne() { return partitionStableSingleton(f: f, p: p) }
     let h = n.halfNonnegative()
     let x = partitionStableNNonempty(f: f, n: h, p: p)
     let y = partitionStableNNonempty(f: x.m1, n: n - h, p: p)
@@ -250,7 +250,7 @@ func partitionStableN<I: Mutable & ForwardIterator>(
     p: UnaryPredicate<I.Source>
 ) -> Pair<I, I> {
     // Precondition: $\property{mutable\_counted\_range}(f, n)$
-    if n.zero() { return Pair(m0: f, m1: f) }
+    if n.isEqualToZero() { return Pair(m0: f, m1: f) }
     return partitionStableNNonempty(f: f, n: n, p: p)
 }
 
@@ -404,7 +404,7 @@ where I.Source == B.Source {
     // $\property{mutable\_counted\_range}(f, n) \wedge \property{weak\_ordering}(r)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, \lceil n/2 \rceil)$
     let h = n.halfNonnegative()
-    if h.zero() { return f + n }
+    if h.isEqualToZero() { return f + n }
     let m = sortNWithBuffer(f: f, n: h,
                             fb: fb,
                             r: r)
@@ -473,7 +473,7 @@ func mergeNAdaptive<
 where I.Source == B.Source {
     // Precondition: $\property{mergeable}(f_0, n_0, f_1, n_1, r)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n_b)$
-    if n0.zero() || n1.zero() { return f0 + n0 + n1 }
+    if n0.isEqualToZero() || n1.isEqualToZero() { return f0 + n0 + n1 }
     if n0 <= N(nb) {
         return mergeNWithBuffer(f0: f0, n0: n0,
                                 f1: f1, n1: n1,
@@ -523,7 +523,7 @@ where I.Source == B.Source {
     // $\property{mutable\_counted\_range}(f, n) \wedge \property{weak\_ordering}(r)$
     // Precondition: $\property{mutable\_counted\_range}(f_b, n_b)$
     let h = n.halfNonnegative()
-    if h.zero() { return f + n }
+    if h.isEqualToZero() { return f + n }
     let m = sortNAdaptive(f: f, n: h,
                           fb: fb, nb: nb,
                           r: r)

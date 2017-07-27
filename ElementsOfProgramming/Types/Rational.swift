@@ -21,9 +21,9 @@ struct Rational {
     }
     
     func print() {
-        if numerator.zero() {
+        if numerator.isEqualToZero() {
             Swift.print("0")
-        } else if denominator.one() {
+        } else if denominator.isEqualToOne() {
             Swift.print(numerator)
         } else {
             Swift.print("\(numerator)/\(denominator)")
@@ -150,30 +150,30 @@ extension Rational: IntegerSpecialCaseProcedures {
         return Rational(numerator: n, denominator: d.twice())!
     }
     
-    func positive() -> Bool {
+    func isPositive() -> Bool {
         return Rational(0) < self
     }
     
-    func negative() -> Bool {
+    func isNegative() -> Bool {
         return self < Rational.additiveIdentity()
     }
     
-    func zero() -> Bool {
+    func isEqualToZero() -> Bool {
         return self == Rational(0)
     }
     
-    func one() -> Bool {
+    func isEqualToOne() -> Bool {
         return self == Rational(1)
     }
     
-    func even() -> Bool {
+    func isEven() -> Bool {
         if numerator < denominator { return false }
         if numerator % denominator != 0 { return false }
         if (numerator / denominator) % 2 != 0 { return false }
         return true
     }
     
-    func odd() -> Bool {
-        return !self.even()
+    func isOdd() -> Bool {
+        return !self.isEven()
     }
 }
