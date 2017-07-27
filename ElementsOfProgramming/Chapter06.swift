@@ -11,7 +11,7 @@ func increment<I: Iterator>(x: inout I) {
 func +<I: Iterator>(f: I, n: DistanceType) -> I {
     var f = f, n = n
     // Precondition: weak_range(f, n)
-    precondition(n >= 0)
+    assert(n >= 0)
     while !n.isEqualToZero() {
         n = n.predecessor()
         f = f.iteratorSuccessor!

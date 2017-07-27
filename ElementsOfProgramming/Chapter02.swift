@@ -24,7 +24,7 @@ func powerUnary<DomainF: Distance>(
 ) -> DomainF {
     logFunc()
     var x = x, n = n
-    precondition(n >= 0, "n >= 0")
+    assert(n >= 0, "n >= 0")
     // Precondition:
     // n ≥ 0 ∧ (∀i ∈ N), 0 < i ≤ n ⇒ f^i(x) is defined
     

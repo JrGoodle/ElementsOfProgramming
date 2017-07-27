@@ -82,7 +82,7 @@ where I.Source == O.Sink {
 }
 
 func countDown(n: inout N) -> Bool {
-    precondition(n >= 0)
+    assert(n >= 0)
     if n.isEqualToZero() { return false }
     n = n.predecessor()
     return true
