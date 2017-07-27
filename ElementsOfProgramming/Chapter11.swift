@@ -384,8 +384,8 @@ where I.Source == B.Source {
     // Precondition: mergeable(f_0, n_0, f_1, n_1, r)
     // Precondition: mutable_counted_range(f_b, n_0)
     _ = copyN(fi: f0, n: n0, fo: fb)
-    return mergeCopyN(fi0: fb, ni0: n0,
-                      fi1: f1, ni1: n1,
+    return mergeCopyN(fi_0: fb, ni_0: n0,
+                      fi_1: f1, ni_1: n1,
                       o: f0,
                       r: r).m2
 }

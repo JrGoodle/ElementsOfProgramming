@@ -346,7 +346,7 @@ where I.Source : AdditiveMonoid {
 //) -> Pair<UnaryProcedure<I.Source>, I> {
 //    var f = f, n = n
 //    // Precondition: readable_weak_range(f, n)
-//    while !n.zero() {
+//    while !n.isZero() {
 //        n = n.predecessor()
 //        proc(f.source()!)
 //        f = f.successor!

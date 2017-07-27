@@ -344,31 +344,31 @@ func combineCopyN<
     I1: Readable & Iterator,
     O: Writable & Iterator
 >(
-    fi0: I0, ni0: DistanceType,
-    fi1: I1, ni1: DistanceType,
+    fi_0: I0, ni_0: DistanceType,
+    fi_1: I1, ni_1: DistanceType,
     fo: O,
     r: BinaryRelation<I1, I0>
 ) -> Triple<I0, I1, O>
 where I0.Source == O.Sink, I1.Source == O.Sink {
-    var fi0 = fi0, ni0 = ni0
-    var fi1 = fi1, ni1 = ni1
+    var fi_0 = fi_0, ni_0 = ni_0
+    var fi_1 = fi_1, ni_1 = ni_1
     var fo = fo
     // Precondition: see combine_copy
     while true {
-        if ni0.isEqualToZero() {
-            let p = copyN(fi: fi1, n: ni1, fo: fo)
-            return Triple(m0: fi0, m1: p.m0, m2: p.m1)
+        if ni_0.isEqualToZero() {
+            let p = copyN(fi: fi_1, n: ni_1, fo: fo)
+            return Triple(m0: fi_0, m1: p.m0, m2: p.m1)
         }
-        if ni1.isEqualToZero() {
-            let p = copyN(fi: fi0, n: ni0, fo: fo)
-            return Triple(m0: p.m0, m1: fi1, m2: p.m1)
+        if ni_1.isEqualToZero() {
+            let p = copyN(fi: fi_0, n: ni_0, fo: fo)
+            return Triple(m0: p.m0, m1: fi_1, m2: p.m1)
         }
-        if r(fi1, fi0) {
-            copyStep(fi: &fi1, fo: &fo)
-            ni1 = ni1.predecessor()
+        if r(fi_1, fi_0) {
+            copyStep(fi: &fi_1, fo: &fo)
+            ni_1 = ni_1.predecessor()
         } else {
-            copyStep(fi: &fi0, fo: &fo)
-            ni0 = ni0.predecessor()
+            copyStep(fi: &fi_0, fo: &fo)
+            ni_0 = ni_0.predecessor()
         }
     }
 }
@@ -403,31 +403,31 @@ func combineCopyBackwardN<
     I1: Readable & BidirectionalIterator,
     O: Writable & BidirectionalIterator
 >(
-    li0: I0, ni0: DistanceType,
-    li1: I1, ni1: DistanceType,
+    li_0: I0, ni_0: DistanceType,
+    li_1: I1, ni_1: DistanceType,
     lo: O,
     r: BinaryRelation<I1, I0>
 ) -> Triple<I0, I1, O>
 where I0.Source == O.Sink, I1.Source == O.Sink {
-    var li0 = li0, ni0 = ni0
-    var li1 = li1, ni1 = ni1
+    var li_0 = li_0, ni_0 = ni_0
+    var li_1 = li_1, ni_1 = ni_1
     var lo = lo
     // Precondition: see combine_copy_backward
     while true {
-        if ni0.isEqualToZero() {
-            let p = copyBackwardN(li: li1, n: ni1, lo: lo)
-            return Triple(m0: li0, m1: p.m0, m2: p.m1)
+        if ni_0.isEqualToZero() {
+            let p = copyBackwardN(li: li_1, n: ni_1, lo: lo)
+            return Triple(m0: li_0, m1: p.m0, m2: p.m1)
         }
-        if ni1.isEqualToZero() {
-            let p = copyBackwardN(li: li0, n: ni0, lo: lo)
-            return Triple(m0: p.m0, m1: li1, m2: p.m1)
+        if ni_1.isEqualToZero() {
+            let p = copyBackwardN(li: li_0, n: ni_0, lo: lo)
+            return Triple(m0: p.m0, m1: li_1, m2: p.m1)
         }
-        if r(li1.iteratorPredecessor!, li0.iteratorPredecessor!) {
-            copyBackwardStep(li: &li0, lo: &lo)
-            ni0 = ni0.predecessor()
+        if r(li_1.iteratorPredecessor!, li_0.iteratorPredecessor!) {
+            copyBackwardStep(li: &li_0, lo: &lo)
+            ni_0 = ni_0.predecessor()
         } else {
-            copyBackwardStep(li: &li1, lo: &lo)
-            ni1 = ni1.predecessor()
+            copyBackwardStep(li: &li_1, lo: &lo)
+            ni_1 = ni_1.predecessor()
         }
     }
 }
@@ -459,16 +459,16 @@ func mergeCopyN<
     I1: Readable & Iterator,
     O: Writable & Iterator
 >(
-    fi0: I0, ni0: DistanceType,
-    fi1: I1, ni1: DistanceType,
+    fi_0: I0, ni_0: DistanceType,
+    fi_1: I1, ni_1: DistanceType,
     o: O,
     r: @escaping Relation<I0.Source>
 ) -> Triple<I0, I1, O>
 where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: see merge_copy
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
-    return combineCopyN(fi0: fi0, ni0: ni0,
-                        fi1: fi1, ni1: ni1,
+    return combineCopyN(fi_0: fi_0, ni_0: ni_0,
+                        fi_1: fi_1, ni_1: ni_1,
                         fo: o,
                         r: rs)
 }
@@ -500,16 +500,16 @@ func mergeCopyBackwardN<
     I1: Readable & BidirectionalIterator,
     O: Writable & BidirectionalIterator
 >(
-    li0: I0, ni0: DistanceType,
-    li1: I1, ni1: DistanceType,
+    li_0: I0, ni_0: DistanceType,
+    li_1: I1, ni_1: DistanceType,
     lo: O,
     r: @escaping Relation<I0.Source>
 ) -> Triple<I0, I1, O>
 where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: see merge_copy_backward
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
-    return combineCopyBackwardN(li0: li0, ni0: ni0,
-                                li1: li1, ni1: ni1,
+    return combineCopyBackwardN(li_0: li_0, ni_0: ni_0,
+                                li_1: li_1, ni_1: ni_1,
                                 lo: lo,
                                 r: rs)
 }

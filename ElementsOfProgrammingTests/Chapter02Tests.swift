@@ -96,28 +96,28 @@ class Chapter02Tests: XCTestCase {
     func algorithmsOrbit(x: Int, h: DistanceType, c: DistanceType) {
         let p = genOrbitPredicate(x: x, h: N(h), c: N(c))
         let f = genOrbitTransformation(x: x, h: N(h), c: N(c))
-        XCTAssert(c.zero() == terminating(x: x, f: f, p: p))
-        if h.zero() && !c.zero() {
+        XCTAssert(c.isZero() == terminating(x: x, f: f, p: p))
+        if h.isZero() && !c.isZero() {
             XCTAssert(circular(x: x, f: f, p: p))
             XCTAssert(circularNonterminatingOrbit(x: x, f: f))
-        } else if !h.zero() {
+        } else if !h.isZero() {
             XCTAssert(!circular(x: x, f: f, p: p))
-            if !c.zero() {
+            if !c.isZero() {
                 XCTAssert(!circularNonterminatingOrbit(x: x, f: f))
             }
         }
         let y = connectionPoint(x: x, f: f, p: p)
         XCTAssert(powerUnary(x: x, n: N(h), f: f) == y)
-        if !c.zero() {
+        if !c.isZero() {
             XCTAssert(y == connectionPointNonterminatingOrbit(x: x, f: f))
         }
         var t = orbitStructure(x: x, f: f, p: p)
-        if c.zero() { // terminating
+        if c.isZero() { // terminating
             XCTAssert(t.m0 == h)
-            XCTAssert(t.m1.zero())
+            XCTAssert(t.m1.isZero())
             XCTAssert(t.m2 == collisionPoint(x: x, f: f, p: p))
-        } else if h.zero() { // circular
-            XCTAssert(t.m0.zero())
+        } else if h.isZero() { // circular
+            XCTAssert(t.m0.isZero())
             XCTAssert(t.m1 == (c - 1))
             XCTAssert(t.m2 == x)
         } else { // rho-shaped
@@ -125,10 +125,10 @@ class Chapter02Tests: XCTestCase {
             XCTAssert(t.m1 == (c - 1))
             XCTAssert(t.m2 == y)
         }
-        if !c.zero() {
+        if !c.isZero() {
             t = orbitStructureNonterminatingOrbit(x: x, f: f)
-            if h.zero() { // circular
-                XCTAssert(t.m0.zero())
+            if h.isZero() { // circular
+                XCTAssert(t.m0.isZero())
                 XCTAssert(t.m1 == (c - 1))
                 XCTAssert(t.m2 == x)
             } else { // rho-shaped

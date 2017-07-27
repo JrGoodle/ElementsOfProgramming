@@ -107,7 +107,7 @@ class Concept {
         let bp = m.positive()
         let bn = m.negative()
         XCTAssert(!(bp && bn))
-        let bz = m.zero()
+        let bz = m.isZero()
         XCTAssert((bz && !(bn || bp)) || (!bz && (bn || bp)))
         let b1 = m.one()
         XCTAssert(!(bz && b1))
