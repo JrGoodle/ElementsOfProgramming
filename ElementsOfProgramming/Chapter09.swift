@@ -348,10 +348,8 @@ func combineCopyN<
     I1: Readable & Iterator,
     O: Writable & Iterator
 >(
-    fi0: I0,
-    ni0: DistanceType,
-    fi1: I1,
-    ni1: DistanceType,
+    fi0: I0, ni0: DistanceType,
+    fi1: I1, ni1: DistanceType,
     fo: O,
     r: BinaryRelation<I1, I0>
 ) -> Triple<I0, I1, O>
@@ -409,10 +407,8 @@ func combineCopyBackwardN<
     I1: Readable & BidirectionalIterator,
     O: Writable & BidirectionalIterator
 >(
-    li0: I0,
-    ni0: DistanceType,
-    li1: I1,
-    ni1: DistanceType,
+    li0: I0, ni0: DistanceType,
+    li1: I1, ni1: DistanceType,
     lo: O,
     r: BinaryRelation<I1, I0>
 ) -> Triple<I0, I1, O>
@@ -467,10 +463,8 @@ func mergeCopyN<
     I1: Readable & Iterator,
     O: Writable & Iterator
 >(
-    fi0: I0,
-    ni0: DistanceType,
-    fi1: I1,
-    ni1: DistanceType,
+    fi0: I0, ni0: DistanceType,
+    fi1: I1, ni1: DistanceType,
     o: O,
     r: @escaping Relation<I0.Source>
 ) -> Triple<I0, I1, O>
@@ -510,10 +504,8 @@ func mergeCopyBackwardN<
     I1: Readable & BidirectionalIterator,
     O: Writable & BidirectionalIterator
 >(
-    li0: I0,
-    ni0: DistanceType,
-    li1: I1,
-    ni1: DistanceType,
+    li0: I0, ni0: DistanceType,
+    li1: I1, ni1: DistanceType,
     lo: O,
     r: @escaping Relation<I0.Source>
 ) -> Triple<I0, I1, O>

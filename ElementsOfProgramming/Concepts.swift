@@ -163,7 +163,7 @@ protocol BinaryHomogeneousProcedure {
 typealias WeightType = UInt
 
 protocol BifurcateCoordinate: Regular {
-    func empty() -> Bool
+    func isEmpty() -> Bool
     func hasLeftSuccessor() -> Bool
     func hasRightSuccessor() -> Bool
     var leftSuccessor: Self? { get }
@@ -188,12 +188,12 @@ protocol BackwardLinkedIterator: BidirectionalIterator {
 protocol BidirectionalLinkedIterator: ForwardLinkedIterator, BackwardLinkedIterator { }
 
 protocol LinkedBifurcateCoordinate: BifurcateCoordinate {
-    func setLeftSuccessor(_ ls: Self)
-    func setRightSuccessor(_ ls: Self)
+    var leftSuccessor: Self? { get set }
+    var rightSuccessor: Self? { get set }
 }
 
 protocol EmptyLinkedBifurcateCoordinate: LinkedBifurcateCoordinate {
-    func empty() -> Bool
+    func isEmpty() -> Bool
 }
 
 // MARK: Chapter 9

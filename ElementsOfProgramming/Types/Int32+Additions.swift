@@ -44,11 +44,11 @@ extension Int32 : Addable, Subtractable, Negatable, Multipliable, Divisible, Quo
 
 extension Int32: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
     func successor() -> Int32 {
-        return self + Int32(1)
+        return self + 1
     }
     
     func predecessor() -> Int32 {
-        return self - Int32(1)
+        return self - 1
     }
     
     func twice() -> Int32 {
@@ -56,7 +56,7 @@ extension Int32: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedure
     }
     
     func halfNonnegative() -> Int32 {
-        return self >> Int32(1)
+        return self >> 1
     }
     
     func binaryScaleDownNonnegative(k: Int32) -> Int32 {
@@ -68,26 +68,26 @@ extension Int32: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedure
     }
     
     func isPositive() -> Bool {
-        return Int32(0) < self
+        return 0 < self
     }
     
     func isNegative() -> Bool {
-        return self < Int32(0)
+        return self < 0
     }
     
     func isEqualToZero() -> Bool {
-        return self == Int32(0)
+        return self == 0
     }
     
     func isEqualToOne() -> Bool {
-        return self == Int32(1)
+        return self == 1
     }
     
     func isEven() -> Bool {
-        return (self & Int32(1)) == Int32(0)
+        return (self & 1) == 0
     }
     
     func isOdd() -> Bool {
-        return (self & Int32(1)) != Int32(0)
+        return (self & 1) != 0
     }
 }

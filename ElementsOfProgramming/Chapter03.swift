@@ -51,8 +51,7 @@ func power1<DomainOp: Regular>(
 }
 
 func powerAccumulate0<DomainOp: Regular>(
-    r: DomainOp,
-    a: DomainOp,
+    r: DomainOp, a: DomainOp,
     n: Int,
     op: BinaryOperation<DomainOp>
 ) -> DomainOp {
@@ -65,8 +64,7 @@ func powerAccumulate0<DomainOp: Regular>(
 }
 
 func powerAccumulate1<DomainOp: Regular>(
-    r: DomainOp,
-    a: DomainOp,
+    r: DomainOp, a: DomainOp,
     n: Int,
     op: BinaryOperation<DomainOp>
 ) -> DomainOp {
@@ -80,8 +78,7 @@ func powerAccumulate1<DomainOp: Regular>(
 }
 
 func powerAccumulate2<DomainOp: Regular>(
-    r: DomainOp,
-    a: DomainOp,
+    r: DomainOp, a: DomainOp,
     n: Int,
     op: BinaryOperation<DomainOp>
 ) -> DomainOp {
@@ -98,8 +95,7 @@ func powerAccumulate2<DomainOp: Regular>(
 }
 
 func powerAccumulate3<DomainOp: Regular>(
-    r: DomainOp,
-    a: DomainOp,
+    r: DomainOp, a: DomainOp,
     n: Int,
     op: BinaryOperation<DomainOp>
 ) -> DomainOp {
@@ -118,8 +114,7 @@ func powerAccumulate3<DomainOp: Regular>(
 }
 
 func powerAccumulate4<DomainOp: Regular>(
-    r: DomainOp,
-    a: DomainOp,
+    r: DomainOp, a: DomainOp,
     n: Int,
     op: BinaryOperation<DomainOp>
 ) -> DomainOp {
@@ -139,8 +134,7 @@ func powerAccumulate4<DomainOp: Regular>(
 }
 
 func powerAccumulatePositive0<DomainOp: Regular>(
-    r: DomainOp,
-    a: DomainOp,
+    r: DomainOp, a: DomainOp,
     n: Int,
     op: BinaryOperation<DomainOp>
 ) -> DomainOp {
@@ -158,8 +152,7 @@ func powerAccumulatePositive0<DomainOp: Regular>(
 }
 
 func powerAccumulate5<DomainOp: Regular>(
-    r: DomainOp,
-    a: DomainOp,
+    r: DomainOp, a: DomainOp,
     n: Int,
     op: BinaryOperation<DomainOp>
 ) -> DomainOp {
@@ -197,8 +190,7 @@ func power3<DomainOp: Regular>(
 }
 
 func powerAccumulatePositive<DomainOp: Regular>(
-    r: DomainOp,
-    a: DomainOp,
+    r: DomainOp, a: DomainOp,
     n: Int,
     op: BinaryOperation<DomainOp>
 ) -> DomainOp {
@@ -216,8 +208,7 @@ func powerAccumulatePositive<DomainOp: Regular>(
 }
 
 func powerAccumulate<DomainOp: Regular>(
-    r: DomainOp,
-    a: DomainOp,
+    r: DomainOp, a: DomainOp,
     n: Int,
     op: BinaryOperation<DomainOp>
 ) -> DomainOp {

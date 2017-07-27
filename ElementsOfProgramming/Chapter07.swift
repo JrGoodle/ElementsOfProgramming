@@ -5,7 +5,7 @@
 
 func weightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     // Precondition: $\property{tree}(c)$
-    if c.empty() { return N(0) }
+    if c.isEmpty() { return N(0) }
     var l = N(0)
     var r = N(0)
     if c.hasLeftSuccessor() {
@@ -20,7 +20,7 @@ func weightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
 
 func heightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     // Precondition: $\property{tree}(c)$
-    if c.empty() { return N(0) }
+    if c.isEmpty() { return N(0) }
     var l = N(0)
     var r = N(0)
     if c.hasLeftSuccessor() {
@@ -109,7 +109,7 @@ func reachable<C: BidirectionalBifurcateCoordinate>(
 ) -> Bool {
     var x = x
     // Precondition: $\property{tree}(x)$
-    if x.empty() { return false }
+    if x.isEmpty() { return false }
     let root = x
     var v = Visit.pre
     repeat {
@@ -122,7 +122,7 @@ func reachable<C: BidirectionalBifurcateCoordinate>(
 func weight<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
     var c = c
     // Precondition: $\property{tree}(c)$
-    if c.empty() { return N(0) }
+    if c.isEmpty() { return N(0) }
     let root = c
     var v = Visit.pre
     var n = N(1) // Invariant: $n$ is count of $\type{pre}$ visits so far
@@ -136,7 +136,7 @@ func weight<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
 func height<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
     var c = c
     // Precondition: $\property{tree}(c)$
-    if c.empty() { return N(0) }
+    if c.isEmpty() { return N(0) }
     let root = c
     var v = Visit.pre
     var n = N(1) // Invariant: $n$ is max of height of $\type{pre}$ visits so far
@@ -158,7 +158,7 @@ func traverse<
 where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     var c = c
     // Precondition: $\property{tree}(c)$
-    if c.empty() { return proc }
+    if c.isEmpty() { return proc }
     let root = c
     var v = Visit.pre
     proc.call(.pre, c)
@@ -213,8 +213,8 @@ func bifurcateIsomorphic<
 ) -> Bool {
     var c0 = c0, c1 = c1
     // Precondition: $\property{tree}(c0) \wedge \property{tree}(c1)$
-    if c0.empty() { return c1.empty() }
-    if c1.empty() { return false }
+    if c0.isEmpty() { return c1.isEmpty() }
+    if c1.isEmpty() { return false }
     let root0 = c0
     var v0 = Visit.pre
     var v1 = Visit.pre
@@ -323,8 +323,8 @@ where C0.Source == C1.Source {
     var c0 = c0, c1 = c1
     // Precondition: $\property{readable\_tree}(c0) \wedge \property{readable\_tree}(c1)$
     // Precondition: $\property{equivalence}(r)$
-    if c0.empty() { return c1.empty() }
-    if c1.empty() { return false }
+    if c0.isEmpty() { return c1.isEmpty() }
+    if c1.isEmpty() { return false }
     let root0 = c0
     var v0 = Visit.pre
     var v1 = Visit.pre
@@ -505,8 +505,8 @@ where C0.Source == C1.Source {
     // Precondition: $\property{readable\_tree}(c0) \wedge
     //                \property{readable\_tree}(c1) \wedge
     //                \property{weak\_ordering}(r)$
-    if c1.empty() { return false }
-    if c0.empty() { return true }
+    if c1.isEmpty() { return false }
+    if c0.isEmpty() { return true }
     let root0 = c0
     var v0 = Visit.pre
     var v1 = Visit.pre

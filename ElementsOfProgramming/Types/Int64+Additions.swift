@@ -44,11 +44,11 @@ extension Int64 : Addable, Subtractable, Negatable, Multipliable, Divisible, Quo
 
 extension Int64: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
     func successor() -> Int64 {
-        return self + Int64(1)
+        return self + 1
     }
     
     func predecessor() -> Int64 {
-        return self - Int64(1)
+        return self - 1
     }
     
     func twice() -> Int64 {
@@ -56,7 +56,7 @@ extension Int64: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedure
     }
     
     func halfNonnegative() -> Int64 {
-        return self >> Int64(1)
+        return self >> 1
     }
     
     func binaryScaleDownNonnegative(k: Int64) -> Int64 {
@@ -68,27 +68,27 @@ extension Int64: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedure
     }
     
     func isPositive() -> Bool {
-        return Int64(0) < self
+        return 0 < self
     }
     
     func isNegative() -> Bool {
-        return self < Int64(0)
+        return self < 0
     }
     
     func isEqualToZero() -> Bool {
-        return self == Int64(0)
+        return self == 0
     }
     
     func isEqualToOne() -> Bool {
-        return self == Int64(1)
+        return self == 1
     }
     
     func isEven() -> Bool {
-        return (self & Int64(1)) == Int64(0)
+        return (self & 1) == 0
     }
     
     func isOdd() -> Bool {
-        return (self & Int64(1)) != Int64(0)
+        return (self & 1) != 0
     }
 }
 

@@ -42,7 +42,7 @@ extension UInt: Norm {
 
 extension UInt : Addable, Subtractable, Multipliable, Divisible, Quotient, Discrete, Modulus, Distance, AdditiveSemigroup, MultiplicativeSemigroup, AdditiveMonoid, MultiplicativeMonoid, Semiring, CommutativeSemiring, EuclideanSemiring {}
 
-extension UInt: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
+extension UInt: IntegerSpecialCaseProcedures {
     func successor() -> UInt {
         return self + 1
     }
@@ -56,15 +56,7 @@ extension UInt: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures
     }
     
     func halfNonnegative() -> UInt {
-        return self >> 1
-    }
-    
-    func binaryScaleDownNonnegative(k: UInt) -> UInt {
-        return self >> k
-    }
-    
-    func binaryScaleUpNonnegative(k: UInt) -> UInt {
-        return self << k
+        return self / 2
     }
     
     func isPositive() -> Bool {
@@ -84,11 +76,11 @@ extension UInt: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures
     }
     
     func isEven() -> Bool {
-        return (self & 1) == 0
+        return (self % 2) == 0 ? true : false
     }
     
     func isOdd() -> Bool {
-        return (self & 1) != 0
+        return (self % 2) == 0 ? false : true
     }
 }
 

@@ -413,9 +413,9 @@ func treeRotate<C: EmptyLinkedBifurcateCoordinate>(
 ) {
     // Precondition: $\neg \func{empty}(curr)$
     let tmp = curr.leftSuccessor!
-    curr.setLeftSuccessor(curr.rightSuccessor!)
-    curr.setRightSuccessor(prev)
-    if tmp.empty() {
+    curr.leftSuccessor = curr.rightSuccessor!
+    curr.rightSuccessor = prev
+    if tmp.isEmpty() {
         prev = tmp
         return
     }
@@ -432,7 +432,7 @@ func traverseRotating<
 ) -> P
 where P.UnaryProcedureType == C {
     // Precondition: $\property{tree}(c)$
-    if c.empty() { return proc }
+    if c.isEmpty() { return proc }
     var curr = c
     // FIXME: Abusing impliticly unwrapped optionals to match the original C++
     var prev: C?
