@@ -85,7 +85,7 @@ where I.Source == O.Sink {
 
 func countDown(n: inout N) -> Bool {
     assert(n >= 0)
-    if n.isEqualToZero() { return false }
+    if n.isZero() { return false }
     n = n.predecessor()
     return true
 }
@@ -357,11 +357,11 @@ where I0.Source == O.Sink, I1.Source == O.Sink {
     var fo = fo
     // Precondition: see combine_copy
     while true {
-        if ni_0.isEqualToZero() {
+        if ni_0.isZero() {
             let p = copyN(fi: fi_1, n: ni_1, fo: fo)
             return Triple(m0: fi_0, m1: p.m0, m2: p.m1)
         }
-        if ni_1.isEqualToZero() {
+        if ni_1.isZero() {
             let p = copyN(fi: fi_0, n: ni_0, fo: fo)
             return Triple(m0: p.m0, m1: fi_1, m2: p.m1)
         }
@@ -416,11 +416,11 @@ where I0.Source == O.Sink, I1.Source == O.Sink {
     var lo = lo
     // Precondition: see combine_copy_backward
     while true {
-        if ni_0.isEqualToZero() {
+        if ni_0.isZero() {
             let p = copyBackwardN(li: li_1, n: ni_1, lo: lo)
             return Triple(m0: li_0, m1: p.m0, m2: p.m1)
         }
-        if ni_1.isEqualToZero() {
+        if ni_1.isZero() {
             let p = copyBackwardN(li: li_0, n: ni_0, lo: lo)
             return Triple(m0: p.m0, m1: li_1, m2: p.m1)
         }

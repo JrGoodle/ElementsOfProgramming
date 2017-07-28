@@ -75,11 +75,11 @@ extension Int64: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedure
         return self < 0
     }
     
-    public func isEqualToZero() -> Bool {
+    public func isZero() -> Bool {
         return self == 0
     }
     
-    public func isEqualToOne() -> Bool {
+    public func isOne() -> Bool {
         return self == 1
     }
     

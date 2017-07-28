@@ -215,8 +215,8 @@ func steinGCDNonnegative(a: Int, b: Int) -> Int {
     assert(a >= 0)
     assert(b >= 0)
     assert(!(a == 0 && b == 0))
-    if a.isEqualToZero() { return b }
-    if b.isEqualToZero() { return a }
+    if a.isZero() { return b }
+    if b.isZero() { return a }
     var d = 0
     while a.isEven() && b.isEven() {
         a = a.halfNonnegative()

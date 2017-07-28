@@ -239,7 +239,7 @@ func partitionStableNNonempty<I: Mutable & ForwardIterator>(
     p: UnaryPredicate<I.Source>
 ) -> Pair<I, I> {
     // Precondition: mutable_counted_range(f, n) ∧ n > 0
-    if n.isEqualToOne() { return partitionStableSingleton(f: f, p: p) }
+    if n.isOne() { return partitionStableSingleton(f: f, p: p) }
     let h = n.halfNonnegative()
     let x = partitionStableNNonempty(f: f, n: h, p: p)
     let y = partitionStableNNonempty(f: x.m1, n: n - h, p: p)
@@ -252,7 +252,7 @@ func partitionStableN<I: Mutable & ForwardIterator>(
     p: UnaryPredicate<I.Source>
 ) -> Pair<I, I> {
     // Precondition: mutable_counted_range(f, n)
-    if n.isEqualToZero() { return Pair(m0: f, m1: f) }
+    if n.isZero() { return Pair(m0: f, m1: f) }
     return partitionStableNNonempty(f: f, n: n, p: p)
 }
 
@@ -406,7 +406,7 @@ where I.Source == B.Source {
     // mutable_counted_range(f, n) ∧ weak_ordering(r)
     // Precondition: mutable_counted_range(f_b, ⎡n/2⎤)
     let h = n.halfNonnegative()
-    if h.isEqualToZero() { return f + n }
+    if h.isZero() { return f + n }
     let m = sortNWithBuffer(f: f, n: h,
                             fb: fb,
                             r: r)
@@ -475,7 +475,7 @@ func mergeNAdaptive<
 where I.Source == B.Source {
     // Precondition: mergeable(f_0, n_0, f_1, n_1, r)
     // Precondition: mutable_counted_range(f_b, n_b)
-    if n0.isEqualToZero() || n1.isEqualToZero() { return f0 + n0 + n1 }
+    if n0.isZero() || n1.isZero() { return f0 + n0 + n1 }
     if n0 <= N(nb) {
         return mergeNWithBuffer(f0: f0, n0: n0,
                                 f1: f1, n1: n1,
@@ -525,7 +525,7 @@ where I.Source == B.Source {
     // mutable_counted_range(f, n) ∧ weak_ordering(r)
     // Precondition: mutable_counted_range(f_b, n_b)
     let h = n.halfNonnegative()
-    if h.isEqualToZero() { return f + n }
+    if h.isZero() { return f + n }
     let m = sortNAdaptive(f: f, n: h,
                           fb: fb, nb: nb,
                           r: r)

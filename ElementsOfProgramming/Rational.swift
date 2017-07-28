@@ -23,9 +23,9 @@ struct Rational {
     }
     
     func print() {
-        if numerator.isEqualToZero() {
+        if numerator.isZero() {
             Swift.print("0")
-        } else if denominator.isEqualToOne() {
+        } else if denominator.isOne() {
             Swift.print(numerator)
         } else {
             Swift.print("\(numerator)/\(denominator)")
@@ -160,11 +160,11 @@ extension Rational: IntegerSpecialCaseProcedures {
         return self < Rational.additiveIdentity()
     }
     
-    func isEqualToZero() -> Bool {
+    func isZero() -> Bool {
         return self == Rational(0)
     }
     
-    func isEqualToOne() -> Bool {
+    func isOne() -> Bool {
         return self == Rational(1)
     }
     

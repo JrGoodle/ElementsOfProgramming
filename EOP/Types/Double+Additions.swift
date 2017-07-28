@@ -63,11 +63,11 @@ extension Double: IntegerSpecialCaseProcedures {
         return self < Double(0)
     }
     
-    public func isEqualToZero() -> Bool {
+    public func isZero() -> Bool {
         return self == Double(0)
     }
     
-    public func isEqualToOne() -> Bool {
+    public func isOne() -> Bool {
         return self == Double(1)
     }
     
