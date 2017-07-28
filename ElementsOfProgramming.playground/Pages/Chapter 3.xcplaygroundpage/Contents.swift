@@ -200,7 +200,7 @@ func powerAccumulatePositive<DomainOp: Regular>(
     while true {
         if n.isOdd() {
             r = op(r, a)
-            if n.isEqualToOne() { return r }
+            if n.isOne() { return r }
         }
         a = op(a, a)
         n = n.halfNonnegative()
@@ -214,7 +214,7 @@ func powerAccumulate<DomainOp: Regular>(
     ) -> DomainOp {
     // Precondition: associative(op)
     assert(n >= 0)
-    if n.isEqualToZero() { return r }
+    if n.isZero() { return r }
     return powerAccumulatePositive(r: r, a: a, n: n, op: op)
 }
 
@@ -231,7 +231,7 @@ func power<DomainOp: Regular>(
         n = n.halfNonnegative()
     }
     n = n.halfNonnegative()
-    if n.isEqualToZero() { return a }
+    if n.isZero() { return a }
     return powerAccumulatePositive(r: a, a: op(a, a), n: n, op: op)
 }
 
@@ -243,7 +243,7 @@ func power<DomainOp: Regular>(
     ) -> DomainOp {
     // Precondition: associative(op)
     assert(n >= 0)
-    if n.isEqualToZero() { return id }
+    if n.isZero() { return id }
     return power(a: a, n: n, op: op)
 }
 

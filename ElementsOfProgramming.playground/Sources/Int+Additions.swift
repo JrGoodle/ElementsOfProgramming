@@ -49,8 +49,8 @@ public protocol IntegerSpecialCaseProcedures {
     func halfNonnegative() -> Self
     func isPositive() -> Bool
     func isNegative() -> Bool
-    func isEqualToZero() -> Bool
-    func isEqualToOne() -> Bool
+    func isZero() -> Bool
+    func isOne() -> Bool
     func isEven() -> Bool
     func isOdd() -> Bool
 }
@@ -93,11 +93,11 @@ extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures 
         return self < 0
     }
     
-    public func isEqualToZero() -> Bool {
+    public func isZero() -> Bool {
         return self == 0
     }
     
-    public func isEqualToOne() -> Bool {
+    public func isOne() -> Bool {
         return self == 1
     }
     

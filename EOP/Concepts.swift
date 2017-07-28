@@ -11,7 +11,8 @@
 
 // MARK: Chapter 1
 
-public protocol Regular: Comparable {} // Equatable
+public protocol Regular:
+    Comparable {} // Equatable
 
 //typealias Procedure<T> = (Any, ...Any) -> Void
 
@@ -19,11 +20,21 @@ public protocol Regular: Comparable {} // Equatable
 
 //typealias HomogeneousFunction<T, U> = (T, ...T) -> U
 
-public typealias UnaryFunction<T: Regular, U: Regular> = (T) -> U
+public typealias UnaryFunction<
+    T: Regular,
+    U: Regular
+> = (T) -> U
 
-public typealias BinaryFunction<T: Regular, U: Regular, V: Regular> = (T, U) -> V
+public typealias BinaryFunction<
+    T: Regular,
+    U: Regular,
+    V: Regular
+> = (T, U) -> V
 
-public typealias BinaryHomogeneousFunction<T: Regular, U: Regular> = (T, T) -> U
+public typealias BinaryHomogeneousFunction<
+    T: Regular,
+    U: Regular
+> = (T, T) -> U
 
 // MARK: Chapter 2
 
@@ -58,58 +69,111 @@ public typealias BinaryRelation<T, U> = (T, U) -> Bool
 
 // MARK: Chapter 5
 
-public protocol AdditiveSemigroup: Regular, Addable {}
+public protocol AdditiveSemigroup:
+    Regular,
+    Addable {}
 
-public protocol MultiplicativeSemigroup: Regular, Multipliable {}
+public protocol MultiplicativeSemigroup:
+    Regular,
+    Multipliable {}
 
-public protocol AdditiveMonoid: AdditiveSemigroup, AdditiveIdentity {}
+public protocol AdditiveMonoid:
+    AdditiveSemigroup,
+    AdditiveIdentity {}
 
-public protocol MultiplicativeMonoid: MultiplicativeSemigroup, MultiplicativeIdentity {}
+public protocol MultiplicativeMonoid:
+    MultiplicativeSemigroup,
+    MultiplicativeIdentity {}
 
-public protocol Semiring: AdditiveMonoid, MultiplicativeMonoid {}
+public protocol Semiring:
+    AdditiveMonoid,
+    MultiplicativeMonoid {}
 
-public protocol AdditiveGroup: AdditiveMonoid, Subtractable, AdditiveInverse {}
+public protocol AdditiveGroup:
+    AdditiveMonoid,
+    Subtractable,
+    AdditiveInverse {}
 
-public protocol MultiplicativeGroup: MultiplicativeMonoid, MultiplicativeInverse, Divisible {}
+public protocol MultiplicativeGroup:
+    MultiplicativeMonoid,
+    MultiplicativeInverse,
+    Divisible {}
 
-public protocol CommutativeSemiring: Semiring {} //& Commutative
+public protocol CommutativeSemiring:
+    Semiring {}
+    //& Commutative
 
-public protocol Ring: AdditiveGroup, Semiring {}
+public protocol Ring:
+    AdditiveGroup,
+    Semiring {}
 
-public protocol CommutativeRing: AdditiveGroup, CommutativeSemiring {}
+public protocol CommutativeRing:
+    AdditiveGroup,
+    CommutativeSemiring {}
 
 public protocol Semimodule: AdditiveMonoid {
     associatedtype CS: CommutativeSemiring
     static func *(lhs: CS, rhs: Self) -> Self
 }
 
-public protocol Module: Semimodule, AdditiveGroup where CS: Ring {}
+public protocol Module:
+    Semimodule,
+    AdditiveGroup where CS: Ring {}
 
-public protocol OrderedAdditiveSemigroup: AdditiveSemigroup {}
+public protocol OrderedAdditiveSemigroup:
+    AdditiveSemigroup {}
 
-public protocol OrderedAdditiveMonoid: OrderedAdditiveSemigroup, AdditiveMonoid {}
+public protocol OrderedAdditiveMonoid:
+    OrderedAdditiveSemigroup,
+    AdditiveMonoid {}
 
-public protocol OrderedAdditiveGroup: OrderedAdditiveMonoid, AdditiveGroup {}
+public protocol OrderedAdditiveGroup:
+    OrderedAdditiveMonoid,
+    AdditiveGroup {}
 
-public protocol CancellableMonoid: OrderedAdditiveMonoid, Subtractable {}
+public protocol CancellableMonoid:
+    OrderedAdditiveMonoid,
+    Subtractable {}
 
-public protocol ArchimedeanMonoid: CancellableMonoid, Quotient {}
+public protocol ArchimedeanMonoid:
+    CancellableMonoid,
+    Quotient {}
 
-public protocol HalvableMonoid: ArchimedeanMonoid, Halvable {}
+public protocol HalvableMonoid:
+    ArchimedeanMonoid,
+    Halvable {}
 
-public protocol EuclideanMonoid: ArchimedeanMonoid {} //& SubtractiveGCDNonzero
+public protocol EuclideanMonoid:
+    ArchimedeanMonoid {}
+    //, SubtractiveGCDNonzero
 
-public protocol EuclideanSemiring: CommutativeSemiring, Norm, Remainder, Quotient {}
+public protocol EuclideanSemiring:
+    CommutativeSemiring,
+    Norm,
+    Remainder,
+    Quotient {}
 
-public protocol EuclideanSemimodule: Semimodule, Remainder, Quotient {}
+public protocol EuclideanSemimodule:
+    Semimodule,
+    Remainder,
+    Quotient {}
 
-public protocol ArchimedeanGroup: ArchimedeanMonoid, AdditiveGroup {}
+public protocol ArchimedeanGroup:
+    ArchimedeanMonoid,
+    AdditiveGroup {}
 
-public protocol DiscreteArchimedeanSemiring: CommutativeSemiring, ArchimedeanMonoid, Discrete {}
+public protocol DiscreteArchimedeanSemiring:
+    CommutativeSemiring,
+    ArchimedeanMonoid,
+    Discrete {}
 
-public protocol NonnegativeDiscreteArchimedeanSemiring: DiscreteArchimedeanSemiring {} //& Nonnegative
+public protocol NonnegativeDiscreteArchimedeanSemiring:
+    DiscreteArchimedeanSemiring {}
+    //& Nonnegative
 
-public protocol DiscreteArchimedeanRing: DiscreteArchimedeanSemiring, AdditiveGroup {}
+public protocol DiscreteArchimedeanRing:
+    DiscreteArchimedeanSemiring,
+    AdditiveGroup {}
 
 // MARK: Chapter 6
 
@@ -122,7 +186,8 @@ public protocol Iterator: Distance {
     var iteratorSuccessor: Self? { get }
 }
 
-public protocol ForwardIterator: Iterator { } // iteratorSuccessor is a Regular Unary Function
+public protocol ForwardIterator: Iterator { }
+// iteratorSuccessor is a Regular Unary Function
 
 public protocol IndexedIterator: ForwardIterator {
     static func +(lhs: Self, rhs: DistanceType) -> Self
@@ -155,7 +220,8 @@ public protocol BinaryProcedure {
 //typealias BinaryHomogeneousProcedure<T> = (T, T) -> Void
 public protocol BinaryHomogeneousProcedure {
     associatedtype BinaryHomogeneousProcedureType
-    func call(_ arg1: BinaryHomogeneousProcedureType, _ arg2: BinaryHomogeneousProcedureType)
+    func call(_ arg1: BinaryHomogeneousProcedureType,
+              _ arg2: BinaryHomogeneousProcedureType)
 }
 
 // MARK: Chapter 7
@@ -185,7 +251,9 @@ public protocol BackwardLinkedIterator: BidirectionalIterator {
     var backwardLink: Self? { get set }
 }
 
-public protocol BidirectionalLinkedIterator: ForwardLinkedIterator, BackwardLinkedIterator { }
+public protocol BidirectionalLinkedIterator:
+    ForwardLinkedIterator,
+    BackwardLinkedIterator { }
 
 public protocol LinkedBifurcateCoordinate: BifurcateCoordinate {
     var leftSuccessor: Self? { get set }
