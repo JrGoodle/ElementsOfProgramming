@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <playground version='6.0' target-platform='ios'>
     <pages>
-        <page name='Concepts'/>
         <page name='Chapter 2'/>
+        <page name='Chapter 3'/>
+        <page name='Chapter 4'/>
+        <page name='Chapter 5'/>
+        <page name='Chapter 6'/>
     </pages>
 </playground>

@@ -53,6 +53,7 @@
 		C6CCDE021F2AD9740000DA62 /* EOP.h in Headers */ = {isa = PBXBuildFile; fileRef = C6CCDE001F2AD9740000DA62 /* EOP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6F3083A1F25A2D100AFBEB3 /* Chapter10.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F308391F25A2D100AFBEB3 /* Chapter10.swift */; };
 		C6F3083B1F25A3A900AFBEB3 /* Chapter10.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F308391F25A2D100AFBEB3 /* Chapter10.swift */; };
+		C6F549931F2AE2BF0057BC02 /* Tuples.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F549921F2AE2BF0057BC02 /* Tuples.swift */; };
 		C6FEC3901F16DA210001B732 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC38F1F16DA210001B732 /* main.swift */; };
 		C6FEC3971F16DA4C0001B732 /* Chapter01.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3961F16DA4C0001B732 /* Chapter01.swift */; };
 		C6FEC3991F16DA810001B732 /* Chapter02.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3981F16DA810001B732 /* Chapter02.swift */; };
@@ -104,6 +105,7 @@
 		C6E03B6E1F282CF100B65BD5 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		C6F308391F25A2D100AFBEB3 /* Chapter10.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter10.swift; sourceTree = "<group>"; };
 		C6F34C671F21C98400CF86E7 /* Pointers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pointers.swift; sourceTree = "<group>"; };
+		C6F549921F2AE2BF0057BC02 /* Tuples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tuples.swift; sourceTree = "<group>"; };
 		C6FEC38C1F16DA210001B732 /* ElementsOfProgramming */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ElementsOfProgramming; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6FEC38F1F16DA210001B732 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		C6FEC3961F16DA4C0001B732 /* Chapter01.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chapter01.swift; sourceTree = "<group>"; };
@@ -167,6 +169,7 @@
 				C6F34C671F21C98400CF86E7 /* Pointers.swift */,
 				C66BEB281F231C1B00BDECD8 /* SList.swift */,
 				C6E03B6E1F282CF100B65BD5 /* String.swift */,
+				C6F549921F2AE2BF0057BC02 /* Tuples.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -391,6 +394,7 @@
 				C6CC1AB11F2ADB9000E468B3 /* TypeFunctions.swift in Sources */,
 				C6CC1AAE1F2ADB1900E468B3 /* SList.swift in Sources */,
 				C6CC1AAC1F2ADB1900E468B3 /* Pointers.swift in Sources */,
+				C6F549931F2AE2BF0057BC02 /* Tuples.swift in Sources */,
 				C6CC1AAF1F2ADB1900E468B3 /* String.swift in Sources */,
 				C6CC1AA71F2ADB1900E468B3 /* Float+Additions.swift in Sources */,
 				C6CC1AA81F2ADB1900E468B3 /* Int32+Additions.swift in Sources */,

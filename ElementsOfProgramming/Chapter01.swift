@@ -37,34 +37,11 @@ func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
 // type pair (see chapter 12 of Elements of Programming)
 // model Regular(Pair)
 
-struct Pair<T0: Regular, T1: Regular>: Regular {
-    var m0: T0
-    var m1: T1
-
-    static func == (x: Pair, y: Pair) -> Bool {
-        return x.m0 == y.m0 && x.m1 == y.m1
-    }
-
-    static func < (x: Pair, y: Pair) -> Bool {
-        return x.m0 < y.m0 || (!(y.m0 < x.m0) && x.m1 < y.m1)
-    }
-}
+// Pair<T0, T1>
+// See Tuples.swift
 
 // type triple (see Exercise 12.2 of Elements of Programming)
 // model Regular(triple)
 
-struct Triple<T0: Regular, T1: Regular, T2: Regular>: Regular {
-    var m0: T0
-    var m1: T1
-    var m2: T2
-
-    static func == (x: Triple, y: Triple) -> Bool {
-        return x.m0 == y.m0 && x.m1 == y.m1 && x.m2 == y.m2
-    }
-
-    static func < (x: Triple, y: Triple) -> Bool {
-        return x.m0 < y.m0 ||
-            (!(y.m0 < x.m0) && x.m1 < y.m1) ||
-            (!(y.m1 < x.m1) && x.m2 < y.m2)
-    }
-}
+// Triple<T0, T1, T2>
+// See Tuples.swift
