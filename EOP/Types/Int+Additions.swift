@@ -4,35 +4,35 @@
 //
 
 extension Int : MultiplicativeIdentity {
-    static func multiplicativeIdentity() -> Int {
+    public static func multiplicativeIdentity() -> Int {
         return 1
     }
 }
 
 extension Int : AdditiveIdentity {
-    static func additiveIdentity() -> Int {
+    public static func additiveIdentity() -> Int {
         return 0
     }
 }
 
 extension Int: Halvable {
-    func half() -> Int { return self / 2 }
+    public func half() -> Int { return self / 2 }
 }
 
 extension Int: MultiplicativeInverse {
-    func multiplicativeInverse() -> Int {
+    public func multiplicativeInverse() -> Int {
         return Int.multiplicativeIdentity() / self
     }
 }
 
 extension Int: Remainder {
-    func remainder(_ value: Int) -> Int {
+    public func remainder(_ value: Int) -> Int {
         return self % value
     }
 }
 
 extension Int: Norm {
-    func w() -> Int {
+    public func w() -> Int {
         if self < Int.additiveIdentity() {
             return -self
         }
@@ -42,7 +42,7 @@ extension Int: Norm {
 
 extension Int : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus, Distance, AdditiveSemigroup, MultiplicativeSemigroup, AdditiveMonoid, MultiplicativeMonoid, Semiring, CommutativeSemiring, EuclideanSemiring {}
 
-protocol IntegerSpecialCaseProcedures {
+public protocol IntegerSpecialCaseProcedures {
     func successor() -> Self
     func predecessor() -> Self
     func twice() -> Self
@@ -55,69 +55,69 @@ protocol IntegerSpecialCaseProcedures {
     func isOdd() -> Bool
 }
 
-protocol BinaryIntegerSpecialCaseProcedures {
+public protocol BinaryIntegerSpecialCaseProcedures {
     func binaryScaleDownNonnegative(k: Self) -> Self
     func binaryScaleUpNonnegative(k: Self) -> Self
 }
 
 extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
-    func successor() -> Int {
+    public func successor() -> Int {
         return self + 1
     }
     
-    func predecessor() -> Int {
+    public func predecessor() -> Int {
         return self - 1
     }
     
-    func twice() -> Int {
+    public func twice() -> Int {
         return self + self
     }
     
-    func halfNonnegative() -> Int {
+    public func halfNonnegative() -> Int {
         return self >> 1
     }
     
-    func binaryScaleDownNonnegative(k: Int) -> Int {
+    public func binaryScaleDownNonnegative(k: Int) -> Int {
         return self >> k
     }
     
-    func binaryScaleUpNonnegative(k: Int) -> Int {
+    public func binaryScaleUpNonnegative(k: Int) -> Int {
         return self << k
     }
     
-    func isPositive() -> Bool {
+    public func isPositive() -> Bool {
         return 0 < self
     }
     
-    func isNegative() -> Bool {
+    public func isNegative() -> Bool {
         return self < 0
     }
     
-    func isEqualToZero() -> Bool {
+    public func isEqualToZero() -> Bool {
         return self == 0
     }
     
-    func isEqualToOne() -> Bool {
+    public func isEqualToOne() -> Bool {
         return self == 1
     }
     
-    func isEven() -> Bool {
+    public func isEven() -> Bool {
         return (self & 1) == 0
     }
     
-    func isOdd() -> Bool {
+    public func isOdd() -> Bool {
         return (self & 1) != 0
     }
 }
 
 extension Int: Iterator {
-    var iteratorSuccessor: Int? {
+    public var iteratorSuccessor: Int? {
         return self + 1
     }
 }
 
 extension Int: Readable {
-    var source: Int? {
+    public var source: Int? {
         return self
     }
 }

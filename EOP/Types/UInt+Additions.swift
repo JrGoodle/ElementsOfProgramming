@@ -4,38 +4,38 @@
 //
 
 // Natural Numbers
-typealias N = UInt
+public typealias N = UInt
 
 extension UInt : MultiplicativeIdentity {
-    static func multiplicativeIdentity() -> UInt {
+    public static func multiplicativeIdentity() -> UInt {
         return 1
     }
 }
 
 extension UInt : AdditiveIdentity {
-    static func additiveIdentity() -> UInt {
+    public static func additiveIdentity() -> UInt {
         return 0
     }
 }
 
 extension UInt: Halvable {
-    func half() -> UInt { return self / 2 }
+    public func half() -> UInt { return self / 2 }
 }
 
 extension UInt: MultiplicativeInverse {
-    func multiplicativeInverse() -> UInt {
+    public func multiplicativeInverse() -> UInt {
         return UInt.multiplicativeIdentity() / self
     }
 }
 
 extension UInt: Remainder {
-    func remainder(_ value: UInt) -> UInt {
+    public func remainder(_ value: UInt) -> UInt {
         return self % value
     }
 }
 
 extension UInt: Norm {
-    func w() -> UInt {
+    public func w() -> UInt {
         return self
     }
 }
@@ -43,49 +43,49 @@ extension UInt: Norm {
 extension UInt : Addable, Subtractable, Multipliable, Divisible, Quotient, Discrete, Modulus, Distance, AdditiveSemigroup, MultiplicativeSemigroup, AdditiveMonoid, MultiplicativeMonoid, Semiring, CommutativeSemiring, EuclideanSemiring {}
 
 extension UInt: IntegerSpecialCaseProcedures {
-    func successor() -> UInt {
+    public func successor() -> UInt {
         return self + 1
     }
     
-    func predecessor() -> UInt {
+    public func predecessor() -> UInt {
         return self - 1
     }
     
-    func twice() -> UInt {
+    public func twice() -> UInt {
         return self + self
     }
     
-    func halfNonnegative() -> UInt {
+    public func halfNonnegative() -> UInt {
         return self / 2
     }
     
-    func isPositive() -> Bool {
+    public func isPositive() -> Bool {
         return 0 < self
     }
     
-    func isNegative() -> Bool {
+    public func isNegative() -> Bool {
         return self < 0
     }
     
-    func isEqualToZero() -> Bool {
+    public func isEqualToZero() -> Bool {
         return self == 0
     }
     
-    func isEqualToOne() -> Bool {
+    public func isEqualToOne() -> Bool {
         return self == 1
     }
     
-    func isEven() -> Bool {
+    public func isEven() -> Bool {
         return (self % 2) == 0 ? true : false
     }
     
-    func isOdd() -> Bool {
+    public func isOdd() -> Bool {
         return (self % 2) == 0 ? false : true
     }
 }
 
 extension UInt: Iterator {
-    var iteratorSuccessor: UInt? {
+    public var iteratorSuccessor: UInt? {
         return self + 1
     }
 }

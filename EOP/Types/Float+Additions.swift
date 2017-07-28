@@ -4,29 +4,29 @@
 //
 
 extension Float : MultiplicativeIdentity {
-    static func multiplicativeIdentity() -> Float {
+    public static func multiplicativeIdentity() -> Float {
         return 1.0
     }
 }
 
 extension Float : AdditiveIdentity {
-    static func additiveIdentity() -> Float {
+    public static func additiveIdentity() -> Float {
         return 0.0
     }
 }
 
 extension Float: Halvable {
-    func half() -> Float { return self / 2.0 }
+    public func half() -> Float { return self / 2.0 }
 }
 
 extension Float: MultiplicativeInverse {
-    func multiplicativeInverse() -> Float {
+    public func multiplicativeInverse() -> Float {
         return Float.multiplicativeIdentity() / self
     }
 }
 
 extension Float: Norm {
-    func w() -> Float {
+    public func w() -> Float {
         if self < Float.additiveIdentity() {
             return -self
         }

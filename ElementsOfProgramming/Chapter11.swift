@@ -3,6 +3,8 @@
 //  ElementsOfProgramming
 //
 
+import EOP
+
 // Exercise 11.1:
 
 func partitionedAtPoint<I: Readable & Iterator>(

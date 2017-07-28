@@ -3,6 +3,8 @@
 //  ElementsOfProgramming
 //
 
+import EOP
+
 func plus<T: AdditiveSemigroup>(x: T, y: T) -> T {
     return x + y
 }

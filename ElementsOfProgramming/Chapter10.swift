@@ -3,6 +3,8 @@
 //  ElementsOfProgramming
 //
 
+import EOP
+
 func cycleTo<I: Mutable & Distance>(i: I, f: Transformation<I>) {
     // Precondition: The orbit of i under f is circular
     // Precondition: (∀n ∈ ℕ), deref(f^n(i)) is defined

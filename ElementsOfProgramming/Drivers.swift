@@ -3,6 +3,8 @@
 //  ElementsOfProgramming
 //
 
+import EOP
+
 func logFunc(functionName: String = #function) {
     print("\(functionName)")
 }

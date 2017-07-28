@@ -3,6 +3,8 @@
 //  ElementsOfProgramming
 //
 
+import EOP
+
 func increment<I: Iterator>(x: inout I) {
     // Precondition: successor(x) is defined
     x = x.iteratorSuccessor!

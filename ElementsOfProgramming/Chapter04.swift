@@ -3,6 +3,8 @@
 //  ElementsOfProgramming
 //
 
+import EOP
+
 // Exercise 4.1: Give an example of a relation that is neither strict nor reflexive
 // Exercise 4.2: Give an example of a symmetric relation that is not transitive
 // Exercise 4.3: Give an example of a symmetric relation that is not reflexive

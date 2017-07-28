@@ -3,6 +3,8 @@
 //  ElementsOfProgramming
 //
 
+import EOP
+
 func copyStep<
     I: Readable & Iterator,
     O: Writable & Iterator

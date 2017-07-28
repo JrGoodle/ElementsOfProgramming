@@ -3,6 +3,7 @@
 //  ElementsOfProgramming
 //
 
+import EOP
 
 // pair type: see Chapter 1 of this file
 

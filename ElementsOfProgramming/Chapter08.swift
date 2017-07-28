@@ -3,6 +3,7 @@
 //  ElementsOfProgramming
 //
 
+import EOP
 
 // Models of ForwardLinker, BackwardLinker, and BidirectionalLinker
 // assuming a particular representation of links

@@ -4,35 +4,35 @@
 //
 
 extension Int32 : MultiplicativeIdentity {
-    static func multiplicativeIdentity() -> Int32 {
+    public static func multiplicativeIdentity() -> Int32 {
         return 1
     }
 }
 
 extension Int32 : AdditiveIdentity {
-    static func additiveIdentity() -> Int32 {
+    public static func additiveIdentity() -> Int32 {
         return 0
     }
 }
 
 extension Int32: Halvable {
-    func half() -> Int32 { return self / 2 }
+    public func half() -> Int32 { return self / 2 }
 }
 
 extension Int32: MultiplicativeInverse {
-    func multiplicativeInverse() -> Int32 {
+    public func multiplicativeInverse() -> Int32 {
         return Int32.multiplicativeIdentity() / self
     }
 }
 
 extension Int32: Remainder {
-    func remainder(_ value: Int32) -> Int32 {
+    public func remainder(_ value: Int32) -> Int32 {
         return self % value
     }
 }
 
 extension Int32: Norm {
-    func w() -> Int32 {
+    public func w() -> Int32 {
         if self < Int32.additiveIdentity() {
             return -self
         }
@@ -43,51 +43,51 @@ extension Int32: Norm {
 extension Int32 : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus, Distance {}
 
 extension Int32: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
-    func successor() -> Int32 {
+    public func successor() -> Int32 {
         return self + 1
     }
     
-    func predecessor() -> Int32 {
+    public func predecessor() -> Int32 {
         return self - 1
     }
     
-    func twice() -> Int32 {
+    public func twice() -> Int32 {
         return self + self
     }
     
-    func halfNonnegative() -> Int32 {
+    public func halfNonnegative() -> Int32 {
         return self >> 1
     }
     
-    func binaryScaleDownNonnegative(k: Int32) -> Int32 {
+    public func binaryScaleDownNonnegative(k: Int32) -> Int32 {
         return self >> k
     }
     
-    func binaryScaleUpNonnegative(k: Int32) -> Int32 {
+    public func binaryScaleUpNonnegative(k: Int32) -> Int32 {
         return self << k
     }
     
-    func isPositive() -> Bool {
+    public func isPositive() -> Bool {
         return 0 < self
     }
     
-    func isNegative() -> Bool {
+    public func isNegative() -> Bool {
         return self < 0
     }
     
-    func isEqualToZero() -> Bool {
+    public func isEqualToZero() -> Bool {
         return self == 0
     }
     
-    func isEqualToOne() -> Bool {
+    public func isEqualToOne() -> Bool {
         return self == 1
     }
     
-    func isEven() -> Bool {
+    public func isEven() -> Bool {
         return (self & 1) == 0
     }
     
-    func isOdd() -> Bool {
+    public func isOdd() -> Bool {
         return (self & 1) != 0
     }
 }

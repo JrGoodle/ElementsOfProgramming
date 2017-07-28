@@ -4,29 +4,29 @@
 //
 
 extension Double : MultiplicativeIdentity {
-    static func multiplicativeIdentity() -> Double {
+    public static func multiplicativeIdentity() -> Double {
         return 1.0
     }
 }
 
 extension Double : AdditiveIdentity {
-    static func additiveIdentity() -> Double {
+    public static func additiveIdentity() -> Double {
         return 0.0
     }
 }
 
 extension Double: Halvable {
-    func half() -> Double { return self / 2.0 }
+    public func half() -> Double { return self / 2.0 }
 }
 
 extension Double: MultiplicativeInverse {
-    func multiplicativeInverse() -> Double {
+    public func multiplicativeInverse() -> Double {
         return Double.multiplicativeIdentity() / self
     }
 }
 
 extension Double: Norm {
-    func w() -> Double {
+    public func w() -> Double {
         if self < Double.additiveIdentity() {
             return -self
         }
@@ -37,47 +37,47 @@ extension Double: Norm {
 extension Double : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, AdditiveInverse { }
 
 extension Double: IntegerSpecialCaseProcedures {
-    func successor() -> Double {
+    public func successor() -> Double {
         return self + Double(1)
     }
     
-    func predecessor() -> Double {
+    public func predecessor() -> Double {
         return self - Double(1)
     }
     
-    func twice() -> Double {
+    public func twice() -> Double {
         return self + self
     }
     
-    func halfNonnegative() -> Double {
+    public func halfNonnegative() -> Double {
         // FIXME: Fix this
         return Double(0)
 //        return self >> Double(1)
     }
     
-    func isPositive() -> Bool {
+    public func isPositive() -> Bool {
         return Double(0) < self
     }
     
-    func isNegative() -> Bool {
+    public func isNegative() -> Bool {
         return self < Double(0)
     }
     
-    func isEqualToZero() -> Bool {
+    public func isEqualToZero() -> Bool {
         return self == Double(0)
     }
     
-    func isEqualToOne() -> Bool {
+    public func isEqualToOne() -> Bool {
         return self == Double(1)
     }
     
-    func isEven() -> Bool {
+    public func isEven() -> Bool {
         // FIXME: Fix this
         return false
 //        return (self & Double(1)) == Double(0)
     }
     
-    func isOdd() -> Bool {
+    public func isOdd() -> Bool {
         // FIXME: Fix this
         return false
 //        return (self & Double(1)) != Double(0)

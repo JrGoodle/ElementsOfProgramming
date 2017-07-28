@@ -3,6 +3,8 @@
 //  ElementsOfProgramming
 //
 
+import EOP
+
 struct Rational {
     var numerator: Int
     var denominator: Int

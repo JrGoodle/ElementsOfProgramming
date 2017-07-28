@@ -4,6 +4,7 @@
 //
 
 import Darwin
+import EOP
 
 func absoluteValue(x: Int) -> Int {
     if (x < 0) { return -x } else { return x }

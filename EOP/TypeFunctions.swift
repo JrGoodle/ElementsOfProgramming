@@ -10,14 +10,14 @@
 // Domain: UnaryFunction -> Regular
 
 // Distance: Transformation -> Integer
-typealias DistanceType = UInt
+public typealias DistanceType = UInt
 
-protocol Distance: Regular {
+public protocol Distance: Regular {
     func distance(to: Self, f: Transformation<Self>) -> UInt
 }
 
 extension Distance {
-    func distance(to end: Self, f: Transformation<Self>) -> UInt {
+    public func distance(to end: Self, f: Transformation<Self>) -> UInt {
         var x = self
         let y = end
         // Precondition: y is reachable from x under f
@@ -30,88 +30,88 @@ extension Distance {
     }
 }
 
-protocol MultiplicativeIdentity {
+public protocol MultiplicativeIdentity {
     static func multiplicativeIdentity() -> Self
 }
 
-protocol AdditiveIdentity {
+public protocol AdditiveIdentity {
     static func additiveIdentity() -> Self
 }
 
-protocol AdditiveInverse: Negatable {
+public protocol AdditiveInverse: Negatable {
     func additiveInverse() -> Self
 }
 
-extension AdditiveInverse {
+public extension AdditiveInverse {
     func additiveInverse() -> Self {
         return -self
     }
 }
 
-protocol MultiplicativeInverse {
+public protocol MultiplicativeInverse {
     func multiplicativeInverse() -> Self
 }
 
 
-protocol Modulus {
+public protocol Modulus {
     static func %(lhs: Self, rhs: Self) -> Self
 }
 
-protocol Remainder {
+public protocol Remainder {
     func remainder(_ value: Self) -> Self
 }
 
-protocol Addable {
+public protocol Addable {
     static func +(lhs: Self, rhs: Self) -> Self
 }
 
-protocol Subtractable {
+public protocol Subtractable {
     static func -(lhs: Self, rhs: Self) -> Self
 }
 
-protocol Negatable {
+public protocol Negatable {
     static prefix func -(value: Self) -> Self
 }
 
-protocol Multipliable {
+public protocol Multipliable {
     static func *(lhs: Self, rhs: Self) -> Self
 }
 
-protocol Divisible {
+public protocol Divisible {
     static func/(lhs: Self, rhs: Self) -> Self
 }
 
-protocol Relational {
+public protocol Relational {
     associatedtype T: AdditiveMonoid
     associatedtype S: CommutativeSemiring
     static func relation(from commutativeSemiring: S,
                          to additiveMonoid: T) -> T
 }
 
-typealias QuotientType = Int
+public typealias QuotientType = Int
 
-protocol Quotient: Divisible {
+public protocol Quotient: Divisible {
     associatedtype T
     func quotient(_ value: Self) -> T
 }
 
 extension Quotient {
-    func quotient(_ value: Self) -> Self {
+    public func quotient(_ value: Self) -> Self {
         return self / value
     }
 }
 
-protocol Halvable: Divisible {
+public protocol Halvable: Divisible {
     func half() -> Self
 }
 
-protocol SubtractiveGCDNonzero {
+public protocol SubtractiveGCDNonzero {
     func subtractiveGCDNonzero()
 }
 
-typealias NormType = Int
+public typealias NormType = Int
 
-protocol Norm: AdditiveIdentity, Regular {
+public protocol Norm: AdditiveIdentity, Regular {
     func w() -> Self
 }
 
@@ -119,6 +119,6 @@ protocol Norm: AdditiveIdentity, Regular {
 
 //protocol Commutative { }
 
-protocol Discrete { }
+public protocol Discrete { }
 
-typealias DifferenceType = Int
+public typealias DifferenceType = Int

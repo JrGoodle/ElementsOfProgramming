@@ -3,6 +3,8 @@
 //  ElementsOfProgramming
 //
 
+import EOP
+
 func weightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     // Precondition: tree(c)
     if c.isEmpty() { return N(0) }

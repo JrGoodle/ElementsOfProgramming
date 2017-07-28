@@ -3,6 +3,8 @@
 //  ElementsOfProgramming
 //
 
+import EOP
+
 func powerLeftAssociated<DomainOp: Regular>(
     a: DomainOp,
     n: Int,
