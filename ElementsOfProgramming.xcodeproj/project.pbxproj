@@ -209,7 +209,6 @@
 		C6FEC38E1F16DA210001B732 /* ElementsOfProgramming */ = {
 			isa = PBXGroup;
 			children = (
-				C6FEC38F1F16DA210001B732 /* main.swift */,
 				C6FEC3961F16DA4C0001B732 /* Chapter01.swift */,
 				C6FEC3981F16DA810001B732 /* Chapter02.swift */,
 				C66DB4771F19B4BB0019A2BB /* Chapter03.swift */,
@@ -224,6 +223,7 @@
 				C6459EC71F26F65700F0E894 /* Chapter12.swift */,
 				C6CC1AB21F2ADD8400E468B3 /* Rational.swift */,
 				C6FEC3A01F172E910001B732 /* Drivers.swift */,
+				C6FEC38F1F16DA210001B732 /* main.swift */,
 			);
 			path = ElementsOfProgramming;
 			sourceTree = "<group>";

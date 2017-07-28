@@ -60,13 +60,17 @@ func collisionPoint<DomainFP: Distance>(
     var slow = x
     var fast = f(x)
     
+    var t = [x, fast]
     while fast != slow {
         slow = f(slow)
         if !p(fast) { return fast }
         fast = f(fast)
+        t.append(fast)
         if !p(fast) { return fast }
         fast = f(fast)
+        t.append(fast)
     }
+    t.map { $0 }
     return fast
     // Postcondition: return value is terminal point or collision point
 }
@@ -190,3 +194,12 @@ func orbitStructure<DomainFP: Distance>(
     // Otherwise:   m = h ∧ n = c - 1
     return Triple(m0: m, m1: n, m2: y)
 }
+
+let f: Transformation<UInt> = { x in
+    return (x % 713 + 2) * 2 + 2
+}
+let p: UnaryPredicate<UInt> = { _ in return true }
+let x: UInt = 0
+
+orbitStructure(x: x, f: f, p: p)
+orbitStructureNonterminatingOrbit(x: x, f: f)
