@@ -25,7 +25,7 @@ func converse<DomainR: Regular>(
     }
 }
 
-func complementOfConverse<DomainR: Regular>(
+public func complementOfConverse<DomainR: Regular>(
     r: @escaping Relation<DomainR>
 ) -> Relation<DomainR> {
     return { a, b in
@@ -274,7 +274,7 @@ func median_5<DomainR: Regular>(
 
 // Natural total ordering
 
-func less<T: Regular>(x: T, y: T) -> Bool {
+public func less<T: Regular>(x: T, y: T) -> Bool {
     return x < y
 }
 
@@ -282,7 +282,7 @@ func minSelect<T: Regular>(a: T, b: T) -> T {
     return select_0_2(a: a, b: b, r: less)
 }
 
-func maxSelect<T: Regular>(a: T, b: T) -> T {
+public func maxSelect<T: Regular>(a: T, b: T) -> T {
     return select_1_2(a: a, b: b, r: less)
 }
 

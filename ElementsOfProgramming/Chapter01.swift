@@ -29,7 +29,7 @@ func square<DomainOp: Regular>(
     return op(x, x)
 }
 
-func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
+public func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
 
 // InputType(F, i)
 // Returns the type of the ith parameter (counting from 0)

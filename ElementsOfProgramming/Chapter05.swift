@@ -5,7 +5,7 @@
 
 import EOP
 
-func plus<T: AdditiveSemigroup>(x: T, y: T) -> T {
+public func plus<T: AdditiveSemigroup>(x: T, y: T) -> T {
     return x + y
 }
 
@@ -185,7 +185,7 @@ func fastSubtractiveGCD<T: EuclideanMonoid>(a: T, b: T) -> T {
     }
 }
 
-func gcdEuclideanSemiring<T: EuclideanSemiring>(a: T, b: T) -> T {
+public func gcdEuclideanSemiring<T: EuclideanSemiring>(a: T, b: T) -> T {
     var a = a, b = b
     assert(!(a == T.additiveIdentity() && b == T.additiveIdentity()))
     while true {

@@ -18,7 +18,7 @@ func copyStep<
     fo = fo.iteratorSuccessor!
 }
 
-func copy<
+public func copy<
     I: Readable & Iterator,
     O: Writable & Iterator
 >(
@@ -83,14 +83,14 @@ where I.Source == O.Sink {
     return Pair(m0: fi, m1: fo)
 }
 
-func countDown(n: inout N) -> Bool {
+public func countDown(n: inout N) -> Bool {
     assert(n >= 0)
     if n.isZero() { return false }
     n = n.predecessor()
     return true
 }
 
-func copyN<
+public func copyN<
     I: Readable & Iterator,
     O: Writable & Iterator
 >(
@@ -129,7 +129,7 @@ func copyBackwardStep<
     lo.sink = li.source!
 }
 
-func copyBackward<
+public func copyBackward<
     I: Readable & BidirectionalIterator,
     O: Writable & BidirectionalIterator
 >(
@@ -183,7 +183,7 @@ func reverseCopyBackwardStep<
     fi = fi.iteratorSuccessor!
 }
 
-func reverseCopy<
+public func reverseCopy<
     I: Readable & BidirectionalIterator,
     O: Writable & Iterator
 >(
@@ -516,7 +516,7 @@ where I0.Source == O.Sink, I1.Source == O.Sink {
                                 r: rs)
 }
 
-func exchangeValues<
+public func exchangeValues<
     I0: Mutable,
     I1: Mutable
 >(
@@ -530,7 +530,7 @@ func exchangeValues<
     y.sink = t
 }
 
-func swapStep<
+public func swapStep<
     I0: Mutable & ForwardIterator,
     I1: Mutable & ForwardIterator
 >(
@@ -543,7 +543,7 @@ func swapStep<
     f1 = f1.iteratorSuccessor!
 }
 
-func swapRanges<
+public func swapRanges<
     I0: Mutable & ForwardIterator,
     I1: Mutable & ForwardIterator
 >(
@@ -559,7 +559,7 @@ where I0.Source == I1.Source {
 }
 
 
-func swapRangesBounded<
+public func swapRangesBounded<
     I0: Mutable & ForwardIterator,
     I1: Mutable & ForwardIterator
 >(
@@ -574,7 +574,7 @@ where I0.Source == I1.Source {
     return Pair(m0: f0, m1: f1)
 }
 
-func swapRangesN<
+public func swapRangesN<
     I0: Mutable & ForwardIterator,
     I1: Mutable & ForwardIterator
 >(
@@ -618,7 +618,7 @@ where I0.Source == I1.Source {
     return f1
 }
 
-func reverseSwapRangesBounded<
+public func reverseSwapRangesBounded<
     I0: Mutable & BidirectionalIterator,
     I1: Mutable & ForwardIterator
 >(
@@ -635,7 +635,7 @@ where I0.Source == I1.Source {
     return Pair(m0: l0, m1: f1)
 }
 
-func reverseSwapRangesN<
+public func reverseSwapRangesN<
     I0: Mutable & BidirectionalIterator,
     I1: Mutable & ForwardIterator
 >(

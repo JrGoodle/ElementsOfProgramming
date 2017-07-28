@@ -10,7 +10,7 @@ func increment<I: Iterator>(x: inout I) {
     x = x.iteratorSuccessor!
 }
 
-func +<I: Iterator>(f: I, n: DistanceType) -> I {
+public func +<I: Iterator>(f: I, n: DistanceType) -> I {
     var f = f, n = n
     // Precondition: weak_range(f, n)
     assert(n >= 0)
@@ -21,7 +21,7 @@ func +<I: Iterator>(f: I, n: DistanceType) -> I {
     return f
 }
 
-func -<I: Iterator>(l: I, f: I) -> DistanceType {
+public func -<I: Iterator>(l: I, f: I) -> DistanceType {
     var f = f
     // Precondition: bounded_range(f, l)
     var n = DistanceType(0)
@@ -397,7 +397,7 @@ func findIfNotUnguarded<I: Readable & Iterator>(
     return f
 }
 
-func findMismatch<
+public func findMismatch<
     I0: Readable & Iterator,
     I1: Readable & Iterator
 >(

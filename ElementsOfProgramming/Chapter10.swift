@@ -38,7 +38,7 @@ func cycleFrom<I: Mutable & Distance>(i: I, f: Transformation<I>) {
 // Exercise 10.5: arbitrary rearrangement using total ordering on iterators
 
 
-func reverseNIndexed<I: Mutable & IndexedIterator>(f: I, n: DistanceType) {
+public func reverseNIndexed<I: Mutable & IndexedIterator>(f: I, n: DistanceType) {
     var n = n
     // Precondition: mutable_counted_range(f, n)
     var i = DistanceType(0)

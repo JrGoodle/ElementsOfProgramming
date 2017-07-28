@@ -340,7 +340,7 @@ func reverseAppend<I: ForwardLinkedIterator>(f: I, l: I, h: I) -> I {
     return h
 }
 
-func predicateSource<I: Readable>(
+public func predicateSource<I: Readable>(
     p: @escaping UnaryPredicate<I.Source>
 ) -> UnaryPredicate<I> {
     return { i in
@@ -357,7 +357,7 @@ func partitionLinked<I: Readable & ForwardLinkedIterator>(
     return splitLinked(f: f, l: l, p: ps)
 }
 
-func relationSource<
+public func relationSource<
     I0: Readable,
     I1: Readable
 >(
