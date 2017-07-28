@@ -22,11 +22,9 @@ func powerUnary<DomainF: Distance>(
     n: N,
     f: Transformation<DomainF>
 ) -> DomainF {
-    logFunc()
     var x = x, n = n
     assert(n >= 0, "n >= 0")
-    // Precondition:
-    // n ≥ 0 ∧ (∀i ∈ N), 0 < i ≤ n ⇒ f^i(x) is defined
+    // Precondition: n ≥ 0 ∧ (∀i ∈ N), 0 < i ≤ n ⇒ f^i(x) is defined
     
     while n != N(0) {
         n = n - N(1)
@@ -41,7 +39,6 @@ func distance<DomainF: Distance>(
     y: DomainF,
     f: Transformation<DomainF>
 ) -> DistanceType {
-    logFunc()
     var x = x
     // Precondition: y is reachable from x under f
     var n = N(0)
@@ -57,7 +54,6 @@ func collisionPoint<DomainFP: Distance>(
     f: Transformation<DomainFP>,
     p: UnaryPredicate<DomainFP>
 ) -> DomainFP {
-    logFunc()
     // Precondition: p(x) ⇔ f(x) is defined
     if !p(x) { return x }
     
@@ -80,7 +76,6 @@ func terminating<DomainFP: Distance>(
     f: Transformation<DomainFP>,
     p: UnaryPredicate<DomainFP>
 ) -> Bool{
-    logFunc()
     // Precondition: p(x) ⇔ f(x) is defined
     return !p(collisionPoint(x: x, f: f, p: p))
 }
@@ -89,7 +84,6 @@ func collisionPointNonterminatingOrbit<DomainF: Distance>(
     x: DomainF,
     f: Transformation<DomainF>
 ) -> DomainF {
-    logFunc()
     var slow = x
     var fast = f(x)
     
@@ -105,7 +99,6 @@ func circularNonterminatingOrbit<DomainF: Distance>(
     x: DomainF,
     f: Transformation<DomainF>
 ) -> Bool {
-    logFunc()
     return x == f(collisionPointNonterminatingOrbit(x: x, f: f))
 }
 
@@ -114,7 +107,6 @@ func circular<DomainFP: Distance>(
     f: Transformation<DomainFP>,
     p: UnaryPredicate<DomainFP>
 ) -> Bool {
-    logFunc()
     // Precondition: p(x) ⇔ f(x) is defined
     let y = collisionPoint(x: x, f: f, p: p)
     return p(y) && x == f(y)
@@ -125,7 +117,6 @@ func convergentPoint<DomainF: Distance>(
     x1: DomainF,
     f: Transformation<DomainF>
 ) -> DomainF {
-    logFunc()
     var x0 = x0, x1 = x1
     // Precondition: (∃n ∈ DistanceType(F)), n ≥ 0 ∧ f^n(x0) = f^n(x1)
     while x0 != x1 {
@@ -139,7 +130,6 @@ func connectionPointNonterminatingOrbit<DomainF: Distance>(
     x: DomainF,
     f: Transformation<DomainF>
 ) -> DomainF {
-    logFunc()
     return convergentPoint(x0: x,
                            x1: f(collisionPointNonterminatingOrbit(x: x, f: f)),
                            f: f)
@@ -150,7 +140,6 @@ func connectionPoint<DomainFP: Distance>(
     f: Transformation<DomainFP>,
     p: UnaryPredicate<DomainFP>
 ) -> DomainFP {
-    logFunc()
     // Precondition: p(x) ⇔ f(x) is defined
     let y = collisionPoint(x: x, f: f, p: p)
     if !p(y) { return y }
@@ -165,7 +154,6 @@ func convergentPointGuarded<DomainF: Distance>(
     y: DomainF,
     f: Transformation<DomainF>
 ) -> DomainF {
-    logFunc()
     var x0 = x0, x1 = x1
     // Precondition: reachable(x0, y, f) ∧ reachable(x1, y, f)
     let d0 = x0.distance(to: y, f: f)
@@ -182,7 +170,6 @@ func orbitStructureNonterminatingOrbit<DomainF: Distance>(
     x: DomainF,
     f: Transformation<DomainF>
 ) -> Triple<DistanceType, DistanceType, DomainF> {
-    logFunc()
     let y = connectionPointNonterminatingOrbit(x: x, f: f)
     return Triple(m0: x.distance(to: y, f: f),
                   m1: f(y).distance(to: y, f: f),
@@ -194,7 +181,6 @@ func orbitStructure<DomainFP: Distance>(
     f: Transformation<DomainFP>,
     p: UnaryPredicate<DomainFP>
 ) -> Triple<DistanceType, DistanceType, DomainFP> {
-    logFunc()
     // Precondition: p(x) ⇔ f(x) is defined
     let y = connectionPoint(x: x, f: f, p: p)
     let m = x.distance(to: y, f: f)

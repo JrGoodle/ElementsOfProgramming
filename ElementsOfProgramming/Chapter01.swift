@@ -40,12 +40,10 @@ struct Pair<T0: Regular, T1: Regular>: Regular {
     var m1: T1
 
     static func == (x: Pair, y: Pair) -> Bool {
-        logFunc()
         return x.m0 == y.m0 && x.m1 == y.m1
     }
 
     static func < (x: Pair, y: Pair) -> Bool {
-        logFunc()
         return x.m0 < y.m0 || (!(y.m0 < x.m0) && x.m1 < y.m1)
     }
 }
@@ -59,12 +57,10 @@ struct Triple<T0: Regular, T1: Regular, T2: Regular>: Regular {
     var m2: T2
 
     static func == (x: Triple, y: Triple) -> Bool {
-        logFunc()
         return x.m0 == y.m0 && x.m1 == y.m1 && x.m2 == y.m2
     }
 
     static func < (x: Triple, y: Triple) -> Bool {
-        logFunc()
         return x.m0 < y.m0 ||
             (!(y.m0 < x.m0) && x.m1 < y.m1) ||
             (!(y.m1 < x.m1) && x.m2 < y.m2)

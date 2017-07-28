@@ -8,7 +8,6 @@ func logFunc(functionName: String = #function) {
 }
 
 func outputOrbitStructure<DomainFP: Distance & Regular>(x: DomainFP, f: Transformation<DomainFP>, p: UnaryPredicate<DomainFP>) {
-    logFunc()
     let t = orbitStructure(x: x, f: f, p: p)
     if !p(t.m2) {
         print("terminating with h-1 = \(t.m0) and terminal point \(t.m2)")
@@ -30,7 +29,6 @@ func alwaysDefined<T>() -> ((T) -> Bool) {
 }
 
 func testAdditiveCongruentialTransformation(modulus: Int, index: Int) {
-    logFunc()
     print("Running testAdditiveCongruentialTransformation")
     let f = additiveCongruentialTransformation(modulus: modulus, index: index)
     outputOrbitStructure(x: index,
