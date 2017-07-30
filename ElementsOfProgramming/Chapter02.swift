@@ -61,13 +61,38 @@ func collisionPoint<DomainFP: Distance>(
     var slow = x
     var fast = f(x)
     
+    #if !XCODE
+        var ft = [x, fast]
+        var st = [x]
+    #endif
+    
     while fast != slow {
         slow = f(slow)
+        
+        #if !XCODE
+            st.append(slow)
+        #endif
+        
         if !p(fast) { return fast }
         fast = f(fast)
+        
+        #if !XCODE
+            ft.append(fast)
+        #endif
+        
         if !p(fast) { return fast }
         fast = f(fast)
+        
+        #if !XCODE
+            ft.append(fast)
+        #endif
     }
+    
+    #if !XCODE
+        ft.map { $0 }
+        st.map { $0 }
+    #endif
+    
     return fast
     // Postcondition: return value is terminal point or collision point
 }
@@ -191,3 +216,8 @@ func orbitStructure<DomainFP: Distance>(
     // Otherwise:   m = h ∧ n = c - 1
     return Triple(m0: m, m1: n, m2: y)
 }
+
+//let f: Transformation<UInt> = { ($0 % 113 + 2) * 2 }
+//let p: UnaryPredicate<UInt> = { _ in return true }
+//let x: UInt = 0
+//orbitStructure(x: x, f: f, p: p)
