@@ -18,6 +18,21 @@ func euclideanNorm(x: Double, y: Double, z: Double) -> Double {
     return sqrt(x * x + y * y + z * z)
 } // ternary operation
 
+// Exercise 2.1
+
+func definitionSpacePredicateIntegerAddition<T: FixedWidthInteger>(
+    x: T,
+    y: T
+) -> Bool {
+    // Precondition: T.min <= x <= T.max ∧ T.min <= y <= T.max
+    if x > 0 && y > 0 {
+        return y <= T.max - x
+    } else if x < 0 && y < 0 {
+        return y >= T.min - x
+    }
+    return true
+}
+
 func powerUnary<DomainF: Distance>(
     x: DomainF,
     n: N,
@@ -58,42 +73,42 @@ func collisionPoint<DomainFP: Distance>(
     // Precondition: p(x) ⇔ f(x) is defined
     if !p(x) { return x }
     
-    var slow = x
-    var fast = f(x)
-    
+    var slow = x            // $slow = f^0(x)$
+    var fast = f(x)         // $fast = f^1(x)$
+                            // $n \gets 0$ (completed iterations)
     #if !XCODE
         var ft = [x, fast]
         var st = [x]
     #endif
     
-    while fast != slow {
-        slow = f(slow)
+    while fast != slow {    // $slow = f^n(x) \wedge fast = f^{2 n + 1}(x)$
+        slow = f(slow)      // $slow = f^{n+1}(x) \wedge fast = f^{2 n + 1}(x)$
         
         #if !XCODE
             st.append(slow)
         #endif
         
         if !p(fast) { return fast }
-        fast = f(fast)
+        fast = f(fast)      // $slow = f^{n+1}(x) \wedge fast = f^{2 n + 2}(x)$
         
         #if !XCODE
             ft.append(fast)
         #endif
         
         if !p(fast) { return fast }
-        fast = f(fast)
+        fast = f(fast)      // $slow = f^{n+1}(x) \wedge fast = f^{2 n + 3}(x)$
         
         #if !XCODE
             ft.append(fast)
         #endif
-    }
+    }                       // $n \gets n + 1$
     
     #if !XCODE
         ft.map { $0 }
         st.map { $0 }
     #endif
     
-    return fast
+    return fast             // $slow = f^n(x) \wedge fast = f^{2 n + 1}(x)$
     // Postcondition: return value is terminal point or collision point
 }
 
@@ -216,6 +231,13 @@ func orbitStructure<DomainFP: Distance>(
     // Otherwise:   m = h ∧ n = c - 1
     return Triple(m0: m, m1: n, m2: y)
 }
+
+//definitionSpacePredicate32BitSignedAddition(x: Int32.max, y: Int32.min)
+//definitionSpacePredicate32BitSignedAddition(x: Int32.max - 1, y: Int32.max)
+//definitionSpacePredicate32BitSignedAddition(x: Int64.max, y: Int64.min)
+//definitionSpacePredicate32BitSignedAddition(x: Int64.max - 1, y: Int64.max)
+//definitionSpacePredicate32BitSignedAddition(x: UInt.max, y: UInt.min)
+//definitionSpacePredicate32BitSignedAddition(x: UInt.max - 1, y: UInt.max)
 
 //let f: Transformation<UInt> = { ($0 % 113 + 2) * 2 }
 //let p: UnaryPredicate<UInt> = { _ in return true }
