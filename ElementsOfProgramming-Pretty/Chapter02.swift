@@ -76,30 +76,13 @@ func collisionPoint<DomainFP: Distance>(
     var slow = x            // slow = f^0(x)
     var fast = f(x)         // fast = f^1(x)
                             // n ← 0 (completed iterations)
-    #if !XCODE
-        var ft = [x, fast]
-        var st = [x]
-    #endif
     while fast != slow {    // slow = f^n(x) ∧ fast = f^{2n+1}(x)
         slow = f(slow)      // slow = f^{n+1}(x) ∧ fast = f^{2n+1}(x)
-        #if !XCODE
-            st.append(slow)
-        #endif
         if !p(fast) { return fast }
         fast = f(fast)      // slow = f^{n+1}(x) ∧ fast = f^{2n+2}(x)
-        #if !XCODE
-            ft.append(fast)
-        #endif
         if !p(fast) { return fast }
         fast = f(fast)      // slow = f^{n+1}(x) ∧ fast = f^{2n+3}(x)
-        #if !XCODE
-            ft.append(fast)
-        #endif
     }                       // n ← n + 1
-    #if !XCODE
-        ft.map { $0 }
-        st.map { $0 }
-    #endif
     return fast             // slow = f^n(x) ∧ fast = f^{2n+1}(x)
     // Postcondition: return value is terminal point or collision point
 }
@@ -242,19 +225,3 @@ func orbitStructure<DomainFP: Distance>(
     return Triple(m0: m, m1: n, m2: y)
 }
 
-#if !XCODE
-// MARK: Playground examples
-    
-definitionSpacePredicateIntegerAddition(x: Int32.max, y: Int32.min)
-definitionSpacePredicateIntegerAddition(x: Int32.max - 1, y: Int32.max)
-definitionSpacePredicateIntegerAddition(x: Int64.max, y: Int64.min)
-definitionSpacePredicateIntegerAddition(x: Int64.max - 1, y: Int64.max)
-definitionSpacePredicateIntegerAddition(x: UInt.max, y: UInt.min)
-definitionSpacePredicateIntegerAddition(x: UInt.max - 1, y: UInt.max)
-
-let f: Transformation<UInt> = { ($0 % 113 + 2) * 2 }
-let p: UnaryPredicate<UInt> = { _ in return true }
-let x: UInt = 0
-orbitStructure(start: x, transformation: f, definitionSpace: p)
-    
-#endif
