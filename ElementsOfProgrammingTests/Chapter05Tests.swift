@@ -161,25 +161,25 @@ class Chapter05Tests: XCTestCase {
     
     func algorithmAbs<T: OrderedAdditiveGroup>(_ something: T) {
         // We need a nonzero number to test with; OrderedAdditiveGroup doesn't guarantee one
-        XCTAssert(something > T.additiveIdentity())
+        XCTAssert(something > T.additiveIdentity)
         let x = something
         let y = x + something
         let z = y + something
         Concept.orderedAdditiveGroup(x: x, y: y, z: z) // need x < y < z
         
-        XCTAssert(absoluteValue(T.additiveIdentity()) == T.additiveIdentity())
+        XCTAssert(absoluteValue(T.additiveIdentity) == T.additiveIdentity)
         XCTAssert(absoluteValue(something) == something)
         XCTAssert(absoluteValue(-something) == something)
     }
     
     func algorithmsSlowQR<T: ArchimedeanMonoid & IntegerSpecialCaseProcedures>(max: T) {
-        var a = T.additiveIdentity()
+        var a = T.additiveIdentity
         while a < max {
-            var b = T.additiveIdentity().successor()
+            var b = T.additiveIdentity.successor()
             while b < max {
                 let r = slowRemainder(a: a, b: b)
                 let q = slowQuotient(a: a, b: b)
-                XCTAssert(power(a: b, n: q, op: plus, id: T.additiveIdentity()) + r == a)
+                XCTAssert(power(a: b, n: q, op: plus, id: T.additiveIdentity) + r == a)
                 b = b.successor()
             }
             a = a.successor()
@@ -187,14 +187,14 @@ class Chapter05Tests: XCTestCase {
     }
     
     func algorithmsSlowQRNonnegative<T: ArchimedeanMonoid & IntegerSpecialCaseProcedures>(max: T) {
-        var a = T.additiveIdentity()
+        var a = T.additiveIdentity
         while a < max {
-            var b = T.additiveIdentity().successor()
+            var b = T.additiveIdentity.successor()
             while b < max {
                 let r = remainderNonnegative(a: a, b: b)
                 let qr = quotientRemainderNonnegative(a: a, b: b)
                 XCTAssert(qr.m1 == r)
-                XCTAssert(power(a: b, n: qr.m0, op: plus, id: T.additiveIdentity()) + r == a)
+                XCTAssert(power(a: b, n: qr.m0, op: plus, id: T.additiveIdentity) + r == a)
                 b = b.successor()
             }
             a = a.successor()
@@ -202,16 +202,16 @@ class Chapter05Tests: XCTestCase {
     }
     
     func algorithmsSlowQRNonnegativeFibonacci<T: ArchimedeanMonoid & IntegerSpecialCaseProcedures>(max: T) {
-        var a = T.additiveIdentity()
+        var a = T.additiveIdentity
         while a < max {
-            var b = T.additiveIdentity().successor()
+            var b = T.additiveIdentity.successor()
             while b < max {
                 let r = remainderNonnegativeFibonacci(a: a, b: b)
                 // FIXME: Fix this
 //                let qr = quotientRemainderNonnegativeFibonacci
 //                XCTAssert(Int(r) == Int(a) % Int(b))
 //                XCTAssert(qr.m1 == r)
-//                XCTAssert(power(a: b, n: qr.m0, op: plus, id: T.additiveIdentity()) + r == a)
+//                XCTAssert(power(a: b, n: qr.m0, op: plus, id: T.additiveIdentity) + r == a)
                 b = b.successor()
             }
             a = a.successor()
@@ -219,9 +219,9 @@ class Chapter05Tests: XCTestCase {
     }
     
     func algorithmsSlowQRNonnegativeIterative<T: ArchimedeanMonoid & IntegerSpecialCaseProcedures & Halvable>(max: T) {
-        var a = T.additiveIdentity()
+        var a = T.additiveIdentity
         while a < max {
-            var b = T.additiveIdentity().successor()
+            var b = T.additiveIdentity.successor()
             while b < max {
                 let r = remainderNonnegativeFibonacci(a: a, b: b)
                 let qr = quotientRemainderNonnegativeIterative(a: a, b: b)
@@ -229,7 +229,7 @@ class Chapter05Tests: XCTestCase {
 //                XCTAssert(Int(r) == Int(a) % Int(b))
                 XCTAssert(qr.m1 == r)
 //                XCTAssert(Int(qr.m0) == Int(a) / Int(b))
-                XCTAssert(power(a: b, n: qr.m0, op: plus, id: T.additiveIdentity()) + r == a)
+                XCTAssert(power(a: b, n: qr.m0, op: plus, id: T.additiveIdentity) + r == a)
                 b = b.successor()
             }
             a = a.successor()
@@ -237,9 +237,9 @@ class Chapter05Tests: XCTestCase {
     }
     
     func algorithmsLargestDoubling<T: ArchimedeanMonoid & IntegerSpecialCaseProcedures & Halvable>(max: T) {
-        var a = T.additiveIdentity()
+        var a = T.additiveIdentity
         while a < max {
-            var b = T.additiveIdentity().successor()
+            var b = T.additiveIdentity.successor()
             while b <= a {
                 let d = largestDoubling(a: a, b: b)
                 // FIXME: Fix this
@@ -258,7 +258,7 @@ class Chapter05Tests: XCTestCase {
         while a <= max {
             var b = a
             while b <= max {
-                if b != T.additiveIdentity() {
+                if b != T.additiveIdentity {
                     let r = remainder(a: a, b: b, rem: remainderNonnegative)
                     XCTAssert(absoluteValue(r) < absoluteValue(b))
                     let qr = quotientRemainder(a: a, b: b, quoRem: agQuotientRemainder)
@@ -273,7 +273,7 @@ class Chapter05Tests: XCTestCase {
     }
     
     func agQuotientRemainder<T: ArchimedeanGroup>(a: T, b: T) -> Pair<QuotientType, T> {
-        XCTAssert(a >= T.additiveIdentity() && b > T.additiveIdentity())
+        XCTAssert(a >= T.additiveIdentity && b > T.additiveIdentity)
         return quotientRemainderNonnegative(a: a, b: b)
     }
 }

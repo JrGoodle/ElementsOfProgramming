@@ -146,14 +146,14 @@ class Concept {
     static func orderedAdditiveMonoid<T: OrderedAdditiveMonoid>(x: T, y: T, z: T) {
         Concept.orderedAdditiveSemigroup(x: x, y: y, z: z)
         // 0 in T
-        XCTAssert(x + T.additiveIdentity() == x)
+        XCTAssert(x + T.additiveIdentity == x)
     }
     
     static func orderedAdditiveGroup<T: OrderedAdditiveGroup>(x: T, y: T, z: T) {
         // Precondition: x < y
         Concept.orderedAdditiveMonoid(x: x, y: y, z: z)
         // - : T -> T
-        XCTAssert(x + (-x) == T.additiveIdentity())
+        XCTAssert(x + (-x) == T.additiveIdentity)
     }
 
     static func cancellableMonoid<T: CancellableMonoid>(x: T, y: T, z: T) {
@@ -178,7 +178,7 @@ class Concept {
         // Precondition: x < y
         Concept.archimedeanMonoid(x: x, y: y, z: z, n: n)
         let tmp = x - y
-        XCTAssert(tmp < T.additiveIdentity())
+        XCTAssert(tmp < T.additiveIdentity)
         XCTAssert(-tmp == y - x)
     }
 }

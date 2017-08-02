@@ -338,7 +338,7 @@ func reduce<I: Readable & Iterator>(
 where I.Source : AdditiveMonoid {
     // Precondition: readable_bounded_range(f, l)
     typealias T = I.Source
-    return reduce(f: f, l: l, op: plus, z: T.additiveIdentity())
+    return reduce(f: f, l: l, op: plus, z: T.additiveIdentity)
 }
 
 // FIXME: Figure out a way to make this work

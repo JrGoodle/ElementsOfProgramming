@@ -29,7 +29,7 @@ func negate<T: AdditiveGroup>(x: T) -> T {
 }
 
 func absoluteValue<T: OrderedAdditiveGroup>(_ a: T) -> T {
-    if a < T.additiveIdentity() {
+    if a < T.additiveIdentity {
         return -a
     } else {
         return a
@@ -38,8 +38,8 @@ func absoluteValue<T: OrderedAdditiveGroup>(_ a: T) -> T {
 
 func slowRemainder<T: CancellableMonoid>(a: T, b: T) -> T {
     var a = a
-    assert(a >= T.additiveIdentity())
-    assert(b > T.additiveIdentity())
+    assert(a >= T.additiveIdentity)
+    assert(b > T.additiveIdentity)
     while b <= a {
         a = a - b
     }
@@ -48,8 +48,8 @@ func slowRemainder<T: CancellableMonoid>(a: T, b: T) -> T {
 
 func slowQuotient<T: ArchimedeanMonoid>(a: T, b: T) -> QuotientType {
     var a = a
-    assert(a >= T.additiveIdentity())
-    assert(b > T.additiveIdentity())
+    assert(a >= T.additiveIdentity)
+    assert(b > T.additiveIdentity)
     var n = QuotientType(0)
     while b <= a {
         a = a - b
@@ -61,7 +61,7 @@ func slowQuotient<T: ArchimedeanMonoid>(a: T, b: T) -> QuotientType {
 func remainderRecursive<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     var a = a
     assert(a >= b)
-    assert(b > T.additiveIdentity())
+    assert(b > T.additiveIdentity)
     if a - b >= b {
         a = remainderRecursive(a: a, b: b + b)
         if a < b { return a }
@@ -70,8 +70,8 @@ func remainderRecursive<T: ArchimedeanMonoid>(a: T, b: T) -> T {
 }
 
 func remainderNonnegative<T: ArchimedeanMonoid>(a: T, b: T) -> T {
-    assert(a >= T.additiveIdentity())
-    assert(b > T.additiveIdentity())
+    assert(a >= T.additiveIdentity)
+    assert(b > T.additiveIdentity)
     if a < b { return a }
     return remainderRecursive(a: a, b: b)
 }
@@ -85,8 +85,8 @@ func remainderNonnegative<T: ArchimedeanMonoid>(a: T, b: T) -> T {
 
 func remainderNonnegativeFibonacci<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     var a = a, b = b
-    assert(a >= T.additiveIdentity())
-    assert(b > T.additiveIdentity())
+    assert(a >= T.additiveIdentity)
+    assert(b > T.additiveIdentity)
     if a < b { return a }
     var c = b
     
@@ -109,15 +109,15 @@ func remainderNonnegativeFibonacci<T: ArchimedeanMonoid>(a: T, b: T) -> T {
 func largestDoubling<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     var b = b
     assert(a >= b)
-    assert(b > T.additiveIdentity())
+    assert(b > T.additiveIdentity)
     while b <= a - b { b = b + b }
     return b
 }
 
 func remainderNonnegativeIterative<T: HalvableMonoid>(a: T, b: T) -> T {
     var a = a
-    assert(a >= T.additiveIdentity())
-    assert(b > T.additiveIdentity())
+    assert(a >= T.additiveIdentity)
+    assert(b > T.additiveIdentity)
     if a < b { return a }
     var c = largestDoubling(a: a, b: b)
     a = a - c
@@ -136,8 +136,8 @@ func remainderNonnegativeWithLargestDoubling<
     a: T, b: T
 ) -> T {
     var a = a
-    assert(a >= T.additiveIdentity())
-    assert(b > T.additiveIdentity())
+    assert(a >= T.additiveIdentity)
+    assert(b > T.additiveIdentity)
     while b <= a {
         a = a - largestDoubling(a: a, b: b)
     }
@@ -146,8 +146,8 @@ func remainderNonnegativeWithLargestDoubling<
 
 func subtractiveGCDNonzero<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     var a = a, b = b
-    assert(a > T.additiveIdentity())
-    assert(b > T.additiveIdentity())
+    assert(a > T.additiveIdentity)
+    assert(b > T.additiveIdentity)
     while true {
         if b < a {
             a = a - b
@@ -161,48 +161,48 @@ func subtractiveGCDNonzero<T: ArchimedeanMonoid>(a: T, b: T) -> T {
 
 func subtractiveGCD<T: EuclideanMonoid>(a: T, b: T) -> T {
     var a = a, b = b
-    assert(a >= T.additiveIdentity())
-    assert(b >= T.additiveIdentity())
-    assert(!(a == T.additiveIdentity() && b == T.additiveIdentity()))
+    assert(a >= T.additiveIdentity)
+    assert(b >= T.additiveIdentity)
+    assert(!(a == T.additiveIdentity && b == T.additiveIdentity))
     while true {
-        if b == T.additiveIdentity() { return a }
+        if b == T.additiveIdentity { return a }
         while b <= a { a = a - b }
-        if a == T.additiveIdentity() { return b }
+        if a == T.additiveIdentity { return b }
         while a <= b { b = b - a }
     }
 }
 
 func fastSubtractiveGCD<T: EuclideanMonoid>(a: T, b: T) -> T {
     var a = a, b = b
-    assert(a >= T.additiveIdentity())
-    assert(b >= T.additiveIdentity())
-    assert(!(a == T.additiveIdentity() && b == T.additiveIdentity()))
+    assert(a >= T.additiveIdentity)
+    assert(b >= T.additiveIdentity)
+    assert(!(a == T.additiveIdentity && b == T.additiveIdentity))
     while true {
-        if b == T.additiveIdentity() { return a }
+        if b == T.additiveIdentity { return a }
         a = remainderNonnegative(a: a, b: b)
-        if a == T.additiveIdentity() { return b }
+        if a == T.additiveIdentity { return b }
         b = remainderNonnegative(a: b, b: a)
     }
 }
 
 public func gcdEuclideanSemiring<T: EuclideanSemiring>(a: T, b: T) -> T {
     var a = a, b = b
-    assert(!(a == T.additiveIdentity() && b == T.additiveIdentity()))
+    assert(!(a == T.additiveIdentity && b == T.additiveIdentity))
     while true {
-        if b == T.additiveIdentity() { return a }
+        if b == T.additiveIdentity { return a }
         a = a.remainder(b)
-        if a == T.additiveIdentity() { return b }
+        if a == T.additiveIdentity { return b }
         b = b.remainder(a)
     }
 }
 
 func gcdEuclideanSemimodule<T: EuclideanSemimodule>(a: T, b: T) -> T {
     var a = a, b = b
-    assert(!(a == T.additiveIdentity() && b == T.additiveIdentity()))
+    assert(!(a == T.additiveIdentity && b == T.additiveIdentity))
     while true {
-        if b == T.additiveIdentity() { return a }
+        if b == T.additiveIdentity { return a }
         a = a.remainder(b)
-        if a == T.additiveIdentity() { return b }
+        if a == T.additiveIdentity { return b }
         b = b.remainder(a)
     }
 }
@@ -242,8 +242,8 @@ func quotientRemainderNonnegative<T: ArchimedeanMonoid>(
     a: T, b: T
 ) -> Pair<QuotientType, T> {
     var a = a
-    assert(a >= T.additiveIdentity())
-    assert(b > T.additiveIdentity())
+    assert(a >= T.additiveIdentity)
+    assert(b > T.additiveIdentity)
     typealias N = QuotientType
     if a < b { return Pair(m0: N(0), m1: a) }
     if a - b < b { return Pair(m0: N(1), m1: a - b) }
@@ -261,8 +261,8 @@ func quotientRemainderNonnegativeIterative<T: HalvableMonoid>(
     a: T, b: T
 ) -> Pair<QuotientType, T> {
     var a = a
-    assert(a >= T.additiveIdentity())
-    assert(b > T.additiveIdentity())
+    assert(a >= T.additiveIdentity)
+    assert(b > T.additiveIdentity)
     typealias N = QuotientType
     if a < b { return Pair(m0: N(0), m1: a) }
     var c = largestDoubling(a: a, b: b)
@@ -284,19 +284,19 @@ func remainder<DomainOp: ArchimedeanGroup>(
     rem: BinaryOperation<DomainOp>
 ) -> DomainOp {
     typealias T = DomainOp
-    assert(b != T.additiveIdentity())
+    assert(b != T.additiveIdentity)
     var r: T
-    if a < T.additiveIdentity() {
-        if b < T.additiveIdentity() {
+    if a < T.additiveIdentity {
+        if b < T.additiveIdentity {
             r = -rem(-a, -b)
         } else {
             r =  rem(-a,  b)
-            if r != T.additiveIdentity() { r = b - r }
+            if r != T.additiveIdentity { r = b - r }
         }
     } else {
-        if b < T.additiveIdentity() {
+        if b < T.additiveIdentity {
             r =  rem(a, -b)
-            if r != T.additiveIdentity() { r = b + r }
+            if r != T.additiveIdentity { r = b + r }
         } else {
             r =  rem(a,  b)
         }
@@ -309,24 +309,24 @@ func quotientRemainder<DomainF: ArchimedeanGroup>(
     quoRem: BinaryHomogeneousFunction<DomainF,Pair<QuotientType, DomainF>>
 ) -> Pair<QuotientType, DomainF> {
     typealias T = DomainF
-    assert(b != T.additiveIdentity())
+    assert(b != T.additiveIdentity)
     var qr: Pair<QuotientType, T>
-    if a < T.additiveIdentity() {
-        if b < T.additiveIdentity() {
+    if a < T.additiveIdentity {
+        if b < T.additiveIdentity {
             qr = quoRem(-a, -b)
             qr.m1 = -qr.m1
         } else {
             qr = quoRem(-a, b)
-            if qr.m1 != T.additiveIdentity() {
+            if qr.m1 != T.additiveIdentity {
                 qr.m1 = b - qr.m1
                 qr.m0 = qr.m0.successor()
             }
             qr.m0 = -qr.m0
         }
     } else {
-        if b < T.additiveIdentity() {
+        if b < T.additiveIdentity {
             qr = quoRem(a, -b)
-            if qr.m1 != T.additiveIdentity() {
+            if qr.m1 != T.additiveIdentity {
                 qr.m1 = b + qr.m1
                 qr.m0 = qr.m0.successor()
             }

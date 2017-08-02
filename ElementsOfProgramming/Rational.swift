@@ -56,7 +56,7 @@ extension Rational: AdditiveInverse, ArchimedeanMonoid {
         return lhs.numerator * rhs.denominator < rhs.numerator * lhs.denominator
     }
     
-    static func additiveIdentity() -> Rational {
+    static var additiveIdentity: Rational {
         return Rational(0)
     }
 }
@@ -119,7 +119,7 @@ extension Rational: Regular {
 }
 
 extension Rational: MultiplicativeIdentity {
-    static func multiplicativeIdentity() -> Rational {
+    static var multiplicativeIdentity: Rational {
         return Rational(1)
     }
     
@@ -157,7 +157,7 @@ extension Rational: IntegerSpecialCaseProcedures {
     }
     
     func isNegative() -> Bool {
-        return self < Rational.additiveIdentity()
+        return self < Rational.additiveIdentity
     }
     
     func isZero() -> Bool {
