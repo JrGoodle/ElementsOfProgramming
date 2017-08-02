@@ -13,11 +13,11 @@
 public typealias DistanceType = UInt
 
 public protocol Distance: Regular {
-    func distance(to: Self, f: Transformation<Self>) -> UInt
+    func distance(to: Self, transformation: Transformation<Self>) -> UInt
 }
 
 extension Distance {
-    public func distance(to end: Self, f: Transformation<Self>) -> UInt {
+    public func distance(to end: Self, transformation f: Transformation<Self>) -> UInt {
         var x = self
         let y = end
         // Precondition: y is reachable from x under f

@@ -75,7 +75,7 @@ func collisionPoint<DomainFP: Distance>(
     
     var slow = x            // slow = f^0(x)
     var fast = f(x)         // fast = f^1(x)
-                            // n \gets 0 (completed iterations)
+                            // n ← 0 (completed iterations)
     #if !XCODE
         var ft = [x, fast]
         var st = [x]
@@ -129,7 +129,7 @@ func collisionPointNonterminatingOrbit<DomainF: Distance>(
 ) -> DomainF {
     var slow = x            // slow = f^0(x)
     var fast = f(x)         // fast = f^1(x)
-                            // n \gets 0 (completed iterations)
+                            // n ← 0 (completed iterations)
     while fast != slow {    // slow = f^n(x) ∧ fast = f^{2 n + 1}(x)
         slow = f(slow)      // slow = f^{n+1}(x) ∧ fast = f^{2n+1}(x)
         fast = f(fast)      // slow = f^{n+1}(x) ∧ fast = f^{2n+2}(x)
