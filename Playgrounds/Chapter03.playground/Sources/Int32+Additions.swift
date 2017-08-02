@@ -4,13 +4,13 @@
 //
 
 extension Int32 : MultiplicativeIdentity {
-    public static func multiplicativeIdentity() -> Int32 {
+    public static var multiplicativeIdentity: Int32 {
         return 1
     }
 }
 
 extension Int32 : AdditiveIdentity {
-    public static func additiveIdentity() -> Int32 {
+    public static var additiveIdentity: Int32 {
         return 0
     }
 }
@@ -21,7 +21,7 @@ extension Int32: Halvable {
 
 extension Int32: MultiplicativeInverse {
     public func multiplicativeInverse() -> Int32 {
-        return Int32.multiplicativeIdentity() / self
+        return Int32.multiplicativeIdentity / self
     }
 }
 
@@ -33,7 +33,7 @@ extension Int32: Remainder {
 
 extension Int32: Norm {
     public func w() -> Int32 {
-        if self < Int32.additiveIdentity() {
+        if self < Int32.additiveIdentity {
             return -self
         }
         return self

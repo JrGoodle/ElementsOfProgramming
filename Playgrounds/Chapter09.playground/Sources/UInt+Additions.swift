@@ -7,13 +7,13 @@
 public typealias N = UInt
 
 extension UInt : MultiplicativeIdentity {
-    public static func multiplicativeIdentity() -> UInt {
+    public static var multiplicativeIdentity: UInt {
         return 1
     }
 }
 
 extension UInt : AdditiveIdentity {
-    public static func additiveIdentity() -> UInt {
+    public static var additiveIdentity: UInt {
         return 0
     }
 }
@@ -24,7 +24,7 @@ extension UInt: Halvable {
 
 extension UInt: MultiplicativeInverse {
     public func multiplicativeInverse() -> UInt {
-        return UInt.multiplicativeIdentity() / self
+        return UInt.multiplicativeIdentity / self
     }
 }
 

@@ -4,13 +4,13 @@
 //
 
 extension Double : MultiplicativeIdentity {
-    public static func multiplicativeIdentity() -> Double {
+    public static var multiplicativeIdentity: Double {
         return 1.0
     }
 }
 
 extension Double : AdditiveIdentity {
-    public static func additiveIdentity() -> Double {
+    public static var additiveIdentity: Double {
         return 0.0
     }
 }
@@ -21,13 +21,13 @@ extension Double: Halvable {
 
 extension Double: MultiplicativeInverse {
     public func multiplicativeInverse() -> Double {
-        return Double.multiplicativeIdentity() / self
+        return Double.multiplicativeIdentity / self
     }
 }
 
 extension Double: Norm {
     public func w() -> Double {
-        if self < Double.additiveIdentity() {
+        if self < Double.additiveIdentity {
             return -self
         }
         return self

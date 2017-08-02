@@ -31,11 +31,11 @@ extension Distance {
 }
 
 public protocol MultiplicativeIdentity {
-    static func multiplicativeIdentity() -> Self
+    static var multiplicativeIdentity: Self { get }
 }
 
 public protocol AdditiveIdentity {
-    static func additiveIdentity() -> Self
+    static var additiveIdentity: Self { get }
 }
 
 public protocol AdditiveInverse: Negatable {

@@ -39,7 +39,7 @@ func powerUnary<DomainF: Distance>(
     transformation: Transformation<DomainF>
 ) -> DomainF {
     var x = x, n = n
-    assert(n >= 0, "n >= 0")
+    assert(n >= 0)
     // Precondition: n ≥ 0 ∧ (∀i ∈ N), 0 < i ≤ n ⇒ f^i(x) is defined
     
     while n != N(0) {
