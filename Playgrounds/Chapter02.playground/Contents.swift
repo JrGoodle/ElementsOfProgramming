@@ -261,17 +261,34 @@ func orbitStructure<DomainFP: Distance>(
 #if !XCODE
     // MARK: Playground examples
     
-    // Exercise 2.1
-    definitionSpacePredicateIntegerAddition(x: Int32.max, y: Int32.min)
-    definitionSpacePredicateIntegerAddition(x: Int32.max - 1, y: Int32.max)
-    definitionSpacePredicateIntegerAddition(x: Int64.max, y: Int64.min)
-    definitionSpacePredicateIntegerAddition(x: Int64.max - 1, y: Int64.max)
-    definitionSpacePredicateIntegerAddition(x: UInt.max, y: UInt.min)
-    definitionSpacePredicateIntegerAddition(x: UInt.max - 1, y: UInt.max)
-
-    let f: Transformation<UInt> = { ($0 % 113 + 2) * 2 }
-    let p: UnaryPredicate<UInt> = { _ in return true }
-    let x: UInt = 0
-    orbitStructure(start: x, transformation: f, definitionSpace: p)
-    orbitStructureNonterminatingOrbit(start: x, transformation: f)
+    func playgroundDSPAddition() {
+        // Exercise 2.1
+        definitionSpacePredicateIntegerAddition(x: Int32.max, y: Int32.min)
+        definitionSpacePredicateIntegerAddition(x: Int32.max - 1, y: Int32.max)
+        definitionSpacePredicateIntegerAddition(x: Int64.max, y: Int64.min)
+        definitionSpacePredicateIntegerAddition(x: Int64.max - 1, y: Int64.max)
+        definitionSpacePredicateIntegerAddition(x: UInt.max, y: UInt.min)
+        definitionSpacePredicateIntegerAddition(x: UInt.max - 1, y: UInt.max)
+    }
+    
+    func playgroundRhoShapedOrbit() {
+        let f: Transformation<UInt> = { ($0 % 113 + 2) * 2 }
+        let x: UInt = 0
+        orbitStructureNonterminatingOrbit(start: x, transformation: f)
+    }
+    playgroundRhoShapedOrbit()
+    
+    func playgroundTerminatingOrbit() {
+        let f: Transformation<UInt> = { $0 + 2 }
+        let p: UnaryPredicate<UInt> = { $0 < 208 }
+        let x: UInt = 0
+        orbitStructure(start: x, transformation: f, definitionSpace: p)
+    }
+//    playgroundTerminatingOrbit()
+    
+    func playgroundCircularOrbit() {
+        let f: Transformation<UInt> = { ($0 % 113 + 2) * 2 }
+        let x: UInt = 4
+        orbitStructureNonterminatingOrbit(start: x, transformation: f)
+    }
 #endif
