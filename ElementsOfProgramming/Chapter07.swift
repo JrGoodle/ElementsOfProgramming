@@ -10,11 +10,11 @@ func weightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     guard !c.isEmpty() else { return N(0) }
     var l = N(0)
     var r = N(0)
-    if c.hasLeftSuccessor() {
-        l = weightRecursive(c: c.leftSuccessor!)
+    if let ls = c.leftSuccessor {
+        l = weightRecursive(c: ls)
     }
-    if c.hasRightSuccessor() {
-        r = weightRecursive(c: c.rightSuccessor!)
+    if let rs = c.rightSuccessor {
+        r = weightRecursive(c: rs)
     }
     let t = l + r
     return t.successor()
@@ -25,11 +25,11 @@ func heightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     guard !c.isEmpty() else { return N(0) }
     var l = N(0)
     var r = N(0)
-    if c.hasLeftSuccessor() {
-        l = heightRecursive(c: c.leftSuccessor!)
+    if let ls = c.leftSuccessor {
+        l = heightRecursive(c: ls)
     }
-    if c.hasRightSuccessor() {
-        r = heightRecursive(c: c.rightSuccessor!)
+    if let rs = c.rightSuccessor {
+        r = heightRecursive(c: rs)
     }
     return maxSelect(a: l, b: r).successor()
 }
@@ -53,12 +53,12 @@ where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     var proc = proc
     // Precondition: tree(c) ∧ ￢empty(c)
     proc.call(.pre, c)
-    if c.hasLeftSuccessor() {
-        proc = traverseNonempty(c: c.leftSuccessor!, proc: proc)
+    if let ls = c.leftSuccessor {
+        proc = traverseNonempty(c: ls, proc: proc)
     }
     proc.call(.in, c)
-    if c.hasRightSuccessor() {
-        proc = traverseNonempty(c: c.rightSuccessor!, proc: proc)
+    if let rs = c.rightSuccessor {
+        proc = traverseNonempty(c: rs, proc: proc)
     }
     proc.call(.post, c)
     return proc
@@ -67,13 +67,15 @@ where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
 func isLeftSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
     // Precondition: has_predecessor(j)
     let i = j.iteratorPredecessor!
-    return i.hasLeftSuccessor() && i.leftSuccessor! == j
+    guard let ls = i.leftSuccessor else { return false }
+    return ls == j
 }
 
 func isRightSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
     // Precondition: has_predecessor(j)
     let i = j.iteratorPredecessor!
-    return i.hasRightSuccessor() && i.rightSuccessor! == j
+    guard let rs = i.rightSuccessor else { return false }
+    return rs == j
 }
 
 func traverseStep<C: BidirectionalBifurcateCoordinate>(
@@ -188,12 +190,12 @@ func bifurcateIsomorphicNonempty<
         guard let c1ls = c1.leftSuccessor else { return false }
         guard bifurcateIsomorphicNonempty(c0: c0ls,
                                           c1: c1ls) else { return false }
-    } else if c1.hasLeftSuccessor() { return false }
+    } else if c1.leftSuccessor != nil { return false }
     if let c0rs = c0.rightSuccessor {
         guard let c1rs = c1.rightSuccessor else { return false }
         guard bifurcateIsomorphicNonempty(c0: c0rs,
                                           c1: c1rs) else { return false }
-    } else if c1.hasRightSuccessor() { return false }
+    } else if c1.rightSuccessor != nil { return false }
     return true
 }
 
@@ -286,15 +288,13 @@ where C0.Source == C1.Source {
         guard bifurcateEquivalentNonempty(c0: c0ls,
                                           c1: c1ls,
                                           r: r) else { return false }
-    } else if c1.hasLeftSuccessor() { return false }
-    
+    } else if c1.leftSuccessor != nil { return false }
     if let c0rs = c0.rightSuccessor {
         guard let c1rs = c1.rightSuccessor else { return false }
         guard bifurcateEquivalentNonempty(c0: c0rs,
                                           c1: c1rs,
                                           r: r) else { return false }
-    } else if c1.hasRightSuccessor() { return false }
-    
+    } else if c1.rightSuccessor != nil { return false }
     return true
 }
 
@@ -462,14 +462,14 @@ where C0.Source == C1.Source {
                                        c1: c1ls,
                                        comp: comp)
         guard tmp == 0 else { return tmp }
-    } else if c1.hasLeftSuccessor() { return 1 }
+    } else if c1.leftSuccessor != nil { return 1 }
     if let c0rs = c0.rightSuccessor {
         guard let c1rs = c1.rightSuccessor else { return -1 }
         tmp = bifurcateCompareNonempty(c0: c0rs,
                                        c1: c1rs,
                                        comp: comp)
         guard tmp == 0 else { return tmp }
-    } else if c1.hasRightSuccessor() { return 1 }
+    } else if c1.rightSuccessor != nil { return 1 }
     return 0
 }
 
