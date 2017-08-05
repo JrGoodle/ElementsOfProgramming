@@ -155,7 +155,7 @@ func powerAccumulate4<DomainOp: Regular>(
     while true {
         if n % 2 != 0 {
             r = op(r, a)
-            if n == 1 { return r }
+            guard n != 1 else { return r }
         } else if n == 0 {
             return r
         }

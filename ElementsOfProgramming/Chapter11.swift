@@ -36,7 +36,7 @@ func partitionSemistable<I: Mutable & ForwardIterator>(
     var j = i.iteratorSuccessor!
     while true {
         j = findIfNot(f: j, l: l, p: p)
-        if j == l { return i }
+        guard j != l else { return i }
         swapStep(f0: &i, f1: &j)
     }
 }
@@ -57,7 +57,7 @@ func removeIf<I: Mutable & ForwardIterator>(
     var j = i.iteratorSuccessor!
     while true {
         j = findIfNot(f: j, l: l, p: p)
-        if j == l { return i }
+        guard j != l else { return i }
         copyStep(fi: &j, fo: &i)
     }
 }
@@ -83,7 +83,7 @@ func partitionBidirectional<I: Mutable & BidirectionalIterator>(
     while true {
         f = findIf(f: f, l: l, p: p)
         l = findBackwardIfNot(f: f, l: l, p: p)
-        if f == l { return f }
+        guard f != l else { return f }
         reverseSwapStep(l0: &l, f1: &f)
     }
 }
@@ -100,7 +100,7 @@ func partitionForward<I: Mutable & ForwardIterator>(
     var j = i
     while true {
         j = findIfNot(f: j, l: l, p: p)
-        if j == l { return i }
+        guard j != l else { return i }
         f = findIfUnguarded(f: f, p: p)
         swapStep(f0: &f, f1: &j)
     }
@@ -122,7 +122,7 @@ func partitonSingleCycle<I: Mutable & BidirectionalIterator>(
     while true {
         f.sink = l.source
         f = findIf(f: f.iteratorSuccessor!, l: l, p: p)
-        if f == l {
+        guard f != l else {
             l.sink = tmp
             return f
         }
@@ -145,7 +145,7 @@ func partitionBidirectionalUnguarded<I: Mutable & BidirectionalIterator>(
     while true {
         f = findIfUnguarded(f: f, p: p)
         l = findBackwardIfNotUnguarded(l: l, p: p)
-        if l.iteratorSuccessor! == f { return f }
+        guard l.iteratorSuccessor! != f else { return f }
         exchangeValues(x: f, y: l)
         f = f.iteratorSuccessor! // ￢p(source(f-1)) ∧ p(source(l))
     }
@@ -179,16 +179,16 @@ func partitionIndexed<I: Mutable & IndexedIterator>(
     var j = l - f
     while true {
         while true {
-            if i == j { return f + i }
+            guard i != j else { return f + i }
             let tmp = f + i
-            if p(tmp.source!) { break }
+            guard !p(tmp.source!) else { break }
             i = i.successor()
         }
         while true {
             j = j.predecessor()
-            if i == j { return f + j + 1 }
+            guard i != j else { return f + j + 1 }
             let tmp = f + j
-            if !p(tmp.source!) { break }
+            guard p(tmp.source!) else { break }
         }
         exchangeValues(x: f + i, y: f + j)
         i = i.successor()
@@ -284,7 +284,7 @@ func addToCounter<I: Mutable & ForwardIterator>(
     var f = f, x = x
     guard x != z else { return z }
     while f != l {
-        if f.source! == z {
+        guard f.source! != z else {
             f.sink = x
             return z
         }

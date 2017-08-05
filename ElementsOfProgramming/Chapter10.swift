@@ -55,9 +55,9 @@ func reverseBidirectional<I: Mutable & BidirectionalIterator>(f: I, l: I) {
     var f = f, l = l
     // Precondition: mutable_bounded_range(f, l)
     while true {
-        if f == l { return }
+        guard f != l else { return }
         l = l.iteratorPredecessor!
-        if f == l { return }
+        guard f != l else { return }
         exchangeValues(x: f, y: l)
         f = f.iteratorSuccessor!
     }
@@ -203,7 +203,7 @@ func rotateForwardAnnotated<I: Mutable & ForwardIterator & Regular>(
     var b = l - m
     while true {
         let p = swapRangesBounded(f0: f, l0: m, f1: m, l1: l)
-        if p.m0 == m && p.m1 == l {
+        guard !(p.m0 == m && p.m1 == l) else {
             assert(a == b )
             return
         }
