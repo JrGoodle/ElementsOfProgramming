@@ -230,14 +230,11 @@ public typealias WeightType = UInt
 
 public protocol BifurcateCoordinate: Regular {
     func isEmpty() -> Bool
-    func hasLeftSuccessor() -> Bool
-    func hasRightSuccessor() -> Bool
     var leftSuccessor: Self? { get }
     var rightSuccessor: Self? { get }
 }
 
 public protocol BidirectionalBifurcateCoordinate: BifurcateCoordinate {
-    func hasPredecessor() -> Bool
     var iteratorPredecessor: Self? { get }
 }
 
