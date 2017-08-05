@@ -23,7 +23,7 @@ struct Rational {
     }
     
     func print() {
-        if numerator.isZero() {
+        if numerator == 0 {
             Swift.print("0")
         } else if denominator.isOne() {
             Swift.print(numerator)

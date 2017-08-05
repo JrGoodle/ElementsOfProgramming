@@ -14,7 +14,7 @@ public func +<I: Iterator>(f: I, n: DistanceType) -> I {
     var f = f, n = n
     // Precondition: weak_range(f, n)
     assert(n >= 0)
-    while !n.isZero() {
+    while n != 0 {
         n = n.predecessor()
         f = f.iteratorSuccessor!
     }
@@ -266,7 +266,7 @@ func reduce<
     // Precondition: bounded_range(f, l)
     // Precondition: partially_associative(op)
     // Precondition: (∀x ∈ [f, l)), fun(x) is defined
-    if f == l { return z }
+    guard f != l else { return z }
     return reduceNonempty(f: f, l: l, op: op, fun: fun)
 }
 
@@ -277,7 +277,7 @@ func reduce<I: Readable & Iterator>(
 ) -> I.Source {
     // Precondition: readable_bounded_range(f, l)
     // Precondition: partially_associative(op)
-    if f == l { return z }
+    guard f != l else { return z }
     return reduceNonempty(f: f, l: l, op: op)
 }
 
@@ -296,7 +296,7 @@ func reduceNonzeroes<
     // Precondition: (∀x ∈ [f, l)), fun(x) is defined
     var x: DomainOp
     repeat {
-        if f == l { return z }
+        guard f != l else { return z }
         x = fun(f)
         f = f.iteratorSuccessor!
     } while x == z
@@ -319,7 +319,7 @@ func reduceNonzeroes<I: Readable & Iterator>(
     // Precondition: partially_associative(op)
     var x: I.Source
     repeat {
-        if f == l { return z }
+        guard f != l else { return z }
         x = f.source!
         f = f.iteratorSuccessor!
     } while x == z
@@ -348,7 +348,7 @@ where I.Source : AdditiveMonoid {
 //) -> Pair<UnaryProcedure<I.Source>, I> {
 //    var f = f, n = n
 //    // Precondition: readable_weak_range(f, n)
-//    while !n.isZero() {
+//    while n != 0 {
 //        n = n.predecessor()
 //        proc(f.source()!)
 //        f = f.successor!
@@ -363,7 +363,7 @@ func findN<I: Readable & Iterator>(
 ) -> Pair<I, DistanceType> {
     var f = f, n = n
     // Precondition: readable_weak_range(f, n)
-    while !n.isZero() && f.source! != x {
+    while n != 0 && f.source! != x {
         n = n.predecessor()
         f = f.iteratorSuccessor!
     }
@@ -422,7 +422,7 @@ func findAdjacentMismatch<I: Readable & Iterator>(
 ) -> I {
     var f = f
     // Precondition: readable_bounded_range(f, l)
-    if f == l { return l }
+    guard f != l else { return l }
     var x = f.source!
     while f != l && r(x, f.source!) {
         x = f.source!
@@ -479,7 +479,7 @@ func findAdjacentMismatch<I: Readable & ForwardIterator>(
 ) -> I {
     var f = f
     // Precondition: readable_bounded_range(f, l)
-    if f == l { return l }
+    guard f != l else { return l }
     var t: I
     repeat {
         t = f
@@ -496,7 +496,7 @@ func partitionPointN<I: Readable & ForwardIterator>(
     var f = f, n = n
     // Precondition:
     // readable_counted_range(f, n) ∧ partitioned_n(f, n, p)
-    while !n.isZero() {
+    while n != 0 {
         let h = n.halfNonnegative()
         let m = f + h
         if p(m.source!) {
@@ -565,7 +565,7 @@ func -<I: BidirectionalIterator>(
 ) -> I {
     var l = l, n = n
     // Precondition: n ≥ 0 ∧ (∃f ∈ I), (weak_range(f, n) ∧ l = f + n)
-    while !n.isZero() {
+    while n != 0 {
         n = n.predecessor()
         l = l.iteratorPredecessor!
     }

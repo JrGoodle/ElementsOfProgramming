@@ -81,7 +81,7 @@ func select_1_3_ab<DomainR: Regular>(
     a: DomainR, b: DomainR, c: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    if !r(c, b) { return b }          // a, b, c are sorted
+    guard r(c, b) else { return b }     // a, b, c are sorted
     return select_1_2(a: a, b: c, r: r) // b is not the median
 }
 
@@ -89,7 +89,7 @@ func select_1_3<DomainR: Regular>(
     a: DomainR, b: DomainR, c: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    if r(b, a) { return select_1_3_ab(a: b, b: a, c: c, r: r) }
+    guard !r(b, a) else { return select_1_3_ab(a: b, b: a, c: c, r: r) }
     return select_1_3_ab(a: a, b: b, c: c, r: r)
 }
 
@@ -139,11 +139,7 @@ func compareStrictOrReflexiveFalse<DomainR: Regular>(
 func compareStrictOrReflexive<DomainR: Regular>(
     _ flag: Bool
 ) -> (DomainR, DomainR, Relation<DomainR>) -> Bool {
-    if flag {
-        return compareStrictOrReflexiveTrue
-    } else {
-        return compareStrictOrReflexiveFalse
-    }
+    return flag ? compareStrictOrReflexiveTrue : compareStrictOrReflexiveFalse
 }
 
 func select_0_2<DomainR: Regular>(

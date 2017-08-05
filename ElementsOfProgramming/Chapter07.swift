@@ -7,7 +7,7 @@ import EOP
 
 func weightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     // Precondition: tree(c)
-    if c.isEmpty() { return N(0) }
+    guard !c.isEmpty() else { return N(0) }
     var l = N(0)
     var r = N(0)
     if c.hasLeftSuccessor() {
@@ -22,7 +22,7 @@ func weightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
 
 func heightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     // Precondition: tree(c)
-    if c.isEmpty() { return N(0) }
+    guard !c.isEmpty() else { return N(0) }
     var l = N(0)
     var r = N(0)
     if c.hasLeftSuccessor() {
@@ -83,20 +83,20 @@ func traverseStep<C: BidirectionalBifurcateCoordinate>(
     // Precondition: has_predecessor(c) ∨ v ≠ post
     switch v {
     case .pre:
-        if c.hasLeftSuccessor() {
-            c = c.leftSuccessor!
-            return 1
+        guard c.hasLeftSuccessor() else {
+            v = .in
+            return 0
         }
-        v = .in
-        return 0
+        c = c.leftSuccessor!
+        return 1
     case .in:
-        if c.hasRightSuccessor() {
-            v = .pre
-            c = c.rightSuccessor!
-            return 1
+        guard c.hasRightSuccessor() else {
+            v = .post
+            return 0
         }
-        v = .post
-        return 0
+        v = .pre
+        c = c.rightSuccessor!
+        return 1
     case .post:
         if isLeftSuccessor(j: c) {
             v = .in
@@ -111,7 +111,7 @@ func reachable<C: BidirectionalBifurcateCoordinate>(
 ) -> Bool {
     var x = x
     // Precondition: tree(x)
-    if x.isEmpty() { return false }
+    guard !x.isEmpty() else { return false }
     let root = x
     var v = Visit.pre
     repeat {
@@ -124,7 +124,7 @@ func reachable<C: BidirectionalBifurcateCoordinate>(
 func weight<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
     var c = c
     // Precondition: tree(c)
-    if c.isEmpty() { return N(0) }
+    guard !c.isEmpty() else { return N(0) }
     let root = c
     var v = Visit.pre
     var n = N(1) // Invariant: n is count of .pre visits so far
@@ -138,7 +138,7 @@ func weight<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
 func height<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
     var c = c
     // Precondition: tree(c)
-    if c.isEmpty() { return N(0) }
+    guard !c.isEmpty() else { return N(0) }
     let root = c
     var v = Visit.pre
     var n = N(1) // Invariant: n is max of height of .pre visits so far
@@ -160,7 +160,7 @@ func traverse<
 where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     var c = c
     // Precondition: tree(c)
-    if c.isEmpty() { return proc }
+    guard !c.isEmpty() else { return proc }
     let root = c
     var v = Visit.pre
     proc.call(.pre, c)
@@ -185,21 +185,19 @@ func bifurcateIsomorphicNonempty<
 ) -> Bool {
     // Precondition: tree(c0) ∧ tree(c1) ∧ ￢empty(c0) ∧ ￢empty(c1)
     if c0.hasLeftSuccessor() {
-        if c1.hasLeftSuccessor() {
-            if !bifurcateIsomorphicNonempty(c0: c0.leftSuccessor!,
-                                            c1: c1.leftSuccessor!) {
-                return false
-            }
-        } else { return false }
+        guard c1.hasLeftSuccessor() else { return false }
+        guard bifurcateIsomorphicNonempty(c0: c0.leftSuccessor!,
+                                          c1: c1.leftSuccessor!) else {
+            return false
+        }
     } else if c1.hasLeftSuccessor() { return false }
     
     if c0.hasRightSuccessor() {
-        if c0.hasRightSuccessor() {
-            if !bifurcateIsomorphicNonempty(c0: c0.rightSuccessor!,
-                                            c1: c1.rightSuccessor!) {
-                return false
-            }
-        } else { return false }
+        guard c0.hasRightSuccessor() else { return false }
+        guard bifurcateIsomorphicNonempty(c0: c0.rightSuccessor!,
+                                          c1: c1.rightSuccessor!) else {
+            return false
+        }
     } else if c1.hasRightSuccessor() { return false }
     
     return true
@@ -214,8 +212,8 @@ func bifurcateIsomorphic<
 ) -> Bool {
     var c0 = c0, c1 = c1
     // Precondition: tree(c0) ∧ tree(c1)
-    if c0.isEmpty() { return c1.isEmpty() }
-    if c1.isEmpty() { return false }
+    guard !c0.isEmpty() else { return c1.isEmpty() }
+    guard !c1.isEmpty() else { return false }
     let root0 = c0
     var v0 = Visit.pre
     var v1 = Visit.pre
@@ -269,8 +267,8 @@ func lexicographicalEqual<
     f1: I1
 ) -> Bool
 where I0.Source == I1.Source {
-    if k == 0 { return true }
-    if f0.source! != f1.source! { return false }
+    guard k != 0 else { return true }
+    guard f0.source! == f1.source! else { return false }
     return lexicographicalEqual(k: k - 1,
                                 f0: f0.iteratorSuccessor!,
                                 f1: f1.iteratorSuccessor!)
@@ -288,25 +286,23 @@ where C0.Source == C1.Source {
     // Precondition: readable_tree(c0) ∧ readable_tree(c1)
     // Precondition: ￢empty(c0) ∧ ￢empty(c1)
     // Precondition: equivalence(r)
-    if !r(c0.source!, c1.source!) { return false }
+    guard r(c0.source!, c1.source!) else { return false }
     if c0.hasLeftSuccessor() {
-        if c1.hasLeftSuccessor() {
-            if !bifurcateEquivalentNonempty(c0: c0.leftSuccessor!,
-                                            c1: c1.leftSuccessor!,
-                                            r: r) {
-                return false
-            }
-        } else { return false }
+        guard c1.hasLeftSuccessor() else { return false }
+        guard bifurcateEquivalentNonempty(c0: c0.leftSuccessor!,
+                                          c1: c1.leftSuccessor!,
+                                          r: r) else {
+            return false
+        }
     } else if c1.hasLeftSuccessor() { return false }
     
     if c0.hasRightSuccessor() {
-        if c1.hasRightSuccessor() {
-            if !bifurcateEquivalentNonempty(c0: c0.rightSuccessor!,
-                                            c1: c1.rightSuccessor!,
-                                            r: r) {
-                return false
-            }
-        } else { return false }
+        guard c1.hasRightSuccessor() else { return false }
+        guard bifurcateEquivalentNonempty(c0: c0.rightSuccessor!,
+                                          c1: c1.rightSuccessor!,
+                                          r: r) else {
+            return false
+        }
     } else if c1.hasRightSuccessor() { return false }
     
     return true
@@ -324,8 +320,8 @@ where C0.Source == C1.Source {
     var c0 = c0, c1 = c1
     // Precondition: readable_tree(c0) ∧ readable_tree(c1)
     // Precondition: equivalence(r)
-    if c0.isEmpty() { return c1.isEmpty() }
-    if c1.isEmpty() { return false }
+    guard !c0.isEmpty() else { return c1.isEmpty() }
+    guard !c1.isEmpty() else { return false }
     let root0 = c0
     var v0 = Visit.pre
     var v1 = Visit.pre
@@ -396,9 +392,9 @@ func lexicographicalLess<
     f1: I1
 ) -> Bool
 where I0.Source == I1.Source {
-    if k == 0 { return false }
-    if f0.source! < f1.source! { return true }
-    if f0.source! > f1.source! { return false }
+    guard k != 0 else { return false }
+    guard f0.source! >= f1.source! else { return true }
+    guard f0.source! <= f1.source! else { return false }
     return lexicographicalLess(k: k - 1, f0: f0.iteratorSuccessor!, f1: f1.iteratorSuccessor!)
 }
 
@@ -447,8 +443,8 @@ where I0.Source == I1.Source {
     // Precondition: three_way_compare(comp)
     while true {
         if f0 == l0 {
-            if f1 == l1 { return 0 }
-            else { return 1 }
+            guard f1 == l1 else { return 1 }
+            return 0
         }
         if f1 == l1 { return -1 }
         let tmp = comp(f0.source!, f1.source!)
@@ -471,23 +467,21 @@ where C0.Source == C1.Source {
     // Precondition: ￢empty(c0) ∧ ￢empty(c1)
     // Precondition: three_way_compare(comp)
     var tmp = comp(c0.source!, c1.source!)
-    if tmp != 0 { return tmp }
+    guard tmp == 0 else { return tmp }
     if c0.hasLeftSuccessor() {
-        if c1.hasLeftSuccessor() {
-            tmp = bifurcateCompareNonempty(c0: c0.leftSuccessor!,
-                                           c1: c1.leftSuccessor!,
-                                           comp: comp)
-            if tmp != 0 { return tmp }
-        } else { return -1 }
+        guard c1.hasLeftSuccessor() else { return -1 }
+        tmp = bifurcateCompareNonempty(c0: c0.leftSuccessor!,
+                                       c1: c1.leftSuccessor!,
+                                       comp: comp)
+        guard tmp == 0 else { return tmp }
     } else if c1.hasLeftSuccessor() { return 1 }
     
     if c0.hasRightSuccessor() {
-        if c1.hasRightSuccessor() {
-            tmp = bifurcateCompareNonempty(c0: c0.rightSuccessor!,
-                                           c1: c1.rightSuccessor!,
-                                           comp: comp)
-            if tmp != 0 { return tmp }
-        } else { return -1 }
+        guard c1.hasRightSuccessor() else { return -1 }
+        tmp = bifurcateCompareNonempty(c0: c0.rightSuccessor!,
+                                       c1: c1.rightSuccessor!,
+                                       comp: comp)
+        guard tmp == 0 else { return tmp }
     } else if c1.hasRightSuccessor() { return 1 }
     
     return 0
@@ -504,8 +498,8 @@ func bifurcateCompare<
 where C0.Source == C1.Source {
     var c0 = c0, c1 = c1
     // Precondition: readable_tree(c0) ∧ readable_tree(c1) ∧ weak_ordering(r)
-    if c1.isEmpty() { return false }
-    if c0.isEmpty() { return true }
+    guard !c1.isEmpty() else { return false }
+    guard !c0.isEmpty() else { return true }
     let root0 = c0
     var v0 = Visit.pre
     var v1 = Visit.pre
