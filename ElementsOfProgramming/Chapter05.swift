@@ -85,20 +85,17 @@ func remainderNonnegativeFibonacci<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     assert(b > T.additiveIdentity)
     guard a >= b else { return a }
     var c = b
-    
     repeat {
         let tmp = c
         c = b + c
         b = tmp
     } while a >= c
-    
     repeat {
         if a >= b { a = a - b }
         let tmp = c - b
         c = b
         b = tmp
     } while b < c
-    
     return a
 }
 
