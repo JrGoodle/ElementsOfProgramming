@@ -286,4 +286,6 @@ public protocol Linearizable: Regular {
     subscript(index: Int) -> LinearizableValueType { get set }
 }
 
-
+public enum EOPError : Error {
+    case noLeftSuccessor, noRightSuccessor
+}

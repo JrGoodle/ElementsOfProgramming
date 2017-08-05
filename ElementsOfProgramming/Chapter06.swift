@@ -10,8 +10,8 @@ func increment<I: Iterator>(x: inout I) {
     x = x.iteratorSuccessor!
 }
 
-public func +<I: Iterator>(f: I, n: DistanceType) -> I {
-    var f = f, n = n
+public func +<I: Iterator>(lhs: I, rhs: DistanceType) -> I {
+    var f = lhs, n = rhs
     // Precondition: weak_range(f, n)
     assert(n >= 0)
     while n != 0 {
@@ -21,8 +21,9 @@ public func +<I: Iterator>(f: I, n: DistanceType) -> I {
     return f
 }
 
-public func -<I: Iterator>(l: I, f: I) -> DistanceType {
-    var f = f
+public func -<I: Iterator>(lhs: I, rhs: I) -> DistanceType {
+    let l = lhs
+    var f = rhs
     // Precondition: bounded_range(f, l)
     var n = DistanceType(0)
     while f != l {

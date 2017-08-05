@@ -401,10 +401,11 @@ func sortLinkedNonempty<I: Readable & ForwardLinkedIterator>(
 func treeRotate<C: EmptyLinkedBifurcateCoordinate>(
     curr: inout C,
     prev: inout C
-) {
+) throws {
     // Precondition: ￢empty(curr)
-    let tmp = curr.leftSuccessor!
-    curr.leftSuccessor = curr.rightSuccessor!
+    guard let tmp = curr.leftSuccessor else { throw EOPError.noLeftSuccessor }
+    guard let crs = curr.rightSuccessor else { throw EOPError.noRightSuccessor }
+    curr.leftSuccessor = crs
     curr.rightSuccessor = prev
     guard !tmp.isEmpty() else {
         prev = tmp
@@ -420,7 +421,7 @@ func traverseRotating<
 >(
     c: C,
     proc: P
-) -> P
+) throws -> P
 where P.UnaryProcedureType == C {
     // Precondition: tree(c)
     guard !c.isEmpty() else { return proc }
@@ -429,14 +430,14 @@ where P.UnaryProcedureType == C {
     var prev: C?
     repeat {
         proc.call(curr)
-        treeRotate(curr: &curr, prev: &prev!)
+        try treeRotate(curr: &curr, prev: &prev!)
     } while curr != c
     repeat {
         proc.call(curr)
-        treeRotate(curr: &curr, prev: &prev!)
+        try treeRotate(curr: &curr, prev: &prev!)
     } while curr != c
     proc.call(curr)
-    treeRotate(curr: &curr, prev: &prev!)
+    try treeRotate(curr: &curr, prev: &prev!)
     return proc
 }
 
@@ -461,10 +462,12 @@ class Counter<T>: UnaryProcedure {
     }
 }
 
-func weightRotating<C: EmptyLinkedBifurcateCoordinate>(c: C) -> WeightType {
+func weightRotating<C: EmptyLinkedBifurcateCoordinate>(
+    c: C
+) throws -> WeightType {
     // Precondition: tree(c)
     let counter = Counter<C>()
-    return traverseRotating(c: c, proc: counter).n / N(3)
+    return try traverseRotating(c: c, proc: counter).n / N(3)
 }
 
 class PhasedApplicator<P: UnaryProcedure>: UnaryProcedure {
@@ -494,12 +497,12 @@ func traversePhasedRotating<
 >(
     c: C,
     phase: N, proc: P
-) -> P
+) throws -> P
 where P.UnaryProcedureType == C {
     // Precondition: tree(c) ∧ 0 ≤ phase < 3
     let applicator = PhasedApplicator(period: 3,
                                       phase: phase,
                                       n: 0,
                                       proc: proc)
-    return traverseRotating(c: c, proc: applicator).proc
+    return try traverseRotating(c: c, proc: applicator).proc
 }
