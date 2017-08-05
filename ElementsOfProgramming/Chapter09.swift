@@ -62,7 +62,7 @@ where I.Source == Int {
     var f = f, n = n
     // Precondition: readable_bounded_range(f, l)
     while f != l {
-        if f.source! != n { return false }
+        guard f.source! == n else { return false }
         n = n.successor()
         f = f.iteratorSuccessor!
     }
@@ -85,7 +85,7 @@ where I.Source == O.Sink {
 
 public func countDown(n: inout N) -> Bool {
     assert(n >= 0)
-    if n.isZero() { return false }
+    guard n != 0 else { return false }
     n = n.predecessor()
     return true
 }
@@ -357,11 +357,11 @@ where I0.Source == O.Sink, I1.Source == O.Sink {
     var fo = fo
     // Precondition: see combine_copy
     while true {
-        if ni_0.isZero() {
+        if ni_0 == 0 {
             let p = copyN(fi: fi_1, n: ni_1, fo: fo)
             return Triple(m0: fi_0, m1: p.m0, m2: p.m1)
         }
-        if ni_1.isZero() {
+        if ni_1 == 0 {
             let p = copyN(fi: fi_0, n: ni_0, fo: fo)
             return Triple(m0: p.m0, m1: fi_1, m2: p.m1)
         }
@@ -416,11 +416,11 @@ where I0.Source == O.Sink, I1.Source == O.Sink {
     var lo = lo
     // Precondition: see combine_copy_backward
     while true {
-        if ni_0.isZero() {
+        if ni_0 == 0 {
             let p = copyBackwardN(li: li_1, n: ni_1, lo: lo)
             return Triple(m0: li_0, m1: p.m0, m2: p.m1)
         }
-        if ni_1.isZero() {
+        if ni_1 == 0 {
             let p = copyBackwardN(li: li_0, n: ni_0, lo: lo)
             return Triple(m0: p.m0, m1: li_1, m2: p.m1)
         }

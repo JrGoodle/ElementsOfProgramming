@@ -92,7 +92,7 @@ func reverseNForward<I: Mutable & ForwardIterator>(
     n: DistanceType
 ) -> I {
     // Precondition: mutable_counted_range(f, n)
-    if n < N(2) { return f + n }
+    guard n >= N(2) else { return f + n }
     let h = n.halfNonnegative()
     let nmod2 = n - h.twice()
     let m = reverseNForward(f: f, n: h) + nmod2
@@ -113,12 +113,8 @@ func reverseNAdaptive<
 where I.Source == B.Source {
     // Precondition: mutable_counted_range(f_i, n_i)
     // Precondition: mutable_counted_range(f_b, n_b)
-    if ni < N(2) {
-        return fi + ni
-    }
-    if ni <= nb {
-        return reverseNWithBuffer(fi: fi, n: ni, fb: fb)
-    }
+    guard ni >= N(2) else { return fi + ni }
+    guard ni > nb else { return reverseNWithBuffer(fi: fi, n: ni, fb: fb) }
     let hi = ni.halfNonnegative()
     let nmod2 = ni - hi.twice()
     let mi = reverseNAdaptive(fi: fi, ni: hi, fb: fb, nb: nb) + nmod2
@@ -136,8 +132,8 @@ func kRotateFromPermutationRandomAccess<I: RandomAccessIterator>(
     let m_prime = f + (l - m)
     return { x in
         // Precondition: x ∈ [f, l)
-        if x < m_prime { return x + n_minus_k }
-        else { return x - k }
+        guard x >= m_prime else { return x + n_minus_k }
+        return x - k
     }
 }
 
@@ -150,8 +146,8 @@ func kRotateFromPermutationIndexed<I: IndexedIterator>(
     return { x in
         // Precondition: x ∈ [f, l)
         let i = x - f
-        if i < k { return x + n_minus_k }
-        else { return f + (i - k) }
+        guard i >= k else { return x + n_minus_k }
+        return f + (i - k)
     }
 }
 
@@ -194,8 +190,8 @@ func rotateBidirectionalNonTrivial<
     reverseBidirectional(f: m, l: l)
     let p = reverseSwapRangesBounded(f0: m, l0: l, f1: f, l1: m)
     reverseBidirectional(f: p.m1, l: p.m0)
-    if m == p.m0 { return p.m1 }
-    else { return p.m0 }
+    guard m == p.m0 else { return p.m0 }
+    return p.m1
 }
 
 func rotateForwardAnnotated<I: Mutable & ForwardIterator & Regular>(
@@ -417,8 +413,8 @@ func reverseIndexed<I: Mutable & IndexedIterator>(f: I, l: I) {
 
 func rotate<I: Mutable & ForwardIterator>(f: I, m: I, l: I) -> I {
     // Precondition: mutable_bounded_range(f, l) ∧ m ∈ [f, l]
-    if m == f { return l }
-    if m == l { return f }
+    guard m != f else { return l }
+    guard m != l else { return f }
     return rotateNontrivialForward(f: f, m: m, l: l)
 }
 
@@ -426,8 +422,8 @@ func rotate<I: Mutable & BidirectionalIterator & Regular>(
     f: I, m: I, l: I
 ) -> I {
     // Precondition: mutable_bounded_range(f, l) ∧ m ∈ [f, l]
-    if m == f { return l }
-    if m == l { return f }
+    guard m != f else { return l }
+    guard m != l else { return f }
     return rotateNontrivialBidirectional(f: f, m: m, l: l)
 }
 
@@ -435,8 +431,8 @@ func rotate<I: Mutable & IndexedIterator & Distance>(
     f: I, m: I, l: I
 ) -> I {
     // Precondition: mutable_bounded_range(f, l) ∧ m ∈ [f, l]
-    if m == f { return l }
-    if m == l { return f }
+    guard m != f else { return l }
+    guard m != l else { return f }
     return rotateNontrivialIndexed(f: f, m: m, l: l)
 }
 
@@ -444,8 +440,8 @@ func rotate<I: Mutable & RandomAccessIterator & Distance>(
     f: I, m: I, l: I
 ) -> I {
     // Precondition: mutable_bounded_range(f, l) ∧ m ∈ [f, l]
-    if m == f { return l }
-    if m == l { return f }
+    guard m != f else { return l }
+    guard m != l else { return f }
     return rotateNontrivialRandomAccess(f: f, m: m, l: l)
 }
 

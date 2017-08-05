@@ -32,7 +32,7 @@ func partitionSemistable<I: Mutable & ForwardIterator>(
 ) -> I {
     // Precondition: mutable_bounded_range(f, l)
     var i = findIf(f: f, l: l, p: p)
-    if i == l { return i }
+    guard i != l else { return i }
     var j = i.iteratorSuccessor!
     while true {
         j = findIfNot(f: j, l: l, p: p)
@@ -53,7 +53,7 @@ func removeIf<I: Mutable & ForwardIterator>(
 ) -> I {
     // Precondition: mutable_bounded_range(f, l)
     var i = findIf(f: f, l: l, p: p)
-    if i == l { return i }
+    guard i != l else { return i }
     var j = i.iteratorSuccessor!
     while true {
         j = findIfNot(f: j, l: l, p: p)
@@ -116,7 +116,7 @@ func partitonSingleCycle<I: Mutable & BidirectionalIterator>(
     // Precondition: mutable_bounded_range(f, l)
     f = findIf(f: f, l: l, p: p)
     l = findBackwardIfNot(f: f, l: l, p: p)
-    if f == l { return f }
+    guard f != l else { return f }
     l = l.iteratorPredecessor!
     let tmp = f.source!
     while true {
@@ -159,7 +159,7 @@ func partitionSentinel<I: Mutable & BidirectionalIterator>(
     // Precondition: mutable_bounded_range(f, l)
     f = findIf(f: f, l: l, p: p)
     l = findBackwardIfNot(f: f, l: l, p: p)
-    if f == l { return f }
+    guard f != l else { return f }
     l = l.iteratorPredecessor!
     exchangeValues(x: f, y: l)
     f = f.iteratorSuccessor!
@@ -239,7 +239,7 @@ func partitionStableNNonempty<I: Mutable & ForwardIterator>(
     p: UnaryPredicate<I.Source>
 ) -> Pair<I, I> {
     // Precondition: mutable_counted_range(f, n) ∧ n > 0
-    if n.isOne() { return partitionStableSingleton(f: f, p: p) }
+    guard n != 1 else { return partitionStableSingleton(f: f, p: p) }
     let h = n.halfNonnegative()
     let x = partitionStableNNonempty(f: f, n: h, p: p)
     let y = partitionStableNNonempty(f: x.m1, n: n - h, p: p)
@@ -252,7 +252,7 @@ func partitionStableN<I: Mutable & ForwardIterator>(
     p: UnaryPredicate<I.Source>
 ) -> Pair<I, I> {
     // Precondition: mutable_counted_range(f, n)
-    if n.isZero() { return Pair(m0: f, m1: f) }
+    guard n != 0 else { return Pair(m0: f, m1: f) }
     return partitionStableNNonempty(f: f, n: n, p: p)
 }
 
@@ -282,7 +282,7 @@ func addToCounter<I: Mutable & ForwardIterator>(
     x: I.Source, z: I.Source
 ) -> I.Source {
     var f = f, x = x
-    if x == z { return z }
+    guard x != z else { return z }
     while f != l {
         if f.source! == z {
             f.sink = x
@@ -406,7 +406,7 @@ where I.Source == B.Source {
     // mutable_counted_range(f, n) ∧ weak_ordering(r)
     // Precondition: mutable_counted_range(f_b, ⎡n/2⎤)
     let h = n.halfNonnegative()
-    if h.isZero() { return f + n }
+    guard h != 0 else { return f + n }
     let m = sortNWithBuffer(f: f, n: h,
                             fb: fb,
                             r: r)
@@ -475,8 +475,8 @@ func mergeNAdaptive<
 where I.Source == B.Source {
     // Precondition: mergeable(f_0, n_0, f_1, n_1, r)
     // Precondition: mutable_counted_range(f_b, n_b)
-    if n0.isZero() || n1.isZero() { return f0 + n0 + n1 }
-    if n0 <= N(nb) {
+    guard !(n0 == 0 || n1 == 0) else { return f0 + n0 + n1 }
+    guard n0 > N(nb) else {
         return mergeNWithBuffer(f0: f0, n0: n0,
                                 f1: f1, n1: n1,
                                 fb: fb,
@@ -525,7 +525,7 @@ where I.Source == B.Source {
     // mutable_counted_range(f, n) ∧ weak_ordering(r)
     // Precondition: mutable_counted_range(f_b, n_b)
     let h = n.halfNonnegative()
-    if h.isZero() { return f + n }
+    guard h != 0 else { return f + n }
     let m = sortNAdaptive(f: f, n: h,
                           fb: fb, nb: nb,
                           r: r)
