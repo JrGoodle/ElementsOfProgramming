@@ -45,7 +45,7 @@ public func reverseNIndexed<I: Mutable & IndexedIterator>(f: I, n: DistanceType)
     n = n.predecessor()
     while i < n {
         // n = (n_original - 1) - i
-        exchangeValues(x: f + i, y: f + n)
+        exchangeValues(x: f.successor(at: i)!, y: f.successor(at: n)!)
         i = i.successor()
         n = n.predecessor()
     }
@@ -92,10 +92,10 @@ func reverseNForward<I: Mutable & ForwardIterator>(
     n: DistanceType
 ) -> I {
     // Precondition: mutable_counted_range(f, n)
-    guard n >= N(2) else { return f + n }
+    guard n >= N(2) else { return f.successor(at: n)! }
     let h = n.halfNonnegative()
     let nmod2 = n - h.twice()
-    let m = reverseNForward(f: f, n: h) + nmod2
+    let m = reverseNForward(f: f, n: h).successor(at: nmod2)!
     let l = reverseNForward(f: m, n: h)
     _ = swapRangesN(f0: f, f1: m, n: h)
     return l
@@ -113,12 +113,14 @@ func reverseNAdaptive<
 where I.Source == B.Source {
     // Precondition: mutable_counted_range(f_i, n_i)
     // Precondition: mutable_counted_range(f_b, n_b)
-    guard ni >= N(2) else { return fi + ni }
+    guard ni >= N(2) else { return fi.successor(at: ni)! }
     guard ni > nb else { return reverseNWithBuffer(fi: fi, n: ni, fb: fb) }
     let hi = ni.halfNonnegative()
     let nmod2 = ni - hi.twice()
-    let mi = reverseNAdaptive(fi: fi, ni: hi, fb: fb, nb: nb) + nmod2
-    let li = reverseNAdaptive(fi: mi, ni: hi, fb: fb, nb: nb)
+    let mi = reverseNAdaptive(fi: fi, ni: hi,
+                              fb: fb, nb: nb).successor(at: nmod2)!
+    let li = reverseNAdaptive(fi: mi, ni: hi,
+                              fb: fb, nb: nb)
     _ = swapRangesN(f0: fi, f1: mi, n: hi)
     return li
 }
@@ -129,11 +131,11 @@ func kRotateFromPermutationRandomAccess<I: RandomAccessIterator>(
     // Precondition: bounded_range(f, l) ∧ m ∈ [f, l)
     let k = l - m
     let n_minus_k = m - f
-    let m_prime = f + (l - m)
+    let m_prime = f.successor(at: l.distance(from: m))!
     return { x in
         // Precondition: x ∈ [f, l)
-        guard x >= m_prime else { return x + n_minus_k }
-        return x - k
+        guard x >= m_prime else { return x.successor(at: N(n_minus_k))! }
+        return x.successor(at: N(k))!
     }
 }
 
@@ -141,13 +143,13 @@ func kRotateFromPermutationIndexed<I: IndexedIterator>(
     f: I, m: I, l: I
 ) -> UnaryOperation<I> {
     // Precondition: bounded_range(f, l) ∧ m ∈ [f, l)
-    let k = l - m
-    let n_minus_k = m - f
+    let k = l.distance(from: m)
+    let n_minus_k = m.distance(from: f)
     return { x in
         // Precondition: x ∈ [f, l)
-        let i = x - f
-        guard i >= k else { return x + n_minus_k }
-        return f + (i - k)
+        let i = x.distance(from: f)
+        guard i >= k else { return x.successor(at: n_minus_k)! }
+        return f.successor(at: i - k)!
     }
 }
 
@@ -157,9 +159,9 @@ func rotateCycles<I: Mutable & IndexedIterator & Distance>(
 ) -> I {
     // Precondition: mutable_bounded_range(f, l) ∧ m ∈ [f, l]
     // Precondition: from is a from-permutation on [f, l)
-    var d = gcdEuclideanSemiring(a: m - f, b: l - m)
-    while countDown(n: &d) { cycleFrom(i: f + d, f: from) }
-    return f + (l - m)
+    var d = gcdEuclideanSemiring(a: m.distance(from: f), b: l.distance(from: m))
+    while countDown(n: &d) { cycleFrom(i: f.successor(at: d)!, f: from) }
+    return f.successor(at: l.distance(from: m))!
 }
 
 func rotateIndexedNontrivial<I: Mutable & IndexedIterator & Distance>(
@@ -199,8 +201,8 @@ func rotateForwardAnnotated<I: Mutable & ForwardIterator & Regular>(
 ) {
     var f = f, m = m
     // Precondition: mutable_bounded_range(f, l) ∧ f ≺ m ≺ l
-    var a = m - f
-    var b = l - m
+    var a = m.distance(from: f)
+    var b = l.distance(from: m)
     while true {
         let p = swapRangesBounded(f0: f, l0: m, f1: m, l1: l)
         guard !(p.m0 == m && p.m1 == l) else {
@@ -289,7 +291,7 @@ where I.Source == B.Source {
 
 func reverseIndexed<I: Mutable & IndexedIterator>(f: I, l: I) {
     // Precondition: mutable_bounded_range(f, l)
-    reverseNIndexed(f: f, n: l - f)
+    reverseNIndexed(f: f, n: l.distance(from: f))
 }
 
 

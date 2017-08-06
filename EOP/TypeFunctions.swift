@@ -122,3 +122,30 @@ public protocol Norm: AdditiveIdentity, Regular {
 public protocol Discrete { }
 
 public typealias DifferenceType = Int
+
+extension ForwardIterator {
+    func successor(at n: DistanceType) -> Self? {
+        var f = self, n = n
+        // Precondition: weak_range(f, n)
+        assert(n >= 0)
+        while n != 0 {
+            n = n.predecessor()
+            guard let s = f.iteratorSuccessor else { return nil }
+            f = s
+        }
+        return f
+    }
+    
+    func distance(from precedingIterator: Self) -> DistanceType {
+        let l = self
+        var f = precedingIterator
+        // Precondition: bounded_range(f, l)
+        var n = DistanceType(0)
+        while f != l {
+            n = n.successor()
+            guard let s = f.iteratorSuccessor else { return 0 }
+            f = s
+        }
+        return n
+    }
+}

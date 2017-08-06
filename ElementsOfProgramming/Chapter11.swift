@@ -176,21 +176,21 @@ func partitionIndexed<I: Mutable & IndexedIterator>(
 ) -> I {
     // Precondition: mutable_bounded_range(f, l)
     var i = N(0)
-    var j = l - f
+    var j = l.distance(from: f)
     while true {
         while true {
-            guard i != j else { return f + i }
-            let tmp = f + i
+            guard i != j else { return f.successor(at: i)! }
+            let tmp = f.successor(at: i)!
             guard !p(tmp.source!) else { break }
             i = i.successor()
         }
         while true {
             j = j.predecessor()
-            guard i != j else { return f + j + 1 }
-            let tmp = f + j
+            guard i != j else { return f.successor(at: j)!.iteratorSuccessor! }
+            let tmp = f.successor(at: j)!
             guard p(tmp.source!) else { break }
         }
-        exchangeValues(x: f + i, y: f + j)
+        exchangeValues(x: f.successor(at: i)!, y: f.successor(at: j)!)
         i = i.successor()
     }
 }
@@ -265,7 +265,7 @@ func partitionStable<I: Mutable & ForwardIterator & Regular>(
     p: UnaryPredicate<I.Source>
 ) -> I {
     // Precondition: mutable_bounded_range(f, l)
-    return partitionStableN(f: f, n: l - f, p: p).m0
+    return partitionStableN(f: f, n: l.distance(from: f), p: p).m0
 }
 
 func partitionTrivial<I: Mutable & ForwardIterator>(
@@ -406,7 +406,7 @@ where I.Source == B.Source {
     // mutable_counted_range(f, n) ∧ weak_ordering(r)
     // Precondition: mutable_counted_range(f_b, ⎡n/2⎤)
     let h = n.halfNonnegative()
-    guard h != 0 else { return f + n }
+    guard h != 0 else { return f.successor(at: n)! }
     let m = sortNWithBuffer(f: f, n: h,
                             fb: fb,
                             r: r)
@@ -431,10 +431,10 @@ func mergeNStep0<I: Mutable & ForwardIterator>(
     // Precondition: mergeable(f_0, n_0, f_1, n_1, r)
     f00 = f0
     n00 = n0.halfNonnegative()
-    f01 = f00 + n00
+    f01 = f00.successor(at: n00)!
     f11 = lowerBoundN(f: f1, n: n1, a: f01.source!, r: r)
     f10 = rotate(f: f01, m: f1, l: f11)
-    n01 = f10 - f01
+    n01 = f10.distance(from: f01)
     f10 = f10.iteratorSuccessor!
     let tmp = n0 - n00
     n10 = tmp.predecessor()
@@ -453,11 +453,11 @@ func mergeNStep1<I: Mutable & ForwardIterator>(
     // Precondition: mergeable(f_0, n_0, f_1, n_1, r)
     f00 = f0
     n01 = n1.halfNonnegative()
-    f11 = f1 + n01
+    f11 = f1.successor(at: n01)!
     f01 = upperBoundN(f: f0, n: n0, a: f11.source!, r: r)
     f11 = f11.iteratorSuccessor!
     f10 = rotate(f: f01, m: f1, l: f11)
-    n00 = f01 - f00
+    n00 = f01.distance(from: f00)
     n10 = n0 - n00
     let tmp = n1 - n01
     n11 = tmp.predecessor()
@@ -475,7 +475,9 @@ func mergeNAdaptive<
 where I.Source == B.Source {
     // Precondition: mergeable(f_0, n_0, f_1, n_1, r)
     // Precondition: mutable_counted_range(f_b, n_b)
-    guard !(n0 == 0 || n1 == 0) else { return f0 + n0 + n1 }
+    guard !(n0 == 0 || n1 == 0) else {
+        return f0.successor(at: n0)!.successor(at: n1)!
+    }
     guard n0 > N(nb) else {
         return mergeNWithBuffer(f0: f0, n0: n0,
                                 f1: f1, n1: n1,
@@ -525,7 +527,7 @@ where I.Source == B.Source {
     // mutable_counted_range(f, n) ∧ weak_ordering(r)
     // Precondition: mutable_counted_range(f_b, n_b)
     let h = n.halfNonnegative()
-    guard h != 0 else { return f + n }
+    guard h != 0 else { return f.successor(at: n)! }
     let m = sortNAdaptive(f: f, n: h,
                           fb: fb, nb: nb,
                           r: r)

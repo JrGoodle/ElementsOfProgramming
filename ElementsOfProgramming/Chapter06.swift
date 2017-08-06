@@ -10,28 +10,30 @@ func increment<I: Iterator>(x: inout I) {
     x = x.iteratorSuccessor!
 }
 
-public func +<I: Iterator>(lhs: I, rhs: DistanceType) -> I {
-    var f = lhs, n = rhs
-    // Precondition: weak_range(f, n)
-    assert(n >= 0)
-    while n != 0 {
-        n = n.predecessor()
-        f = f.iteratorSuccessor!
-    }
-    return f
-}
-
-public func -<I: Iterator>(lhs: I, rhs: I) -> DistanceType {
-    let l = lhs
-    var f = rhs
-    // Precondition: bounded_range(f, l)
-    var n = DistanceType(0)
-    while f != l {
-        n = n.successor()
-        f = f.iteratorSuccessor!
-    }
-    return n
-}
+// See ForwardIterator protocol in Concepts.swift
+//
+//public func +<I: Iterator>(lhs: I, rhs: DistanceType) -> I {
+//    var f = lhs, n = rhs
+//    // Precondition: weak_range(f, n)
+//    assert(n >= 0)
+//    while n != 0 {
+//        n = n.predecessor()
+//        f = f.iteratorSuccessor!
+//    }
+//    return f
+//}
+//
+//public func -<I: Iterator>(lhs: I, rhs: I) -> DistanceType {
+//    let l = lhs
+//    var f = rhs
+//    // Precondition: bounded_range(f, l)
+//    var n = DistanceType(0)
+//    while f != l {
+//        n = n.successor()
+//        f = f.iteratorSuccessor!
+//    }
+//    return n
+//}
 
 func forEach<
     I: Readable & Iterator,
@@ -499,7 +501,7 @@ func partitionPointN<I: Readable & ForwardIterator>(
     // readable_counted_range(f, n) ∧ partitioned_n(f, n, p)
     while n != 0 {
         let h = n.halfNonnegative()
-        let m = f + h
+        let m = f.successor(at: h)!
         if p(m.source!) {
             n = h
         } else {
@@ -516,7 +518,7 @@ func partitionPoint<I: Readable & ForwardIterator>(
 ) -> I {
     // Precondition:
     // readable_bounded_range(f, l) ∧ partitioned(f, l, p)
-    return partitionPointN(f: f, n: l - f, p: p)
+    return partitionPointN(f: f, n: l.distance(from: f), p: p)
 }
 
 func lowerBoundPredicate<DomainR: Regular>(
