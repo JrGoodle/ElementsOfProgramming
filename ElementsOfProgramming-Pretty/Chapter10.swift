@@ -99,7 +99,7 @@ where I.Source == B.Source {
     return reverseCopy(fi: fb, li: p.m1, fo: fi)
 }
 
-func reverseNForward<I: Mutable & ForwardIterator>(
+func reverseNForward<I: Mutable & IndexedIterator>(
     f: I,
     n: DistanceType
 ) -> I? {
@@ -119,7 +119,7 @@ func reverseNForward<I: Mutable & ForwardIterator>(
 }
 
 func reverseNAdaptive<
-    I: Mutable & ForwardIterator,
+    I: Mutable & IndexedIterator,
     B: Mutable & BidirectionalIterator
 >(
     fi: I,
@@ -147,15 +147,15 @@ func kRotateFromPermutationRandomAccess<I: RandomAccessIterator>(
     f: I, m: I, l: I
 ) -> UnaryOperation<I>? {
     // Precondition: bounded_range(f, l) ∧ m ∈ [f, l)
-    let k = l - m
-    let n_minus_k = m - f
+    let k = l.difference(from: m)
+    let n_minus_k = m.difference(from: f)
     guard let m_prime = f.successor(at: l.distance(from: m)) else {
         return nil
     }
     return { x in
         // Precondition: x ∈ [f, l)
         guard x >= m_prime else { return x.successor(at: N(n_minus_k))! }
-        return x.successor(at: N(k))! // FIXME: Should be subtracting k
+        return x.predecessor(at: N(k))!
     }
 }
 
@@ -226,7 +226,7 @@ func rotateBidirectionalNonTrivial<
     return p.m1
 }
 
-func rotateForwardAnnotated<I: Mutable & ForwardIterator & Regular>(
+func rotateForwardAnnotated<I: Mutable & IndexedIterator & Regular>(
     f: I, m: I, l: I
 ) throws {
     var f = f, m = m

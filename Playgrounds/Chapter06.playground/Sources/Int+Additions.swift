@@ -110,6 +110,22 @@ extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures 
     }
 }
 
+extension Int: IndexedIterator {
+    public func distance(from precedingIterator: Int) -> DistanceType {
+        assert(self > precedingIterator)
+        if self < 0 && precedingIterator < 0 {
+            return UInt(abs(self) - abs(precedingIterator))
+        } else if self > 0 && precedingIterator > 0 {
+            return UInt(self - precedingIterator)
+        }
+        return UInt(abs(self) + abs(precedingIterator))
+    }
+    
+    public func successor(at distance: DistanceType) -> Int? {
+        return self + Int(distance)
+    }
+}
+
 extension Int: Iterator {
     public var iteratorSuccessor: Int? {
         return self + 1

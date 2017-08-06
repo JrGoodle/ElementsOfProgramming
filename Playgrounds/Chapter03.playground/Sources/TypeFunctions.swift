@@ -123,19 +123,21 @@ public protocol Discrete { }
 
 public typealias DifferenceType = Int
 
-extension ForwardIterator {
-    func successor(at n: DistanceType) -> Self? {
-        var f = self, n = n
-        // Precondition: weak_range(f, n)
-        assert(n >= 0)
-        while n != 0 {
-            n = n.predecessor()
-            guard let s = f.iteratorSuccessor else { return nil }
-            f = s
+extension Iterator {
+    public func distance(to end: Self) -> DistanceType {
+        var x = self
+        let y = end
+        // Precondition: y is reachable from x under f
+        var n = N(0)
+        while x != y {
+            x = x.iteratorSuccessor!
+            n = n + N(1)
         }
-        return f
+        return n
     }
-    
+}
+
+extension IndexedIterator {
     func distance(from precedingIterator: Self) -> DistanceType? {
         let l = self
         var f = precedingIterator
@@ -147,5 +149,17 @@ extension ForwardIterator {
             f = s
         }
         return n
+    }
+    
+    func successor(at n: DistanceType) -> Self? {
+        var f = self, n = n
+        // Precondition: weak_range(f, n)
+        assert(n >= 0)
+        while n != 0 {
+            n = n.predecessor()
+            guard let s = f.iteratorSuccessor else { return nil }
+            f = s
+        }
+        return f
     }
 }

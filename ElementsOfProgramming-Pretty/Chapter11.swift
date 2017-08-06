@@ -296,7 +296,7 @@ func partitionStableN<I: Mutable & ForwardIterator>(
 // Exercise 11.10: partition_stable_n_adaptive
 
 
-func partitionStable<I: Mutable & ForwardIterator & Regular>(
+func partitionStable<I: Mutable & IndexedIterator & Regular>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
 ) -> I? {
@@ -431,7 +431,7 @@ where I.Source == B.Source {
 }
 
 func sortNWithBuffer<
-    I: Mutable & ForwardIterator,
+    I: Mutable & IndexedIterator,
     B: Mutable & ForwardIterator
 >(
     f: I,
@@ -460,7 +460,7 @@ where I.Source == B.Source {
                             r: r)
 }
 
-func mergeNStep0<I: Mutable & ForwardIterator>(
+func mergeNStep0<I: Mutable & IndexedIterator>(
     f0: I, n0: DistanceType,
     f1: I, n1: DistanceType,
     r: @escaping Relation<I.Source>,
@@ -490,7 +490,7 @@ func mergeNStep0<I: Mutable & ForwardIterator>(
     n11 = n1 - n01
 }
 
-func mergeNStep1<I: Mutable & ForwardIterator>(
+func mergeNStep1<I: Mutable & IndexedIterator>(
     f0: I, n0: DistanceType,
     f1: I, n1: DistanceType,
     r: @escaping Relation<I.Source>,
@@ -521,7 +521,7 @@ func mergeNStep1<I: Mutable & ForwardIterator>(
 }
 
 func mergeNAdaptive<
-    I: Mutable & ForwardIterator & Regular,
+    I: Mutable & IndexedIterator & Regular,
     B: Mutable & ForwardIterator & Regular
 >(
     f0: I, n0: DistanceType,
@@ -574,7 +574,7 @@ where I.Source == B.Source {
 }
 
 func sortNAdaptive<
-    I: Mutable & ForwardIterator & Regular,
+    I: Mutable & IndexedIterator & Regular,
     B: Mutable & ForwardIterator & Regular
 >(
     f: I, n: DistanceType,

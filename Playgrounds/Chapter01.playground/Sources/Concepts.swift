@@ -184,22 +184,26 @@ public protocol Readable: Regular {
 
 public protocol Iterator: Distance {
     var iteratorSuccessor: Self? { get }
+    func distance(to end: Self) -> DistanceType
 }
 
 public protocol ForwardIterator: Iterator {
     // iteratorSuccessor is a Regular Unary Function
+}
+
+public protocol IndexedIterator: ForwardIterator {
     func successor(at distance: DistanceType) -> Self?
     func distance(from precedingIterator: Self) -> DistanceType
 }
 
-public protocol IndexedIterator: ForwardIterator { }
-
 public protocol BidirectionalIterator: ForwardIterator {
     var iteratorPredecessor: Self? { get }
+    func predecessor(at distance: DistanceType) -> Self?
 }
 
 public protocol RandomAccessIterator: IndexedIterator, BidirectionalIterator {
-    static func -(lhs: Self, rhs: Self) -> DifferenceType
+    func iterator(at difference: DifferenceType) -> Self?
+    func difference(from iterator: Self) -> DifferenceType
 }
 
 //typealias UnaryProcedure<T> = (T) -> Void

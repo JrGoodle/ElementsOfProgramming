@@ -6,9 +6,7 @@ cd ..
 # Update ElementsOfProgramming-Pretty
 # Copy files to Sources direcotry
 rm -rf ElementsOfProgramming-Pretty/Chapter*.swift
-rm -rf ElementsOfProgramming-Pretty/Rational.swift
 cp -R ElementsOfProgramming/Chapter*.swift ElementsOfProgramming-Pretty/
-cp ElementsOfProgramming/Rational.swift ElementsOfProgramming-Pretty/Rational.swift
 # Remove conditional compilation blocks and playground examples
 sed -i '' '/#if/,/#endif/d' ElementsOfProgramming-Pretty/*.swift
 

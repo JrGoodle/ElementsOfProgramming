@@ -85,6 +85,14 @@ extension UInt: IntegerSpecialCaseProcedures {
 }
 
 extension UInt: Iterator {
+    public func distance(from precedingIterator: UInt) -> DistanceType {
+        return self - precedingIterator
+    }
+    
+    public func successor(at distance: DistanceType) -> UInt? {
+        return self + distance
+    }
+    
     public var iteratorSuccessor: UInt? {
         return self + 1
     }
