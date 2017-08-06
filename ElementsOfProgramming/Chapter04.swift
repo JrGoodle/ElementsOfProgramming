@@ -137,9 +137,14 @@ func compareStrictOrReflexiveFalse<DomainR: Regular>(
 }
 
 func compareStrictOrReflexive<DomainR: Regular>(
-    _ flag: Bool
-) -> (DomainR, DomainR, Relation<DomainR>) -> Bool {
-    return flag ? compareStrictOrReflexiveTrue : compareStrictOrReflexiveFalse
+    _ flag: Bool,
+    a: DomainR, b: DomainR,
+    r: Relation<DomainR>
+) -> Bool {
+    if flag {
+        return compareStrictOrReflexiveTrue(a: a, b: b, r: r)
+    }
+    return compareStrictOrReflexiveFalse(a: a, b: b, r: r)
 }
 
 func select_0_2<DomainR: Regular>(
@@ -147,7 +152,9 @@ func select_0_2<DomainR: Regular>(
     a: DomainR, b: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    guard compareStrictOrReflexive(ia < ib)(b, a, r) else { return a }
+    guard compareStrictOrReflexive(ia < ib,
+                                   a: b, b: a,
+                                   r: r) else { return a }
     return b
 }
 
@@ -156,7 +163,9 @@ func select_1_2<DomainR: Regular>(
     a: DomainR, b: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    guard compareStrictOrReflexive(ia < ib)(b, a, r) else { return b }
+    guard compareStrictOrReflexive(ia < ib,
+                                   a: b, b: a,
+                                   r: r) else { return b }
     return a
 }
 
@@ -165,7 +174,9 @@ func select_1_4_ab_cd<DomainR: Regular>(
     a: DomainR, b: DomainR, c: DomainR, d: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    guard compareStrictOrReflexive(ia < ic)(c, a, r) else {
+    guard compareStrictOrReflexive(ia < ic,
+                                   a: c, b: a,
+                                   r: r) else {
         return select_0_2(ia: ib, ib: ic,
                           a: b, b: c,
                           r: r)
@@ -180,7 +191,9 @@ func select_1_4_ab<DomainR: Regular>(
     a: DomainR, b: DomainR, c: DomainR, d: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    guard compareStrictOrReflexive(ic < id)(d, c, r) else {
+    guard compareStrictOrReflexive(ic < id,
+                                   a: d, b: c,
+                                   r: r) else {
         return select_1_4_ab_cd(ia: ia, ib: ib, ic: ic, id: id,
                                 a: a, b: b, c: c, d: d,
                                 r: r)
@@ -195,7 +208,9 @@ func select_1_4<DomainR: Regular>(
     a: DomainR, b: DomainR, c: DomainR, d: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    guard compareStrictOrReflexive(ia < ib)(b, a, r) else {
+    guard compareStrictOrReflexive(ia < ib,
+                                   a: b, b: a,
+                                   r: r) else {
         return select_1_4_ab(ia: ia, ib: ib, ic: ic,
                              id: id, a: a, b: b, c: c, d: d,
                              r: r)
@@ -210,7 +225,9 @@ func select_2_5_ab_cd<DomainR: Regular>(
     a: DomainR, b: DomainR, c: DomainR, d: DomainR, e: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    guard compareStrictOrReflexive(ia < ic)(c, a, r) else {
+    guard compareStrictOrReflexive(ia < ic,
+                                   a: c, b: a,
+                                   r: r) else {
         return select_1_4_ab(ia: ic, ib: id, ic: ib, id: ie,
                              a: c, b: d, c: b, d: e,
                              r: r)
@@ -225,7 +242,9 @@ func select_2_5_ab<DomainR: Regular>(
     a: DomainR, b: DomainR, c: DomainR, d: DomainR, e: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    guard compareStrictOrReflexive(ic < id)(d, c, r) else {
+    guard compareStrictOrReflexive(ic < id,
+                                   a: d, b: c,
+                                   r: r) else {
         return select_2_5_ab_cd(ia: ia, ib: ib, ic: ic, id: id, ie: ie,
                                 a: a, b: b, c: c, d: d, e: e,
                                 r: r)
@@ -240,7 +259,9 @@ func select_2_5<DomainR: Regular>(
     a: DomainR, b: DomainR, c: DomainR, d: DomainR, e: DomainR,
     r: Relation<DomainR>
 ) -> DomainR {
-    guard compareStrictOrReflexive(ia < ib)(b, a, r) else {
+    guard compareStrictOrReflexive(ia < ib,
+                                   a: b, b: a,
+                                   r: r) else {
         return select_2_5_ab(ia: ia, ib: ib, ic: ic, id: id, ie: ie,
                              a: a, b: b, c: c, d: d, e: e,
                              r: r)
