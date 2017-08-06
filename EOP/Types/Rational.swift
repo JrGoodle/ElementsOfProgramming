@@ -3,9 +3,7 @@
 //  ElementsOfProgramming
 //
 
-import EOP
-
-struct Rational {
+public struct Rational {
     var numerator: Int
     var denominator: Int
     
@@ -33,9 +31,9 @@ struct Rational {
     }
     
     private mutating func reduce() {
-        let gcd = gcdEuclideanSemiring(a: numerator, b: denominator)
-        numerator = numerator / gcd
-        denominator = denominator / gcd
+        let d = gcd()
+        numerator = numerator / d
+        denominator = denominator / d
     }
     
     private mutating func normalize() {
@@ -45,45 +43,63 @@ struct Rational {
             denominator = denominator * -1
         }
     }
+    
+    private func gcd() -> Int {
+        // gcdEuclideanSemiring
+        var a = numerator, b = denominator
+        assert(!(a == 0 && b == 0))
+        while true {
+            if b == 0 { return a }
+            a = a % b
+            if a == 0 { return b }
+            b = b % a
+        }
+    }
+}
+
+extension Rational: ExpressibleByIntegerLiteral {
+    public init(integerLiteral value: Int) {
+        self = Rational(value)
+    }
 }
 
 extension Rational: AdditiveInverse, ArchimedeanMonoid {
-    static func -(lhs: Rational, rhs: Rational) -> Rational {
+    public static func -(lhs: Rational, rhs: Rational) -> Rational {
         return lhs + (-rhs)
     }
     
-    static func <(lhs: Rational, rhs: Rational) -> Bool {
+    public static func <(lhs: Rational, rhs: Rational) -> Bool {
         return lhs.numerator * rhs.denominator < rhs.numerator * lhs.denominator
     }
     
-    static var additiveIdentity: Rational {
+    public static var additiveIdentity: Rational {
         return Rational(0)
     }
 }
 
 extension Rational: Addable {
-    static func +(lhs: Rational, rhs: Rational) -> Rational {
+    public static func +(lhs: Rational, rhs: Rational) -> Rational {
         return Rational(numerator: rhs.denominator * lhs.numerator + lhs.denominator * rhs.numerator,
                         denominator: lhs.denominator * rhs.denominator)!
     }
 }
 
 extension Rational: Negatable {
-    static prefix func -(value: Rational) -> Rational {
+    public static prefix func -(value: Rational) -> Rational {
         return Rational(numerator: -value.numerator,
                         denominator: value.denominator)!
     }
 }
 
 extension Rational: Multipliable {
-    static func *(lhs: Rational, rhs: Rational) -> Rational {
+    public static func *(lhs: Rational, rhs: Rational) -> Rational {
         return Rational(numerator: lhs.numerator * rhs.numerator,
                         denominator: lhs.denominator * rhs.denominator)!
     }
 }
 
 extension Rational: MultiplicativeInverse {
-    func multiplicativeInverse() -> Rational {
+    public func multiplicativeInverse() -> Rational {
         // Precondition: $x.p ≠ 0$
         return Rational(numerator: self.denominator,
                         denominator: self.numerator)!
@@ -91,7 +107,7 @@ extension Rational: MultiplicativeInverse {
 }
 
 extension Rational: Divisible {
-    static func /(lhs: Rational, rhs: Rational) -> Rational {
+    public static func /(lhs: Rational, rhs: Rational) -> Rational {
         return Rational(numerator: lhs.numerator * rhs.denominator,
                         denominator: lhs.denominator * rhs.numerator)!
         // Postcondition: x * multiplicative_inverse(y)
@@ -106,20 +122,20 @@ extension Rational {
     }
 }
 
-extension Rational: Remainder {
-    func remainder(_ value: Rational) -> Rational {
-        return remainderNonnegative(a: self, b: value)
-    }
-}
+//extension Rational: Remainder {
+//    public func remainder(_ value: Rational) -> Rational {
+//        return remainderNonnegative(a: self, b: value)
+//    }
+//}
 
 extension Rational: Regular {
-    static func ==(lhs: Rational, rhs: Rational) -> Bool {
+    public static func ==(lhs: Rational, rhs: Rational) -> Bool {
         return lhs.numerator * rhs.denominator == rhs.numerator * lhs.denominator
     }
 }
 
 extension Rational: MultiplicativeIdentity {
-    static var multiplicativeIdentity: Rational {
+    public static var multiplicativeIdentity: Rational {
         return Rational(1)
     }
     
@@ -127,55 +143,55 @@ extension Rational: MultiplicativeIdentity {
 }
 
 extension Rational: Halvable {
-    func half() -> Rational {
+    public func half() -> Rational {
         return Rational(numerator: numerator,
                         denominator: denominator.twice())!
     }
 }
 
 extension Rational: IntegerSpecialCaseProcedures {
-    func successor() -> Rational {
+    public func successor() -> Rational {
         return self + Rational(1)
     }
     
-    func predecessor() -> Rational {
+    public func predecessor() -> Rational {
         return self - Rational(1)
     }
     
-    func twice() -> Rational {
+    public func twice() -> Rational {
         return self + self
     }
     
-    func halfNonnegative() -> Rational {
+    public func halfNonnegative() -> Rational {
         let n = numerator < 0 ? -numerator : numerator
         let d = denominator < 0 ? -denominator : denominator
         return Rational(numerator: n, denominator: d.twice())!
     }
     
-    func isPositive() -> Bool {
+    public func isPositive() -> Bool {
         return Rational(0) < self
     }
     
-    func isNegative() -> Bool {
+    public func isNegative() -> Bool {
         return self < Rational.additiveIdentity
     }
     
-    func isZero() -> Bool {
+    public func isZero() -> Bool {
         return self == Rational(0)
     }
     
-    func isOne() -> Bool {
+    public func isOne() -> Bool {
         return self == Rational(1)
     }
     
-    func isEven() -> Bool {
+    public func isEven() -> Bool {
         if numerator < denominator { return false }
         if numerator % denominator != 0 { return false }
         if (numerator / denominator) % 2 != 0 { return false }
         return true
     }
     
-    func isOdd() -> Bool {
+    public func isOdd() -> Bool {
         return !self.isEven()
     }
 }
