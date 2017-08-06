@@ -233,9 +233,9 @@ where I0.Source == I1.Source {
     // Precondition: readable_bounded_range(f0, l0)
     // Precondition: readable_bounded_range(f1, l1)
     // Precondition: equivalence(r)
-    let p: Pair<I0, I1> = findMismatch(f0: f0, l0: l0,
-                                       f1: f1, l1: l1,
-                                       r: r)
+    guard let p: Pair<I0, I1> = findMismatch(f0: f0, l0: l0,
+                                             f1: f1, l1: l1,
+                                             r: r) else { return false }
     return p.m0 == l0 && p.m1 == l1
 }
 
@@ -265,9 +265,11 @@ func lexicographicalEqual<
 where I0.Source == I1.Source {
     guard k != 0 else { return true }
     guard f0.source! == f1.source! else { return false }
+    guard let f0s = f0.iteratorSuccessor,
+          let f1s = f1.iteratorSuccessor else { return false }
     return lexicographicalEqual(k: k - 1,
-                                f0: f0.iteratorSuccessor!,
-                                f1: f1.iteratorSuccessor!)
+                                f0: f0s,
+                                f1: f1s)
 }
 
 func bifurcateEquivalentNonempty<
@@ -353,8 +355,10 @@ where I0.Source == I1.Source {
         guard f0 != l0 else { return true }
         guard !r(f0.source!, f1.source!) else { return true }
         guard !r(f1.source!, f0.source!) else { return false }
-        f0 = f0.iteratorSuccessor!
-        f1 = f1.iteratorSuccessor!
+        guard let f0s = f0.iteratorSuccessor else { return false }
+        f0 = f0s
+        guard let f1s = f1.iteratorSuccessor else { return false }
+        f1 = f1s
     }
 }
 
@@ -383,7 +387,9 @@ where I0.Source == I1.Source {
     guard k != 0 else { return false }
     guard f0.source! >= f1.source! else { return true }
     guard f0.source! <= f1.source! else { return false }
-    return lexicographicalLess(k: k - 1, f0: f0.iteratorSuccessor!, f1: f1.iteratorSuccessor!)
+    guard let f0s = f0.iteratorSuccessor,
+          let f1s = f1.iteratorSuccessor else { return false }
+    return lexicographicalLess(k: k - 1, f0: f0s, f1: f1s)
 }
 
 
@@ -423,7 +429,7 @@ func lexicographicalCompareThreeWay<
     f0: I0, l0: I0,
     f1: I1, l1: I1,
     comp: BinaryHomogeneousFunction<I0.Source, Int>
-) -> Int
+) -> Int?
 where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
     // Precondition: readable_bounded_range(f0, l0)
@@ -437,8 +443,10 @@ where I0.Source == I1.Source {
         guard f1 != l1 else { return -1 }
         let tmp = comp(f0.source!, f1.source!)
         guard tmp == 0 else { return tmp }
-        f0 = f0.iteratorSuccessor!
-        f1 = f1.iteratorSuccessor!
+        guard let f0s = f0.iteratorSuccessor else { return nil }
+        f0 = f0s
+        guard let f1s = f1.iteratorSuccessor else { return nil }
+        f1 = f1s
     }
 }
 

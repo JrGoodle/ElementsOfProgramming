@@ -285,5 +285,5 @@ public protocol Linearizable: Regular {
 }
 
 public enum EOPError : Error {
-    case noLeftSuccessor, noRightSuccessor
+    case noLeftSuccessor, noRightSuccessor, noSuccessor, noPredecessor
 }
