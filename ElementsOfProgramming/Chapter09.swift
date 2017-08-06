@@ -27,11 +27,13 @@ public func copy<
 >(
     fi: I, li: I,
     fo: O
-) throws -> O
+) -> O?
 where I.Source == O.Sink {
     var fi = fi, fo = fo
     // Precondition: not_overlapped_forward(f_i, l_i, f_o, f_o + (l_i - f_i))
-    while fi != li { try copyStep(fi: &fi, fo: &fo) }
+    while fi != li {
+        do { try copyStep(fi: &fi, fo: &fo) } catch { return nil }
+    }
     return fo
 }
 
@@ -41,9 +43,11 @@ func fillStep<I: Writable & Iterator>(fo: inout I, x: I.Sink) throws {
     fo = s
 }
 
-func fill<I: Writable & Iterator>(f: I, l: I, x: I.Sink) throws -> I {
+func fill<I: Writable & Iterator>(f: I, l: I, x: I.Sink) -> I? {
     var f = f
-    while f != l { try fillStep(fo: &f, x: x) }
+    while f != l {
+        do { try fillStep(fo: &f, x: x) } catch { return nil }
+    }
     return f
 }
 
@@ -51,10 +55,10 @@ func fill<I: Writable & Iterator>(f: I, l: I, x: I.Sink) throws -> I {
 func iota<O: Writable & Iterator>(
     n: Int,
     o: O
-) throws -> O
+) -> O?
 where O.Sink == Int {
     // Precondition: writable_counted_range(o, n) ∧ n ≥ 0
-    return try copy(fi: 0, li: n, fo: o)
+    return copy(fi: 0, li: n, fo: o)
 }
 
 // Useful for testing in conjunction with iota
@@ -80,11 +84,13 @@ func copyBounded<
 >(
     fi: I, li: I,
     fo: O, lo: O
-) throws -> Pair<I, O>
+) -> Pair<I, O>?
 where I.Source == O.Sink {
     var fi = fi, fo = fo
     // Precondition: not_overlapped_forward(f_i, l_i, f_o, l_o)
-    while fi != li && fo != lo { try copyStep(fi: &fi, fo: &fo) }
+    while fi != li && fo != lo {
+        do { try copyStep(fi: &fi, fo: &fo) } catch { return nil }
+    }
     return Pair(m0: fi, m1: fo)
 }
 
@@ -102,11 +108,13 @@ public func copyN<
     fi: I,
     n: N,
     fo: O
-) throws -> Pair<I, O>
+) -> Pair<I, O>?
 where I.Source == O.Sink {
     var fi = fi, n = n, fo = fo
     // Precondition: not_overlapped_forward(f_i, f_i + n, f_o, f_o + n)
-    while countDown(n: &n) { try copyStep(fi: &fi, fo: &fo) }
+    while countDown(n: &n) {
+        do { try copyStep(fi: &fi, fo: &fo) } catch { return nil }
+    }
     return Pair(m0: fi, m1: fo)
 }
 
@@ -114,9 +122,11 @@ func fillN<I: Writable & Iterator>(
     f: I,
     n: DistanceType,
     x: I.Sink
-) throws -> I {
+) -> I? {
     var f = f, n = n
-    while countDown(n: &n) { try fillStep(fo: &f, x: x) }
+    while countDown(n: &n) {
+        do { try fillStep(fo: &f, x: x) } catch { return nil }
+    }
     return f
 }
 
@@ -143,11 +153,13 @@ public func copyBackward<
 >(
     fi: I, li: I,
     lo: O
-) throws -> O
+) -> O?
 where I.Source == O.Sink {
     var li = li, lo = lo
     // Precondition: not_overlapped_backward(f_i, l_i, l_o-(l_i - f_i), l_o)
-    while fi != li { try copyBackwardStep(li: &li, lo: &lo) }
+    while fi != li {
+        do { try copyBackwardStep(li: &li, lo: &lo) } catch { return nil }
+    }
     return lo
 }
 
@@ -158,10 +170,12 @@ func copyBackwardN<
     li: I,
     n: DistanceType,
     lo: O
-) throws -> Pair<I, O>
+) -> Pair<I, O>?
 where I.Source == O.Sink {
     var li = li, n = n, lo = lo
-    while countDown(n: &n) { try copyBackwardStep(li: &li, lo: &lo) }
+    while countDown(n: &n) {
+        do { try copyBackwardStep(li: &li, lo: &lo) } catch { return nil }
+    }
     return Pair(m0: li, m1: lo)
 }
 
@@ -203,11 +217,13 @@ public func reverseCopy<
 >(
     fi: I, li: I,
     fo: O
-) throws -> O
+) -> O?
 where I.Source == O.Sink {
     var li = li, fo = fo
     // Precondition: not_overlapped(f_i, l_i, f_o, f_o + (l_i - f_i))
-    while fi != li { try reverseCopyStep(li: &li, fo: &fo) }
+    while fi != li {
+        do { try reverseCopyStep(li: &li, fo: &fo) } catch { return nil }
+    }
     return fo
 }
 
@@ -217,11 +233,13 @@ func reverseCopyBackward<
 >(
     fi: I, li: I,
     lo: O
-) throws -> O
+) -> O?
 where I.Source == O.Sink {
     var fi = fi, lo = lo
     // Precondition: not_overlapped(f_i, l_i, l_o - (l_i - f_i), l_o)
-    while fi != li { try reverseCopyBackwardStep(fi: &fi, lo: &lo) }
+    while fi != li {
+        do { try reverseCopyBackwardStep(fi: &fi, lo: &lo) } catch { return nil}
+    }
     return lo
 }
 
@@ -232,15 +250,17 @@ func copySelect<
     fi: I, li: I,
     ft: O,
     p: UnaryPredicate<I>
-) throws -> O
+) -> O?
 where I.Source == O.Sink {
     var fi = fi, ft = ft
     // Precondition: not_overlapped_forward(f_i, l_i, f_t, f_t + n_t)
     // where n_t is an upper bound for the number of iterators satisfying p
     while fi != li {
-        if p(fi) { try copyStep(fi: &fi, fo: &ft) }
+        if p(fi) {
+            do { try copyStep(fi: &fi, fo: &ft) } catch { return nil }
+        }
         else {
-            guard let s = fi.iteratorSuccessor else { throw EOPError.noSuccessor }
+            guard let s = fi.iteratorSuccessor else { return nil }
             fi = s
         }
     }
@@ -254,11 +274,11 @@ func copyIf<
     fi: I, li: I,
     ft: O,
     p: @escaping UnaryPredicate<I.Source>
-) throws -> O
+) -> O?
 where I.Source == O.Sink {
     // Precondition: same as for copy_select
     let ps: UnaryPredicate<I> = predicateSource(p: p)
-    return try copySelect(fi: fi, li: li, ft: ft, p: ps)
+    return copySelect(fi: fi, li: li, ft: ft, p: ps)
 }
 
 func splitCopy<
@@ -270,13 +290,17 @@ func splitCopy<
     ff: OF,
     ft: OT,
     p: UnaryPredicate<I>
-) throws -> Pair<OF, OT>
+) -> Pair<OF, OT>?
 where I.Source == OF.Sink, I.Source == OT.Sink {
     var fi = fi, ff = ff, ft = ft
     // Precondition: see section 9.3 of Elements of Programming
     while fi != li {
-        if p(fi) { try copyStep(fi: &fi, fo: &ft) }
-        else { try copyStep(fi: &fi, fo: &ff) }
+        if p(fi) {
+            do { try copyStep(fi: &fi, fo: &ft) } catch { return nil }
+        }
+        else {
+            do { try copyStep(fi: &fi, fo: &ff) } catch { return nil }
+        }
     }
     return Pair(m0: ff, m1: ft)
 }
@@ -291,13 +315,17 @@ func splitCopyN<
     ff: OF,
     ft: OT,
     p: UnaryPredicate<I>
-) throws -> Pair<OF, OT>
+) -> Pair<OF, OT>?
 where I.Source == OF.Sink, I.Source == OT.Sink {
     var fi = fi, ni = ni, ft = ft
     // Precondition: see exercise 9.2 of Elements of Programming
     while countDown(n: &ni) {
-        if p(fi) { try copyStep(fi: &fi, fo: &ft) }
-        else { try copyStep(fi: &fi, fo: &ft) }
+        if p(fi) {
+            do { try copyStep(fi: &fi, fo: &ft) } catch { return nil }
+        }
+        else {
+            do { try copyStep(fi: &fi, fo: &ft) } catch { return nil }
+        }
     }
     return Pair(m0: ff, m1: ft)
 }
@@ -311,11 +339,11 @@ func partitionCopy<
     ff: OF,
     ft: OT,
     p: @escaping UnaryPredicate<I.Source>
-) throws -> Pair<OF, OT>
+) -> Pair<OF, OT>?
 where I.Source == OF.Sink, I.Source == OT.Sink {
     // Precondition: same as split_copy
     let ps: UnaryPredicate<I> = predicateSource(p: p)
-    return try splitCopy(fi: fi, li: li, ff: ff, ft: ft, p: ps)
+    return splitCopy(fi: fi, li: li, ff: ff, ft: ft, p: ps)
 }
 
 func partitionCopyN<
@@ -328,11 +356,11 @@ func partitionCopyN<
     ff: OF,
     ft: OT,
     p: @escaping UnaryPredicate<I.Source>
-) throws -> Pair<OF, OT>
+) -> Pair<OF, OT>?
 where I.Source == OF.Sink, I.Source == OT.Sink {
     // Precondition: see partition_copy
     let ps: UnaryPredicate<I> = predicateSource(p: p)
-    return try splitCopyN(fi: fi, ni: n, ff: ff, ft: ft, p: ps)
+    return splitCopyN(fi: fi, ni: n, ff: ff, ft: ft, p: ps)
 }
 
 func combineCopy<
@@ -344,18 +372,20 @@ func combineCopy<
     fi1: I1, li1: I1,
     fo: O,
     r: BinaryRelation<I1, I0>
-) throws -> O
+) -> O?
 where I0.Source == O.Sink, I1.Source == O.Sink {
     var fi0 = fi0, fi1 = fi1
     var fo = fo
     // Precondition: see section 9.3 of Elements of Programming
     while fi0 != li0 && fi1 != li1 {
-        if r(fi1, fi0) { try copyStep(fi: &fi1, fo: &fo) }
-        else { try copyStep(fi: &fi0, fo: &fo) }
+        if r(fi1, fi0) {
+            do { try copyStep(fi: &fi1, fo: &fo) } catch { return nil }
+        } else {
+            do { try copyStep(fi: &fi0, fo: &fo) } catch { return nil }
+        }
     }
-    return try copy(fi: fi1,
-                li: li1,
-                fo: try copy(fi: fi0, li: li0, fo: fo))
+    guard let c = copy(fi: fi0, li: li0, fo: fo) else { return nil }
+    return copy(fi: fi1, li: li1, fo: c)
 }
 
 func combineCopyN<
@@ -367,7 +397,7 @@ func combineCopyN<
     fi_1: I1, ni_1: DistanceType,
     fo: O,
     r: BinaryRelation<I1, I0>
-) throws -> Triple<I0, I1, O>
+) -> Triple<I0, I1, O>?
 where I0.Source == O.Sink, I1.Source == O.Sink {
     var fi_0 = fi_0, ni_0 = ni_0
     var fi_1 = fi_1, ni_1 = ni_1
@@ -375,18 +405,18 @@ where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: see combine_copy
     while true {
         guard ni_0 != 0 else {
-            let p = try copyN(fi: fi_1, n: ni_1, fo: fo)
+            guard let p = copyN(fi: fi_1, n: ni_1, fo: fo) else { return nil }
             return Triple(m0: fi_0, m1: p.m0, m2: p.m1)
         }
         guard ni_1 != 0 else {
-            let p = try copyN(fi: fi_0, n: ni_0, fo: fo)
+            guard let p = copyN(fi: fi_0, n: ni_0, fo: fo) else { return nil }
             return Triple(m0: p.m0, m1: fi_1, m2: p.m1)
         }
         if r(fi_1, fi_0) {
-            try copyStep(fi: &fi_1, fo: &fo)
+            do { try copyStep(fi: &fi_1, fo: &fo) } catch { return nil }
             ni_1 = ni_1.predecessor()
         } else {
-            try copyStep(fi: &fi_0, fo: &fo)
+            do { try copyStep(fi: &fi_0, fo: &fo) } catch { return nil }
             ni_0 = ni_0.predecessor()
         }
     }
@@ -401,24 +431,23 @@ func combineCopyBackward<
     fi1: I1, li1: I1,
     lo: O,
     r: BinaryRelation<I1, I0>
-) throws -> O
+) -> O?
 where I0.Source == O.Sink, I1.Source == O.Sink {
     var li0 = li0, li1 = li1, lo = lo
     // Precondition: see section 9.3 of Elements of Programming
     while fi0 != li0 && fi1 != li1 {
         guard let li1p = li1.iteratorPredecessor,
               let li0p = li0.iteratorPredecessor else {
-            throw EOPError.noPredecessor
+            return nil
         }
         if r(li1p, li0p) {
-            try copyBackwardStep(li: &li0, lo: &lo)
+            do { try copyBackwardStep(li: &li0, lo: &lo) } catch { return nil }
         } else {
-            try copyBackwardStep(li: &li1, lo: &lo)
+            do { try copyBackwardStep(li: &li1, lo: &lo) } catch { return nil }
         }
     }
-    return try copyBackward(fi: fi0,
-                            li: li0,
-                            lo: copyBackward(fi: fi1, li: li1, lo: lo))
+    guard let cb = copyBackward(fi: fi1, li: li1, lo: lo) else { return nil }
+    return copyBackward(fi: fi0, li: li0, lo: cb)
 }
 
 func combineCopyBackwardN<
@@ -430,7 +459,7 @@ func combineCopyBackwardN<
     li_1: I1, ni_1: DistanceType,
     lo: O,
     r: BinaryRelation<I1, I0>
-) throws -> Triple<I0, I1, O>
+) -> Triple<I0, I1, O>?
 where I0.Source == O.Sink, I1.Source == O.Sink {
     var li_0 = li_0, ni_0 = ni_0
     var li_1 = li_1, ni_1 = ni_1
@@ -438,22 +467,26 @@ where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: see combine_copy_backward
     while true {
         guard ni_0 != 0 else {
-            let p = try copyBackwardN(li: li_1, n: ni_1, lo: lo)
+            guard let p = copyBackwardN(li: li_1, n: ni_1, lo: lo) else {
+                return nil
+            }
             return Triple(m0: li_0, m1: p.m0, m2: p.m1)
         }
         guard ni_1 != 0 else {
-            let p = try copyBackwardN(li: li_0, n: ni_0, lo: lo)
+            guard let p = copyBackwardN(li: li_0, n: ni_0, lo: lo) else {
+                return nil
+            }
             return Triple(m0: p.m0, m1: li_1, m2: p.m1)
         }
         guard let li_1p = li_1.iteratorPredecessor,
               let li_0p = li_0.iteratorPredecessor else {
-            throw EOPError.noPredecessor
+            return nil
         }
         if r(li_1p, li_0p) {
-            try copyBackwardStep(li: &li_0, lo: &lo)
+            do { try copyBackwardStep(li: &li_0, lo: &lo) } catch { return nil }
             ni_0 = ni_0.predecessor()
         } else {
-            try copyBackwardStep(li: &li_1, lo: &lo)
+            do { try copyBackwardStep(li: &li_1, lo: &lo) } catch { return nil }
             ni_1 = ni_1.predecessor()
         }
     }
@@ -468,17 +501,17 @@ func mergeCopy<
     fi1: I1, li1: I1,
     fo: O,
     r: @escaping Relation<I0.Source>
-) throws -> O
+) -> O?
 where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: in addition to that for combine_copy:
     //               weak_ordering(r) ∧
     //               increasing_range(f_{i_0}, l_{i_0}, r) ∧
     //               increasing_range(f_{i_1}, l_{i_1}, r)
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
-    return try combineCopy(fi0: fi0, li0: li0,
-                           fi1: fi1, li1: li1,
-                           fo: fo,
-                           r: rs)
+    return combineCopy(fi0: fi0, li0: li0,
+                       fi1: fi1, li1: li1,
+                       fo: fo,
+                       r: rs)
 }
 
 func mergeCopyN<
@@ -490,14 +523,14 @@ func mergeCopyN<
     fi_1: I1, ni_1: DistanceType,
     o: O,
     r: @escaping Relation<I0.Source>
-) throws -> Triple<I0, I1, O>
+) -> Triple<I0, I1, O>?
 where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: see merge_copy
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
-    return try combineCopyN(fi_0: fi_0, ni_0: ni_0,
-                            fi_1: fi_1, ni_1: ni_1,
-                            fo: o,
-                            r: rs)
+    return combineCopyN(fi_0: fi_0, ni_0: ni_0,
+                        fi_1: fi_1, ni_1: ni_1,
+                        fo: o,
+                        r: rs)
 }
 
 func mergeCopyBackward<
@@ -509,17 +542,17 @@ func mergeCopyBackward<
     fi1: I1, li1: I1,
     lo: O,
     r: @escaping Relation<I0.Source>
-) throws -> O
+) -> O?
 where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: in addition to that for combine_copy_backward:
     //               weak_ordering(r) ∧
     //               increasing_range(f_{i_0}, l_{i_0}, r) ∧
     //               increasing_range(f_{i_1}, l_{i_1}, r)
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
-    return try combineCopyBackward(fi0: fi0, li0: li0,
-                                   fi1: fi1, li1: li1,
-                                   lo: lo,
-                                   r: rs)
+    return combineCopyBackward(fi0: fi0, li0: li0,
+                               fi1: fi1, li1: li1,
+                               lo: lo,
+                               r: rs)
 }
 
 func mergeCopyBackwardN<
@@ -531,14 +564,14 @@ func mergeCopyBackwardN<
     li_1: I1, ni_1: DistanceType,
     lo: O,
     r: @escaping Relation<I0.Source>
-) throws -> Triple<I0, I1, O>
+) -> Triple<I0, I1, O>?
 where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: see merge_copy_backward
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
-    return try combineCopyBackwardN(li_0: li_0, ni_0: ni_0,
-                                    li_1: li_1, ni_1: ni_1,
-                                    lo: lo,
-                                    r: rs)
+    return combineCopyBackwardN(li_0: li_0, ni_0: ni_0,
+                                li_1: li_1, ni_1: ni_1,
+                                lo: lo,
+                                r: rs)
 }
 
 public func exchangeValues<
@@ -577,12 +610,14 @@ public func swapRanges<
 >(
     f0: I0, l0: I0,
     f1: I1
-) throws -> I1
+) -> I1?
 where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
     // Precondition: mutable_bounded_range(f_0, l_0)
     // Precondition: mutable_counted_range(f_1, l_0 - f_0)
-    while f0 != l0 { try swapStep(f0: &f0, f1: &f1) }
+    while f0 != l0 {
+        do { try swapStep(f0: &f0, f1: &f1) } catch { return nil }
+    }
     return f1
 }
 
@@ -593,12 +628,14 @@ public func swapRangesBounded<
 >(
     f0: I0, l0: I0,
     f1: I1, l1: I1
-) throws -> Pair<I0, I1>
+) -> Pair<I0, I1>?
 where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
     // Precondition: mutable_bounded_range(f_0, l_0)
     // Precondition: mutable_bounded_range(f_1, l_1)
-    while f0 != l0 && f1 != l1 { try swapStep(f0: &f0, f1: &f1) }
+    while f0 != l0 && f1 != l1 {
+        do { try swapStep(f0: &f0, f1: &f1) } catch { return nil }
+    }
     return Pair(m0: f0, m1: f1)
 }
 
@@ -609,12 +646,14 @@ public func swapRangesN<
     f0: I0,
     f1: I1,
     n: N
-) throws -> Pair<I0, I1>
+) -> Pair<I0, I1>?
 where I0.Source == I1.Source {
     var f0 = f0, f1 = f1, n = n
     // Precondition: mutable_counted_range(f_0, n)
     // Precondition: mutable_counted_range(f_1, n)
-    while countDown(n: &n) { try swapStep(f0: &f0, f1: &f1) }
+    while countDown(n: &n) {
+        do { try swapStep(f0: &f0, f1: &f1) } catch { return nil }
+    }
     return Pair(m0: f0, m1: f1)
 }
 
@@ -640,12 +679,14 @@ func reverseSwapRanges<
 >(
     f0: I0, l0: I0,
     f1: I1
-) throws -> I1
+) -> I1?
 where I0.Source == I1.Source {
     var l0 = l0, f1 = f1
     // Precondition: mutable_bounded_range(f_0, l_0)
     // Precondition: mutable_counted_range(f_1, l_0 - f_0)
-    while f0 != l0 { try reverseSwapStep(l0: &l0, f1: &f1) }
+    while f0 != l0 {
+        do { try reverseSwapStep(l0: &l0, f1: &f1) } catch { return nil }
+    }
     return f1
 }
 
@@ -655,13 +696,13 @@ public func reverseSwapRangesBounded<
 >(
     f0: I0, l0: I0,
     f1: I1, l1: I1
-) throws -> Pair<I0, I1>
+) -> Pair<I0, I1>?
 where I0.Source == I1.Source {
     var l0 = l0, f1 = f1
     // Precondition: mutable_bounded_range(f_0, l_0)
     // Precondition: mutable_bounded_range(f_1, l_1)
     while f0 != l0 && f1 != l1 {
-        try reverseSwapStep(l0: &l0, f1: &f1)
+        do { try reverseSwapStep(l0: &l0, f1: &f1) } catch { return nil }
     }
     return Pair(m0: l0, m1: f1)
 }
@@ -673,11 +714,13 @@ public func reverseSwapRangesN<
     l0: I0,
     f1: I1,
     n: N
-) throws -> Pair<I0, I1>
+) -> Pair<I0, I1>?
 where I0.Source == I1.Source {
     var l0 = l0, f1 = f1, n = n
     // Precondition: mutable_counted_range(l_0 - n, n)
     // Precondition: mutable_counted_range(f_1, n)
-    while countDown(n: &n) { try reverseSwapStep(l0: &l0, f1: &f1) }
+    while countDown(n: &n) {
+        do { try reverseSwapStep(l0: &l0, f1: &f1) } catch { return nil }
+    }
     return Pair(m0: l0, m1: f1)
 }

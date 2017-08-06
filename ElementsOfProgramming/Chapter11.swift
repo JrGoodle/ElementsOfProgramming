@@ -29,7 +29,7 @@ func potentialPartitionPoint<I: Readable & ForwardIterator>(
 func partitionSemistable<I: Mutable & ForwardIterator>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
-) throws -> I? {
+) -> I? {
     // Precondition: mutable_bounded_range(f, l)
     guard var i = findIf(f: f, l: l, p: p) else { return nil }
     guard i != l else { return i }
@@ -38,7 +38,7 @@ func partitionSemistable<I: Mutable & ForwardIterator>(
         guard let jfin = findIfNot(f: j, l: l, p: p) else { return nil }
         j = jfin
         guard j != l else { return i }
-        try swapStep(f0: &i, f1: &j)
+        do { try swapStep(f0: &i, f1: &j) } catch { return nil }
     }
 }
 
@@ -80,7 +80,7 @@ func removeIf<I: Mutable & ForwardIterator>(
 func partitionBidirectional<I: Mutable & BidirectionalIterator>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
-) throws -> I? {
+) -> I? {
     var f = f, l = l
     // Precondition: mutable_bounded_range(f, l)
     while true {
@@ -89,7 +89,7 @@ func partitionBidirectional<I: Mutable & BidirectionalIterator>(
         guard let fbin = findBackwardIfNot(f: f, l: l, p: p) else { return nil }
         l = fbin
         guard f != l else { return f }
-        try reverseSwapStep(l0: &l, f1: &f)
+        do { try reverseSwapStep(l0: &l, f1: &f) } catch { return nil }
     }
 }
 
@@ -98,7 +98,7 @@ func partitionBidirectional<I: Mutable & BidirectionalIterator>(
 func partitionForward<I: Mutable & ForwardIterator>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
-) throws -> I? {
+) -> I? {
     var f = f
     // Precondition: mutable_bounded_range(f, l)
     guard let i = countIfNot(f: f, l: l, p: p, j: f) else { return nil }
@@ -109,7 +109,7 @@ func partitionForward<I: Mutable & ForwardIterator>(
         guard j != l else { return i }
         guard let fiu = findIfUnguarded(f: f, p: p) else { return nil }
         f = fiu
-        try swapStep(f0: &f, f1: &j)
+        do { try swapStep(f0: &f, f1: &j) } catch { return nil }
     }
 }
 
@@ -233,14 +233,14 @@ func partitionStableWithBuffer<
     f: I, l: I,
     fb: B,
     p: @escaping UnaryPredicate<I.Source>
-) throws -> I
+) -> I?
 where I.Source == B.Sink {
     // Precondition: mutable_bounded_range(f, l)
     // Precondition: mutable_counted_range(f_b, l - f)
-    let x: Pair<I, B> = try partitionCopy(fi: f, li: l,
-                                          ff: f, ft: fb,
-                                          p: p)
-    _ = try copy(fi: fb, li: x.m1, fo: x.m0)
+    guard let x: Pair<I, B> = partitionCopy(fi: f, li: l,
+                                            ff: f, ft: fb,
+                                            p: p) else { return nil }
+    _ = copy(fi: fb, li: x.m1, fo: x.m0)
     return x.m0
 }
 
@@ -257,10 +257,11 @@ func partitionStableSingleton<I: Mutable & ForwardIterator>(
 
 func combineRanges<I: Mutable & ForwardIterator>(
     x: Pair<I, I>, y: Pair<I, I>
-) throws -> Pair<I, I> {
+) -> Pair<I, I>? {
     // Precondition: mutable_bounded_range(x.m0, y.m0)
     // Precondition: x.m1 ∈ [x.m0, y.m0]
-    return Pair(m0: try rotate(f: x.m0, m: x.m1, l: y.m0),
+    guard let r = rotate(f: x.m0, m: x.m1, l: y.m0) else { return nil }
+    return Pair(m0: r,
                 m1: y.m1)
 }
 
@@ -278,7 +279,7 @@ func partitionStableNNonempty<I: Mutable & ForwardIterator>(
     guard let y = partitionStableNNonempty(f: x.m1, n: n - h, p: p) else {
         return nil
     }
-    return try? combineRanges(x: x, y: y)
+    return combineRanges(x: x, y: y)
 }
 
 func partitionStableN<I: Mutable & ForwardIterator>(
@@ -417,15 +418,15 @@ func mergeNWithBuffer<
     f1: I, n1: DistanceType,
     fb: B,
     r: @escaping Relation<I.Source>
-) throws -> I
+) -> I?
 where I.Source == B.Source {
     // Precondition: mergeable(f_0, n_0, f_1, n_1, r)
     // Precondition: mutable_counted_range(f_b, n_0)
-    _ = try copyN(fi: f0, n: n0, fo: fb)
-    return try mergeCopyN(fi_0: fb, ni_0: n0,
-                          fi_1: f1, ni_1: n1,
-                          o: f0,
-                          r: r).m2
+    _ = copyN(fi: f0, n: n0, fo: fb)
+    return mergeCopyN(fi_0: fb, ni_0: n0,
+                      fi_1: f1, ni_1: n1,
+                      o: f0,
+                      r: r)?.m2
 }
 
 func sortNWithBuffer<
@@ -436,7 +437,7 @@ func sortNWithBuffer<
     n: DistanceType,
     fb: B,
     r: @escaping Relation<I.Source>
-) throws -> I?
+) -> I?
 where I.Source == B.Source {
     // Property:
     // mutable_counted_range(f, n) ∧ weak_ordering(r)
@@ -446,16 +447,16 @@ where I.Source == B.Source {
         guard let s = f.successor(at: n) else { return nil }
         return s
     }
-    guard let m = try sortNWithBuffer(f: f, n: h,
-                                      fb: fb,
-                                      r: r) else { return nil }
-    _ = try sortNWithBuffer(f: m, n: n - h,
+    guard let m = sortNWithBuffer(f: f, n: h,
+                                  fb: fb,
+                                  r: r) else { return nil }
+    _ = sortNWithBuffer(f: m, n: n - h,
+                        fb: fb,
+                        r: r)
+    return mergeNWithBuffer(f0: f, n0: h,
+                            f1: m, n1: n - h,
                             fb: fb,
                             r: r)
-    return try mergeNWithBuffer(f0: f, n0: h,
-                                f1: m, n1: n - h,
-                                fb: fb,
-                                r: r)
 }
 
 func mergeNStep0<I: Mutable & ForwardIterator>(
@@ -477,7 +478,8 @@ func mergeNStep0<I: Mutable & ForwardIterator>(
                                 a: f01.source!,
                                 r: r) else { throw EOPError.noSuccessor }
     f11 = lbn
-    f10 = try rotate(f: f01, m: f1, l: f11)
+    guard let r = rotate(f: f01, m: f1, l: f11) else { throw EOPError.failure }
+    f10 = r
     n01 = f10.distance(from: f01)
     guard let f10s = f10.iteratorSuccessor else { throw EOPError.noSuccessor }
     f10 = f10s
@@ -507,7 +509,8 @@ func mergeNStep1<I: Mutable & ForwardIterator>(
     f01 = ubn
     guard let f11s = f11.iteratorSuccessor else { throw EOPError.noSuccessor }
     f11 = f11s
-    f10 = try rotate(f: f01, m: f1, l: f11)
+    guard let r = rotate(f: f01, m: f1, l: f11) else { throw EOPError.failure }
+    f10 = r
     n00 = f01.distance(from: f00)
     n10 = n0 - n00
     let tmp = n1 - n01
@@ -522,50 +525,49 @@ func mergeNAdaptive<
     f1: I, n1: DistanceType,
     fb: B, nb: DistanceType,
     r: @escaping Relation<I.Source>
-) throws -> I
+) -> I?
 where I.Source == B.Source {
     // Precondition: mergeable(f_0, n_0, f_1, n_1, r)
     // Precondition: mutable_counted_range(f_b, n_b)
     guard !(n0 == 0 || n1 == 0) else {
         guard let s = f0.successor(at: n0)?.successor(at: n1) else {
-            throw EOPError.noSuccessor
+            return nil
         }
         return s
     }
     guard n0 > N(nb) else {
-        return try mergeNWithBuffer(f0: f0, n0: n0,
-                                    f1: f1, n1: n1,
-                                    fb: fb,
-                                    r: r)
+        return mergeNWithBuffer(f0: f0, n0: n0,
+                                f1: f1, n1: n1,
+                                fb: fb,
+                                r: r)
     }
-    // FIXME: Optional abuse to match original C++
-    var f00: I?, f01: I?, f10: I?, f11: I?
-    var n00: N?, n01: N?, n10: N?, n11: N?
+    var f00 = f0, f01 = f0, f10 = f1, f11 = f1
+    var n00 = n0, n01 = n0, n10 = n1, n11 = n1
     if n0 < n1 {
-        try mergeNStep0(f0: f0, n0: n0,
-                        f1: f1, n1: n1,
-                        r: r,
-                        f00: &f00!, n00: &n00!,
-                        f01: &f01!, n01: &n01!,
-                        f10: &f10!, n10: &n10!,
-                        f11: &f11!, n11: &n11!)
+        do { try mergeNStep0(f0: f0, n0: n0,
+                             f1: f1, n1: n1,
+                             r: r,
+                             f00: &f00, n00: &n00,
+                             f01: &f01, n01: &n01,
+                             f10: &f10, n10: &n10,
+                             f11: &f11, n11: &n11) } catch { return nil }
     } else {
-        try mergeNStep1(f0: f0, n0: n0,
-                        f1: f1, n1: n1,
-                        r: r,
-                        f00: &f00!, n00: &n00!,
-                        f01: &f01!, n01: &n01!,
-                        f10: &f10!, n10: &n10!,
-                        f11: &f11!, n11: &n11!)
+        do { try mergeNStep1(f0: f0, n0: n0,
+                             f1: f1, n1: n1,
+                             r: r,
+                             f00: &f00, n00: &n00,
+                             f01: &f01, n01: &n01,
+                             f10: &f10, n10: &n10,
+                             f11: &f11, n11: &n11) } catch { return nil }
     }
-    _ = try mergeNAdaptive(f0: f00!, n0: n00!,
-                           f1: f01!, n1: n01!,
-                           fb: fb, nb: nb,
-                           r: r)
-    return try mergeNAdaptive(f0: f10!, n0: n10!,
-                              f1: f11!, n1: n11!,
-                              fb: fb, nb: nb,
-                              r: r)
+    _ = mergeNAdaptive(f0: f00, n0: n00,
+                       f1: f01, n1: n01,
+                       fb: fb, nb: nb,
+                       r: r)
+    return mergeNAdaptive(f0: f10, n0: n10,
+                          f1: f11, n1: n11,
+                          fb: fb, nb: nb,
+                          r: r)
 }
 
 func sortNAdaptive<
@@ -575,26 +577,26 @@ func sortNAdaptive<
     f: I, n: DistanceType,
     fb: B, nb: DistanceType,
     r: @escaping Relation<I.Source>
-) throws -> I
+) -> I?
 where I.Source == B.Source {
     // Precondition:
     // mutable_counted_range(f, n) ∧ weak_ordering(r)
     // Precondition: mutable_counted_range(f_b, n_b)
     let h = n.halfNonnegative()
     guard h != 0 else {
-        guard let s = f.successor(at: n) else { throw EOPError.noSuccessor }
+        guard let s = f.successor(at: n) else { return nil }
         return s
     }
-    let m = try sortNAdaptive(f: f, n: h,
-                              fb: fb, nb: nb,
-                              r: r)
-    _ = try sortNAdaptive(f: m, n: n - h,
+    guard let m = sortNAdaptive(f: f, n: h,
+                                fb: fb, nb: nb,
+                                r: r) else { return nil }
+    _ = sortNAdaptive(f: m, n: n - h,
+                      fb: fb, nb: nb,
+                      r: r)
+    return mergeNAdaptive(f0: f, n0: h,
+                          f1: m, n1: n - h,
                           fb: fb, nb: nb,
                           r: r)
-    return try mergeNAdaptive(f0: f, n0: h,
-                              f1: m, n1: n - h,
-                              fb: fb, nb: nb,
-                              r: r)
 }
 
 // TODO: Port this
