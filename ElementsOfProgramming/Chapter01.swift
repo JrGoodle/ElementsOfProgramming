@@ -52,6 +52,8 @@ public func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
 // See Tuples.swift
 
 #if !XCODE
+    // MARK: Playground examples
+    
     func playgroundPlus2() {
         let a = IntReference(), b = IntReference(), c = IntReference()
         a.value = 2

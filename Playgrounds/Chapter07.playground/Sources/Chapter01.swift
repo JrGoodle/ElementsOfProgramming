@@ -13,10 +13,15 @@ func plus1(a: inout Int, b: inout Int) -> Int {
     return a + b
 }
 
-func plus2(a: UnsafePointer<Int>,
-           b: UnsafePointer<Int>,
-           c: UnsafeMutablePointer<Int>) {
-    c.pointee = a.pointee + b.pointee
+class IntReference {
+    var value: Int?
+}
+
+func plus2(a: IntReference,
+           b: IntReference,
+           c: IntReference) throws {
+    guard let av = a.value, let bv = b.value else { throw EOPError.failure }
+    c.value = av + bv
 }
 
 func square(n: Int) -> Int { return n * n }
@@ -44,3 +49,16 @@ public func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
 
 // Triple<T0, T1, T2>
 // See Tuples.swift
+
+#if !XCODE
+    // MARK: Playground examples
+    
+    func playgroundPlus2() {
+        let a = IntReference(), b = IntReference(), c = IntReference()
+        a.value = 2
+        b.value = 2
+        print(String(describing: c.value))
+        try! plus2(a: a, b: b, c: c)
+        print(String(describing: c.value))
+    }
+#endif
