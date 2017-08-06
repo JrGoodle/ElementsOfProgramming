@@ -561,7 +561,7 @@ func findAdjacentMismatch<I: Readable & ForwardIterator>(
     return f
 }
 
-func partitionPointN<I: Readable & ForwardIterator>(
+func partitionPointN<I: Readable & IndexedIterator>(
     f: I,
     n: DistanceType,
     p: UnaryPredicate<I.Source>
@@ -584,7 +584,7 @@ func partitionPointN<I: Readable & ForwardIterator>(
     return f
 }
 
-func partitionPoint<I: Readable & ForwardIterator>(
+func partitionPoint<I: Readable & IndexedIterator>(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
 ) -> I? {
@@ -600,7 +600,7 @@ func lowerBoundPredicate<DomainR: Regular>(
     return { x in !r(x, a) }
 }
 
-func lowerBoundN<I: Readable & ForwardIterator>(
+func lowerBoundN<I: Readable & IndexedIterator>(
     f: I,
     n: DistanceType,
     a: I.Source,
@@ -619,7 +619,7 @@ func upperBoundPredicate<DomainR: Regular>(
     return { x in r(a, x) }
 }
 
-func upperBoundN<I: Readable & ForwardIterator>(
+func upperBoundN<I: Readable & IndexedIterator>(
     f: I,
     n: DistanceType,
     a: I.Source,
@@ -633,7 +633,7 @@ func upperBoundN<I: Readable & ForwardIterator>(
 
 
 // Exercise 6.7: equal_range
-
+// See BidirectionalIterator protocol in Concepts.swift
 //func -<I: BidirectionalIterator>(
 //    l: I,
 //    n: DistanceType
