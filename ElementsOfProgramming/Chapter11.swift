@@ -127,7 +127,7 @@ func partitonSingleCycle<I: Mutable & BidirectionalIterator>(
     guard f != l else { return f }
     guard let ip = l.iteratorPredecessor else { return nil }
     l = ip
-    let tmp = f.source!
+    let tmp = f.source
     while true {
         f.sink = l.source
         guard let s = f.iteratorSuccessor,
@@ -137,7 +137,7 @@ func partitonSingleCycle<I: Mutable & BidirectionalIterator>(
             l.sink = tmp
             return f
         }
-        l.sink = f.source!
+        l.sink = f.source
         guard let fbinu = findBackwardIfNotUnguarded(l: l, p: p) else { return nil }
         l = fbinu
     }
@@ -317,7 +317,7 @@ func addToCounter<I: Mutable & ForwardIterator>(
     var f = f, x = x
     guard x != z else { return z }
     while f != l {
-        guard f.source! != z else {
+        guard f.source != z else {
             f.sink = x
             return z
         }

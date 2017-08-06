@@ -266,7 +266,7 @@ func lexicographicalEqual<
 ) -> Bool
 where I0.Source == I1.Source {
     guard k != 0 else { return true }
-    guard f0.source! == f1.source!,
+    guard f0.source == f1.source,
           let f0s = f0.iteratorSuccessor,
           let f1s = f1.iteratorSuccessor else { return false }
     return lexicographicalEqual(k: k - 1,
