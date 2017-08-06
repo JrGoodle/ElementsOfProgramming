@@ -45,7 +45,7 @@ func forEach<
     var f = f
     // Precondition: readable_bounded_range(f, l)
     while f != l {
-        proc.call(f.source!)
+        if let src = f.source { proc.call(src) }
         guard let s = f.iteratorSuccessor else { return proc }
         f = s
     }
@@ -55,7 +55,7 @@ func forEach<
 func find<I: Readable & Iterator>(f: I, l: I, x: I.Source) -> I? {
     var f = f
     // Precondition: readable_bounded_range(f, l)
-    while f != l && f.source! != x {
+    while f != l && f.source != x {
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
@@ -65,7 +65,7 @@ func find<I: Readable & Iterator>(f: I, l: I, x: I.Source) -> I? {
 func findNot<I: Readable & Iterator>(f: I, l: I, x: I.Source) -> I? {
     var f = f
     // Precondition: readable_bounded_range(f, l)
-    while f != l && f.source! == x {
+    while f != l && f.source == x {
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
@@ -78,7 +78,9 @@ func findIf<I: Readable & Iterator>(
 ) -> I? {
     var f = f
     // Precondition: readable_bounded_range(f, l)
-    while f != l && !p(f.source!) {
+    while f != l {
+        guard let src = f.source else { return nil }
+        guard !p(src) else { break }
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
@@ -91,7 +93,9 @@ func findIfNot<I: Readable & Iterator>(
 ) -> I? {
     var f = f
     // Precondition: readable_bounded_range(f, l)
-    while f != l && p(f.source!) {
+    while f != l {
+        guard let src = f.source else { return nil }
+        guard p(src) else { break }
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
@@ -142,7 +146,8 @@ func countIf<
     var f = f, j = j
     // Precondition: readable_bounded_range(f, l)
     while f != l {
-        if p(f.source!) {
+        guard let src = f.source else { return nil }
+        if p(src) {
             guard let s = j.iteratorSuccessor else { return nil }
             j = s
         }
@@ -173,7 +178,7 @@ func count<
     var f = f, j = j
     // Precondition: readable_bounded_range(f, l)
     while f != l {
-        if f.source! == x {
+        if f.source == x {
             guard let s = j.iteratorSuccessor else { return nil }
             j = s
         }
@@ -202,7 +207,7 @@ func countNot<
     var f = f, j = j
     // Precondition: readable_bounded_range(f, l)
     while f != l {
-        if f.source! != x {
+        if f.source != x {
             guard let s = j.iteratorSuccessor else { return nil }
             j = s
         }
@@ -231,7 +236,8 @@ func countIfNot<
     var f = f, j = j
     // Precondition: readable_bounded_range(f, l)
     while f != l {
-        if !p(f.source!) {
+        guard let src = f.source else { return nil }
+        if !p(src) {
             guard let s = j.iteratorSuccessor else { return nil }
             j = s
         }
@@ -279,11 +285,12 @@ func reduceNonempty<I: Readable & Iterator>(
     var f = f
     // Precondition: readable_bounded_range(f, l) ∧ f ≠ l
     // Precondition: partially_associative(op)
-    var r = f.source!
+    guard var r = f.source else { return nil }
     guard let fs = f.iteratorSuccessor else { return nil }
     f = fs
     while f != l {
-        r = op(r, f.source!)
+        guard let src = f.source else { return nil }
+        r = op(r, src)
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
@@ -358,13 +365,14 @@ func reduceNonzeroes<I: Readable & Iterator>(
     var x: I.Source
     repeat {
         guard f != l else { return z }
-        x = f.source!
+        guard let src = f.source else { return nil }
+        x = src
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     } while x == z
     
     while f != l {
-        let y = f.source!
+        guard let y = f.source else { return nil }
         if y != z { x = op(x, y) }
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
@@ -403,7 +411,7 @@ func findN<I: Readable & Iterator>(
 ) -> Pair<I, DistanceType>? {
     var f = f, n = n
     // Precondition: readable_weak_range(f, n)
-    while n != 0 && f.source! != x {
+    while n != 0 && f.source != x {
         n = n.predecessor()
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
@@ -422,7 +430,9 @@ func findIfUnguarded<I: Readable & Iterator>(
 ) -> I? {
     var f = f
     // Precondition: (∃l), readable_bounded_range(f, l) ∧ some(f, l, p)
-    while !p(f.source!) {
+    while true {
+        guard let src = f.source else { return nil }
+        guard !p(src) else { break }
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
@@ -437,7 +447,9 @@ func findIfNotUnguarded<I: Readable & Iterator>(
     var f = f
     // Let l be the end of the implied range starting with f
     // Precondition: readable_bounded_range(f, l) ∧ not_all(f, l, p)
-    while p(f.source!) {
+    while true {
+        guard let src = f.source else { return nil }
+        guard p(src) else { break }
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
@@ -456,7 +468,10 @@ where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
     // Precondition: readable_bounded_range(f0, l0)
     // Precondition: readable_bounded_range(f1, l1)
-    while f0 != l0 && f1 != l1 && r(f0.source!, f1.source!) {
+    while f0 != l0 && f1 != l1 {
+        guard let f0src = f0.source,
+              let f1src = f1.source else { return nil }
+        guard r(f0src, f1src) else { break }
         guard let f0s = f0.iteratorSuccessor,
               let f1s = f1.iteratorSuccessor else { return nil }
         f0 = f0s
@@ -472,9 +487,11 @@ func findAdjacentMismatch<I: Readable & Iterator>(
     var f = f
     // Precondition: readable_bounded_range(f, l)
     guard f != l else { return l }
-    var x = f.source!
-    while f != l && r(x, f.source!) {
-        x = f.source!
+    guard var x = f.source else { return nil }
+    while f != l {
+        guard let src = f.source else { return nil }
+        guard r(x, src) else { break }
+        x = src
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
@@ -536,7 +553,10 @@ func findAdjacentMismatch<I: Readable & ForwardIterator>(
         t = f
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
-    } while f != l && r(t.source!, f.source!)
+        guard let tsrc = t.source,
+              let fsrc = f.source else { return nil }
+        guard r(tsrc, fsrc) else { break }
+    } while f != l
     return f
 }
 
@@ -550,8 +570,9 @@ func partitionPointN<I: Readable & ForwardIterator>(
     // readable_counted_range(f, n) ∧ partitioned_n(f, n, p)
     while n != 0 {
         let h = n.halfNonnegative()
-        guard let m = f.successor(at: h) else { return nil }
-        if p(m.source!) {
+        guard let m = f.successor(at: h),
+              let src = m.source else { return nil }
+        if p(src) {
             n = h
         } else {
             n = n - h.successor()
@@ -634,7 +655,9 @@ func findBackwardIf<
     var l = l
     // Precondition: readable_bounded_range(f, l)
     guard var ip = l.iteratorPredecessor else { return nil }
-    while l != f && !p(ip.source!) {
+    while l != f {
+        guard let src = ip.source else { return nil }
+        guard !p(src) else { break }
         l = ip
         guard let ipp = ip.iteratorPredecessor else { return nil }
         ip = ipp
@@ -651,7 +674,9 @@ func findBackwardIfNot<
     var l = l
     // Precondition: readable_bounded_range(f, l)
     guard var ip = l.iteratorPredecessor else { return nil }
-    while l != f && p(ip.source!) {
+    while l != f {
+        guard let src = ip.source else { return nil }
+        guard p(src) else { break }
         l = ip
         guard let ipp = ip.iteratorPredecessor else { return nil }
         ip = ipp
@@ -675,10 +700,12 @@ func findBackwardIfUnguarded<
     var l = l
     // Precondition:
     // (∃f ∈ I), readable_bounded_range(f, l) ∧ some(f, l, p)
-    repeat {
+    while true {
         guard let ip = l.iteratorPredecessor else { return nil }
         l = ip
-    } while !p(l.source!)
+        guard let src = l.source else { return nil }
+        guard !p(src) else { break }
+    }
     return l
     // Postcondition: p(source(l))
 }
@@ -692,10 +719,12 @@ func findBackwardIfNotUnguarded<
     var l = l
     // Precondition:
     // (∃f ∈ I), readable_bounded_range(f, l) ∧ not_all(f, l, p)
-    repeat {
+    while true {
         guard let ip = l.iteratorPredecessor else { return nil }
         l = ip
-    } while p(l.source!)
+        guard let src = l.source else { return nil }
+        guard p(src) else { break }
+    }
     return l
     // Postcondition: ￢p(source(l))
 }

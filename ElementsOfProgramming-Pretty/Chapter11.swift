@@ -127,7 +127,7 @@ func partitonSingleCycle<I: Mutable & BidirectionalIterator>(
     guard f != l else { return f }
     guard let ip = l.iteratorPredecessor else { return nil }
     l = ip
-    let tmp = f.source!
+    let tmp = f.source
     while true {
         f.sink = l.source
         guard let s = f.iteratorSuccessor,
@@ -137,7 +137,7 @@ func partitonSingleCycle<I: Mutable & BidirectionalIterator>(
             l.sink = tmp
             return f
         }
-        l.sink = f.source!
+        l.sink = f.source
         guard let fbinu = findBackwardIfNotUnguarded(l: l, p: p) else { return nil }
         l = fbinu
     }
@@ -203,8 +203,9 @@ func partitionIndexed<I: Mutable & IndexedIterator>(
                 guard let s = f.successor(at: i) else { return nil }
                 return s
             }
-            guard let tmp = f.successor(at: i) else { return nil }
-            guard !p(tmp.source!) else { break }
+            guard let tmp = f.successor(at: i),
+                  let src = tmp.source else { return nil }
+            guard !p(src) else { break }
             i = i.successor()
         }
         while true {
@@ -215,8 +216,9 @@ func partitionIndexed<I: Mutable & IndexedIterator>(
                 }
                 return s
             }
-            guard let tmp = f.successor(at: j) else { return nil }
-            guard p(tmp.source!) else { break }
+            guard let tmp = f.successor(at: j),
+                  let src = tmp.source else { return nil }
+            guard p(src) else { break }
         }
         guard let fi = f.successor(at: i),
               let fj = f.successor(at: j) else { return nil }
@@ -249,8 +251,9 @@ func partitionStableSingleton<I: Mutable & ForwardIterator>(
 ) -> Pair<I, I>? {
     var f = f
     // Precondition: readable_bounded_range(f, successor(f))
-    guard let l = f.iteratorSuccessor else { return nil }
-    if !p(f.source!) { f = l }
+    guard let l = f.iteratorSuccessor,
+          let src = f.source else { return nil }
+    if !p(src) { f = l }
     return Pair(m0: f, m1: l)
 }
 
@@ -317,11 +320,12 @@ func addToCounter<I: Mutable & ForwardIterator>(
     var f = f, x = x
     guard x != z else { return z }
     while f != l {
-        guard f.source! != z else {
+        guard f.source != z else {
             f.sink = x
             return z
         }
-        x = op(f.source!, x)
+        guard let src = f.source else { return nil }
+        x = op(src, x)
         f.sink = z
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
@@ -470,9 +474,10 @@ func mergeNStep0<I: Mutable & ForwardIterator>(
     n00 = n0.halfNonnegative()
     guard let f00s = f00.successor(at: n00) else { throw EOPError.noSuccessor }
     f01 = f00s
+    guard let f01src = f01.source else { throw EOPError.noSource }
     guard let lbn = lowerBoundN(f: f1,
                                 n: n1,
-                                a: f01.source!,
+                                a: f01src,
                                 r: r) else { throw EOPError.noSuccessor }
     f11 = lbn
     guard let r = rotate(f: f01, m: f1, l: f11) else { throw EOPError.failure }
@@ -499,9 +504,10 @@ func mergeNStep1<I: Mutable & ForwardIterator>(
     n01 = n1.halfNonnegative()
     guard let f1s = f1.successor(at: n01) else { throw EOPError.noSuccessor }
     f11 = f1s
+    guard let f11src = f11.source else { throw EOPError.noSource }
     guard let ubn = upperBoundN(f: f0,
                                 n: n0,
-                                a: f11.source!,
+                                a: f11src,
                                 r: r) else { throw EOPError.noSuccessor }
     f01 = ubn
     guard let f11s = f11.iteratorSuccessor else { throw EOPError.noSuccessor }

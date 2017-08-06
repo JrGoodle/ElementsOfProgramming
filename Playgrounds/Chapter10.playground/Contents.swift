@@ -21,11 +21,11 @@ func cycleTo<I: Mutable & Distance>(i: I, f: Transformation<I>) {
 func cycleFrom<I: Mutable & Distance>(i: I, f: Transformation<I>) {
     // Precondition: The orbit of i under f is circular
     // Precondition: (∀n ∈ ℕ), deref(f^n(i)) is defined
-    let tmp = i.source!
+    let tmp = i.source
     var j = i
     var k = f(i)
     while k != i {
-        j.sink = k.source!
+        j.sink = k.source
         j = k
         k = f(k)
     }

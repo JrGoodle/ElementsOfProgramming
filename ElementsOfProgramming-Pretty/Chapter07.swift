@@ -188,16 +188,14 @@ func bifurcateIsomorphicNonempty<
     c1: C1
 ) -> Bool {
     // Precondition: tree(c0) ∧ tree(c1) ∧ ￢empty(c0) ∧ ￢empty(c1)
-    if let c0ls = c0.leftSuccessor {
-        guard let c1ls = c1.leftSuccessor,
-              bifurcateIsomorphicNonempty(c0: c0ls,
+    if let c0ls = c0.leftSuccessor, let c1ls = c1.leftSuccessor {
+        guard bifurcateIsomorphicNonempty(c0: c0ls,
                                           c1: c1ls) else { return false }
-    } else if c1.leftSuccessor != nil { return false }
-    if let c0rs = c0.rightSuccessor {
-        guard let c1rs = c1.rightSuccessor,
-              bifurcateIsomorphicNonempty(c0: c0rs,
+    } else if let _ = c1.leftSuccessor { return false }
+    if let c0rs = c0.rightSuccessor, let c1rs = c1.rightSuccessor {
+        guard bifurcateIsomorphicNonempty(c0: c0rs,
                                           c1: c1rs) else { return false }
-    } else if c1.rightSuccessor != nil { return false }
+    } else if let _ = c1.rightSuccessor { return false }
     return true
 }
 
@@ -207,7 +205,7 @@ func bifurcateIsomorphic<
 >(
     c0: C0,
     c1: C1
-) -> Bool {
+) -> Bool? {
     var c0 = c0, c1 = c1
     // Precondition: tree(c0) ∧ tree(c1)
     guard !c0.isEmpty() else { return c1.isEmpty() }
@@ -217,8 +215,8 @@ func bifurcateIsomorphic<
     var v1 = Visit.pre
     while true {
         guard let _ = traverseStep(v: &v0, c: &c0),
-              let _ = traverseStep(v: &v1, c: &c1),
-              v0 == v1 else { return false }
+              let _ = traverseStep(v: &v1, c: &c1) else { return nil }
+        guard v0 == v1 else { return false }
         if c0 == root0 && v0 == .post { return true }
     }
 }
@@ -230,14 +228,14 @@ func lexicographicalEquivalent<
     f0: I0, l0: I0,
     f1: I1, l1: I1,
     r: Relation<I0.Source>
-) -> Bool
+) -> Bool?
 where I0.Source == I1.Source {
     // Precondition: readable_bounded_range(f0, l0)
     // Precondition: readable_bounded_range(f1, l1)
     // Precondition: equivalence(r)
     guard let p: Pair<I0, I1> = findMismatch(f0: f0, l0: l0,
                                              f1: f1, l1: l1,
-                                             r: r) else { return false }
+                                             r: r) else { return nil }
     return p.m0 == l0 && p.m1 == l1
 }
 
@@ -247,7 +245,7 @@ func lexicographicalEqual<
 >(
     f0: I0, l0: I0,
     f1: I1, l1: I1
-) -> Bool
+) -> Bool?
 where I0.Source == I1.Source {
     return lexicographicalEquivalent(f0: f0, l0: l0,
                                      f1: f1, l1: l1,
@@ -263,12 +261,12 @@ func lexicographicalEqual<
     k: Int,
     f0: I0,
     f1: I1
-) -> Bool
+) -> Bool?
 where I0.Source == I1.Source {
     guard k != 0 else { return true }
-    guard f0.source! == f1.source!,
-          let f0s = f0.iteratorSuccessor,
-          let f1s = f1.iteratorSuccessor else { return false }
+    guard f0.source == f1.source else { return false }
+    guard let f0s = f0.iteratorSuccessor,
+          let f1s = f1.iteratorSuccessor else { return nil }
     return lexicographicalEqual(k: k - 1,
                                 f0: f0s,
                                 f1: f1s)
@@ -281,24 +279,26 @@ func bifurcateEquivalentNonempty<
     c0: C0,
     c1: C1,
     r: Relation<C0.Source>
-) -> Bool
+) -> Bool?
 where C0.Source == C1.Source {
     // Precondition: readable_tree(c0) ∧ readable_tree(c1)
     // Precondition: ￢empty(c0) ∧ ￢empty(c1)
     // Precondition: equivalence(r)
-    guard r(c0.source!, c1.source!) else { return false }
-    if let c0ls = c0.leftSuccessor {
-        guard let c1ls = c1.leftSuccessor,
-              bifurcateEquivalentNonempty(c0: c0ls,
-                                          c1: c1ls,
-                                          r: r) else { return false }
-    } else if c1.leftSuccessor != nil { return false }
-    if let c0rs = c0.rightSuccessor {
-        guard let c1rs = c1.rightSuccessor,
-              bifurcateEquivalentNonempty(c0: c0rs,
-                                          c1: c1rs,
-                                          r: r) else { return false }
-    } else if c1.rightSuccessor != nil { return false }
+    guard let c0src = c0.source,
+          let c1src = c1.source else { return nil }
+    guard r(c0src, c1src) else { return false }
+    if let c0ls = c0.leftSuccessor, let c1ls = c1.leftSuccessor {
+        guard let b = bifurcateEquivalentNonempty(c0: c0ls,
+                                                  c1: c1ls,
+                                                  r: r) else { return nil }
+        guard b else { return false }
+    } else if let _ = c1.leftSuccessor { return false }
+    if let c0rs = c0.rightSuccessor, let c1rs = c1.rightSuccessor {
+        guard let b = bifurcateEquivalentNonempty(c0: c0rs,
+                                                  c1: c1rs,
+                                                  r: r) else { return nil }
+        guard b else { return false }
+    } else if let _ = c1.rightSuccessor { return false }
     return true
 }
 
@@ -309,7 +309,7 @@ func bifurcateEquivalent<
     c0: C0,
     c1: C1,
     r: Relation<C0.Source>
-) -> Bool
+) -> Bool?
 where C0.Source == C1.Source {
     var c0 = c0, c1 = c1
     // Precondition: readable_tree(c0) ∧ readable_tree(c1)
@@ -320,10 +320,12 @@ where C0.Source == C1.Source {
     var v0 = Visit.pre
     var v1 = Visit.pre
     while true {
-        guard !(v0 == .pre && !r(c0.source!, c1.source!)),
-              let _ = traverseStep(v: &v0, c: &c0),
-              let _ = traverseStep(v: &v1, c: &c1),
-              v0 == v1 else { return false }
+        guard let c0src = c0.source,
+              let c1src = c1.source else { return nil }
+        guard !(v0 == .pre && !r(c0src, c1src)) else { return false }
+        guard let _ = traverseStep(v: &v0, c: &c0),
+              let _ = traverseStep(v: &v1, c: &c1) else { return nil }
+        guard v0 == v1 else { return false }
         if c0 == root0 && v0 == .post { return true }
     }
 }
@@ -334,7 +336,7 @@ func bifurcateEqual<
 >(
     c0: C0,
     c1: C1
-) -> Bool
+) -> Bool?
 where C0.Source == C1.Source {
     return bifurcateEquivalent(c0: c0, c1: c1, r: equal)
 }
@@ -346,7 +348,7 @@ func lexicographicalCompare<
     f0: I0, l0: I0,
     f1: I1, l1: I1,
     r: Relation<I0.Source>
-) -> Bool
+) -> Bool?
 where I0.Source == I1.Source {
     var f0 = f0, f1 = f1
     // Precondition: readable_bounded_range(f0, l0)
@@ -354,11 +356,13 @@ where I0.Source == I1.Source {
     // Precondition: weak_ordering(r)
     while true {
         guard f1 != l1 else { return false }
-        guard f0 != l0,
-              !r(f0.source!, f1.source!) else { return true }
-        guard !r(f1.source!, f0.source!),
-              let f0s = f0.iteratorSuccessor,
-              let f1s = f1.iteratorSuccessor else { return false }
+        guard f0 != l0 else { return true }
+        guard let f0src = f0.source,
+              let f1src = f1.source else { return nil }
+        guard !r(f0src, f1src) else { return true }
+        guard !r(f1src, f0src) else { return false }
+        guard let f0s = f0.iteratorSuccessor,
+              let f1s = f1.iteratorSuccessor else { return nil }
         f0 = f0s
         f1 = f1s
     }
@@ -370,7 +374,7 @@ func lexicographicalLess<
 >(
     f0: I0, l0: I0,
     f1: I1, l1: I1
-) -> Bool
+) -> Bool?
 where I0.Source == I1.Source {
     return lexicographicalCompare(f0: f0, l0: l0,
                                   f1: f1, l1: l1,
@@ -384,13 +388,15 @@ func lexicographicalLess<
     k: Int,
     f0: I0,
     f1: I1
-) -> Bool
+) -> Bool?
 where I0.Source == I1.Source {
     guard k != 0 else { return false }
-    guard f0.source! >= f1.source! else { return true }
-    guard f0.source! <= f1.source!,
-          let f0s = f0.iteratorSuccessor,
-          let f1s = f1.iteratorSuccessor else { return false }
+    guard let f0src = f0.source,
+          let f1src = f1.source else { return nil }
+    guard f0src >= f1src else { return true }
+    guard f0src <= f1src else { return false }
+    guard let f0s = f0.iteratorSuccessor,
+          let f1s = f1.iteratorSuccessor else { return nil }
     return lexicographicalLess(k: k - 1, f0: f0s, f1: f1s)
 }
 
@@ -443,7 +449,9 @@ where I0.Source == I1.Source {
             return 0
         }
         guard f1 != l1 else { return -1 }
-        let tmp = comp(f0.source!, f1.source!)
+        guard let f0src = f0.source,
+              let f1src = f1.source else { return nil }
+        let tmp = comp(f0src, f1src)
         guard tmp == 0 else { return tmp }
         guard let f0s = f0.iteratorSuccessor,
               let f1s = f1.iteratorSuccessor else { return nil }
@@ -459,25 +467,29 @@ func bifurcateCompareNonempty<
     c0: C0,
     c1: C1,
     comp: BinaryHomogeneousFunction<C0.Source, Int>
-) -> Int
+) -> Int?
 where C0.Source == C1.Source {
     // Precondition: readable_tree(c0) ∧ readable_tree(c1)
     // Precondition: ￢empty(c0) ∧ ￢empty(c1)
     // Precondition: three_way_compare(comp)
-    var tmp = comp(c0.source!, c1.source!)
+    guard let c0src = c0.source,
+          let c1src = c1.source else { return nil }
+    var tmp = comp(c0src, c1src)
     guard tmp == 0 else { return tmp }
     if let c0ls = c0.leftSuccessor {
         guard let c1ls = c1.leftSuccessor else { return -1 }
-        tmp = bifurcateCompareNonempty(c0: c0ls,
-                                       c1: c1ls,
-                                       comp: comp)
+        guard let t = bifurcateCompareNonempty(c0: c0ls,
+                                               c1: c1ls,
+                                               comp: comp) else { return nil }
+        tmp = t
         guard tmp == 0 else { return tmp }
     } else if c1.leftSuccessor != nil { return 1 }
     if let c0rs = c0.rightSuccessor {
         guard let c1rs = c1.rightSuccessor else { return -1 }
-        tmp = bifurcateCompareNonempty(c0: c0rs,
-                                       c1: c1rs,
-                                       comp: comp)
+        guard let t = bifurcateCompareNonempty(c0: c0rs,
+                                               c1: c1rs,
+                                               comp: comp) else { return nil }
+        tmp = t
         guard tmp == 0 else { return tmp }
     } else if c1.rightSuccessor != nil { return 1 }
     return 0
@@ -490,7 +502,7 @@ func bifurcateCompare<
     c0: C0,
     c1: C1,
     r: Relation<C0.Source>
-) -> Bool
+) -> Bool?
 where C0.Source == C1.Source {
     var c0 = c0, c1 = c1
     // Precondition: readable_tree(c0) ∧ readable_tree(c1) ∧ weak_ordering(r)
@@ -501,11 +513,13 @@ where C0.Source == C1.Source {
     var v1 = Visit.pre
     while true {
         if v0 == .pre {
-            guard !r(c0.source!, c1.source!) else { return true }
-            guard !r(c1.source!, c0.source!) else { return false }
+            guard let c0src = c0.source,
+                  let c1src = c1.source else { return nil }
+            guard !r(c0src, c1src) else { return true }
+            guard !r(c1src, c0src) else { return false }
         }
         guard let _ = traverseStep(v: &v0, c: &c0),
-              let _ = traverseStep(v: &v1, c: &c1) else { return false }
+              let _ = traverseStep(v: &v1, c: &c1) else { return nil }
         guard v0 == v1 else { return v0 > v1 }
         if c0 == root0 && v0 == .post { return false }
     }
@@ -517,7 +531,7 @@ func bifurcateLess<
 >(
     c0: C0,
     c1: C1
-) -> Bool
+) -> Bool?
 where C0.Source == C1.Source {
     // Precondition: readable_tree(c0) ∧ readable_tree(c1)
     let ls: Relation<C0.Source> = less
@@ -534,7 +548,7 @@ func bifurcateShapeCompare<
 >(
     c0: C0,
     c1: C1
-) -> Bool
+) -> Bool?
 where C0.Source == C1.Source {
     // Precondition: readable_tree(c0) ∧ readable_tree(c1)
     return bifurcateCompare(c0: c0, c1: c1, r: alwaysFalse)
