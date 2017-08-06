@@ -52,15 +52,13 @@ func linkerToTail<I: ForwardLinkedIterator>(t: inout I, f: inout I) throws {
     try advanceTail(t: &t, f: &f)
 }
 
-func findLast<I: ForwardIterator>(f: I, l: I) throws -> I {
-    var f = f
+func findLast<I: ForwardIterator>(f: I, l: I) -> I? {
+    var f = f,  t = f
     // Precondition: bounded_range(f, l) ∧ f ≠ l
-    // FIXME: Abusing impliticly unwrapped optionals to match the original C++
-    var t : I?
     repeat {
-        try advanceTail(t: &t!, f: &f)
+        do { try advanceTail(t: &t, f: &f) } catch { return nil }
     } while f != l
-    return t!
+    return t
 }
 
 func splitLinkedS0<I: ForwardLinkedIterator>(
@@ -68,7 +66,7 @@ func splitLinkedS0<I: ForwardLinkedIterator>(
     t0: inout I, t1: inout I,
     h0: inout I, h1: inout I,
     p: UnaryPredicate<I>
-) throws -> Pair<Pair<I, I>, Pair<I, I>> {
+) -> Pair<Pair<I, I>, Pair<I, I>>? {
     guard f != l else {
         return splitLinkedS4(f: &f, l: &l,
                              t0: &t0, t1: &t1,
@@ -76,18 +74,18 @@ func splitLinkedS0<I: ForwardLinkedIterator>(
                              p: p)
     }
     guard p(f) else {
-        try advanceTail(t: &t0, f: &f)
-        return try splitLinkedS0(f: &f, l: &l,
-                                 t0: &t0, t1: &t1,
-                                 h0: &h0, h1: &h1,
-                                 p: p)
-    }
-    h1 = f
-    try advanceTail(t: &t1, f: &f)
-    return try splitLinkedS3(f: &f, l: &l,
+        do { try advanceTail(t: &t0, f: &f) } catch { return nil }
+        return splitLinkedS0(f: &f, l: &l,
                              t0: &t0, t1: &t1,
                              h0: &h0, h1: &h1,
                              p: p)
+    }
+    h1 = f
+    do { try advanceTail(t: &t1, f: &f) } catch { return nil }
+    return splitLinkedS3(f: &f, l: &l,
+                         t0: &t0, t1: &t1,
+                         h0: &h0, h1: &h1,
+                         p: p)
 }
 
 func splitLinkedS1<I: ForwardLinkedIterator>(
@@ -95,7 +93,7 @@ func splitLinkedS1<I: ForwardLinkedIterator>(
     t0: inout I, t1: inout I,
     h0: inout I, h1: inout I,
     p: UnaryPredicate<I>
-) throws -> Pair<Pair<I, I>, Pair<I, I>> {
+) -> Pair<Pair<I, I>, Pair<I, I>>? {
     guard f != l else {
         return splitLinkedS4(f: &f, l: &l,
                              t0: &t0, t1: &t1,
@@ -104,18 +102,18 @@ func splitLinkedS1<I: ForwardLinkedIterator>(
     }
     guard p(f) else {
         h0 = f
-        try advanceTail(t: &t0, f: &f)
-        return try splitLinkedS2(f: &f, l: &l,
-                                 t0: &t0, t1: &t1,
-                                 h0: &h0, h1: &h1,
-                                 p: p)
-    }
-    h1 = f
-    try advanceTail(t: &t1, f: &f)
-    return try splitLinkedS1(f: &f, l: &l,
+        do { try advanceTail(t: &t0, f: &f) } catch { return nil }
+        return splitLinkedS2(f: &f, l: &l,
                              t0: &t0, t1: &t1,
                              h0: &h0, h1: &h1,
                              p: p)
+    }
+    h1 = f
+    do { try advanceTail(t: &t1, f: &f) } catch { return nil }
+    return splitLinkedS1(f: &f, l: &l,
+                         t0: &t0, t1: &t1,
+                         h0: &h0, h1: &h1,
+                         p: p)
 }
 
 func splitLinkedS2<I: ForwardLinkedIterator>(
@@ -123,7 +121,7 @@ func splitLinkedS2<I: ForwardLinkedIterator>(
     t0: inout I, t1: inout I,
     h0: inout I, h1: inout I,
     p: UnaryPredicate<I>
-) throws -> Pair<Pair<I, I>, Pair<I, I>> {
+) -> Pair<Pair<I, I>, Pair<I, I>>? {
     guard f != l else {
         return splitLinkedS4(f: &f, l: &l,
                              t0: &t0, t1: &t1,
@@ -131,14 +129,14 @@ func splitLinkedS2<I: ForwardLinkedIterator>(
                              p: p)
     }
     guard p(f) else {
-        try advanceTail(t: &t0, f: &f)
-        return try splitLinkedS2(f: &f, l: &l,
+        do { try advanceTail(t: &t0, f: &f) } catch { return nil }
+        return splitLinkedS2(f: &f, l: &l,
                                  t0: &t0, t1: &t1,
                                  h0: &h0, h1: &h1,
                                  p: p)
     }
-    try linkerToTail(t: &t1, f: &f)
-    return try splitLinkedS3(f: &f, l: &l,
+    do { try linkerToTail(t: &t1, f: &f) } catch { return nil }
+    return splitLinkedS3(f: &f, l: &l,
                              t0: &t0, t1: &t1,
                              h0: &h0, h1: &h1,
                              p: p)
@@ -149,7 +147,7 @@ func splitLinkedS3<I: ForwardLinkedIterator>(
     t0: inout I, t1: inout I,
     h0: inout I, h1: inout I,
     p: UnaryPredicate<I>
-) throws -> Pair<Pair<I, I>, Pair<I, I>> {
+) -> Pair<Pair<I, I>, Pair<I, I>>? {
     guard f != l else {
         return splitLinkedS4(f: &f, l: &l,
                              t0: &t0, t1: &t1,
@@ -157,14 +155,14 @@ func splitLinkedS3<I: ForwardLinkedIterator>(
                              p: p)
     }
     guard p(f) else {
-        try linkerToTail(t: &t0, f: &f)
-        return try splitLinkedS2(f: &f, l: &l,
+        do { try linkerToTail(t: &t0, f: &f) } catch { return nil }
+        return splitLinkedS2(f: &f, l: &l,
                                  t0: &t0, t1: &t1,
                                  h0: &h0, h1: &h1,
                                  p: p)
     }
-    try advanceTail(t: &t1, f: &f)
-    return try splitLinkedS3(f: &f, l: &l,
+    do { try advanceTail(t: &t1, f: &f) } catch { return nil }
+    return splitLinkedS3(f: &f, l: &l,
                              t0: &t0, t1: &t1,
                              h0: &h0, h1: &h1,
                              p: p)
@@ -183,7 +181,7 @@ func splitLinkedS4<I: ForwardIterator>(
 func splitLinked<I: ForwardLinkedIterator>(
     f: I, l: I,
     p: UnaryPredicate<I>
-) throws -> Pair<Pair<I, I>, Pair<I, I>> {
+) -> Pair<Pair<I, I>, Pair<I, I>>? {
     var f = f, l = l
     // Precondition: bounded_range(f, l)
     var h0 = l, h1 = l
@@ -196,18 +194,18 @@ func splitLinked<I: ForwardLinkedIterator>(
     }
     guard p(f) else {
         h0 = f
-        try advanceTail(t: &t0, f: &f)
-        return try splitLinkedS0(f: &f, l: &l,
+        do { try advanceTail(t: &t0, f: &f) } catch { return nil }
+        return splitLinkedS0(f: &f, l: &l,
                                  t0: &t0, t1: &t1,
                                  h0: &h0, h1: &h1,
                                  p: p)
     }
     h1 = f
-    try advanceTail(t: &t1, f: &f)
-    return try splitLinkedS1(f: &f, l: &l,
-                             t0: &t0, t1: &t1,
-                             h0: &h0, h1: &h1,
-                             p: p)
+    do { try advanceTail(t: &t1, f: &f) } catch { return nil }
+    return splitLinkedS1(f: &f, l: &l,
+                         t0: &t0, t1: &t1,
+                         h0: &h0, h1: &h1,
+                         p: p)
 }
 
 
@@ -219,7 +217,7 @@ func combineLinkedNonemptyS0<I: ForwardLinkedIterator>(
     f1: inout I, l1: inout I,
     h: inout I, t: inout I,
     r: Relation<I>
-) throws -> Triple<I, I, I> {
+) -> Triple<I, I, I>? {
     guard f0 != l0 else {
         return combineLinkedNonemptyS2(f0: &f0, l0: &l0,
                                        f1: &f1, l1: &l1,
@@ -227,17 +225,17 @@ func combineLinkedNonemptyS0<I: ForwardLinkedIterator>(
                                        r: r)
     }
     guard r(f1, f0) else {
-        try advanceTail(t: &t, f: &f0)
-        return try combineLinkedNonemptyS0(f0: &f0, l0: &l0,
-                                           f1: &f1, l1: &l1,
-                                           h: &h, t: &t,
-                                           r: r)
-    }
-    try linkerToTail(t: &t, f: &f1)
-    return try combineLinkedNonemptyS1(f0: &f0, l0: &l0,
+        do { try advanceTail(t: &t, f: &f0) } catch { return nil }
+        return combineLinkedNonemptyS0(f0: &f0, l0: &l0,
                                        f1: &f1, l1: &l1,
                                        h: &h, t: &t,
                                        r: r)
+    }
+    do { try linkerToTail(t: &t, f: &f1) } catch { return nil }
+    return combineLinkedNonemptyS1(f0: &f0, l0: &l0,
+                                   f1: &f1, l1: &l1,
+                                   h: &h, t: &t,
+                                   r: r)
 }
 
 func combineLinkedNonemptyS1<I: ForwardLinkedIterator>(
@@ -245,7 +243,7 @@ func combineLinkedNonemptyS1<I: ForwardLinkedIterator>(
     f1: inout I, l1: inout I,
     h: inout I, t: inout I,
     r: Relation<I>
-) throws -> Triple<I, I, I> {
+) -> Triple<I, I, I>? {
     guard f1 != l1 else {
         return combineLinkedNonemptyS3(f0: &f0, l0: &l0,
                                        f1: &f1, l1: &l1,
@@ -253,17 +251,17 @@ func combineLinkedNonemptyS1<I: ForwardLinkedIterator>(
                                        r: r)
     }
     guard r(f1, f0) else {
-        try linkerToTail(t: &t, f: &f0)
-        return try combineLinkedNonemptyS0(f0: &f0, l0: &l0,
-                                           f1: &f1, l1: &l1,
-                                           h: &h, t: &t,
-                                           r: r)
-    }
-    try advanceTail(t: &t, f: &f1)
-    return try combineLinkedNonemptyS1(f0: &f0, l0: &l0,
+        do { try linkerToTail(t: &t, f: &f0) } catch { return nil }
+        return combineLinkedNonemptyS0(f0: &f0, l0: &l0,
                                        f1: &f1, l1: &l1,
                                        h: &h, t: &t,
                                        r: r)
+    }
+    do { try advanceTail(t: &t, f: &f1) } catch { return nil }
+    return combineLinkedNonemptyS1(f0: &f0, l0: &l0,
+                                   f1: &f1, l1: &l1,
+                                   h: &h, t: &t,
+                                   r: r)
 }
 
 func combineLinkedNonemptyS2<I: ForwardLinkedIterator>(
@@ -290,28 +288,26 @@ func combineLinkedNonempty<I: ForwardLinkedIterator>(
     f0: I, l0: I,
     f1: I, l1: I,
     r: Relation<I>
-) throws -> Triple<I, I, I> {
+) -> Triple<I, I, I>? {
     var f0 = f0, f1 = f1
     var l0 = l0, l1 = l1
     // Precondition: bounded_range(f0, l0) ∧ bounded_range(f1, l1)
     // Precondition: f0 ≠ l0 ∧ f1 ≠ l1 ∧ disjoint(f0, l0, f1, l1)
-    var h: I
-    // FIXME: Abusing impliticly unwrapped optionals to match the original C++
-    var t: I?
+    var h: I, t = f0
     guard r(f1, f0) else {
         h = f0
-        try linkerToTail(t: &t!, f: &f0)
-        return try combineLinkedNonemptyS0(f0: &f0, l0: &l0,
-                                           f1: &f1, l1: &l1,
-                                           h: &h, t: &t!,
-                                           r: r)
+        do { try linkerToTail(t: &t, f: &f0) } catch { return nil }
+        return combineLinkedNonemptyS0(f0: &f0, l0: &l0,
+                                       f1: &f1, l1: &l1,
+                                       h: &h, t: &t,
+                                       r: r)
     }
     h = f1
-    try advanceTail(t: &t!, f: &f1)
-    return try combineLinkedNonemptyS1(f0: &f0, l0: &l0,
-                                       f1: &f1, l1: &l1,
-                                       h: &h, t: &t!,
-                                       r: r)
+    do { try advanceTail(t: &t, f: &f1) } catch { return nil }
+    return combineLinkedNonemptyS1(f0: &f0, l0: &l0,
+                                   f1: &f1, l1: &l1,
+                                   h: &h, t: &t,
+                                   r: r)
 }
 
 
@@ -326,10 +322,12 @@ func linkerToHead<I: ForwardLinkedIterator>(h: inout I, f: inout I) throws {
     f = tmp
 }
 
-func reverseAppend<I: ForwardLinkedIterator>(f: I, l: I, h: I) throws -> I {
+func reverseAppend<I: ForwardLinkedIterator>(f: I, l: I, h: I) -> I? {
     var f = f, h = h
     // Precondition: bounded_range(f, l) ∧ h ∉ [f, l)
-    while f != l { try linkerToHead(h: &h, f: &f) }
+    while f != l {
+        do { try linkerToHead(h: &h, f: &f) } catch { return nil }
+    }
     return h
 }
 
@@ -344,10 +342,10 @@ public func predicateSource<I: Readable>(
 func partitionLinked<I: Readable & ForwardLinkedIterator>(
     f: I, l: I,
     p: @escaping UnaryPredicate<I.Source>
-) throws -> Pair<Pair<I, I>, Pair<I, I>> {
+) -> Pair<Pair<I, I>, Pair<I, I>>? {
     // Precondition: bounded_range(f, l)
     let ps: UnaryPredicate<I> = predicateSource(p: p)
-    return try splitLinked(f: f, l: l, p: ps)
+    return splitLinked(f: f, l: l, p: ps)
 }
 
 public func relationSource<
@@ -366,14 +364,16 @@ func mergeLinkedNonempty<I: Readable & ForwardLinkedIterator>(
     f0: I, l0: I,
     f1: I, l1: I,
     r: @escaping Relation<I.Source>
-) throws -> Pair<I, I> {
+) -> Pair<I, I>? {
     var l1 = l1
     // Precondition: f0 ≠ l0 ∧ f1 ≠ l1
     // Precondition: increasing_range(f0, l0, r)
     // Precondition: increasing_range(f1, l1, r)
     let rs: Relation<I> = relationSource(r: r)
-    let t = try combineLinkedNonempty(f0: f0, l0: l0, f1: f1, l1: l1, r: rs)
-    var last = try findLast(f: t.m1, l: t.m2)
+    guard let t = combineLinkedNonempty(f0: f0, l0: l0,
+                                        f1: f1, l1: l1,
+                                        r: rs) else { return nil }
+    guard var last = findLast(f: t.m1, l: t.m2) else { return nil }
     ForwardLinker.setForwardLink(x: &last, y: &l1)
     return Pair(m0: t.m0, m1: l1)
 }
@@ -382,17 +382,17 @@ func sortLinkedNonempty<I: Readable & ForwardLinkedIterator>(
     f: I,
     n: DistanceType,
     r: @escaping Relation<I.Source>
-) throws -> Pair<I, I> {
+) -> Pair<I, I>? {
     // Precondition: counted_range(f, n) ∧
     //                n > 0 ∧ weak_ordering(r)
     guard n != N(1) else {
-        guard let s = f.iteratorSuccessor else { throw EOPError.noSuccessor }
+        guard let s = f.iteratorSuccessor else { return nil }
         return Pair(m0: f, m1: s)
     }
     let h = n.halfNonnegative()
-    let p0 = try sortLinkedNonempty(f: f, n: h, r: r)
-    let p1 = try sortLinkedNonempty(f: p0.m1, n: n - h, r: r)
-    return try mergeLinkedNonempty(f0: p0.m0, l0: p0.m1, f1: p1.m0, l1: p1.m1, r: r)
+    guard let p0 = sortLinkedNonempty(f: f, n: h, r: r) else { return nil }
+    guard let p1 = sortLinkedNonempty(f: p0.m1, n: n - h, r: r) else { return nil }
+    return mergeLinkedNonempty(f0: p0.m0, l0: p0.m1, f1: p1.m0, l1: p1.m1, r: r)
 }
 
 
@@ -425,23 +425,21 @@ func traverseRotating<
 >(
     c: C,
     proc: P
-) throws -> P
+) -> P?
 where P.UnaryProcedureType == C {
     // Precondition: tree(c)
     guard !c.isEmpty() else { return proc }
-    var curr = c
-    // FIXME: Abusing impliticly unwrapped optionals to match the original C++
-    var prev: C?
+    var curr = c, prev = c
     repeat {
         proc.call(curr)
-        try treeRotate(curr: &curr, prev: &prev!)
+        do { try treeRotate(curr: &curr, prev: &prev) } catch { return nil }
     } while curr != c
     repeat {
         proc.call(curr)
-        try treeRotate(curr: &curr, prev: &prev!)
+        do { try treeRotate(curr: &curr, prev: &prev) } catch { return nil }
     } while curr != c
     proc.call(curr)
-    try treeRotate(curr: &curr, prev: &prev!)
+    do { try treeRotate(curr: &curr, prev: &prev) } catch { return nil }
     return proc
 }
 
@@ -468,10 +466,10 @@ class Counter<T>: UnaryProcedure {
 
 func weightRotating<C: EmptyLinkedBifurcateCoordinate>(
     c: C
-) throws -> WeightType {
+) -> WeightType? {
     // Precondition: tree(c)
     let counter = Counter<C>()
-    return try traverseRotating(c: c, proc: counter).n / N(3)
+    return traverseRotating(c: c, proc: counter)!.n / N(3)
 }
 
 class PhasedApplicator<P: UnaryProcedure>: UnaryProcedure {
@@ -501,12 +499,12 @@ func traversePhasedRotating<
 >(
     c: C,
     phase: N, proc: P
-) throws -> P
+) -> P?
 where P.UnaryProcedureType == C {
     // Precondition: tree(c) ∧ 0 ≤ phase < 3
     let applicator = PhasedApplicator(period: 3,
                                       phase: phase,
                                       n: 0,
                                       proc: proc)
-    return try traverseRotating(c: c, proc: applicator).proc
+    return traverseRotating(c: c, proc: applicator)?.proc
 }
