@@ -470,9 +470,9 @@ where I0.Source == I1.Source {
     // Precondition: readable_bounded_range(f0, l0)
     // Precondition: readable_bounded_range(f1, l1)
     while f0 != l0 && f1 != l1 && r(f0.source!, f1.source!) {
-        guard let f0s = f0.iteratorSuccessor else { return nil }
+        guard let f0s = f0.iteratorSuccessor,
+              let f1s = f1.iteratorSuccessor else { return nil }
         f0 = f0s
-        guard let f1s = f1.iteratorSuccessor else { return nil }
         f1 = f1s
     }
     return Pair(m0: f0, m1: f1)

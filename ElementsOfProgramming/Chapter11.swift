@@ -60,8 +60,7 @@ func removeIf<I: Mutable & ForwardIterator>(
         guard let jfin = findIfNot(f: j, l: l, p: p) else { return nil }
         j = jfin
         guard j != l else { return i }
-        do { try copyStep(fi: &j, fo: &i)
-        } catch { return nil }
+        do { try copyStep(fi: &j, fo: &i) } catch { return nil }
     }
 }
 
@@ -131,8 +130,8 @@ func partitonSingleCycle<I: Mutable & BidirectionalIterator>(
     let tmp = f.source!
     while true {
         f.sink = l.source
-        guard let s = f.iteratorSuccessor else { return nil }
-        guard let sfi = findIf(f: s, l: l, p: p) else { return nil }
+        guard let s = f.iteratorSuccessor,
+              let sfi = findIf(f: s, l: l, p: p) else { return nil }
         f = sfi
         guard f != l else {
             l.sink = tmp
@@ -156,9 +155,9 @@ func partitionBidirectionalUnguarded<I: Mutable & BidirectionalIterator>(
     // (￢all(f, l, p) ∧ some(f, l, p)) ∨
     // (￢p(source(f-1)) ∧ p(source(l)))
     while true {
-        guard let fiu = findIfUnguarded(f: f, p: p) else { return nil }
+        guard let fiu = findIfUnguarded(f: f, p: p),
+              let fbinu = findBackwardIfNotUnguarded(l: l, p: p) else { return nil }
         f = fiu
-        guard let fbinu = findBackwardIfNotUnguarded(l: l, p: p) else { return nil }
         l = fbinu
         guard let ls = l.iteratorSuccessor else { return nil }
         guard ls != f else { return f }
@@ -273,10 +272,8 @@ func partitionStableNNonempty<I: Mutable & ForwardIterator>(
     // Precondition: mutable_counted_range(f, n) ∧ n > 0
     guard n != 1 else { return partitionStableSingleton(f: f, p: p) }
     let h = n.halfNonnegative()
-    guard let x = partitionStableNNonempty(f: f, n: h, p: p) else {
-        return nil
-    }
-    guard let y = partitionStableNNonempty(f: x.m1, n: n - h, p: p) else {
+    guard let x = partitionStableNNonempty(f: f, n: h, p: p),
+          let y = partitionStableNNonempty(f: x.m1, n: n - h, p: p) else {
         return nil
     }
     return combineRanges(x: x, y: y)
