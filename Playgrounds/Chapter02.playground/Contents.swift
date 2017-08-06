@@ -6,7 +6,7 @@
 import Darwin
 
 func absoluteValue(x: Int) -> Int {
-    if (x < 0) { return -x } else { return x }
+    return x < 0 ? -x : x
 } // unary operation
 
 func euclideanNorm(x: Double, y: Double) -> Double {
@@ -24,11 +24,8 @@ func definitionSpacePredicateIntegerAddition<T: FixedWidthInteger>(
     y: T
 ) -> Bool {
     // Precondition: T.min <= x <= T.max ∧ T.min <= y <= T.max
-    if x > 0 && y > 0 {
-        return y <= T.max - x
-    } else if x < 0 && y < 0 {
-        return y >= T.min - x
-    }
+    guard !(x > 0 && y > 0) else { return y <= T.max - x }
+    guard !(x < 0 && y < 0) else { return y >= T.min - x }
     return true
 }
 
@@ -40,7 +37,6 @@ func powerUnary<DomainF: Distance>(
     var x = x, n = n
     assert(n >= 0)
     // Precondition: n ≥ 0 ∧ (∀i ∈ N), 0 < i ≤ n ⇒ f^i(x) is defined
-    
     while n != N(0) {
         n = n - N(1)
         x = transformation(x)
@@ -70,8 +66,7 @@ func collisionPoint<DomainFP: Distance>(
     definitionSpace p: UnaryPredicate<DomainFP>
 ) -> DomainFP {
     // Precondition: p(x) ⇔ f(x) is defined
-    if !p(x) { return x }
-    
+    guard p(x) else { return x }
     var slow = x            // slow = f^0(x)
     var fast = f(x)         // fast = f^1(x)
                             // n ← 0 (completed iterations)
@@ -84,12 +79,12 @@ func collisionPoint<DomainFP: Distance>(
         #if !XCODE
             st.append(slow)
         #endif
-        if !p(fast) { return fast }
+        guard p(fast) else { return fast }
         fast = f(fast)      // slow = f^{n+1}(x) ∧ fast = f^{2n+2}(x)
         #if !XCODE
             ft.append(fast)
         #endif
-        if !p(fast) { return fast }
+        guard p(fast) else { return fast }
         fast = f(fast)      // slow = f^{n+1}(x) ∧ fast = f^{2n+3}(x)
         #if !XCODE
             ft.append(fast)
@@ -202,7 +197,7 @@ func connectionPoint<DomainFP: Distance>(
     let y = collisionPoint(start: x,
                            transformation: f,
                            definitionSpace: p)
-    if !p(y) { return y }
+    guard p(y) else { return y }
     return convergentPoint(x0: x,
                            x1: f(y),
                            transformation: f)
@@ -276,7 +271,6 @@ func orbitStructure<DomainFP: Distance>(
         let x: UInt = 0
         orbitStructureNonterminatingOrbit(start: x, transformation: f)
     }
-    playgroundRhoShapedOrbit()
     
     func playgroundTerminatingOrbit() {
         let f: Transformation<UInt> = { $0 + 2 }
@@ -284,7 +278,6 @@ func orbitStructure<DomainFP: Distance>(
         let x: UInt = 0
         orbitStructure(start: x, transformation: f, definitionSpace: p)
     }
-//    playgroundTerminatingOrbit()
     
     func playgroundCircularOrbit() {
         let f: Transformation<UInt> = { ($0 % 113 + 2) * 2 }

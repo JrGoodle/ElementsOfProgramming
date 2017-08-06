@@ -11,7 +11,7 @@ func powerLeftAssociated<DomainOp: Regular>(
     operation op: BinaryOperation<DomainOp>
 ) -> DomainOp {
     assert(n > 0)
-    if n == 1 { return a }
+    guard n != 1 else { return a }
     let pla = powerLeftAssociated(a,
                                   power: n - 1,
                                   operation: op)
@@ -24,7 +24,7 @@ func powerRightAssociated<DomainOp: Regular>(
     operation op: BinaryOperation<DomainOp>
 ) -> DomainOp {
     assert(n > 0)
-    if n == 1 { return a }
+    guard n != 1 else { return a }
     let pra = powerRightAssociated(a,
                                    power: n - 1,
                                    operation: op)
@@ -38,8 +38,8 @@ func power0<DomainOp: Regular>(
 ) -> DomainOp {
     // Precondition: associative(op)
     assert(n > 0)
-    if n == 1 { return a }
-    if n % 2 == 0 {
+    guard n != 1 else { return a }
+    guard n % 2 != 0 else {
         return power0(op(a, a),
                       power: n / 2,
                       operation: op)
@@ -56,7 +56,7 @@ func power1<DomainOp: Regular>(
 ) -> DomainOp {
     // Precondition: associative(op)
     assert(n > 0)
-    if n == 1 { return a }
+    guard n != 1 else { return a }
     var r = power1(op(a, a),
                    power: n / 2,
                    operation: op)
@@ -73,7 +73,7 @@ func powerAccumulate0<DomainOp: Regular>(
     var r = r
     // Precondition: associative(op)
     assert(n >= 0)
-    if n == 0 { return r }
+    guard n != 0 else { return r }
     if n % 2 != 0 { r = op(r, a) }
     return powerAccumulate0(op(a, a),
                             accumulate: r,
@@ -90,8 +90,8 @@ func powerAccumulate1<DomainOp: Regular>(
     var r = r
     // Precondition: associative(op)
     assert(n >= 0)
-    if n == 0 { return r }
-    if n == 1 { return op(r, a) }
+    guard n != 0 else { return r }
+    guard n != 1 else { return op(r, a) }
     if n % 2 != 0 { r = op(r, a) }
     return powerAccumulate1(op(a, a),
                             accumulate: r,
@@ -110,7 +110,7 @@ func powerAccumulate2<DomainOp: Regular>(
     assert(n >= 0)
     if n % 2 != 0 {
         r = op(r, a)
-        if n == 1 { return r }
+        guard n != 1 else { return r }
     } else if n == 0 {
         return r
     }
@@ -131,7 +131,7 @@ func powerAccumulate3<DomainOp: Regular>(
     assert(n >= 0)
     if n % 2 != 0 {
         r = op(r, a)
-        if n == 1 { return r }
+        guard n != 1 else { return r }
     } else if n == 0 {
         return r
     }
@@ -155,7 +155,7 @@ func powerAccumulate4<DomainOp: Regular>(
     while true {
         if n % 2 != 0 {
             r = op(r, a)
-            if n == 1 { return r }
+            guard n != 1 else { return r }
         } else if n == 0 {
             return r
         }
@@ -191,7 +191,7 @@ func powerAccumulate5<DomainOp: Regular>(
 ) -> DomainOp {
     // Precondition: associative(op)
     assert(n >= 0)
-    if n == 0 { return r }
+    guard n != 0 else { return r }
     return powerAccumulatePositive0(a,
                                     accumulate: r,
                                     power: n,
@@ -224,7 +224,7 @@ func power3<DomainOp: Regular>(
         n = n / 2
     }
     n = n / 2
-    if n == 0 { return a }
+    guard n != 0 else { return a }
     return powerAccumulatePositive0(op(a, a),
                                     accumulate: a,
                                     power: n,
@@ -243,7 +243,7 @@ func powerAccumulatePositive<DomainOp: Regular>(
     while true {
         if n.isOdd() {
             r = op(r, a)
-            if n.isOne() { return r }
+            if n == 1 { return r }
         }
         a = op(a, a)
         n = n.halfNonnegative()
@@ -258,7 +258,7 @@ func powerAccumulate<DomainOp: Regular>(
 ) -> DomainOp {
     // Precondition: associative(op)
     assert(n >= 0)
-    if n.isZero() { return r }
+    guard n != 0 else { return r }
     return powerAccumulatePositive(a,
                                    accumulate: r,
                                    power: n,
@@ -278,7 +278,7 @@ func power<DomainOp: Regular>(
         n = n.halfNonnegative()
     }
     n = n.halfNonnegative()
-    if n.isZero() { return a }
+    guard n != 0 else { return a }
     return powerAccumulatePositive(op(a, a),
                                    accumulate: a,
                                    power: n,
@@ -293,7 +293,7 @@ func power<DomainOp: Regular>(
 ) -> DomainOp {
     // Precondition: associative(op)
     assert(n >= 0)
-    if n.isZero() { return id }
+    guard n != 0 else { return id }
     return power(a,
                  power: n,
                  operation: op)
@@ -309,7 +309,7 @@ func fibonacciMatrixMultiply(
 
 func fibonacci(n: Int) -> Int {
     assert(n >= 0)
-    if n == 0 { return 0 }
+    guard n != 0 else { return 0 }
     return power(Pair(m0: 1, m1: 0),
                  power: n,
                  operation: fibonacciMatrixMultiply).m0

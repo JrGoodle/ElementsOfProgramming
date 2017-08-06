@@ -29,11 +29,7 @@ func negate<T: AdditiveGroup>(x: T) -> T {
 }
 
 func absoluteValue<T: OrderedAdditiveGroup>(_ a: T) -> T {
-    if a < T.additiveIdentity {
-        return -a
-    } else {
-        return a
-    }
+    return a < T.additiveIdentity ? -a : a
 }
 
 func slowRemainder<T: CancellableMonoid>(a: T, b: T) -> T {
@@ -64,7 +60,7 @@ func remainderRecursive<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     assert(b > T.additiveIdentity)
     if a - b >= b {
         a = remainderRecursive(a: a, b: b + b)
-        if a < b { return a }
+        guard a >= b else { return a }
     }
     return a - b
 }
@@ -72,7 +68,7 @@ func remainderRecursive<T: ArchimedeanMonoid>(a: T, b: T) -> T {
 func remainderNonnegative<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     assert(a >= T.additiveIdentity)
     assert(b > T.additiveIdentity)
-    if a < b { return a }
+    guard a >= b else { return a }
     return remainderRecursive(a: a, b: b)
 }
 
@@ -87,22 +83,19 @@ func remainderNonnegativeFibonacci<T: ArchimedeanMonoid>(a: T, b: T) -> T {
     var a = a, b = b
     assert(a >= T.additiveIdentity)
     assert(b > T.additiveIdentity)
-    if a < b { return a }
+    guard a >= b else { return a }
     var c = b
-    
     repeat {
         let tmp = c
         c = b + c
         b = tmp
     } while a >= c
-    
     repeat {
         if a >= b { a = a - b }
         let tmp = c - b
         c = b
         b = tmp
     } while b < c
-    
     return a
 }
 
@@ -118,7 +111,7 @@ func remainderNonnegativeIterative<T: HalvableMonoid>(a: T, b: T) -> T {
     var a = a
     assert(a >= T.additiveIdentity)
     assert(b > T.additiveIdentity)
-    if a < b { return a }
+    guard a >= b else { return a }
     var c = largestDoubling(a: a, b: b)
     a = a - c
     while c != b {
@@ -215,8 +208,8 @@ func steinGCDNonnegative(a: Int, b: Int) -> Int {
     assert(a >= 0)
     assert(b >= 0)
     assert(!(a == 0 && b == 0))
-    if a.isZero() { return b }
-    if b.isZero() { return a }
+    guard a != 0 else { return b }
+    guard b != 0 else { return a }
     var d = 0
     while a.isEven() && b.isEven() {
         a = a.halfNonnegative()
@@ -245,16 +238,13 @@ func quotientRemainderNonnegative<T: ArchimedeanMonoid>(
     assert(a >= T.additiveIdentity)
     assert(b > T.additiveIdentity)
     typealias N = QuotientType
-    if a < b { return Pair(m0: N(0), m1: a) }
-    if a - b < b { return Pair(m0: N(1), m1: a - b) }
+    guard a >= b else { return Pair(m0: N(0), m1: a) }
+    guard a - b >= b else { return Pair(m0: N(1), m1: a - b) }
     let q = quotientRemainderNonnegative(a: a, b: b + b)
     let m = q.m0.twice()
     a = q.m1
-    if a < b {
-        return Pair(m0: m, m1: a)
-    } else {
-        return Pair(m0: m.successor(), m1: a - b)
-    }
+    guard a >= b else { return Pair(m0: m, m1: a) }
+    return Pair(m0: m.successor(), m1: a - b)
 }
 
 func quotientRemainderNonnegativeIterative<T: HalvableMonoid>(
@@ -264,7 +254,7 @@ func quotientRemainderNonnegativeIterative<T: HalvableMonoid>(
     assert(a >= T.additiveIdentity)
     assert(b > T.additiveIdentity)
     typealias N = QuotientType
-    if a < b { return Pair(m0: N(0), m1: a) }
+    guard a >= b else { return Pair(m0: N(0), m1: a) }
     var c = largestDoubling(a: a, b: b)
     a = a - c
     var n = N(1)

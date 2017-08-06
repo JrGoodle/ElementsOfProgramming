@@ -186,21 +186,19 @@ public protocol Iterator: Distance {
     var iteratorSuccessor: Self? { get }
 }
 
-public protocol ForwardIterator: Iterator { }
-// iteratorSuccessor is a Regular Unary Function
-
-public protocol IndexedIterator: ForwardIterator {
-    static func +(lhs: Self, rhs: DistanceType) -> Self
-    static func -(lhs: Self, rhs: DistanceType) -> Self
+public protocol ForwardIterator: Iterator {
+    // iteratorSuccessor is a Regular Unary Function
+    func successor(at distance: DistanceType) -> Self?
+    func distance(from precedingIterator: Self) -> DistanceType
 }
+
+public protocol IndexedIterator: ForwardIterator { }
 
 public protocol BidirectionalIterator: ForwardIterator {
     var iteratorPredecessor: Self? { get }
 }
 
 public protocol RandomAccessIterator: IndexedIterator, BidirectionalIterator {
-    static func +(lhs: Self, rhs: DifferenceType) -> Self
-    static func -(lhs: Self, rhs: DifferenceType) -> Self
     static func -(lhs: Self, rhs: Self) -> DifferenceType
 }
 
@@ -230,14 +228,11 @@ public typealias WeightType = UInt
 
 public protocol BifurcateCoordinate: Regular {
     func isEmpty() -> Bool
-    func hasLeftSuccessor() -> Bool
-    func hasRightSuccessor() -> Bool
     var leftSuccessor: Self? { get }
     var rightSuccessor: Self? { get }
 }
 
 public protocol BidirectionalBifurcateCoordinate: BifurcateCoordinate {
-    func hasPredecessor() -> Bool
     var iteratorPredecessor: Self? { get }
 }
 
@@ -289,4 +284,6 @@ public protocol Linearizable: Regular {
     subscript(index: Int) -> LinearizableValueType { get set }
 }
 
-
+public enum EOPError : Error {
+    case noLeftSuccessor, noRightSuccessor, noSuccessor, noPredecessor, failure
+}
