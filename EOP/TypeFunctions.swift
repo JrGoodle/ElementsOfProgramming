@@ -136,14 +136,14 @@ extension ForwardIterator {
         return f
     }
     
-    func distance(from precedingIterator: Self) -> DistanceType {
+    func distance(from precedingIterator: Self) -> DistanceType? {
         let l = self
         var f = precedingIterator
         // Precondition: bounded_range(f, l)
         var n = DistanceType(0)
         while f != l {
             n = n.successor()
-            guard let s = f.iteratorSuccessor else { return 0 }
+            guard let s = f.iteratorSuccessor else { return nil }
             f = s
         }
         return n

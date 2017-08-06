@@ -131,15 +131,15 @@ func splitLinkedS2<I: ForwardLinkedIterator>(
     guard p(f) else {
         do { try advanceTail(t: &t0, f: &f) } catch { return nil }
         return splitLinkedS2(f: &f, l: &l,
-                                 t0: &t0, t1: &t1,
-                                 h0: &h0, h1: &h1,
-                                 p: p)
-    }
-    do { try linkerToTail(t: &t1, f: &f) } catch { return nil }
-    return splitLinkedS3(f: &f, l: &l,
                              t0: &t0, t1: &t1,
                              h0: &h0, h1: &h1,
                              p: p)
+    }
+    do { try linkerToTail(t: &t1, f: &f) } catch { return nil }
+    return splitLinkedS3(f: &f, l: &l,
+                         t0: &t0, t1: &t1,
+                         h0: &h0, h1: &h1,
+                         p: p)
 }
 
 func splitLinkedS3<I: ForwardLinkedIterator>(
@@ -157,15 +157,15 @@ func splitLinkedS3<I: ForwardLinkedIterator>(
     guard p(f) else {
         do { try linkerToTail(t: &t0, f: &f) } catch { return nil }
         return splitLinkedS2(f: &f, l: &l,
-                                 t0: &t0, t1: &t1,
-                                 h0: &h0, h1: &h1,
-                                 p: p)
-    }
-    do { try advanceTail(t: &t1, f: &f) } catch { return nil }
-    return splitLinkedS3(f: &f, l: &l,
                              t0: &t0, t1: &t1,
                              h0: &h0, h1: &h1,
                              p: p)
+    }
+    do { try advanceTail(t: &t1, f: &f) } catch { return nil }
+    return splitLinkedS3(f: &f, l: &l,
+                         t0: &t0, t1: &t1,
+                         h0: &h0, h1: &h1,
+                         p: p)
 }
 
 func splitLinkedS4<I: ForwardIterator>(
@@ -196,9 +196,9 @@ func splitLinked<I: ForwardLinkedIterator>(
         h0 = f
         do { try advanceTail(t: &t0, f: &f) } catch { return nil }
         return splitLinkedS0(f: &f, l: &l,
-                                 t0: &t0, t1: &t1,
-                                 h0: &h0, h1: &h1,
-                                 p: p)
+                             t0: &t0, t1: &t1,
+                             h0: &h0, h1: &h1,
+                             p: p)
     }
     h1 = f
     do { try advanceTail(t: &t1, f: &f) } catch { return nil }
@@ -471,7 +471,8 @@ func weightRotating<C: EmptyLinkedBifurcateCoordinate>(
 ) -> WeightType? {
     // Precondition: tree(c)
     let counter = Counter<C>()
-    return traverseRotating(c: c, proc: counter)!.n / N(3)
+    guard let tr = traverseRotating(c: c, proc: counter) else { return nil }
+    return tr.n / N(3)
 }
 
 class PhasedApplicator<P: UnaryProcedure>: UnaryProcedure {
