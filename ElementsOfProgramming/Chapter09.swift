@@ -137,7 +137,7 @@ func copyBackwardStep<
     li: inout I,
     lo: inout O
 ) throws
-where I.Source == O.Sink{
+where I.Source == O.Sink {
     // Precondition: source(predecessor(l_i)) and sink(predecessor(l_o))
     //               are defined
     guard let lip = li.iteratorPredecessor,

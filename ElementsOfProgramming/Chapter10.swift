@@ -130,10 +130,7 @@ func reverseNAdaptive<
 where I.Source == B.Source {
     // Precondition: mutable_counted_range(f_i, n_i)
     // Precondition: mutable_counted_range(f_b, n_b)
-    guard ni >= N(2) else {
-        guard let s = fi.successor(at: ni) else { return nil }
-        return s
-    }
+    guard ni >= N(2) else { return fi.successor(at: ni) }
     guard ni > nb else { return reverseNWithBuffer(fi: fi, n: ni, fb: fb) }
     let hi = ni.halfNonnegative()
     let nmod2 = ni - hi.twice()
@@ -141,8 +138,7 @@ where I.Source == B.Source {
                                     fb: fb, nb: nb)?.successor(at: nmod2) else {
         return nil
     }
-    let li = reverseNAdaptive(fi: mi, ni: hi,
-                              fb: fb, nb: nb)
+    let li = reverseNAdaptive(fi: mi, ni: hi, fb: fb, nb: nb)
     guard let _ = swapRangesN(f0: fi, f1: mi, n: hi) else { return nil }
     return li
 }
@@ -159,7 +155,7 @@ func kRotateFromPermutationRandomAccess<I: RandomAccessIterator>(
     return { x in
         // Precondition: x ∈ [f, l)
         guard x >= m_prime else { return x.successor(at: N(n_minus_k))! }
-        return x.successor(at: N(k))!
+        return x.successor(at: N(k))! // FIXME: Should be subtracting k
     }
 }
 
@@ -183,12 +179,13 @@ func rotateCycles<I: Mutable & IndexedIterator & Distance>(
 ) -> I? {
     // Precondition: mutable_bounded_range(f, l) ∧ m ∈ [f, l]
     // Precondition: from is a from-permutation on [f, l)
-    var d = gcdEuclideanSemiring(a: m.distance(from: f), b: l.distance(from: m))
+    var d = gcdEuclideanSemiring(a: m.distance(from: f),
+                                 b: l.distance(from: m))
     while countDown(n: &d) {
         guard let s = f.successor(at: d) else { return nil }
         cycleFrom(i: s, f: from)
     }
-    return f.successor(at: l.distance(from: m))!
+    return f.successor(at: l.distance(from: m))
 }
 
 func rotateIndexedNontrivial<I: Mutable & IndexedIterator & Distance>(

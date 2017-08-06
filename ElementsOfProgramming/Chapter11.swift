@@ -35,8 +35,8 @@ func partitionSemistable<I: Mutable & ForwardIterator>(
     guard i != l else { return i }
     guard var j = i.iteratorSuccessor else { return nil }
     while true {
-        guard let jfin = findIfNot(f: j, l: l, p: p) else { return nil }
-        j = jfin
+        guard let fin = findIfNot(f: j, l: l, p: p) else { return nil }
+        j = fin
         guard j != l else { return i }
         do { try swapStep(f0: &i, f1: &j) } catch { return nil }
     }
@@ -57,8 +57,8 @@ func removeIf<I: Mutable & ForwardIterator>(
     guard i != l else { return i }
     guard var j = i.iteratorSuccessor else { return nil }
     while true {
-        guard let jfin = findIfNot(f: j, l: l, p: p) else { return nil }
-        j = jfin
+        guard let fin = findIfNot(f: j, l: l, p: p) else { return nil }
+        j = fin
         guard j != l else { return i }
         do { try copyStep(fi: &j, fo: &i) } catch { return nil }
     }
@@ -83,8 +83,8 @@ func partitionBidirectional<I: Mutable & BidirectionalIterator>(
     var f = f, l = l
     // Precondition: mutable_bounded_range(f, l)
     while true {
-        guard let ffi = findIf(f: f, l: l, p: p) else { return nil }
-        f = ffi
+        guard let fi = findIf(f: f, l: l, p: p) else { return nil }
+        f = fi
         guard let fbin = findBackwardIfNot(f: f, l: l, p: p) else { return nil }
         l = fbin
         guard f != l else { return f }
@@ -103,8 +103,8 @@ func partitionForward<I: Mutable & ForwardIterator>(
     guard let i = countIfNot(f: f, l: l, p: p, j: f) else { return nil }
     var j = i
     while true {
-        guard let jfin = findIfNot(f: j, l: l, p: p) else { return nil }
-        j = jfin
+        guard let fin = findIfNot(f: j, l: l, p: p) else { return nil }
+        j = fin
         guard j != l else { return i }
         guard let fiu = findIfUnguarded(f: f, p: p) else { return nil }
         f = fiu
@@ -120,8 +120,8 @@ func partitonSingleCycle<I: Mutable & BidirectionalIterator>(
 ) -> I? {
     var f = f, l = l
     // Precondition: mutable_bounded_range(f, l)
-    guard let ffi = findIf(f: f, l: l, p: p) else { return nil }
-    f = ffi
+    guard let fi = findIf(f: f, l: l, p: p) else { return nil }
+    f = fi
     guard let fbin = findBackwardIfNot(f: f, l: l, p: p) else { return nil }
     l = fbin
     guard f != l else { return f }
@@ -173,16 +173,16 @@ func partitionSentinel<I: Mutable & BidirectionalIterator>(
 ) -> I? {
     var f = f, l = l
     // Precondition: mutable_bounded_range(f, l)
-    guard let ffi = findIf(f: f, l: l, p: p) else { return nil }
-    f = ffi
+    guard let fi = findIf(f: f, l: l, p: p) else { return nil }
+    f = fi
     guard let fbin = findBackwardIfNot(f: f, l: l, p: p) else { return nil }
     l = fbin
     guard f != l else { return f }
     guard let ip = l.iteratorPredecessor else { return nil }
     l = ip
     exchangeValues(x: f, y: l)
-    guard let fs = f.iteratorSuccessor else { return nil }
-    f = fs
+    guard let s = f.iteratorSuccessor else { return nil }
+    f = s
     return partitionBidirectionalUnguarded(f: f, l: l, p: p)
 }
 
