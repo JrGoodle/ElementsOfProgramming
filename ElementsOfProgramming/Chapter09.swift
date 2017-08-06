@@ -15,9 +15,9 @@ func copyStep<
 where I.Source == O.Sink {
     // Precondition: source(f_i) and sink(f_o) are defined
     fo.sink = fi.source!
-    guard let fis = fi.iteratorSuccessor else { throw EOPError.noSuccessor }
+    guard let fis = fi.iteratorSuccessor,
+          let fos = fo.iteratorSuccessor else { throw EOPError.noSuccessor }
     fi = fis
-    guard let fos = fo.iteratorSuccessor else { throw EOPError.noSuccessor }
     fo = fos
 }
 
@@ -70,9 +70,9 @@ where I.Source == Int {
     var f = f, n = n
     // Precondition: readable_bounded_range(f, l)
     while f != l {
-        guard f.source! == n else { return false }
+        guard f.source! == n,
+              let s = f.iteratorSuccessor else { return false }
         n = n.successor()
-        guard let s = f.iteratorSuccessor else { return false }
         f = s
     }
     return true
@@ -140,9 +140,9 @@ func copyBackwardStep<
 where I.Source == O.Sink{
     // Precondition: source(predecessor(l_i)) and sink(predecessor(l_o))
     //               are defined
-    guard let lip = li.iteratorPredecessor else { throw EOPError.noPredecessor }
+    guard let lip = li.iteratorPredecessor,
+          let lop = lo.iteratorPredecessor else { throw EOPError.noPredecessor }
     li = lip
-    guard let lop = lo.iteratorPredecessor else { throw EOPError.noPredecessor }
     lo = lop
     lo.sink = li.source!
 }
@@ -258,8 +258,7 @@ where I.Source == O.Sink {
     while fi != li {
         if p(fi) {
             do { try copyStep(fi: &fi, fo: &ft) } catch { return nil }
-        }
-        else {
+        } else {
             guard let s = fi.iteratorSuccessor else { return nil }
             fi = s
         }
@@ -297,8 +296,7 @@ where I.Source == OF.Sink, I.Source == OT.Sink {
     while fi != li {
         if p(fi) {
             do { try copyStep(fi: &fi, fo: &ft) } catch { return nil }
-        }
-        else {
+        } else {
             do { try copyStep(fi: &fi, fo: &ff) } catch { return nil }
         }
     }
@@ -322,8 +320,7 @@ where I.Source == OF.Sink, I.Source == OT.Sink {
     while countDown(n: &ni) {
         if p(fi) {
             do { try copyStep(fi: &fi, fo: &ft) } catch { return nil }
-        }
-        else {
+        } else {
             do { try copyStep(fi: &fi, fo: &ft) } catch { return nil }
         }
     }
@@ -598,9 +595,9 @@ public func swapStep<
 where I0.Source == I1.Source {
     // Precondition: deref(f_0) and deref(f_1) are defined
     exchangeValues(x: f0, y: f1)
-    guard let f0s = f0.iteratorSuccessor else { throw EOPError.noSuccessor }
+    guard let f0s = f0.iteratorSuccessor,
+          let f1s = f1.iteratorSuccessor else { throw EOPError.noSuccessor }
     f0 = f0s
-    guard let f1s = f1.iteratorSuccessor else { throw EOPError.noSuccessor }
     f1 = f1s
 }
 

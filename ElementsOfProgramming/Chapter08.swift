@@ -372,8 +372,8 @@ func mergeLinkedNonempty<I: Readable & ForwardLinkedIterator>(
     let rs: Relation<I> = relationSource(r: r)
     guard let t = combineLinkedNonempty(f0: f0, l0: l0,
                                         f1: f1, l1: l1,
-                                        r: rs) else { return nil }
-    guard var last = findLast(f: t.m1, l: t.m2) else { return nil }
+                                        r: rs),
+          var last = findLast(f: t.m1, l: t.m2) else { return nil }
     ForwardLinker.setForwardLink(x: &last, y: &l1)
     return Pair(m0: t.m0, m1: l1)
 }
@@ -390,8 +390,10 @@ func sortLinkedNonempty<I: Readable & ForwardLinkedIterator>(
         return Pair(m0: f, m1: s)
     }
     let h = n.halfNonnegative()
-    guard let p0 = sortLinkedNonempty(f: f, n: h, r: r) else { return nil }
-    guard let p1 = sortLinkedNonempty(f: p0.m1, n: n - h, r: r) else { return nil }
+    guard let p0 = sortLinkedNonempty(f: f, n: h, r: r),
+          let p1 = sortLinkedNonempty(f: p0.m1, n: n - h, r: r) else {
+        return nil
+    }
     return mergeLinkedNonempty(f0: p0.m0, l0: p0.m1, f1: p1.m0, l1: p1.m1, r: r)
 }
 

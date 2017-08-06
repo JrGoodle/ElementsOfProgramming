@@ -38,7 +38,6 @@ func powerUnary<DomainF: Distance>(
     var x = x, n = n
     assert(n >= 0)
     // Precondition: n ≥ 0 ∧ (∀i ∈ N), 0 < i ≤ n ⇒ f^i(x) is defined
-    
     while n != N(0) {
         n = n - N(1)
         x = transformation(x)
@@ -69,7 +68,6 @@ func collisionPoint<DomainFP: Distance>(
 ) -> DomainFP {
     // Precondition: p(x) ⇔ f(x) is defined
     guard p(x) else { return x }
-    
     var slow = x            // slow = f^0(x)
     var fast = f(x)         // fast = f^1(x)
                             // n ← 0 (completed iterations)

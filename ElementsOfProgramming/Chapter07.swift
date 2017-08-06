@@ -66,15 +66,15 @@ where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
 
 func isLeftSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
     // Precondition: has_predecessor(j)
-    guard let i = j.iteratorPredecessor else { return false }
-    guard let ls = i.leftSuccessor else { return false }
+    guard let i = j.iteratorPredecessor,
+          let ls = i.leftSuccessor else { return false }
     return ls == j
 }
 
 func isRightSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
     // Precondition: has_predecessor(j)
-    guard let i = j.iteratorPredecessor else { return false }
-    guard let rs = i.rightSuccessor else { return false }
+    guard let i = j.iteratorPredecessor,
+          let rs = i.rightSuccessor else { return false }
     return rs == j
 }
 
@@ -189,13 +189,13 @@ func bifurcateIsomorphicNonempty<
 ) -> Bool {
     // Precondition: tree(c0) ∧ tree(c1) ∧ ￢empty(c0) ∧ ￢empty(c1)
     if let c0ls = c0.leftSuccessor {
-        guard let c1ls = c1.leftSuccessor else { return false }
-        guard bifurcateIsomorphicNonempty(c0: c0ls,
+        guard let c1ls = c1.leftSuccessor,
+              bifurcateIsomorphicNonempty(c0: c0ls,
                                           c1: c1ls) else { return false }
     } else if c1.leftSuccessor != nil { return false }
     if let c0rs = c0.rightSuccessor {
-        guard let c1rs = c1.rightSuccessor else { return false }
-        guard bifurcateIsomorphicNonempty(c0: c0rs,
+        guard let c1rs = c1.rightSuccessor,
+              bifurcateIsomorphicNonempty(c0: c0rs,
                                           c1: c1rs) else { return false }
     } else if c1.rightSuccessor != nil { return false }
     return true
@@ -216,9 +216,9 @@ func bifurcateIsomorphic<
     var v0 = Visit.pre
     var v1 = Visit.pre
     while true {
-        guard let _ = traverseStep(v: &v0, c: &c0) else { return false }
-        guard let _ = traverseStep(v: &v1, c: &c1) else { return false }
-        guard v0 == v1 else { return false }
+        guard let _ = traverseStep(v: &v0, c: &c0),
+              let _ = traverseStep(v: &v1, c: &c1),
+              v0 == v1 else { return false }
         if c0 == root0 && v0 == .post { return true }
     }
 }
@@ -266,8 +266,8 @@ func lexicographicalEqual<
 ) -> Bool
 where I0.Source == I1.Source {
     guard k != 0 else { return true }
-    guard f0.source! == f1.source! else { return false }
-    guard let f0s = f0.iteratorSuccessor,
+    guard f0.source! == f1.source!,
+          let f0s = f0.iteratorSuccessor,
           let f1s = f1.iteratorSuccessor else { return false }
     return lexicographicalEqual(k: k - 1,
                                 f0: f0s,
@@ -288,14 +288,14 @@ where C0.Source == C1.Source {
     // Precondition: equivalence(r)
     guard r(c0.source!, c1.source!) else { return false }
     if let c0ls = c0.leftSuccessor {
-        guard let c1ls = c1.leftSuccessor else { return false }
-        guard bifurcateEquivalentNonempty(c0: c0ls,
+        guard let c1ls = c1.leftSuccessor,
+              bifurcateEquivalentNonempty(c0: c0ls,
                                           c1: c1ls,
                                           r: r) else { return false }
     } else if c1.leftSuccessor != nil { return false }
     if let c0rs = c0.rightSuccessor {
-        guard let c1rs = c1.rightSuccessor else { return false }
-        guard bifurcateEquivalentNonempty(c0: c0rs,
+        guard let c1rs = c1.rightSuccessor,
+              bifurcateEquivalentNonempty(c0: c0rs,
                                           c1: c1rs,
                                           r: r) else { return false }
     } else if c1.rightSuccessor != nil { return false }
@@ -320,10 +320,10 @@ where C0.Source == C1.Source {
     var v0 = Visit.pre
     var v1 = Visit.pre
     while true {
-        guard !(v0 == .pre && !r(c0.source!, c1.source!)) else { return false }
-        guard let _ = traverseStep(v: &v0, c: &c0) else { return false }
-        guard let _ = traverseStep(v: &v1, c: &c1) else { return false }
-        guard v0 == v1 else { return false }
+        guard !(v0 == .pre && !r(c0.source!, c1.source!)),
+              let _ = traverseStep(v: &v0, c: &c0),
+              let _ = traverseStep(v: &v1, c: &c1),
+              v0 == v1 else { return false }
         if c0 == root0 && v0 == .post { return true }
     }
 }
@@ -354,12 +354,12 @@ where I0.Source == I1.Source {
     // Precondition: weak_ordering(r)
     while true {
         guard f1 != l1 else { return false }
-        guard f0 != l0 else { return true }
-        guard !r(f0.source!, f1.source!) else { return true }
-        guard !r(f1.source!, f0.source!) else { return false }
-        guard let f0s = f0.iteratorSuccessor else { return false }
+        guard f0 != l0,
+              !r(f0.source!, f1.source!) else { return true }
+        guard !r(f1.source!, f0.source!),
+              let f0s = f0.iteratorSuccessor,
+              let f1s = f1.iteratorSuccessor else { return false }
         f0 = f0s
-        guard let f1s = f1.iteratorSuccessor else { return false }
         f1 = f1s
     }
 }
@@ -388,8 +388,8 @@ func lexicographicalLess<
 where I0.Source == I1.Source {
     guard k != 0 else { return false }
     guard f0.source! >= f1.source! else { return true }
-    guard f0.source! <= f1.source! else { return false }
-    guard let f0s = f0.iteratorSuccessor,
+    guard f0.source! <= f1.source!,
+          let f0s = f0.iteratorSuccessor,
           let f1s = f1.iteratorSuccessor else { return false }
     return lexicographicalLess(k: k - 1, f0: f0s, f1: f1s)
 }
@@ -445,9 +445,9 @@ where I0.Source == I1.Source {
         guard f1 != l1 else { return -1 }
         let tmp = comp(f0.source!, f1.source!)
         guard tmp == 0 else { return tmp }
-        guard let f0s = f0.iteratorSuccessor else { return nil }
+        guard let f0s = f0.iteratorSuccessor,
+              let f1s = f1.iteratorSuccessor else { return nil }
         f0 = f0s
-        guard let f1s = f1.iteratorSuccessor else { return nil }
         f1 = f1s
     }
 }
@@ -504,8 +504,8 @@ where C0.Source == C1.Source {
             guard !r(c0.source!, c1.source!) else { return true }
             guard !r(c1.source!, c0.source!) else { return false }
         }
-        guard let _ = traverseStep(v: &v0, c: &c0) else { return false }
-        guard let _ = traverseStep(v: &v1, c: &c1) else { return false }
+        guard let _ = traverseStep(v: &v0, c: &c0),
+              let _ = traverseStep(v: &v1, c: &c1) else { return false }
         guard v0 == v1 else { return v0 > v1 }
         if c0 == root0 && v0 == .post { return false }
     }

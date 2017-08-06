@@ -301,8 +301,8 @@ func rotateWithBufferNontrivial<
 where I.Source == B.Source {
     // Precondition: mutable_bounded_range(f, l) ∧ f ≺ m ≺ l
     // Precondition: mutable_counted_range(f_b, l-f)
-    guard let lb = copy(fi: f, li: m, fo: fb) else { return nil }
-    guard let m_prime = copy(fi: m, li: l, fo: f) else { return nil }
+    guard let lb = copy(fi: f, li: m, fo: fb),
+          let m_prime = copy(fi: m, li: l, fo: f) else { return nil }
     _ = copy(fi: fb, li: lb, fo: m_prime)
     return m_prime
 }
