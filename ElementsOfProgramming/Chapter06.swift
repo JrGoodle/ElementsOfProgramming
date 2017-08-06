@@ -56,7 +56,7 @@ func forEach<
 func find<I: Readable & Iterator>(f: I, l: I, x: I.Source) -> I? {
     var f = f
     // Precondition: readable_bounded_range(f, l)
-    while f != l && f.source! != x {
+    while f != l && f.source != x {
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
@@ -66,7 +66,7 @@ func find<I: Readable & Iterator>(f: I, l: I, x: I.Source) -> I? {
 func findNot<I: Readable & Iterator>(f: I, l: I, x: I.Source) -> I? {
     var f = f
     // Precondition: readable_bounded_range(f, l)
-    while f != l && f.source! == x {
+    while f != l && f.source == x {
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
@@ -174,7 +174,7 @@ func count<
     var f = f, j = j
     // Precondition: readable_bounded_range(f, l)
     while f != l {
-        if f.source! == x {
+        if f.source == x {
             guard let s = j.iteratorSuccessor else { return nil }
             j = s
         }
@@ -203,7 +203,7 @@ func countNot<
     var f = f, j = j
     // Precondition: readable_bounded_range(f, l)
     while f != l {
-        if f.source! != x {
+        if f.source != x {
             guard let s = j.iteratorSuccessor else { return nil }
             j = s
         }
@@ -404,7 +404,7 @@ func findN<I: Readable & Iterator>(
 ) -> Pair<I, DistanceType>? {
     var f = f, n = n
     // Precondition: readable_weak_range(f, n)
-    while n != 0 && f.source! != x {
+    while n != 0 && f.source != x {
         n = n.predecessor()
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
