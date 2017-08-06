@@ -66,14 +66,14 @@ where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
 
 func isLeftSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
     // Precondition: has_predecessor(j)
-    let i = j.iteratorPredecessor!
+    guard let i = j.iteratorPredecessor else { return false }
     guard let ls = i.leftSuccessor else { return false }
     return ls == j
 }
 
 func isRightSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
     // Precondition: has_predecessor(j)
-    let i = j.iteratorPredecessor!
+    guard let i = j.iteratorPredecessor else { return false }
     guard let rs = i.rightSuccessor else { return false }
     return rs == j
 }
@@ -81,7 +81,7 @@ func isRightSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
 func traverseStep<C: BidirectionalBifurcateCoordinate>(
     v: inout Visit,
     c: inout C
-) -> Int {
+) throws -> Int {
     // Precondition: has_predecessor(c) ∨ v ≠ post
     switch v {
     case .pre:
@@ -103,14 +103,15 @@ func traverseStep<C: BidirectionalBifurcateCoordinate>(
         if isLeftSuccessor(j: c) {
             v = .in
         }
-        c = c.iteratorPredecessor!
+        guard let p = c.iteratorPredecessor else { throw EOPError.noPredecessor }
+        c = p
         return -1
     }
 }
 
 func reachable<C: BidirectionalBifurcateCoordinate>(
     x: C, y: C
-) -> Bool {
+) throws -> Bool {
     var x = x
     // Precondition: tree(x)
     guard !x.isEmpty() else { return false }
@@ -118,12 +119,12 @@ func reachable<C: BidirectionalBifurcateCoordinate>(
     var v = Visit.pre
     repeat {
         guard x != y else { return true }
-        _ = traverseStep(v: &v, c: &x)
+        _ = try traverseStep(v: &v, c: &x)
     } while x != root || v != .post
     return false
 }
 
-func weight<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
+func weight<C: BidirectionalBifurcateCoordinate>(c: C) throws -> WeightType {
     var c = c
     // Precondition: tree(c)
     guard !c.isEmpty() else { return N(0) }
@@ -131,13 +132,13 @@ func weight<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
     var v = Visit.pre
     var n = N(1) // Invariant: n is count of .pre visits so far
     repeat {
-        _ = traverseStep(v: &v, c: &c)
+        _ = try traverseStep(v: &v, c: &c)
         if v == .pre { n = n.successor() }
     } while c != root || v != .post
     return n
 }
 
-func height<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
+func height<C: BidirectionalBifurcateCoordinate>(c: C) throws -> WeightType {
     var c = c
     // Precondition: tree(c)
     guard !c.isEmpty() else { return N(0) }
@@ -146,7 +147,7 @@ func height<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType {
     var n = N(1) // Invariant: n is max of height of .pre visits so far
     var m = N(1) // Invariant: m is height of current .pre visit
     repeat {
-        m = (m - N(1)) + N(traverseStep(v: &v, c: &c) + 1)
+        m = (m - N(1)) + N(try traverseStep(v: &v, c: &c) + 1)
         n = max(n, m)
     } while c != root || v != .post
     return n
@@ -158,7 +159,7 @@ func traverse<
 >(
     c: C,
     proc: P
-) -> P
+) throws -> P
 where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     var c = c
     // Precondition: tree(c)
@@ -167,7 +168,7 @@ where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     var v = Visit.pre
     proc.call(.pre, c)
     repeat {
-        _ = traverseStep(v: &v, c: &c)
+        _ = try traverseStep(v: &v, c: &c)
         proc.call(v, c)
     } while c != root || v != .post
     return proc
@@ -205,7 +206,7 @@ func bifurcateIsomorphic<
 >(
     c0: C0,
     c1: C1
-) -> Bool {
+) throws -> Bool {
     var c0 = c0, c1 = c1
     // Precondition: tree(c0) ∧ tree(c1)
     guard !c0.isEmpty() else { return c1.isEmpty() }
@@ -214,8 +215,8 @@ func bifurcateIsomorphic<
     var v0 = Visit.pre
     var v1 = Visit.pre
     while true {
-        _ = traverseStep(v: &v0, c: &c0)
-        _ = traverseStep(v: &v1, c: &c1)
+        _ = try traverseStep(v: &v0, c: &c0)
+        _ = try traverseStep(v: &v1, c: &c1)
         guard v0 == v1 else { return false }
         if c0 == root0 && v0 == .post { return true }
     }
@@ -307,7 +308,7 @@ func bifurcateEquivalent<
     c0: C0,
     c1: C1,
     r: Relation<C0.Source>
-) -> Bool
+) throws -> Bool
 where C0.Source == C1.Source {
     var c0 = c0, c1 = c1
     // Precondition: readable_tree(c0) ∧ readable_tree(c1)
@@ -319,8 +320,8 @@ where C0.Source == C1.Source {
     var v1 = Visit.pre
     while true {
         guard !(v0 == .pre && !r(c0.source!, c1.source!)) else { return false }
-        _ = traverseStep(v: &v0, c: &c0)
-        _ = traverseStep(v: &v1, c: &c1)
+        _ = try traverseStep(v: &v0, c: &c0)
+        _ = try traverseStep(v: &v1, c: &c1)
         guard v0 == v1 else { return false }
         if c0 == root0 && v0 == .post { return true }
     }
@@ -332,9 +333,9 @@ func bifurcateEqual<
 >(
     c0: C0,
     c1: C1
-) -> Bool
+) throws -> Bool
 where C0.Source == C1.Source {
-    return bifurcateEquivalent(c0: c0, c1: c1, r: equal)
+    return try bifurcateEquivalent(c0: c0, c1: c1, r: equal)
 }
 
 func lexicographicalCompare<
@@ -488,7 +489,7 @@ func bifurcateCompare<
     c0: C0,
     c1: C1,
     r: Relation<C0.Source>
-) -> Bool
+) throws -> Bool
 where C0.Source == C1.Source {
     var c0 = c0, c1 = c1
     // Precondition: readable_tree(c0) ∧ readable_tree(c1) ∧ weak_ordering(r)
@@ -502,8 +503,8 @@ where C0.Source == C1.Source {
             guard !r(c0.source!, c1.source!) else { return true }
             guard !r(c1.source!, c0.source!) else { return false }
         }
-        _ = traverseStep(v: &v0, c: &c0)
-        _ = traverseStep(v: &v1, c: &c1)
+        _ = try traverseStep(v: &v0, c: &c0)
+        _ = try traverseStep(v: &v1, c: &c1)
         guard v0 == v1 else { return v0 > v1 }
         if c0 == root0 && v0 == .post { return false }
     }
@@ -515,11 +516,11 @@ func bifurcateLess<
 >(
     c0: C0,
     c1: C1
-) -> Bool
+) throws -> Bool
 where C0.Source == C1.Source {
     // Precondition: readable_tree(c0) ∧ readable_tree(c1)
     let ls: Relation<C0.Source> = less
-    return bifurcateCompare(c0: c0, c1: c1, r: ls)
+    return try bifurcateCompare(c0: c0, c1: c1, r: ls)
 }
 
 func alwaysFalse<T: Regular>(x: T, y: T) -> Bool {
@@ -532,8 +533,8 @@ func bifurcateShapeCompare<
 >(
     c0: C0,
     c1: C1
-) -> Bool
+) throws -> Bool
 where C0.Source == C1.Source {
     // Precondition: readable_tree(c0) ∧ readable_tree(c1)
-    return bifurcateCompare(c0: c0, c1: c1, r: alwaysFalse)
+    return try bifurcateCompare(c0: c0, c1: c1, r: alwaysFalse)
 }

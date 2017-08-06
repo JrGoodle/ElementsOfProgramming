@@ -86,7 +86,8 @@ func partitionBidirectional<I: Mutable & BidirectionalIterator>(
     while true {
         guard let ffi = findIf(f: f, l: l, p: p) else { return nil }
         f = ffi
-        l = findBackwardIfNot(f: f, l: l, p: p)
+        guard let fbin = findBackwardIfNot(f: f, l: l, p: p) else { return nil }
+        l = fbin
         guard f != l else { return f }
         try reverseSwapStep(l0: &l, f1: &f)
     }
@@ -122,9 +123,11 @@ func partitonSingleCycle<I: Mutable & BidirectionalIterator>(
     // Precondition: mutable_bounded_range(f, l)
     guard let ffi = findIf(f: f, l: l, p: p) else { return nil }
     f = ffi
-    l = findBackwardIfNot(f: f, l: l, p: p)
+    guard let fbin = findBackwardIfNot(f: f, l: l, p: p) else { return nil }
+    l = fbin
     guard f != l else { return f }
-    l = l.iteratorPredecessor!
+    guard let ip = l.iteratorPredecessor else { return nil }
+    l = ip
     let tmp = f.source!
     while true {
         f.sink = l.source
@@ -136,7 +139,8 @@ func partitonSingleCycle<I: Mutable & BidirectionalIterator>(
             return f
         }
         l.sink = f.source!
-        l = findBackwardIfNotUnguarded(l: l, p: p)
+        guard let fbinu = findBackwardIfNotUnguarded(l: l, p: p) else { return nil }
+        l = fbinu
     }
 }
 
@@ -154,7 +158,8 @@ func partitionBidirectionalUnguarded<I: Mutable & BidirectionalIterator>(
     while true {
         guard let fiu = findIfUnguarded(f: f, p: p) else { return nil }
         f = fiu
-        l = findBackwardIfNotUnguarded(l: l, p: p)
+        guard let fbinu = findBackwardIfNotUnguarded(l: l, p: p) else { return nil }
+        l = fbinu
         guard let ls = l.iteratorSuccessor else { return nil }
         guard ls != f else { return f }
         exchangeValues(x: f, y: l)
@@ -171,9 +176,11 @@ func partitionSentinel<I: Mutable & BidirectionalIterator>(
     // Precondition: mutable_bounded_range(f, l)
     guard let ffi = findIf(f: f, l: l, p: p) else { return nil }
     f = ffi
-    l = findBackwardIfNot(f: f, l: l, p: p)
+    guard let fbin = findBackwardIfNot(f: f, l: l, p: p) else { return nil }
+    l = fbin
     guard f != l else { return f }
-    l = l.iteratorPredecessor!
+    guard let ip = l.iteratorPredecessor else { return nil }
+    l = ip
     exchangeValues(x: f, y: l)
     guard let fs = f.iteratorSuccessor else { return nil }
     f = fs

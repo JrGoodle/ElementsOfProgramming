@@ -66,7 +66,8 @@ func reverseBidirectional<I: Mutable & BidirectionalIterator>(
     // Precondition: mutable_bounded_range(f, l)
     while true {
         guard f != l else { return }
-        l = l.iteratorPredecessor!
+        guard let p = l.iteratorPredecessor else { throw EOPError.noPredecessor }
+        l = p
         guard f != l else { return }
         exchangeValues(x: f, y: l)
         guard let s = f.iteratorSuccessor else { throw EOPError.noSuccessor }
@@ -310,7 +311,7 @@ where I.Source == B.Source {
     // Precondition: mutable_bounded_range(f, l) ∧ f ≺ m ≺ l
     // Precondition: mutable_counted_range(f_b, l-f)
     let lb = try copy(fi: m, li: l, fo: fb)
-    _ = copyBackward(fi: f, li: m, lo: l)
+    _ = try copyBackward(fi: f, li: m, lo: l)
     return try copy(fi: fb, li: lb, fo: f)
 }
 

@@ -625,29 +625,32 @@ func upperBoundN<I: Readable & ForwardIterator>(
 
 // Exercise 6.7: equal_range
 
-func -<I: BidirectionalIterator>(
-    l: I,
-    n: DistanceType
-) -> I {
-    var l = l, n = n
-    // Precondition: n ≥ 0 ∧ (∃f ∈ I), (weak_range(f, n) ∧ l = f + n)
-    while n != 0 {
-        n = n.predecessor()
-        l = l.iteratorPredecessor!
-    }
-    return l
-}
+//func -<I: BidirectionalIterator>(
+//    l: I,
+//    n: DistanceType
+//) -> I {
+//    var l = l, n = n
+//    // Precondition: n ≥ 0 ∧ (∃f ∈ I), (weak_range(f, n) ∧ l = f + n)
+//    while n != 0 {
+//        n = n.predecessor()
+//        l = l.iteratorPredecessor
+//    }
+//    return l
+//}
 
 func findBackwardIf<
     I: Readable & BidirectionalIterator
 >(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
-) -> I {
+) -> I? {
     var l = l
     // Precondition: readable_bounded_range(f, l)
-    while l != f && !p(l.iteratorPredecessor!.source!) {
-        l = l.iteratorPredecessor!
+    guard var ip = l.iteratorPredecessor else { return nil }
+    while l != f && !p(ip.source!) {
+        l = ip
+        guard let ipp = ip.iteratorPredecessor else { return nil }
+        ip = ipp
     }
     return l
 }
@@ -657,11 +660,14 @@ func findBackwardIfNot<
 >(
     f: I, l: I,
     p: UnaryPredicate<I.Source>
-) -> I {
+) -> I? {
     var l = l
     // Precondition: readable_bounded_range(f, l)
-    while l != f && p(l.iteratorPredecessor!.source!) {
-        l = l.iteratorPredecessor!
+    guard var ip = l.iteratorPredecessor else { return nil }
+    while l != f && p(ip.source!) {
+        l = ip
+        guard let ipp = ip.iteratorPredecessor else { return nil }
+        ip = ipp
     }
     return l
 }
@@ -678,11 +684,14 @@ func findBackwardIfUnguarded<
 >(
     l: I,
     p: UnaryPredicate<I.Source>
-) -> I {
+) -> I? {
     var l = l
     // Precondition:
     // (∃f ∈ I), readable_bounded_range(f, l) ∧ some(f, l, p)
-    repeat { l = l.iteratorPredecessor! } while !p(l.source!)
+    repeat {
+        guard let ip = l.iteratorPredecessor else { return nil }
+        l = ip
+    } while !p(l.source!)
     return l
     // Postcondition: p(source(l))
 }
@@ -692,11 +701,14 @@ func findBackwardIfNotUnguarded<
 >(
     l: I,
     p: UnaryPredicate<I.Source>
-) -> I {
+) -> I? {
     var l = l
     // Precondition:
     // (∃f ∈ I), readable_bounded_range(f, l) ∧ not_all(f, l, p)
-    repeat { l = l.iteratorPredecessor! } while p(l.source!)
+    repeat {
+        guard let ip = l.iteratorPredecessor else { return nil }
+        l = ip
+    } while p(l.source!)
     return l
     // Postcondition: ￢p(source(l))
 }

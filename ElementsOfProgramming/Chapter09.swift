@@ -126,11 +126,14 @@ func copyBackwardStep<
 >(
     li: inout I,
     lo: inout O
-) where I.Source == O.Sink{
+) throws
+where I.Source == O.Sink{
     // Precondition: source(predecessor(l_i)) and sink(predecessor(l_o))
     //               are defined
-    li = li.iteratorPredecessor!
-    lo = lo.iteratorPredecessor!
+    guard let lip = li.iteratorPredecessor else { throw EOPError.noPredecessor }
+    li = lip
+    guard let lop = lo.iteratorPredecessor else { throw EOPError.noPredecessor }
+    lo = lop
     lo.sink = li.source!
 }
 
@@ -140,11 +143,11 @@ public func copyBackward<
 >(
     fi: I, li: I,
     lo: O
-) -> O
+) throws -> O
 where I.Source == O.Sink {
     var li = li, lo = lo
     // Precondition: not_overlapped_backward(f_i, l_i, l_o-(l_i - f_i), l_o)
-    while fi != li { copyBackwardStep(li: &li, lo: &lo) }
+    while fi != li { try copyBackwardStep(li: &li, lo: &lo) }
     return lo
 }
 
@@ -155,10 +158,10 @@ func copyBackwardN<
     li: I,
     n: DistanceType,
     lo: O
-) -> Pair<I, O>
+) throws -> Pair<I, O>
 where I.Source == O.Sink {
     var li = li, n = n, lo = lo
-    while countDown(n: &n) { copyBackwardStep(li: &li, lo: &lo) }
+    while countDown(n: &n) { try copyBackwardStep(li: &li, lo: &lo) }
     return Pair(m0: li, m1: lo)
 }
 
@@ -398,20 +401,24 @@ func combineCopyBackward<
     fi1: I1, li1: I1,
     lo: O,
     r: BinaryRelation<I1, I0>
-) -> O
+) throws -> O
 where I0.Source == O.Sink, I1.Source == O.Sink {
     var li0 = li0, li1 = li1, lo = lo
     // Precondition: see section 9.3 of Elements of Programming
     while fi0 != li0 && fi1 != li1 {
-        if r(li1.iteratorPredecessor!, li0.iteratorPredecessor!) {
-            copyBackwardStep(li: &li0, lo: &lo)
+        guard let li1p = li1.iteratorPredecessor,
+              let li0p = li0.iteratorPredecessor else {
+            throw EOPError.noPredecessor
+        }
+        if r(li1p, li0p) {
+            try copyBackwardStep(li: &li0, lo: &lo)
         } else {
-            copyBackwardStep(li: &li1, lo: &lo)
+            try copyBackwardStep(li: &li1, lo: &lo)
         }
     }
-    return copyBackward(fi: fi0,
-                        li: li0,
-                        lo: copyBackward(fi: fi1, li: li1, lo: lo))
+    return try copyBackward(fi: fi0,
+                            li: li0,
+                            lo: copyBackward(fi: fi1, li: li1, lo: lo))
 }
 
 func combineCopyBackwardN<
@@ -423,7 +430,7 @@ func combineCopyBackwardN<
     li_1: I1, ni_1: DistanceType,
     lo: O,
     r: BinaryRelation<I1, I0>
-) -> Triple<I0, I1, O>
+) throws -> Triple<I0, I1, O>
 where I0.Source == O.Sink, I1.Source == O.Sink {
     var li_0 = li_0, ni_0 = ni_0
     var li_1 = li_1, ni_1 = ni_1
@@ -431,18 +438,22 @@ where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: see combine_copy_backward
     while true {
         guard ni_0 != 0 else {
-            let p = copyBackwardN(li: li_1, n: ni_1, lo: lo)
+            let p = try copyBackwardN(li: li_1, n: ni_1, lo: lo)
             return Triple(m0: li_0, m1: p.m0, m2: p.m1)
         }
         guard ni_1 != 0 else {
-            let p = copyBackwardN(li: li_0, n: ni_0, lo: lo)
+            let p = try copyBackwardN(li: li_0, n: ni_0, lo: lo)
             return Triple(m0: p.m0, m1: li_1, m2: p.m1)
         }
-        if r(li_1.iteratorPredecessor!, li_0.iteratorPredecessor!) {
-            copyBackwardStep(li: &li_0, lo: &lo)
+        guard let li_1p = li_1.iteratorPredecessor,
+              let li_0p = li_0.iteratorPredecessor else {
+            throw EOPError.noPredecessor
+        }
+        if r(li_1p, li_0p) {
+            try copyBackwardStep(li: &li_0, lo: &lo)
             ni_0 = ni_0.predecessor()
         } else {
-            copyBackwardStep(li: &li_1, lo: &lo)
+            try copyBackwardStep(li: &li_1, lo: &lo)
             ni_1 = ni_1.predecessor()
         }
     }
@@ -498,17 +509,17 @@ func mergeCopyBackward<
     fi1: I1, li1: I1,
     lo: O,
     r: @escaping Relation<I0.Source>
-) -> O
+) throws -> O
 where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: in addition to that for combine_copy_backward:
     //               weak_ordering(r) ∧
     //               increasing_range(f_{i_0}, l_{i_0}, r) ∧
     //               increasing_range(f_{i_1}, l_{i_1}, r)
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
-    return combineCopyBackward(fi0: fi0, li0: li0,
-                               fi1: fi1, li1: li1,
-                               lo: lo,
-                               r: rs)
+    return try combineCopyBackward(fi0: fi0, li0: li0,
+                                   fi1: fi1, li1: li1,
+                                   lo: lo,
+                                   r: rs)
 }
 
 func mergeCopyBackwardN<
@@ -520,14 +531,14 @@ func mergeCopyBackwardN<
     li_1: I1, ni_1: DistanceType,
     lo: O,
     r: @escaping Relation<I0.Source>
-) -> Triple<I0, I1, O>
+) throws -> Triple<I0, I1, O>
 where I0.Source == O.Sink, I1.Source == O.Sink {
     // Precondition: see merge_copy_backward
     let rs: BinaryRelation<I1, I0> = relationSource(r: r)
-    return combineCopyBackwardN(li_0: li_0, ni_0: ni_0,
-                                li_1: li_1, ni_1: ni_1,
-                                lo: lo,
-                                r: rs)
+    return try combineCopyBackwardN(li_0: li_0, ni_0: ni_0,
+                                    li_1: li_1, ni_1: ni_1,
+                                    lo: lo,
+                                    r: rs)
 }
 
 public func exchangeValues<
@@ -616,7 +627,8 @@ func reverseSwapStep<
 ) throws
 where I0.Source == I1.Source {
     // Precondition: deref(predecessor(l_0)) and deref(f_1) are defined
-    l0 = l0.iteratorPredecessor!
+    guard let p = l0.iteratorPredecessor else { throw EOPError.noPredecessor }
+    l0 = p
     exchangeValues(x: l0, y: f1)
     guard let s = f1.iteratorSuccessor else { throw EOPError.noSuccessor }
     f1 = s
