@@ -58,7 +58,6 @@
 		C6CC1AA91F2ADB1900E468B3 /* Int64+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B297A51F2060E2000E53B6 /* Int64+Additions.swift */; };
 		C6CC1AAA1F2ADB1900E468B3 /* Int+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B297A61F2060E2000E53B6 /* Int+Additions.swift */; };
 		C6CC1AAB1F2ADB1900E468B3 /* UInt+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B297B41F206AE1000E53B6 /* UInt+Additions.swift */; };
-		C6CC1AAC1F2ADB1900E468B3 /* Pointers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F34C671F21C98400CF86E7 /* Pointers.swift */; };
 		C6CC1AAE1F2ADB1900E468B3 /* SList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB281F231C1B00BDECD8 /* SList.swift */; };
 		C6CC1AAF1F2ADB1900E468B3 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E03B6E1F282CF100B65BD5 /* String.swift */; };
 		C6CC1AB01F2ADB9000E468B3 /* Concepts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC39C1F16ECD60001B732 /* Concepts.swift */; };
@@ -154,7 +153,6 @@
 		C6CCDE011F2AD9740000DA62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6E03B6E1F282CF100B65BD5 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		C6F308391F25A2D100AFBEB3 /* Chapter10.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter10.swift; sourceTree = "<group>"; };
-		C6F34C671F21C98400CF86E7 /* Pointers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pointers.swift; sourceTree = "<group>"; };
 		C6F549921F2AE2BF0057BC02 /* Tuples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tuples.swift; sourceTree = "<group>"; };
 		C6FEC38C1F16DA210001B732 /* ElementsOfProgramming */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ElementsOfProgramming; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6FEC38F1F16DA210001B732 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -246,7 +244,6 @@
 				C6B297A51F2060E2000E53B6 /* Int64+Additions.swift */,
 				C6B297A61F2060E2000E53B6 /* Int+Additions.swift */,
 				C6B297B41F206AE1000E53B6 /* UInt+Additions.swift */,
-				C6F34C671F21C98400CF86E7 /* Pointers.swift */,
 				C66BEB281F231C1B00BDECD8 /* SList.swift */,
 				C6E03B6E1F282CF100B65BD5 /* String.swift */,
 				C6F549921F2AE2BF0057BC02 /* Tuples.swift */,
@@ -516,7 +513,6 @@
 				C6CC1AB01F2ADB9000E468B3 /* Concepts.swift in Sources */,
 				C6CC1AB11F2ADB9000E468B3 /* TypeFunctions.swift in Sources */,
 				C6CC1AAE1F2ADB1900E468B3 /* SList.swift in Sources */,
-				C6CC1AAC1F2ADB1900E468B3 /* Pointers.swift in Sources */,
 				C6F549931F2AE2BF0057BC02 /* Tuples.swift in Sources */,
 				C6CC1AAF1F2ADB1900E468B3 /* String.swift in Sources */,
 				C6CC1AA71F2ADB1900E468B3 /* Float+Additions.swift in Sources */,
