@@ -4,8 +4,8 @@
 //
 
 public struct Rational {
-    var numerator: Int
-    var denominator: Int
+    private(set) var numerator: Int
+    private(set) var denominator: Int
     
     init?(numerator: Int, denominator: Int) {
         if denominator == 0 { return nil }
