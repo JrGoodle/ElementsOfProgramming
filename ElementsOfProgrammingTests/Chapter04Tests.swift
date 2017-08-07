@@ -4,6 +4,7 @@
 //
 
 import XCTest
+import EOP
 
 class Chapter04Tests: XCTestCase {
 

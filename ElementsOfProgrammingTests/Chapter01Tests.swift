@@ -4,6 +4,7 @@
 //
 
 import XCTest
+import EOP
 
 class Chapter01Tests: XCTestCase {
     
@@ -21,7 +22,8 @@ class Chapter01Tests: XCTestCase {
     
     func testPlus() {
         XCTAssert(plus0(a: 3 * 3, b: 4 * 4) == 5 * 5)
-        XCTAssert(plus1(a: 3 * 3, b: 4 * 4) == 5 * 5)
+        var a = 3 * 3, b = 4 * 4
+        XCTAssert(plus1(a: &a, b: &b) == 5 * 5)
         
         // FIXME: Get this working again
 //        let a = Pointer<Int>.allocate(capacity: 1)

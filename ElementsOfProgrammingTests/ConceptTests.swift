@@ -4,6 +4,7 @@
 //
 
 import XCTest
+import EOP
 
 class Concept {
     
@@ -104,16 +105,16 @@ class Concept {
         m = m.halfNonnegative()
         m = m.binaryScaleDownNonnegative(k: I(1))
         m = m.binaryScaleUpNonnegative(k: I(1))
-        let bp = m.positive()
-        let bn = m.negative()
+        let bp = m.isPositive()
+        let bn = m.isNegative()
         XCTAssert(!(bp && bn))
         let bz = m.isZero()
         XCTAssert((bz && !(bn || bp)) || (!bz && (bn || bp)))
-        let b1 = m.one()
+        let b1 = m.isOne()
         XCTAssert(!(bz && b1))
         XCTAssert(!b1 || bp)
-        let be = m.even()
-        let bo = m.odd()
+        let be = m.isEven()
+        let bo = m.isOdd()
         XCTAssert(be != bo)
     }
     

@@ -8,26 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		C60C392F1F1EE64200243F20 /* Chapter09.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60C392E1F1EE64200243F20 /* Chapter09.swift */; };
-		C60C39301F1EE64900243F20 /* Chapter09.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60C392E1F1EE64200243F20 /* Chapter09.swift */; };
-		C61124C81F184B74005B18ED /* Chapter02Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61124C71F184B74005B18ED /* Chapter02Tests.swift */; };
-		C61124D01F184B88005B18ED /* Chapter01.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3961F16DA4C0001B732 /* Chapter01.swift */; };
-		C61124D11F184B88005B18ED /* Chapter02.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3981F16DA810001B732 /* Chapter02.swift */; };
-		C61124D21F184B88005B18ED /* Chapter05.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3A21F1735510001B732 /* Chapter05.swift */; };
-		C61124D31F184B88005B18ED /* Drivers.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3A01F172E910001B732 /* Drivers.swift */; };
 		C6459EC81F26F65700F0E894 /* Chapter12.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6459EC71F26F65700F0E894 /* Chapter12.swift */; };
-		C6459EC91F26FB0900F0E894 /* Chapter12.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6459EC71F26F65700F0E894 /* Chapter12.swift */; };
 		C65D60B11F1B275000F62E3B /* Chapter04.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65D60B01F1B275000F62E3B /* Chapter04.swift */; };
-		C65D60B21F1B278C00F62E3B /* Chapter04.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65D60B01F1B275000F62E3B /* Chapter04.swift */; };
-		C65D60B41F1C45BD00F62E3B /* Chapter04Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65D60B31F1C45BD00F62E3B /* Chapter04Tests.swift */; };
-		C66BEB271F2316A700BDECD8 /* Chapter06Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB261F2316A700BDECD8 /* Chapter06Tests.swift */; };
 		C66BEB321F23F65A00BDECD8 /* Chapter07.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB311F23F65A00BDECD8 /* Chapter07.swift */; };
-		C66BEB331F23F65A00BDECD8 /* Chapter07.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB311F23F65A00BDECD8 /* Chapter07.swift */; };
 		C66BEB351F24210200BDECD8 /* Chapter08.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB341F24210200BDECD8 /* Chapter08.swift */; };
-		C66BEB361F24210200BDECD8 /* Chapter08.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB341F24210200BDECD8 /* Chapter08.swift */; };
 		C66DB4781F19B4BB0019A2BB /* Chapter03.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4771F19B4BB0019A2BB /* Chapter03.swift */; };
-		C66DB47C1F1AE8110019A2BB /* Chapter03Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB47B1F1AE8110019A2BB /* Chapter03Tests.swift */; };
-		C66DB47D1F1AEECE0019A2BB /* Chapter03.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4771F19B4BB0019A2BB /* Chapter03.swift */; };
-		C66DB4801F1AF5D20019A2BB /* Chapter01Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB47F1F1AF5D20019A2BB /* Chapter01Tests.swift */; };
 		C67BB73D1F32389E0032264F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67BB73C1F32389E0032264F /* main.swift */; };
 		C67BB74E1F3238DA0032264F /* Chapter11.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67BB7471F3238DA0032264F /* Chapter11.swift */; };
 		C67BB7501F3238DA0032264F /* Chapter10.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67BB7441F3238DA0032264F /* Chapter10.swift */; };
@@ -42,12 +27,25 @@
 		C67BB7591F3238DA0032264F /* Chapter05.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67BB74D1F3238DA0032264F /* Chapter05.swift */; };
 		C67BB75A1F3238DA0032264F /* Chapter04.swift in Sources */ = {isa = PBXBuildFile; fileRef = C67BB74B1F3238DA0032264F /* Chapter04.swift */; };
 		C67BB75B1F3238EB0032264F /* EOP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6CCDDFE1F2AD9740000DA62 /* EOP.framework */; };
-		C6910EB01F1D7442009F84EB /* ConceptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6910EAF1F1D7442009F84EB /* ConceptTests.swift */; };
 		C6910EB51F1DAB41009F84EB /* Chapter06.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6910EB41F1DAB41009F84EB /* Chapter06.swift */; };
-		C6910EB61F1DAB45009F84EB /* Chapter06.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6910EB41F1DAB41009F84EB /* Chapter06.swift */; };
-		C6B297911F203640000E53B6 /* Chapter05Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B297901F203640000E53B6 /* Chapter05Tests.swift */; };
 		C6B5A5391F26B6F700BF21B5 /* Chapter11.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B5A5381F26B6F700BF21B5 /* Chapter11.swift */; };
-		C6B5A53A1F26B76300BF21B5 /* Chapter11.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B5A5381F26B6F700BF21B5 /* Chapter11.swift */; };
+		C6C3BA091F3806B400D1CC51 /* Chapter01.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3961F16DA4C0001B732 /* Chapter01.swift */; };
+		C6C3BA0A1F3806B400D1CC51 /* Chapter02.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3981F16DA810001B732 /* Chapter02.swift */; };
+		C6C3BA0B1F3806B400D1CC51 /* Chapter03.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB4771F19B4BB0019A2BB /* Chapter03.swift */; };
+		C6C3BA0C1F3806B400D1CC51 /* Chapter04.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65D60B01F1B275000F62E3B /* Chapter04.swift */; };
+		C6C3BA0D1F3806B400D1CC51 /* Chapter05.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3A21F1735510001B732 /* Chapter05.swift */; };
+		C6C3BA0E1F3806B400D1CC51 /* Chapter06.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6910EB41F1DAB41009F84EB /* Chapter06.swift */; };
+		C6C3BA0F1F3806B400D1CC51 /* Chapter07.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB311F23F65A00BDECD8 /* Chapter07.swift */; };
+		C6C3BA101F3806B400D1CC51 /* Chapter08.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB341F24210200BDECD8 /* Chapter08.swift */; };
+		C6C3BA111F3806B400D1CC51 /* Chapter09.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60C392E1F1EE64200243F20 /* Chapter09.swift */; };
+		C6C3BA121F3806B400D1CC51 /* Chapter10.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F308391F25A2D100AFBEB3 /* Chapter10.swift */; };
+		C6C3BA131F3806B400D1CC51 /* Chapter11.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B5A5381F26B6F700BF21B5 /* Chapter11.swift */; };
+		C6C3BA141F3806B400D1CC51 /* Chapter12.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6459EC71F26F65700F0E894 /* Chapter12.swift */; };
+		C6C3BA151F3806C600D1CC51 /* Chapter01Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB47F1F1AF5D20019A2BB /* Chapter01Tests.swift */; };
+		C6C3BA161F3806F200D1CC51 /* ConceptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6910EAF1F1D7442009F84EB /* ConceptTests.swift */; };
+		C6C3BA171F38075800D1CC51 /* Chapter02Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C61124C71F184B74005B18ED /* Chapter02Tests.swift */; };
+		C6C3BA181F38080C00D1CC51 /* Chapter03Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66DB47B1F1AE8110019A2BB /* Chapter03Tests.swift */; };
+		C6C3BA191F38093600D1CC51 /* Chapter04Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65D60B31F1C45BD00F62E3B /* Chapter04Tests.swift */; };
 		C6C3FDD61F37D3B800936E7A /* Rational.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CC1AB21F2ADD8400E468B3 /* Rational.swift */; };
 		C6CC1AA31F2AD9CB00E468B3 /* Concepts.swift in Headers */ = {isa = PBXBuildFile; fileRef = C6FEC39C1F16ECD60001B732 /* Concepts.swift */; };
 		C6CC1AA41F2AD9CB00E468B3 /* TypeFunctions.swift in Headers */ = {isa = PBXBuildFile; fileRef = C6FEC39A1F16DAC10001B732 /* TypeFunctions.swift */; };
@@ -65,7 +63,6 @@
 		C6CCDE021F2AD9740000DA62 /* EOP.h in Headers */ = {isa = PBXBuildFile; fileRef = C6CCDE001F2AD9740000DA62 /* EOP.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6CD6D181F36BD2D0047FE8A /* EOP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6CCDDFE1F2AD9740000DA62 /* EOP.framework */; };
 		C6F3083A1F25A2D100AFBEB3 /* Chapter10.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F308391F25A2D100AFBEB3 /* Chapter10.swift */; };
-		C6F3083B1F25A3A900AFBEB3 /* Chapter10.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F308391F25A2D100AFBEB3 /* Chapter10.swift */; };
 		C6F549931F2AE2BF0057BC02 /* Tuples.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F549921F2AE2BF0057BC02 /* Tuples.swift */; };
 		C6FEC3901F16DA210001B732 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC38F1F16DA210001B732 /* main.swift */; };
 		C6FEC3971F16DA4C0001B732 /* Chapter01.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FEC3961F16DA4C0001B732 /* Chapter01.swift */; };
@@ -75,6 +72,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		C6C3BA071F38068500D1CC51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C6FEC3841F16DA210001B732 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6FEC38B1F16DA210001B732;
+			remoteInfo = ElementsOfProgramming;
+		};
 		C6CD6D191F36BD400047FE8A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C6FEC3841F16DA210001B732 /* Project object */;
@@ -330,6 +334,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				C6C3BA081F38068500D1CC51 /* PBXTargetDependency */,
 				C6CD6D1A1F36BD400047FE8A /* PBXTargetDependency */,
 			);
 			name = ElementsOfProgrammingTests;
@@ -457,26 +462,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C66BEB271F2316A700BDECD8 /* Chapter06Tests.swift in Sources */,
-				C66DB4801F1AF5D20019A2BB /* Chapter01Tests.swift in Sources */,
-				C65D60B21F1B278C00F62E3B /* Chapter04.swift in Sources */,
-				C6910EB61F1DAB45009F84EB /* Chapter06.swift in Sources */,
-				C6B297911F203640000E53B6 /* Chapter05Tests.swift in Sources */,
-				C61124D01F184B88005B18ED /* Chapter01.swift in Sources */,
-				C66BEB361F24210200BDECD8 /* Chapter08.swift in Sources */,
-				C6F3083B1F25A3A900AFBEB3 /* Chapter10.swift in Sources */,
-				C6B5A53A1F26B76300BF21B5 /* Chapter11.swift in Sources */,
-				C66BEB331F23F65A00BDECD8 /* Chapter07.swift in Sources */,
-				C66DB47D1F1AEECE0019A2BB /* Chapter03.swift in Sources */,
-				C61124D11F184B88005B18ED /* Chapter02.swift in Sources */,
-				C61124D21F184B88005B18ED /* Chapter05.swift in Sources */,
-				C66DB47C1F1AE8110019A2BB /* Chapter03Tests.swift in Sources */,
-				C61124D31F184B88005B18ED /* Drivers.swift in Sources */,
-				C6459EC91F26FB0900F0E894 /* Chapter12.swift in Sources */,
-				C60C39301F1EE64900243F20 /* Chapter09.swift in Sources */,
-				C6910EB01F1D7442009F84EB /* ConceptTests.swift in Sources */,
-				C61124C81F184B74005B18ED /* Chapter02Tests.swift in Sources */,
-				C65D60B41F1C45BD00F62E3B /* Chapter04Tests.swift in Sources */,
+				C6C3BA191F38093600D1CC51 /* Chapter04Tests.swift in Sources */,
+				C6C3BA181F38080C00D1CC51 /* Chapter03Tests.swift in Sources */,
+				C6C3BA171F38075800D1CC51 /* Chapter02Tests.swift in Sources */,
+				C6C3BA161F3806F200D1CC51 /* ConceptTests.swift in Sources */,
+				C6C3BA151F3806C600D1CC51 /* Chapter01Tests.swift in Sources */,
+				C6C3BA091F3806B400D1CC51 /* Chapter01.swift in Sources */,
+				C6C3BA0A1F3806B400D1CC51 /* Chapter02.swift in Sources */,
+				C6C3BA0B1F3806B400D1CC51 /* Chapter03.swift in Sources */,
+				C6C3BA0C1F3806B400D1CC51 /* Chapter04.swift in Sources */,
+				C6C3BA0D1F3806B400D1CC51 /* Chapter05.swift in Sources */,
+				C6C3BA0E1F3806B400D1CC51 /* Chapter06.swift in Sources */,
+				C6C3BA0F1F3806B400D1CC51 /* Chapter07.swift in Sources */,
+				C6C3BA101F3806B400D1CC51 /* Chapter08.swift in Sources */,
+				C6C3BA111F3806B400D1CC51 /* Chapter09.swift in Sources */,
+				C6C3BA121F3806B400D1CC51 /* Chapter10.swift in Sources */,
+				C6C3BA131F3806B400D1CC51 /* Chapter11.swift in Sources */,
+				C6C3BA141F3806B400D1CC51 /* Chapter12.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,6 +545,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		C6C3BA081F38068500D1CC51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6FEC38B1F16DA210001B732 /* ElementsOfProgramming */;
+			targetProxy = C6C3BA071F38068500D1CC51 /* PBXContainerItemProxy */;
+		};
 		C6CD6D1A1F36BD400047FE8A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C6CCDDFD1F2AD9740000DA62 /* EOP */;

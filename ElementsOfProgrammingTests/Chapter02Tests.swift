@@ -4,6 +4,7 @@
 //
 
 import XCTest
+import EOP
 
 class Chapter02Tests: XCTestCase {
     
@@ -37,8 +38,9 @@ class Chapter02Tests: XCTestCase {
     func testPowerUnary() {
         for i in 2..<5 {
             for j in 1..<5 {
-                let tmp = powerUnary(x: i, n: N(j - 1), f: sq)
-                XCTAssert(powerUnary(x: i, n: N(j), f: sq) == tmp * tmp)
+                let tmp = powerUnary(i, power: N(j - 1), transformation: sq)
+                XCTAssert(powerUnary(i, power: N(j),
+                                     transformation: sq) == tmp * tmp)
             }
         }
     }
@@ -54,15 +56,25 @@ class Chapter02Tests: XCTestCase {
     }
     
     func testConvergentPointGuarded() {
-        var cpg = convergentPointGuarded(x0: 1024, x1: 64, y: 1, f: hf)
+        var cpg = convergentPointGuarded(x0: 1024, x1: 64,
+                                         y: 1,
+                                         transformation: hf)
         XCTAssert(cpg == 64)
-        cpg = convergentPointGuarded(x0: 1025, x1: 65, y: 1, f: hf)
+        cpg = convergentPointGuarded(x0: 1025, x1: 65,
+                                     y: 1,
+                                     transformation: hf)
         XCTAssert(cpg == 32)
-        cpg = convergentPointGuarded(x0: 64, x1: 1024, y: 1, f: hf)
+        cpg = convergentPointGuarded(x0: 64, x1: 1024,
+                                     y: 1,
+                                     transformation: hf)
         XCTAssert(cpg == 64)
-        cpg = convergentPointGuarded(x0: 65, x1: 1025, y: 1, f: hf)
+        cpg = convergentPointGuarded(x0: 65, x1: 1025,
+                                     y: 1,
+                                     transformation: hf)
         XCTAssert(cpg == 32)
-        cpg = convergentPointGuarded(x0: 1024, x1: 2047, y: 1, f: hf)
+        cpg = convergentPointGuarded(x0: 1024, x1: 2047,
+                                     y: 1,
+                                     transformation: hf)
         XCTAssert(cpg == 1)
     }
     
@@ -96,26 +108,32 @@ class Chapter02Tests: XCTestCase {
     func algorithmsOrbit(x: Int, h: DistanceType, c: DistanceType) {
         let p = genOrbitPredicate(x: x, h: N(h), c: N(c))
         let f = genOrbitTransformation(x: x, h: N(h), c: N(c))
-        XCTAssert(c.isZero() == terminating(x: x, f: f, p: p))
+        XCTAssert(c.isZero() == terminating(start: x,
+                                            transformation: f,
+                                            definitionSpace: p))
         if h.isZero() && !c.isZero() {
-            XCTAssert(circular(x: x, f: f, p: p))
-            XCTAssert(circularNonterminatingOrbit(x: x, f: f))
+            XCTAssert(circular(start: x, transformation: f, definitionSpace: p))
+            XCTAssert(circularNonterminatingOrbit(start: x, transformation: f))
         } else if !h.isZero() {
-            XCTAssert(!circular(x: x, f: f, p: p))
+            XCTAssert(!circular(start: x, transformation: f, definitionSpace: p))
             if !c.isZero() {
-                XCTAssert(!circularNonterminatingOrbit(x: x, f: f))
+                XCTAssert(!circularNonterminatingOrbit(start: x,
+                                                       transformation: f))
             }
         }
-        let y = connectionPoint(x: x, f: f, p: p)
-        XCTAssert(powerUnary(x: x, n: N(h), f: f) == y)
+        let y = connectionPoint(start: x, transformation: f, definitionSpace: p)
+        XCTAssert(powerUnary(x, power: N(h), transformation: f) == y)
         if !c.isZero() {
-            XCTAssert(y == connectionPointNonterminatingOrbit(x: x, f: f))
+            XCTAssert(y == connectionPointNonterminatingOrbit(start: x,
+                                                              transformation: f))
         }
-        var t = orbitStructure(x: x, f: f, p: p)
+        var t = orbitStructure(start: x, transformation: f, definitionSpace: p)
         if c.isZero() { // terminating
             XCTAssert(t.m0 == h)
             XCTAssert(t.m1.isZero())
-            XCTAssert(t.m2 == collisionPoint(x: x, f: f, p: p))
+            XCTAssert(t.m2 == collisionPoint(start: x,
+                                             transformation: f,
+                                             definitionSpace: p))
         } else if h.isZero() { // circular
             XCTAssert(t.m0.isZero())
             XCTAssert(t.m1 == (c - 1))
@@ -126,7 +144,8 @@ class Chapter02Tests: XCTestCase {
             XCTAssert(t.m2 == y)
         }
         if !c.isZero() {
-            t = orbitStructureNonterminatingOrbit(x: x, f: f)
+            t = orbitStructureNonterminatingOrbit(start: x,
+                                                  transformation: f)
             if h.isZero() { // circular
                 XCTAssert(t.m0.isZero())
                 XCTAssert(t.m1 == (c - 1))
