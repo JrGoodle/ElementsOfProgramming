@@ -138,8 +138,6 @@ extension Rational: MultiplicativeIdentity {
     public static var multiplicativeIdentity: Rational {
         return Rational(1)
     }
-    
-
 }
 
 extension Rational: Halvable {

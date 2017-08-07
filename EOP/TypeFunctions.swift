@@ -101,7 +101,7 @@ extension Quotient {
     }
 }
 
-public protocol Halvable: Divisible {
+public protocol Halvable {
     func half() -> Self
 }
 
