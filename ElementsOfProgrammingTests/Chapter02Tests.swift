@@ -78,6 +78,26 @@ class Chapter02Tests: XCTestCase {
         XCTAssert(cpg == 1)
     }
     
+    typealias IntType = Int32
+    
+    func testPerformanceAddingPreventingOverflow() {
+        let value1: IntType = 1
+        self.measure {
+            for _ in 1...IntType.max / 100 {
+                let _ = value1.addingPreventingOverflow(IntType.max)
+            }
+        }
+    }
+    
+    func testPerformanceAddingReportingOverflow() {
+        let value2: IntType = 1
+        self.measure {
+            for _ in 1...IntType.max / 100 {
+                let _ = value2.addingReportingOverflow(IntType.max)
+            }
+        }
+    }
+    
     func sq<T: Multipliable>(x: T) -> T { return x * x }
     
     func hf(x: Int) -> Int { return x / 2 }
@@ -160,5 +180,14 @@ class Chapter02Tests: XCTestCase {
     
     func zero(_ a: Int) -> Bool {
         return a == 0
+    }
+}
+
+extension FixedWidthInteger {
+    func addingPreventingOverflow(_ rhs: Self) -> (partialValue: Self, overflow: ArithmeticOverflow) {
+        if definitionSpacePredicateIntegerAddition(x: self, y: rhs) {
+            return self.addingReportingOverflow(rhs)
+        }
+        return (self, ArithmeticOverflow.overflow)
     }
 }
