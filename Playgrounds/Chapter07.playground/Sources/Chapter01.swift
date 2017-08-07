@@ -61,4 +61,5 @@ public func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
         try! plus2(a: a, b: b, c: c)
         print(String(describing: c.value))
     }
+//    playgroundPlus2()
 #endif

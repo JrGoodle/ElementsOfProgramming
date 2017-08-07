@@ -265,12 +265,14 @@ func orbitStructure<DomainFP: Distance>(
         definitionSpacePredicateIntegerAddition(x: UInt.max, y: UInt.min)
         definitionSpacePredicateIntegerAddition(x: UInt.max - 1, y: UInt.max)
     }
+//    playgroundDSPAddition()
     
     func playgroundRhoShapedOrbit() {
         let f: Transformation<UInt> = { ($0 % 113 + 2) * 2 }
         let x: UInt = 0
         orbitStructureNonterminatingOrbit(start: x, transformation: f)
     }
+//    playgroundRhoShapedOrbit()
     
     func playgroundTerminatingOrbit() {
         let f: Transformation<UInt> = { $0 + 2 }
@@ -278,10 +280,12 @@ func orbitStructure<DomainFP: Distance>(
         let x: UInt = 0
         orbitStructure(start: x, transformation: f, definitionSpace: p)
     }
+//    playgroundTerminatingOrbit()
     
     func playgroundCircularOrbit() {
         let f: Transformation<UInt> = { ($0 % 113 + 2) * 2 }
         let x: UInt = 4
         orbitStructureNonterminatingOrbit(start: x, transformation: f)
     }
+//    playgroundCircularOrbit()
 #endif

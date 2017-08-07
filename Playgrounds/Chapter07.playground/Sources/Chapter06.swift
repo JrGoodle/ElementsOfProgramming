@@ -398,8 +398,8 @@ where I.Source : AdditiveMonoid {
 //    // Precondition: readable_weak_range(f, n)
 //    while n != 0 {
 //        n = n.predecessor()
-//        proc(f.source()!)
-//        f = f.successor!
+//        proc(f.source())
+//        f = f.successor
 //    }
 //    return Pair(proc, f)
 //}
