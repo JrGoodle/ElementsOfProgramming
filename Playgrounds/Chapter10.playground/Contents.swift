@@ -148,13 +148,13 @@ func kRotateFromPermutationRandomAccess<I: RandomAccessIterator>(
     // Precondition: bounded_range(f, l) ∧ m ∈ [f, l)
     let k = l.difference(from: m)
     let n_minus_k = m.difference(from: f)
-    guard let m_prime = f.successor(at: l.distance(from: m)) else {
+    guard let m_prime = f.iterator(at: l.difference(from: m)) else {
         return nil
     }
     return { x in
         // Precondition: x ∈ [f, l)
-        guard x >= m_prime else { return x.successor(at: N(n_minus_k))! }
-        return x.predecessor(at: N(k))!
+        guard x >= m_prime else { return x.iterator(at: n_minus_k)! }
+        return x.iterator(at: k)!
     }
 }
 
