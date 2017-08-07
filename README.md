@@ -17,3 +17,7 @@ Swift implementation of [Elements of Programming](https://www.amazon.com/gp/prod
     - A prettified version of the `ElementsOfProgramming` code without conditional compilation blocks used in Swift Playgrounds.
 - [Playgrounds](https://github.com/JrGoodle/ElementsOfProgramming/tree/master/Playgrounds)
     - Swift Playgrounds for algorithms from each chapter.
+
+## Contributing
+
+See [CONTRIBUTING.md](https://github.com/JrGoodle/ElementsOfProgramming/blob/master/CONTRIBUTING.md)
