@@ -184,10 +184,12 @@ class Chapter02Tests: XCTestCase {
 }
 
 extension FixedWidthInteger {
-    func addingPreventingOverflow(_ rhs: Self) -> (partialValue: Self, overflow: ArithmeticOverflow) {
+    func addingPreventingOverflow(
+        _ rhs: Self
+    ) -> (partialValue: Self, overflow: Bool) {
         if definitionSpacePredicateIntegerAddition(x: self, y: rhs) {
             return self.addingReportingOverflow(rhs)
         }
-        return (self, ArithmeticOverflow.overflow)
+        return (self, false)
     }
 }
