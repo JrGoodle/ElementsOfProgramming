@@ -64,17 +64,17 @@ where P.BinaryProcedureType1 == Visit, P.BinaryProcedureType2 == C {
     return proc
 }
 
-func isLeftSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
+func isLeftSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool? {
     // Precondition: has_predecessor(j)
-    guard let i = j.iteratorPredecessor,
-          let ls = i.leftSuccessor else { return false }
+    guard let i = j.iteratorPredecessor else { return nil }
+    guard let ls = i.leftSuccessor else { return false }
     return ls == j
 }
 
-func isRightSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool {
+func isRightSuccessor<T: BidirectionalBifurcateCoordinate>(j: T) -> Bool? {
     // Precondition: has_predecessor(j)
-    guard let i = j.iteratorPredecessor,
-          let rs = i.rightSuccessor else { return false }
+    guard let i = j.iteratorPredecessor else { return nil }
+    guard let rs = i.rightSuccessor else { return false }
     return rs == j
 }
 
@@ -100,7 +100,8 @@ func traverseStep<C: BidirectionalBifurcateCoordinate>(
         c = rs
         return 1
     case .post:
-        if isLeftSuccessor(j: c) {
+        guard let ils = isLeftSuccessor(j: c) else { return nil }
+        if ils {
             v = .in
         }
         guard let p = c.iteratorPredecessor else { return nil }
