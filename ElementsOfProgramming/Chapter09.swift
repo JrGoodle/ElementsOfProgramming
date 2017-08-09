@@ -14,9 +14,9 @@ func copyStep<
 ) throws
 where I.Source == O.Sink {
     // Precondition: source(f_i) and sink(f_o) are defined
-    fo.sink = fi.source
     guard let fis = fi.iteratorSuccessor,
           let fos = fo.iteratorSuccessor else { throw EOPError.noSuccessor }
+    fo.sink = fi.source
     fi = fis
     fo = fos
 }
@@ -38,8 +38,8 @@ where I.Source == O.Sink {
 }
 
 func fillStep<I: Writable & Iterator>(fo: inout I, x: I.Sink) throws {
-    fo.sink = x
     guard let s = fo.iteratorSuccessor else { throw EOPError.noSuccessor }
+    fo.sink = x
     fo = s
 }
 
@@ -189,9 +189,9 @@ func reverseCopyStep<
 where I.Source == O.Sink {
     // Precondition: source(predecessor(l_i)) and sink(f_o) are defined
     guard let lip = li.iteratorPredecessor else { throw EOPError.noPredecessor }
+    guard let fos = fo.iteratorSuccessor else { throw EOPError.noSuccessor }
     li = lip
     fo.sink = li.source
-    guard let fos = fo.iteratorSuccessor else { throw EOPError.noSuccessor }
     fo = fos
 }
 
@@ -205,9 +205,9 @@ func reverseCopyBackwardStep<
 where I.Source == O.Sink {
     // Precondition: source(f_i) and sink(predecessor(l_o)) are defined
     guard let lop = lo.iteratorPredecessor else { throw EOPError.noPredecessor }
+    guard let fis = fi.iteratorSuccessor else { throw EOPError.noSuccessor }
     lo = lop
     lo.sink = fi.source
-    guard let fis = fi.iteratorSuccessor else { throw EOPError.noSuccessor }
     fi = fis
 }
 

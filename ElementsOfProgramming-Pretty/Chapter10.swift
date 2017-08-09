@@ -78,7 +78,7 @@ func reverseBidirectional<I: Mutable & BidirectionalIterator>(
 func reverseNBidirectional<I: Mutable & BidirectionalIterator>(
     f: I, l: I,
     n: DistanceType
-) throws {
+) {
     // Precondition: mutable_bounded_range(f, l) ∧ 0 ≤ n ≤ l - f
     let n = n.halfNonnegative()
     _ = reverseSwapRangesN(l0: l, f1: f, n: n)

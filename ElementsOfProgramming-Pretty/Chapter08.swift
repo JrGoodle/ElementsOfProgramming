@@ -41,8 +41,8 @@ func setLink<I: ForwardIterator>(t: inout I, f: inout I) {
 
 func advanceTail<I: ForwardIterator>(t: inout I, f: inout I) throws {
     // Precondition: successor(f) is defined
-    t = f
     guard let s = f.iteratorSuccessor else { throw EOPError.noSuccessor }
+    t = f
     f = s
 }
 
