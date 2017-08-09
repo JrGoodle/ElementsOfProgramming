@@ -7,9 +7,8 @@ import EOP
 
 func weightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     // Precondition: tree(c)
-    guard !c.isEmpty() else { return N(0) }
-    var l = N(0)
-    var r = N(0)
+    guard !c.isEmpty() else { return 0 }
+    var l = N(0), r = N(0)
     if let ls = c.leftSuccessor {
         l = weightRecursive(c: ls)
     }
@@ -22,9 +21,8 @@ func weightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
 
 func heightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
     // Precondition: tree(c)
-    guard !c.isEmpty() else { return N(0) }
-    var l = N(0)
-    var r = N(0)
+    guard !c.isEmpty() else { return 0 }
+    var l = N(0), r = N(0)
     if let ls = c.leftSuccessor {
         l = heightRecursive(c: ls)
     }
@@ -149,7 +147,7 @@ func height<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType? {
     var m = N(1) // Invariant: m is height of current .pre visit
     repeat {
         guard let ts = traverseStep(v: &v, c: &c) else { return nil }
-        m = (m - N(1)) + N(ts + 1)
+        m = (m - 1) + N(ts + 1)
         n = max(n, m)
     } while c != root || v != .post
     return n

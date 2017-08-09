@@ -102,7 +102,7 @@ func reverseNForward<I: Mutable & IndexedIterator>(
     n: DistanceType
 ) -> I? {
     // Precondition: mutable_counted_range(f, n)
-    guard n >= N(2) else {
+    guard n >= 2 else {
         guard let s = f.successor(at: n) else { return nil }
         return s
     }
@@ -128,7 +128,7 @@ func reverseNAdaptive<
 where I.Source == B.Source {
     // Precondition: mutable_counted_range(f_i, n_i)
     // Precondition: mutable_counted_range(f_b, n_b)
-    guard ni >= N(2) else { return fi.successor(at: ni) }
+    guard ni >= 2 else { return fi.successor(at: ni) }
     guard ni > nb else { return reverseNWithBuffer(fi: fi, n: ni, fb: fb) }
     let hi = ni.halfNonnegative()
     let nmod2 = ni - hi.twice()

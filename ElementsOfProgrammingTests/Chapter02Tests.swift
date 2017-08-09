@@ -126,8 +126,8 @@ class Chapter02Tests: XCTestCase {
     }
     
     func algorithmsOrbit(x: Int, h: DistanceType, c: DistanceType) {
-        let p = genOrbitPredicate(x: x, h: N(h), c: N(c))
-        let f = genOrbitTransformation(x: x, h: N(h), c: N(c))
+        let p = genOrbitPredicate(x: x, h: h, c: c)
+        let f = genOrbitTransformation(x: x, h: h, c: c)
         XCTAssert(c.isZero() == terminating(start: x,
                                             transformation: f,
                                             definitionSpace: p))
@@ -142,7 +142,7 @@ class Chapter02Tests: XCTestCase {
             }
         }
         let y = connectionPoint(start: x, transformation: f, definitionSpace: p)
-        XCTAssert(powerUnary(x, power: N(h), transformation: f) == y)
+        XCTAssert(powerUnary(x, power: h, transformation: f) == y)
         if !c.isZero() {
             XCTAssert(y == connectionPointNonterminatingOrbit(start: x,
                                                               transformation: f))

@@ -39,21 +39,21 @@ class Chapter03Tests: XCTestCase {
     
     func testConceptInteger() {
         typealias N = Int
-        Concept.integer(n: N(7))
+        Concept.integer(n: 7)
     }
     
     func testFibonacci() {
         typealias N = Int
         typealias Fib = Pair<N, N>
         
-        Concept.binaryOperation(op: fibonacciMatrixMultiply, x: Fib(m0: N(1), m1: N(0)))
+        Concept.binaryOperation(op: fibonacciMatrixMultiply, x: Fib(m0: 1, m1: 0))
         
         let f10 = Fib(m0: 55, m1: 34)
         let f11 = Fib(m0: 89, m1: 55)
         let f21 = fibonacciMatrixMultiply(x: f10, y: f11)
         XCTAssert(f21.m0 == 10946 && f21.m1 == 6765)
-        XCTAssert(fibonacci(n: 10) == N(55))
-        XCTAssert(fibonacci(n: 20) == N(6765))
+        XCTAssert(fibonacci(n: 10) == 55)
+        XCTAssert(fibonacci(n: 20) == 6765)
     }
     
     func minusInt(a: Int, b: Int) -> Int { return a - b }
