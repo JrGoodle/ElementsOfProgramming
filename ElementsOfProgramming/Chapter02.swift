@@ -25,8 +25,8 @@ func definitionSpacePredicateIntegerAddition<T: FixedWidthInteger>(
     y: T
 ) -> Bool {
     // Precondition: T.min <= x <= T.max ∧ T.min <= y <= T.max
-    guard !(x > 0 && y > 0) else { return y <= T.max - x }
-    guard !(x < 0 && y < 0) else { return y >= T.min - x }
+    if x > 0 && y > 0 { return y <= T.max - x }
+    if x < 0 && y < 0 { return y >= T.min - x }
     return true
 }
 
@@ -158,10 +158,10 @@ func circular<DomainFP: Distance>(
     definitionSpace p: UnaryPredicate<DomainFP>
 ) -> Bool {
     // Precondition: p(x) ⇔ f(x) is defined
-    let y = collisionPoint(start: x,
-                           transformation: f,
-                           definitionSpace: p)
-    return p(y) && x == f(y)
+    let cp = collisionPoint(start: x,
+                            transformation: f,
+                            definitionSpace: p)
+    return p(cp) && x == f(cp)
 }
 
 func convergentPoint<DomainF: Distance>(
@@ -195,12 +195,12 @@ func connectionPoint<DomainFP: Distance>(
     definitionSpace p: UnaryPredicate<DomainFP>
 ) -> DomainFP {
     // Precondition: p(x) ⇔ f(x) is defined
-    let y = collisionPoint(start: x,
-                           transformation: f,
-                           definitionSpace: p)
-    guard p(y) else { return y }
+    let cp = collisionPoint(start: x,
+                            transformation: f,
+                            definitionSpace: p)
+    guard p(cp) else { return cp }
     return convergentPoint(x0: x,
-                           x1: f(y),
+                           x1: f(cp),
                            transformation: f)
 }
 
