@@ -49,9 +49,7 @@ public func reverseNIndexed<I: Mutable & IndexedIterator>(
     while i < n {
         // n = (n_original - 1) - i
         guard let fi = f.successor(at: i),
-              let fn = f.successor(at: n) else {
-            throw EOPError.noSuccessor
-        }
+              let fn = f.successor(at: n) else { throw EOPError.noSuccessor }
         exchangeValues(x: fi, y: fn)
         i = i.successor()
         n = n.predecessor()

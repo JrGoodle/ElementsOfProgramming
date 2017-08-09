@@ -48,9 +48,7 @@ public func reverseNIndexed<I: Mutable & IndexedIterator>(
     while i < n {
         // n = (n_original - 1) - i
         guard let fi = f.successor(at: i),
-              let fn = f.successor(at: n) else {
-            throw EOPError.noSuccessor
-        }
+              let fn = f.successor(at: n) else { throw EOPError.noSuccessor }
         exchangeValues(x: fi, y: fn)
         i = i.successor()
         n = n.predecessor()
@@ -77,7 +75,7 @@ func reverseBidirectional<I: Mutable & BidirectionalIterator>(
 func reverseNBidirectional<I: Mutable & BidirectionalIterator>(
     f: I, l: I,
     n: DistanceType
-) throws {
+) {
     // Precondition: mutable_bounded_range(f, l) ∧ 0 ≤ n ≤ l - f
     let n = n.halfNonnegative()
     _ = reverseSwapRangesN(l0: l, f1: f, n: n)

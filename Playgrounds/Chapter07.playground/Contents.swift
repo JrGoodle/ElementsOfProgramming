@@ -127,7 +127,7 @@ func reachable<C: BidirectionalBifurcateCoordinate>(
 func weight<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType? {
     var c = c
     // Precondition: tree(c)
-    guard !c.isEmpty() else { return N(0) }
+    guard !c.isEmpty() else { return 0 }
     let root = c
     var v = Visit.pre
     var n = N(1) // Invariant: n is count of .pre visits so far
@@ -141,7 +141,7 @@ func weight<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType? {
 func height<C: BidirectionalBifurcateCoordinate>(c: C) -> WeightType? {
     var c = c
     // Precondition: tree(c)
-    guard !c.isEmpty() else { return N(0) }
+    guard !c.isEmpty() else { return 0 }
     let root = c
     var v = Visit.pre
     var n = N(1) // Invariant: n is max of height of .pre visits so far
@@ -424,8 +424,8 @@ func comparatorThreeWay<DomainR: Regular>(
     // Precondition: weak_ordering(r)
     // Postcondition: three_way_compare(comparator_3_way(r))
     return { a, b in
-        guard !r(a, b) else { return 1 }
-        guard !r(b, a) else { return -1 }
+        if r(a, b) { return 1 }
+        if r(b, a) { return -1 }
         return 0
     }
 }
@@ -483,7 +483,7 @@ where C0.Source == C1.Source {
                                                comp: comp) else { return nil }
         tmp = t
         guard tmp == 0 else { return tmp }
-    } else if c1.leftSuccessor != nil { return 1 }
+    } else if let _ = c1.leftSuccessor { return 1 }
     if let c0rs = c0.rightSuccessor {
         guard let c1rs = c1.rightSuccessor else { return -1 }
         guard let t = bifurcateCompareNonempty(c0: c0rs,
@@ -491,7 +491,7 @@ where C0.Source == C1.Source {
                                                comp: comp) else { return nil }
         tmp = t
         guard tmp == 0 else { return tmp }
-    } else if c1.rightSuccessor != nil { return 1 }
+    } else if let _ = c1.rightSuccessor { return 1 }
     return 0
 }
 

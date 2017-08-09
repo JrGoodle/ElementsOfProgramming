@@ -460,7 +460,7 @@ where I.Source == B.Source {
                             r: r)
 }
 
-func mergeNStep0<I: Mutable & IndexedIterator>(
+func mergeNStep_0<I: Mutable & IndexedIterator>(
     f0: I, n0: DistanceType,
     f1: I, n1: DistanceType,
     r: @escaping Relation<I.Source>,
@@ -490,7 +490,7 @@ func mergeNStep0<I: Mutable & IndexedIterator>(
     n11 = n1 - n01
 }
 
-func mergeNStep1<I: Mutable & IndexedIterator>(
+func mergeNStep_1<I: Mutable & IndexedIterator>(
     f0: I, n0: DistanceType,
     f1: I, n1: DistanceType,
     r: @escaping Relation<I.Source>,
@@ -547,21 +547,21 @@ where I.Source == B.Source {
     var f00 = f0, f01 = f0, f10 = f1, f11 = f1
     var n00 = n0, n01 = n0, n10 = n1, n11 = n1
     if n0 < n1 {
-        do { try mergeNStep0(f0: f0, n0: n0,
-                             f1: f1, n1: n1,
-                             r: r,
-                             f00: &f00, n00: &n00,
-                             f01: &f01, n01: &n01,
-                             f10: &f10, n10: &n10,
-                             f11: &f11, n11: &n11) } catch { return nil }
+        do { try mergeNStep_0(f0: f0, n0: n0,
+                              f1: f1, n1: n1,
+                              r: r,
+                              f00: &f00, n00: &n00,
+                              f01: &f01, n01: &n01,
+                              f10: &f10, n10: &n10,
+                              f11: &f11, n11: &n11) } catch { return nil }
     } else {
-        do { try mergeNStep1(f0: f0, n0: n0,
-                             f1: f1, n1: n1,
-                             r: r,
-                             f00: &f00, n00: &n00,
-                             f01: &f01, n01: &n01,
-                             f10: &f10, n10: &n10,
-                             f11: &f11, n11: &n11) } catch { return nil }
+        do { try mergeNStep_1(f0: f0, n0: n0,
+                              f1: f1, n1: n1,
+                              r: r,
+                              f00: &f00, n00: &n00,
+                              f01: &f01, n01: &n01,
+                              f10: &f10, n10: &n10,
+                              f11: &f11, n11: &n11) } catch { return nil }
     }
     _ = mergeNAdaptive(f0: f00, n0: n00,
                        f1: f01, n1: n01,
