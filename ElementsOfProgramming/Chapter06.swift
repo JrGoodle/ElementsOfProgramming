@@ -286,13 +286,13 @@ func reduceNonempty<I: Readable & Iterator>(
     var f = f
     // Precondition: readable_bounded_range(f, l) ∧ f ≠ l
     // Precondition: partially_associative(op)
-    guard var r = f.source else { return nil }
-    guard let fs = f.iteratorSuccessor else { return nil }
+    guard var r = f.source,
+          let fs = f.iteratorSuccessor else { return nil }
     f = fs
     while f != l {
-        guard let src = f.source else { return nil }
+        guard let src = f.source,
+              let s = f.iteratorSuccessor else { return nil }
         r = op(r, src)
-        guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
     return r
@@ -366,16 +366,16 @@ func reduceNonzeroes<I: Readable & Iterator>(
     var x: I.Source
     repeat {
         guard f != l else { return z }
-        guard let src = f.source else { return nil }
+        guard let src = f.source,
+              let s = f.iteratorSuccessor else { return nil }
         x = src
-        guard let s = f.iteratorSuccessor else { return nil }
         f = s
     } while x == z
     
     while f != l {
-        guard let y = f.source else { return nil }
+        guard let y = f.source,
+              let s = f.iteratorSuccessor else { return nil }
         if y != z { x = op(x, y) }
-        guard let s = f.iteratorSuccessor else { return nil }
         f = s
     }
     return x
