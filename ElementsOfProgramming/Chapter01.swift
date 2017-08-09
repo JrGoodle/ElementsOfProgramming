@@ -60,7 +60,7 @@ public func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
     func playgroundPlus2() {
         let a = IntReference(2), b = IntReference(2), c = IntReference(0)
         print(c.value)
-        plus2(a: a, b: b, c: c)
+        plus_2(a: a, b: b, c: c)
         print(c.value)
     }
 //    playgroundPlus2()

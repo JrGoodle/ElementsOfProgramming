@@ -195,8 +195,7 @@ func partitionIndexed<I: Mutable & IndexedIterator>(
     p: UnaryPredicate<I.Source>
 ) -> I? {
     // Precondition: mutable_bounded_range(f, l)
-    var i = N(0)
-    var j = l.distance(from: f)
+    var i = N(0), j = l.distance(from: f)
     while true {
         while true {
             guard i != j else {
@@ -538,7 +537,7 @@ where I.Source == B.Source {
         }
         return s
     }
-    guard n0 > N(nb) else {
+    guard n0 > nb else {
         return mergeNWithBuffer(f0: f0, n0: n0,
                                 f1: f1, n1: n1,
                                 fb: fb,

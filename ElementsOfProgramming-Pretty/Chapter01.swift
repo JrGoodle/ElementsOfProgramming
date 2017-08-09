@@ -15,14 +15,17 @@ func plus_1(a: inout Int, b: inout Int) -> Int {
 }
 
 class IntReference {
-    var value: Int?
+    var value: Int
+    
+    init(_ value: Int) {
+        self.value = value
+    }
 }
 
 func plus_2(a: IntReference,
            b: IntReference,
-           c: IntReference) throws {
-    guard let av = a.value, let bv = b.value else { throw EOPError.failure }
-    c.value = av + bv
+           c: IntReference) {
+    c.value = a.value + b.value
 }
 
 func square(n: Int) -> Int { return n * n }

@@ -38,8 +38,8 @@ func powerUnary<DomainF: Distance>(
     var x = x, n = n
     assert(n >= 0)
     // Precondition: n ≥ 0 ∧ (∀i ∈ N), 0 < i ≤ n ⇒ f^i(x) is defined
-    while n != N(0) {
-        n = n - N(1)
+    while n != 0 {
+        n = n - 1
         x = transformation(x)
     }
     return x
@@ -56,7 +56,7 @@ func powerUnary<DomainF: Distance>(
 //    var n = N(0)
 //    while x != y {
 //        x = f(x)
-//        n = n + N(1)
+//        n = n + 1
 //    }
 //    return n
 //}
@@ -183,9 +183,9 @@ func convergentPointGuarded<DomainF: Distance>(
     let d0 = x0.distance(to: y, transformation: f)
     let d1 = x1.distance(to: y, transformation: f)
     if d0 < d1 {
-        x1 = powerUnary(x1, power: N(d1 - d0), transformation: f)
+        x1 = powerUnary(x1, power: d1 - d0, transformation: f)
     } else if d1 < d0 {
-        x0 = powerUnary(x0, power: N(d0 - d1), transformation: f)
+        x0 = powerUnary(x0, power: d0 - d1, transformation: f)
     }
     return convergentPoint(x0: x0,
                            x1: x1,

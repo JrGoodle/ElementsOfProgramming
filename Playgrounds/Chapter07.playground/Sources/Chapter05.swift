@@ -237,8 +237,8 @@ func quotientRemainderNonnegative<T: ArchimedeanMonoid>(
     assert(a >= T.additiveIdentity)
     assert(b > T.additiveIdentity)
     typealias N = QuotientType
-    guard a >= b else { return Pair(m0: N(0), m1: a) }
-    guard a - b >= b else { return Pair(m0: N(1), m1: a - b) }
+    guard a >= b else { return Pair(m0: 0, m1: a) }
+    guard a - b >= b else { return Pair(m0: 1, m1: a - b) }
     let q = quotientRemainderNonnegative(a: a, b: b + b)
     let m = q.m0.twice()
     a = q.m1
@@ -253,7 +253,7 @@ func quotientRemainderNonnegativeIterative<T: HalvableMonoid>(
     assert(a >= T.additiveIdentity)
     assert(b > T.additiveIdentity)
     typealias N = QuotientType
-    guard a >= b else { return Pair(m0: N(0), m1: a) }
+    guard a >= b else { return Pair(m0: 0, m1: a) }
     var c = largestDoubling(a: a, b: b)
     a = a - c
     var n = N(1)

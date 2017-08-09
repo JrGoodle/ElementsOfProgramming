@@ -24,7 +24,7 @@ extension Distance {
         var n = N(0)
         while x != y {
             x = f(x)
-            n = n + N(1)
+            n = n + 1
         }
         return n
     }
@@ -131,7 +131,7 @@ extension Iterator {
         var n = N(0)
         while x != y {
             x = x.iteratorSuccessor!
-            n = n + N(1)
+            n = n + 1
         }
         return n
     }

@@ -384,7 +384,7 @@ func sortLinkedNonempty<I: Readable & ForwardLinkedIterator>(
 ) -> Pair<I, I>? {
     // Precondition: counted_range(f, n) ∧
     //                n > 0 ∧ weak_ordering(r)
-    guard n != N(1) else {
+    guard n != 1 else {
         guard let s = f.iteratorSuccessor else { return nil }
         return Pair(m0: f, m1: s)
     }
@@ -453,7 +453,7 @@ class Counter<T>: UnaryProcedure {
     var n: N
     
     init() {
-        n = N(0)
+        n = 0
     }
     
     init(n: N) {
@@ -471,7 +471,7 @@ func weightRotating<C: EmptyLinkedBifurcateCoordinate>(
     // Precondition: tree(c)
     let counter = Counter<C>()
     guard let tr = traverseRotating(c: c, proc: counter) else { return nil }
-    return tr.n / N(3)
+    return tr.n / 3
 }
 
 class PhasedApplicator<P: UnaryProcedure>: UnaryProcedure {
