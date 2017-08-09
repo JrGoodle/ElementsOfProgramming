@@ -25,7 +25,7 @@ Swift port of the algorithms from [Elements of Programming](https://www.amazon.c
 
 ### macOS
 
-- [Xcode 9](https://developer.apple.com/xcode/)
+- [Xcode 9 with Swift 4](https://developer.apple.com/download/) (currently in beta)
 
 ### Linux (currently untested)
 
