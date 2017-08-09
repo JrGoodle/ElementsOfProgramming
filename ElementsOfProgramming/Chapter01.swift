@@ -5,12 +5,12 @@
 
 import EOP
 
-func plus0(a: Int, b: Int) -> Int {
+func plus_0(a: Int, b: Int) -> Int {
     return a + b
 }
 
 // Swift dosen't have a way to express a const &
-func plus1(a: inout Int, b: inout Int) -> Int {
+func plus_1(a: inout Int, b: inout Int) -> Int {
     return a + b
 }
 
@@ -18,7 +18,7 @@ class IntReference {
     var value: Int?
 }
 
-func plus2(a: IntReference,
+func plus_2(a: IntReference,
            b: IntReference,
            c: IntReference) throws {
     guard let av = a.value, let bv = b.value else { throw EOPError.failure }
