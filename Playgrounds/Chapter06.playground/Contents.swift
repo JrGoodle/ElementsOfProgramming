@@ -10,7 +10,7 @@ func increment<I: Iterator>(x: inout I) throws {
     x = s
 }
 
-// See ForwardIterator protocol in Concepts.swift
+// See ForwardIterator protocol in EOP/Concepts.swift
 //
 //public func +<I: Iterator>(lhs: I, rhs: DistanceType) -> I {
 //    var f = lhs, n = rhs
@@ -632,7 +632,7 @@ func upperBoundN<I: Readable & IndexedIterator>(
 
 
 // Exercise 6.7: equal_range
-// See BidirectionalIterator protocol in Concepts.swift
+// See BidirectionalIterator protocol in EOP/Concepts.swift
 //func -<I: BidirectionalIterator>(
 //    l: I,
 //    n: DistanceType

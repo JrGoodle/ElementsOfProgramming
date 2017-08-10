@@ -45,7 +45,7 @@ func powerUnary<DomainF: Distance>(
     return x
 }
 
-// See Distance protocol in TypeFunctions.swift
+// See Distance protocol in EOP/TypeFunctions.swift
 //func distance<DomainF: Distance>(
 //    x: DomainF,
 //    y: DomainF,

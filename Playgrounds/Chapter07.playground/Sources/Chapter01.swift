@@ -45,13 +45,13 @@ public func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
 // model Regular(Pair)
 
 // Pair<T0, T1>
-// See Tuples.swift
+// See EOP/Types/Tuples.swift
 
 // type triple (see Exercise 12.2 of Elements of Programming)
 // model Regular(triple)
 
 // Triple<T0, T1, T2>
-// See Tuples.swift
+// See EOP/Types/Tuples.swift
 
 #if !XCODE
     // MARK: Playground examples
