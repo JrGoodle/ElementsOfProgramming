@@ -287,10 +287,3 @@ public protocol Linearizable: Regular {
     func isEmpty() -> Bool
     subscript(index: Int) -> LinearizableValueType { get set }
 }
-
-public enum EOPError : Error {
-    case noSuccessor, noPredecessor
-    case noLeftSuccessor, noRightSuccessor
-    case noSource
-    case failure
-}
