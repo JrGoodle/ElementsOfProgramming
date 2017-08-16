@@ -44,9 +44,10 @@ func power_0<DomainOp: Regular>(
                        power: n / 2,
                        operation: op)
     }
-    return op(power_0(op(a, a),
-                      power: n / 2,
-                      operation: op), a)
+    let p0 = power_0(op(a, a),
+                     power: n / 2,
+                     operation: op)
+    return op(p0, a)
 }
 
 func power_1<DomainOp: Regular>(
@@ -230,6 +231,11 @@ func power_3<DomainOp: Regular>(
                                      power: n,
                                      operation: op)
 }
+
+// Exercise 3.2 - Implement special case procedures for Int types
+// See IntegerSpecialCaseProcedures and BinaryIntegerSpecialCaseProcedures
+// protocols in EOP/Types/IntegerSpecialCaseProcedures.swift and
+// type extensions on Int types in EOP/Types
 
 func powerAccumulatePositive<DomainOp: Regular>(
     _ a: DomainOp,

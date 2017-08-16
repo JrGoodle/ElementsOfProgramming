@@ -1,5 +1,5 @@
 //
-//  Double+Additions.swift
+//  Double+Extensions.swift
 //  ElementsOfProgramming
 //
 
