@@ -14,17 +14,7 @@ func plus_1(a: inout Int, b: inout Int) -> Int {
     return a + b
 }
 
-class IntReference {
-    var value: Int
-    
-    init(_ value: Int) {
-        self.value = value
-    }
-}
-
-func plus_2(a: IntReference,
-           b: IntReference,
-           c: IntReference) {
+func plus_2(a: IntRef, b: IntRef, c: IntRef) {
     c.value = a.value + b.value
 }
 
@@ -58,7 +48,7 @@ public func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
     // MARK: Playground examples
     
     func playgroundPlus2() {
-        let a = IntReference(2), b = IntReference(2), c = IntReference(0)
+        let a = IntRef(2), b = IntRef(2), c = IntRef(0)
         print(c.value)
         plus_2(a: a, b: b, c: c)
         print(c.value)

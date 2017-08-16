@@ -42,69 +42,113 @@ class Chapter04Tests: XCTestCase {
         // clusters: != > <= >= -- see concept_TotallyOrdered
     }
     
-    func testOrderSelection() {
+    func testSelect_0_2() {
         let a = 3
         let b = 3
         let c = 4
-        let d = 4
-        XCTAssert(select_0_2(a: a, b: b, r: less) == a)
-        XCTAssert(select_0_2(a: b, b: a, r: less) == b)
+        let aRef = IntRef(a)
+        let bRef = IntRef(b)
+        let cRef = IntRef(c)
+        XCTAssert(select_0_2(a: aRef, b: bRef, r: less) === aRef)
+        XCTAssert(select_0_2(a: bRef, b: aRef, r: less) === bRef)
+        XCTAssert(select_0_2(a: aRef, b: cRef, r: less) === aRef)
+        XCTAssert(select_0_2(a: cRef, b: aRef, r: less) === aRef)
         XCTAssert(select_0_2(a: a, b: c, r: less) == a)
         XCTAssert(select_0_2(a: c, b: a, r: less) == a)
-        XCTAssert(select_0_2(a: a, b: c, r: less) == a)
-        XCTAssert(select_0_2(a: c, b: a, r: less) == a)
-
-        XCTAssert(select_1_2(a: a, b: b, r: less) == b)
-        XCTAssert(select_1_2(a: b, b: a, r: less) == a)
-        XCTAssert(select_1_2(a: a, b: c, r: less) == c)
-        XCTAssert(select_1_2(a: c, b: a, r: less) == c)
-        XCTAssert(select_1_2(a: a, b: c, r: less) == c)
-        XCTAssert(select_1_2(a: c, b: a, r: less) == c)
-
+        
         let p1 = Pair(m0: 1, m1: 1)
         let p2 = Pair(m0: 1, m1: 2)
         XCTAssert(select_0_2(ia: 1, ib: 2, a: p1, b: p2, r: lessFirst) == p1)
         XCTAssert(select_0_2(ia: 1, ib: 2, a: p2, b: p1, r: lessFirst) == p2)
+    }
+    
+    func testSelect_1_2() {
+        let a = 3
+        let b = 3
+        let c = 4
+        let aRef = IntRef(a)
+        let bRef = IntRef(b)
+        let cRef = IntRef(c)
+        XCTAssert(select_1_2(a: aRef, b: bRef, r: less) === bRef)
+        XCTAssert(select_1_2(a: bRef, b: aRef, r: less) === aRef)
+        XCTAssert(select_1_2(a: aRef, b: cRef, r: less) === cRef)
+        XCTAssert(select_1_2(a: cRef, b: aRef, r: less) === cRef)
+        XCTAssert(select_1_2(a: a, b: c, r: less) == c)
+        XCTAssert(select_1_2(a: c, b: a, r: less) == c)
+        
+        let p1 = Pair(m0: 1, m1: 1)
+        let p2 = Pair(m0: 1, m1: 2)
         XCTAssert(select_1_2(ia: 1, ib: 2, a: p1, b: p2, r: lessFirst) == p2)
         XCTAssert(select_1_2(ia: 1, ib: 2, a: p2, b: p1, r: lessFirst) == p1)
-
-        XCTAssert(select_0_3(a: a, b: b, c: c, r: less) == a)
-        XCTAssert(select_0_3(a: a, b: c, c: b, r: less) == a)
-        XCTAssert(select_0_3(a: b, b: a, c: c, r: less) == b)
-        XCTAssert(select_0_3(a: b, b: c, c: a, r: less) == b)
-        XCTAssert(select_0_3(a: c, b: a, c: b, r: less) == a)
-        XCTAssert(select_0_3(a: c, b: b, c: a, r: less) == b)
+    }
+    
+    func testSelect_0_3() {
+        let a = 3
+        let b = 3
+        let c = 4
+        let d = 4
+        let aRef = IntRef(a)
+        let bRef = IntRef(b)
+        let cRef = IntRef(c)
+        XCTAssert(select_0_3(a: aRef, b: bRef, c: cRef, r: less) === aRef)
+        XCTAssert(select_0_3(a: aRef, b: cRef, c: bRef, r: less) === aRef)
+        XCTAssert(select_0_3(a: bRef, b: aRef, c: cRef, r: less) === bRef)
+        XCTAssert(select_0_3(a: bRef, b: cRef, c: aRef, r: less) === bRef)
+        XCTAssert(select_0_3(a: cRef, b: aRef, c: bRef, r: less) === aRef)
+        XCTAssert(select_0_3(a: cRef, b: bRef, c: aRef, r: less) === bRef)
         XCTAssert(select_0_3(a: a, b: c, c: d, r: less) == a)
         XCTAssert(select_0_3(a: c, b: a, c: d, r: less) == a)
         XCTAssert(select_0_3(a: d, b: c, c: a, r: less) == a)
-
-        XCTAssert(select_2_3(a: b, b: c, c: d, r: less) == d)
-        XCTAssert(select_2_3(a: c, b: b, c: d, r: less) == d)
-        XCTAssert(select_2_3(a: b, b: d, c: c, r: less) == c)
-        XCTAssert(select_2_3(a: d, b: b, c: c, r: less) == c)
-        XCTAssert(select_2_3(a: c, b: d, c: b, r: less) == d)
-        XCTAssert(select_2_3(a: d, b: c, c: b, r: less) == c)
+    }
+    
+    func testSelect_2_3() {
+        let a = 3
+        let b = 3
+        let c = 4
+        let d = 4
+        let bRef = IntRef(b)
+        let cRef = IntRef(c)
+        let dRef = IntRef(d)
+        XCTAssert(select_2_3(a: bRef, b: cRef, c: dRef, r: less) === dRef)
+        XCTAssert(select_2_3(a: cRef, b: bRef, c: dRef, r: less) === dRef)
+        XCTAssert(select_2_3(a: bRef, b: dRef, c: cRef, r: less) === cRef)
+        XCTAssert(select_2_3(a: dRef, b: bRef, c: cRef, r: less) === cRef)
+        XCTAssert(select_2_3(a: cRef, b: dRef, c: bRef, r: less) === dRef)
+        XCTAssert(select_2_3(a: dRef, b: cRef, c: bRef, r: less) === cRef)
         XCTAssert(select_2_3(a: a, b: c, c: d, r: less) == d)
         XCTAssert(select_2_3(a: c, b: a, c: d, r: less) == c)
         XCTAssert(select_2_3(a: d, b: c, c: a, r: less) == c)
-
-        // Test select13ab
-
-        XCTAssert(select_1_3(a: a, b: b, c: c, r: less) == b)
-        XCTAssert(select_1_3(a: a, b: c, c: b, r: less) == b)
-        XCTAssert(select_1_3(a: b, b: a, c: c, r: less) == a)
-        XCTAssert(select_1_3(a: b, b: c, c: a, r: less) == a)
-        XCTAssert(select_1_3(a: c, b: a, c: b, r: less) == b)
-        XCTAssert(select_1_3(a: c, b: b, c: a, r: less) == a)
+    }
+    
+    // Test select13ab
+    func testSelect_1_3() {
+        let a = 3
+        let b = 3
+        let c = 4
+        let d = 4
+        let aRef = IntRef(a)
+        let bRef = IntRef(b)
+        let cRef = IntRef(c)
+        XCTAssert(select_1_3(a: aRef, b: bRef, c: cRef, r: less) === bRef)
+        XCTAssert(select_1_3(a: aRef, b: cRef, c: bRef, r: less) === bRef)
+        XCTAssert(select_1_3(a: bRef, b: aRef, c: cRef, r: less) === aRef)
+        XCTAssert(select_1_3(a: bRef, b: cRef, c: aRef, r: less) === aRef)
+        XCTAssert(select_1_3(a: cRef, b: aRef, c: bRef, r: less) === bRef)
+        XCTAssert(select_1_3(a: cRef, b: bRef, c: aRef, r: less) === aRef)
         XCTAssert(select_1_3(a: a, b: c, c: d, r: less) == c)
         XCTAssert(select_1_3(a: c, b: a, c: d, r: less) == c)
         XCTAssert(select_1_3(a: d, b: c, c: a, r: less) == c)
-
+    }
+    
+    func testSelect_1_4() {
         // Test select_1_4_ab_cd
         // Test select_1_4_ab
         // FIXME: Fix these tests
 //        algorithmSelect_1_4()
 //        algorithmSelect_1_4_stabilityIndices()
+    }
+    
+    func testSelect_2_5() {
         algorithmSelect_2_5_stabilityIndices()
     }
     
