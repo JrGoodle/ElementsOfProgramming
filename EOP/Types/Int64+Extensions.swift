@@ -1,5 +1,5 @@
 //
-//  Int64+Additions.swift
+//  Int64+Extensions.swift
 //  ElementsOfProgramming
 //
 

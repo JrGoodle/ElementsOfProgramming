@@ -1,5 +1,5 @@
 //
-//  UInt+Additions.swift
+//  UInt+Extensions.swift
 //  ElementsOfProgramming
 //
 

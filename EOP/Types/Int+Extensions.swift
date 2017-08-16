@@ -1,5 +1,5 @@
 //
-//  Int+Additions.swift
+//  Int+Extensions.swift
 //  ElementsOfProgramming
 //
 
@@ -41,24 +41,6 @@ extension Int: Norm {
 }
 
 extension Int : Addable, Subtractable, Negatable, Multipliable, Divisible, Quotient, Discrete, AdditiveInverse, Modulus, Distance, AdditiveSemigroup, MultiplicativeSemigroup, AdditiveMonoid, MultiplicativeMonoid, Semiring, CommutativeSemiring, EuclideanSemiring {}
-
-public protocol IntegerSpecialCaseProcedures {
-    func successor() -> Self
-    func predecessor() -> Self
-    func twice() -> Self
-    func halfNonnegative() -> Self
-    func isPositive() -> Bool
-    func isNegative() -> Bool
-    func isZero() -> Bool
-    func isOne() -> Bool
-    func isEven() -> Bool
-    func isOdd() -> Bool
-}
-
-public protocol BinaryIntegerSpecialCaseProcedures {
-    func binaryScaleDownNonnegative(k: Self) -> Self
-    func binaryScaleUpNonnegative(k: Self) -> Self
-}
 
 extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures {
     public func successor() -> Int {

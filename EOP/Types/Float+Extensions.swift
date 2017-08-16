@@ -1,5 +1,5 @@
 //
-//  Float+Additions
+//  Float+Extensions
 //  ElementsOfProgramming
 //
 
