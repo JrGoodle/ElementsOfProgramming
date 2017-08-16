@@ -100,8 +100,8 @@ class Chapter03Tests: XCTestCase {
     }
     
     func algorithmPowerAccumulatePositive(pow: (Int, Int, Int, BinaryOperation<Int>) -> Int) {
-        XCTAssert(pow(99, 1, 1, timesInt) == 99 * 1)
-        XCTAssert(pow(99, 10, 1, timesInt) == 99 * 10)
+        XCTAssert(pow(1, 99, 1, timesInt) == 99 * 1)
+        XCTAssert(pow(10, 99, 1, timesInt) == 99 * 10)
         XCTAssert(pow(1, 99, 10, timesInt) == 99 * 1)
         XCTAssert(pow(2, 99, 2, timesInt) == 99 * 4)
         XCTAssert(pow(2, 99, 10, timesInt) == 99 * 1024)
