@@ -120,8 +120,8 @@ class Chapter04Tests: XCTestCase {
         XCTAssert(select_2_3(a: d, b: c, c: a, r: less) == c)
     }
     
-    // Test select13ab
     func testSelect_1_3() {
+        // Test select_1_3_ab
         let a = 3
         let b = 3
         let c = 4
@@ -144,7 +144,7 @@ class Chapter04Tests: XCTestCase {
         // Test select_1_4_ab_cd
         // Test select_1_4_ab
         // FIXME: Fix these tests
-//        algorithmSelect_1_4()
+        algorithmSelect_1_4()
 //        algorithmSelect_1_4_stabilityIndices()
     }
     
@@ -203,6 +203,10 @@ class Chapter04Tests: XCTestCase {
         return x.m0
     }
     
+//    func first<T, U>(x: PairRef<T, U>) -> T {
+//        return x.value.m0
+//    }
+    
     func keyOrdering<DomainFR: Regular, CodomainFR: Regular>(
         f: @escaping UnaryFunction<DomainFR, CodomainFR>,
         r: @escaping Relation<CodomainFR>)
@@ -216,23 +220,27 @@ class Chapter04Tests: XCTestCase {
         return p0.m0 < p1.m0
     }
     
-    // FIXME: Fix these methods
-//    func algorithmSelect_1_4() {
-//        typealias T = Pair
-//        let t = pointer(T(m0: 1, m1: 1), T(m0: 2, m1: 2), T(m0: 2, m1: 3), T(m0: 3, m1: 4))
-//        let l = t.advanced(by: 4)
-//        let ls: Relation<Pair<Int, Int>> = lessSecond
-//        repeat {
-//            let fst: UnaryFunction<Pair<Int, Int>, Int> = first
-//            let ls: Relation<Int> = less
-//            let ko = keyOrdering(f: fst, r: ls)
-//            let r = select_1_4(a: t[0], b: t[1], c: t[2], d: t[3], r: ko)
-//            let eqf: UnaryPredicate<Pair<Int, Int>> = eqFirst(x: 2)
-//            let f = findIf(f: t, l: l, p: eqf)
-//            XCTAssert(f != l && source(f) == r)
-//        } while nextPermutation(f: t, l: l, r: ls)
-//    }
-//
+    func algorithmSelect_1_4() {
+        let pairs = [Pair(m0: 1, m1: 1),
+                     Pair(m0: 2, m1: 2),
+                     Pair(m0: 2, m1: 3),
+                     Pair(m0: 3, m1: 4)]
+        let t = ArrayIterator(pairs)
+        let l = t.advanced(by: 4)!
+        repeat {
+            let fst: UnaryFunction<Pair<Int, Int>, Int> = first
+            let ko = keyOrdering(f: fst, r: less)
+            let r = select_1_4(ia: 0, ib: 1, ic: 2, id: 3,
+                               a: pairs[0], b: pairs[1],
+                               c: pairs[2], d: pairs[3],
+                               r: ko)
+            let eqf: UnaryPredicate<Pair<Int, Int>> = eqFirst(x: 2)
+            let f = findIf(f: t, l: l, p: eqf)!
+            XCTAssert(f != l && f.source! == r)
+        } while nextPermutation(f: t, l: l, r: lessSecond)
+    }
+
+    // FIXME: Fix this
 //    func algorithmSelect_1_4_stabilityIndices() {
 //        typealias T = Pair
 //        let t = pointer(T(m0: 1, m1: 1), T(m0: 2, m1: 2), T(m0: 2, m1: 3), T(m0: 3, m1: 4))
@@ -394,30 +402,33 @@ class Chapter04Tests: XCTestCase {
 //        } while nextPermutation(f: p, l: p.advanced(by: 1), r: ls)
 //    }
     
-    // FIXME: Fix this method
-//    func nextPermutation<T: Regular, DomainR: Regular>(f: Pointer<T>, l: Pointer<T>, r: Relation<DomainR>) -> Bool {
-//        // Precondition: weak_ordering(r)
-//        if (f == l || f.successor() == l) { return false }
-//        var i = l.iteratorPredecessor!
-//
-//        while true {
-//            let ii = i
-//            i = i.predecessor()
-//            if r(i.source!, ii.source!) {
-//                var j = l
-//                repeat {
-//                    j = j.predecessor()
-//                } while !r(i.source!, j.source!)
-//                exchangeValues(x: i, y: j)
-//                reverseBidirectional(f: ii, l: l)
-//                return true
-//            }
-//            if i == f {
-//                reverseBidirectional(f: f, l: l)
-//                return false
-//            }
-//        }
-//    }
+    func nextPermutation<I: Mutable & BidirectionalIterator>(
+        f: I,
+        l: I,
+        r: Relation<I.Source>
+    ) -> Bool {
+        // Precondition: weak_ordering(r)
+        guard !(f == l || f.iteratorSuccessor! == l) else { return false }
+        var i = l.iteratorPredecessor!
+
+        while true {
+            let ii = i
+            i = i.iteratorPredecessor!
+            if r(i.source!, ii.source!) {
+                var j = l
+                repeat {
+                    j = j.iteratorPredecessor!
+                } while !r(i.source!, j.source!)
+                exchangeValues(x: i, y: j)
+                try! reverseBidirectional(f: ii, l: l)
+                return true
+            }
+            if i == f {
+                try! reverseBidirectional(f: f, l: l)
+                return false
+            }
+        }
+    }
     
     func eqFirst<T0, T1>(x: T0) -> UnaryPredicate<Pair<T0, T1>> {
         return { p in
@@ -428,4 +439,8 @@ class Chapter04Tests: XCTestCase {
     func lessSecond<T0, T1>(p0: Pair<T0, T1>, p1: Pair<T0, T1>) -> Bool {
         return p0.m1 < p1.m1
     }
+    
+//    func lessSecond<T0, T1>(p0: PairRef<T0, T1>, p1: PairRef<T0, T1>) -> Bool {
+//        return p0.value.m1 < p1.value.m1
+//    }
 }

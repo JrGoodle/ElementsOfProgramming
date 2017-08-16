@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C60C392F1F1EE64200243F20 /* Chapter09.swift in Sources */ = {isa = PBXBuildFile; fileRef = C60C392E1F1EE64200243F20 /* Chapter09.swift */; };
 		C62843881F43CF8800481E76 /* Chapter04Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65D60B31F1C45BD00F62E3B /* Chapter04Tests.swift */; };
+		C628438A1F43D47900481E76 /* ArrayIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62843891F43D47900481E76 /* ArrayIterator.swift */; };
 		C6459EC81F26F65700F0E894 /* Chapter12.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6459EC71F26F65700F0E894 /* Chapter12.swift */; };
 		C65D60B11F1B275000F62E3B /* Chapter04.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65D60B01F1B275000F62E3B /* Chapter04.swift */; };
 		C66BEB321F23F65A00BDECD8 /* Chapter07.swift in Sources */ = {isa = PBXBuildFile; fileRef = C66BEB311F23F65A00BDECD8 /* Chapter07.swift */; };
@@ -117,6 +118,7 @@
 		C61124C51F184B74005B18ED /* ElementsOfProgrammingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ElementsOfProgrammingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C61124C71F184B74005B18ED /* Chapter02Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter02Tests.swift; sourceTree = "<group>"; };
 		C61124C91F184B74005B18ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C62843891F43D47900481E76 /* ArrayIterator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayIterator.swift; sourceTree = "<group>"; };
 		C6459EC71F26F65700F0E894 /* Chapter12.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter12.swift; sourceTree = "<group>"; };
 		C65D60B01F1B275000F62E3B /* Chapter04.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter04.swift; sourceTree = "<group>"; };
 		C65D60B31F1C45BD00F62E3B /* Chapter04Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter04Tests.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 		C6B297A11F2060E2000E53B6 /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				C62843891F43D47900481E76 /* ArrayIterator.swift */,
 				C6B297A21F2060E2000E53B6 /* Double+Additions.swift */,
 				C6ED467F1F3D2AB300C3EF18 /* EOPError.swift */,
 				C6B297A31F2060E2000E53B6 /* Float+Extensions.swift */,
@@ -521,6 +524,7 @@
 				C6F549931F2AE2BF0057BC02 /* Tuples.swift in Sources */,
 				C6CC1AAF1F2ADB1900E468B3 /* String.swift in Sources */,
 				C6CC1AA71F2ADB1900E468B3 /* Float+Extensions.swift in Sources */,
+				C628438A1F43D47900481E76 /* ArrayIterator.swift in Sources */,
 				C6F646351F43B60C00D902EA /* IntegerSpecialCaseProcedures.swift in Sources */,
 				C6CC1AA81F2ADB1900E468B3 /* Int32+Extensions.swift in Sources */,
 				C6CC1AAA1F2ADB1900E468B3 /* Int+Extensions.swift in Sources */,

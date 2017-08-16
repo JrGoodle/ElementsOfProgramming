@@ -24,6 +24,22 @@ public struct Pair<T0: Regular, T1: Regular>: Regular {
     }
 }
 
+public class PairRef<T0: Regular, T1: Regular>: Regular {
+    public var value: Pair<T0, T1>
+    
+    public init(m0: T0, m1: T1) {
+        self.value = Pair(m0: m0, m1: m1)
+    }
+    
+    public static func == (x: PairRef, y: PairRef) -> Bool {
+        return x.value == y.value
+    }
+    
+    public static func < (x: PairRef, y: PairRef) -> Bool {
+        return x.value < y.value
+    }
+}
+
 // type triple (see Exercise 12.2 of Elements of Programming)
 // model Regular(triple)
 
