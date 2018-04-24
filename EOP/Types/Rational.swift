@@ -3,7 +3,7 @@
 //  ElementsOfProgramming
 //
 
-public struct Rational {
+public struct Rational : CustomStringConvertible {
     private(set) var numerator: Int
     private(set) var denominator: Int
 
@@ -20,13 +20,13 @@ public struct Rational {
         denominator = 1
     }
 
-    func print() {
+    public var description: String {
         if numerator == 0 {
-            Swift.print("0")
+            return "0"
         } else if denominator.isOne() {
-            Swift.print(numerator)
+            return "\(numerator)"
         } else {
-            Swift.print("\(numerator)/\(denominator)")
+            return "\(numerator)/\(denominator)"
         }
     }
 
