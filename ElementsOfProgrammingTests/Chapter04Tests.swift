@@ -15,13 +15,13 @@ class Chapter04Tests: XCTestCase {
         let le = complementOfConverse(r: lt)
         let eq = symmetricComplement(r: lt)
         let ne = complement(r: eq)
-        
+
         propertyTotalOrdering(r: lt, x0: 0, x1: 1, x2: 2)
         propertyReflexiveTotalOrdering(r: ge, x0: 2, x1: 1, x2: 0)
         propertyTotalOrdering(r: gt, x0: 2, x1: 1, x2: 0)
         propertyReflexiveTotalOrdering(r: le, x0: 0, x1: 1, x2: 2)
         propertyTransitive(r: eq, x: 0, y: 0, z: 0)
-        
+
         XCTAssert(ge(4, 3))
         XCTAssert(gt(4, 3))
         XCTAssert(le(3, 4))
@@ -29,7 +29,7 @@ class Chapter04Tests: XCTestCase {
         XCTAssert(eq(4, 4))
         XCTAssert(ne(3, 4))
     }
-    
+
     func testKeyOrdering() {
         typealias PID = Pair<Int, Double>
         let fst: UnaryFunction<Pair<Int, Double>, Int> = first
@@ -38,10 +38,10 @@ class Chapter04Tests: XCTestCase {
         XCTAssert(ko(PID(m0: 1, m1: 2.0), PID(m0: 2, m1: 1.0)))
         XCTAssert(!ko(PID(m0: 1, m1: 2.0), PID(m0: 1, m1: 1.0)))
         XCTAssert(!ko(PID(m0: 1, m1: 1.0), PID(m0: 1, m1: 2.0)))
-        
+
         // clusters: != > <= >= -- see concept_TotallyOrdered
     }
-    
+
     func testOrderSelection() {
         let a = 3
         let b = 3
@@ -107,7 +107,7 @@ class Chapter04Tests: XCTestCase {
 //        algorithmSelect_1_4_stabilityIndices()
         algorithmSelect_2_5_stabilityIndices()
     }
-    
+
     // FIXME: Fix this test
 //    func testMedian() {
 //        let ca = 1, cb = 2, cc = 3, cd = 4, ce = 5
@@ -116,7 +116,7 @@ class Chapter04Tests: XCTestCase {
 //        XCTAssert(median_5(a: ca, b: cb, c: cc, d: cd, e: ce, r: less) == 3)
 //        algorithmMedian5()
 //    }
-    
+
     func testMinMax() {
         typealias P = Pair
         XCTAssert(minSelect(a: P(m0: "a", m1: 3), b: P(m0: "a", m1: 4)) == P(m0: "a", m1: 3))
@@ -124,41 +124,41 @@ class Chapter04Tests: XCTestCase {
         XCTAssert(maxSelect(a: P(m0: "a", m1: 3), b: P(m0: "a", m1: 4)) == P(m0: "a", m1: 4))
         XCTAssert(maxSelect(a: P(m0: "a", m1: 4), b: P(m0: "a", m1: 3)) == P(m0: "a", m1: 4))
     }
-    
+
     func propertyTotalOrdering<DomainR: Regular>(r: Relation<DomainR>, x0: DomainR, x1: DomainR, x2: DomainR) {
         // Precondition: total_ordering(r) /\ r(x0, x1) /\ r(x1, x2)
-        
+
         XCTAssert(r(x0, x1) && r(x1, x2))
-        
+
         propertyTransitive(r: r, x: x0, y: x1, z: x2)
-        
+
         XCTAssert(r(x0, x1) && !(x0 == x1) && !r(x1, x0)) // trichotomy
         XCTAssert(!r(x0, x0)) // irreflexive
     }
-    
+
     func propertyTransitive<DomainR: Regular>(r: Relation<DomainR>, x: DomainR, y: DomainR, z: DomainR) {
         Concept.relation(r: r, x: x)
         XCTAssert(!r(x, y) || !r(y, z) || r(x, z))
     }
-    
+
     func propertyReflexiveTotalOrdering<DomainR: Regular>(r: Relation<DomainR>, x0: DomainR, x1: DomainR, x2: DomainR) {
         // Precondition: total_ordering(r) /\ r(x0, x1) /\ r(x1, x2)
-        
+
         XCTAssert(r(x0, x1) && r(x1, x2))
-        
+
         propertyTransitive(r: r, x: x0, y: x1, z: x2)
         propertyTransitive(r: r, x: x0, y: x0, z: x1)
         propertyTransitive(r: r, x: x0, y: x1, z: x1)
         propertyTransitive(r: r, x: x0, y: x0, z: x0)
-        
+
         XCTAssert(!r(x0, x1) || !r(x1, x0) || x0 == x1) // antisymmetric
         XCTAssert(r(x0, x0)) // reflexive
     }
-    
+
     func first<T, U>(x: Pair<T, U>) -> T {
         return x.m0
     }
-    
+
     func keyOrdering<DomainFR: Regular, CodomainFR: Regular>(
         f: @escaping UnaryFunction<DomainFR, CodomainFR>,
         r: @escaping Relation<CodomainFR>)
@@ -171,7 +171,7 @@ class Chapter04Tests: XCTestCase {
     func lessFirst<T0, T1>(p0: Pair<T0, T1>, p1: Pair<T0, T1>) -> Bool {
         return p0.m0 < p1.m0
     }
-    
+
     // FIXME: Fix these methods
 //    func algorithmSelect_1_4() {
 //        typealias T = Pair
@@ -204,7 +204,7 @@ class Chapter04Tests: XCTestCase {
 //            XCTAssert(f != l && source(f) == r)
 //        } while nextPermutation(f: t, l: l, r: ls)
 //    }
-    
+
     func algorithmSelect_2_5_stabilityIndices() {
         typealias P = Pair
         let R: Relation<Pair<String, Int>> = lessFirst
@@ -334,7 +334,7 @@ class Chapter04Tests: XCTestCase {
         XCTAssert(select_2_5(ia: 4, ib: 3, ic: 2, id: 0, ie: 1, a: p4, b: p3, c: p2, d: p0, e: p1, r: R).m1 == p2.m1)
         XCTAssert(select_2_5(ia: 4, ib: 3, ic: 2, id: 1, ie: 0, a: p4, b: p3, c: p2, d: p1, e: p0, r: R).m1 == p2.m1)
     }
-    
+
     // FIXME: Fix this method
 //    func algorithmMedian5() {
 //        let i1 = 1, i2 = 2, i3 = 3, i4 = 4, i5 = 5
@@ -349,7 +349,7 @@ class Chapter04Tests: XCTestCase {
 //            XCTAssert(m == 3)
 //        } while nextPermutation(f: p, l: p.advanced(by: 1), r: ls)
 //    }
-    
+
     // FIXME: Fix this method
 //    func nextPermutation<T: Regular, DomainR: Regular>(f: Pointer<T>, l: Pointer<T>, r: Relation<DomainR>) -> Bool {
 //        // Precondition: weak_ordering(r)
@@ -374,13 +374,13 @@ class Chapter04Tests: XCTestCase {
 //            }
 //        }
 //    }
-    
+
     func eqFirst<T0, T1>(x: T0) -> UnaryPredicate<Pair<T0, T1>> {
         return { p in
             return p.m0 == x
         }
     }
-    
+
     func lessSecond<T0, T1>(p0: Pair<T0, T1>, p1: Pair<T0, T1>) -> Bool {
         return p0.m1 < p1.m1
     }

@@ -46,47 +46,47 @@ extension Int: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedures 
     public func successor() -> Int {
         return self + 1
     }
-    
+
     public func predecessor() -> Int {
         return self - 1
     }
-    
+
     public func twice() -> Int {
         return self + self
     }
-    
+
     public func halfNonnegative() -> Int {
         return self >> 1
     }
-    
+
     public func binaryScaleDownNonnegative(k: Int) -> Int {
         return self >> k
     }
-    
+
     public func binaryScaleUpNonnegative(k: Int) -> Int {
         return self << k
     }
-    
+
     public func isPositive() -> Bool {
         return 0 < self
     }
-    
+
     public func isNegative() -> Bool {
         return self < 0
     }
-    
+
     public func isZero() -> Bool {
         return self == 0
     }
-    
+
     public func isOne() -> Bool {
         return self == 1
     }
-    
+
     public func isEven() -> Bool {
         return (self & 1) == 0
     }
-    
+
     public func isOdd() -> Bool {
         return (self & 1) != 0
     }
@@ -102,7 +102,7 @@ extension Int: IndexedIterator {
         }
         return UInt(abs(self) + abs(precedingIterator))
     }
-    
+
     public func successor(at distance: DistanceType) -> Int? {
         return self + Int(distance)
     }

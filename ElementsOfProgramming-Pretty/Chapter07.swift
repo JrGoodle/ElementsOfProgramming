@@ -34,7 +34,7 @@ func heightRecursive<C: BifurcateCoordinate>(c: C) -> WeightType {
 
 enum Visit: Int, Comparable {
     case pre = 1, `in` = 2, post = 3
-    
+
     static func <(lhs: Visit, rhs: Visit) -> Bool {
         return lhs.rawValue < rhs.rawValue
     }

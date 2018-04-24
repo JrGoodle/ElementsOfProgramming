@@ -24,11 +24,11 @@ struct BidirectionalLinker<I: BidirectionalLinkedIterator> {
     static func setForwardLink(x: inout I, y: inout I) {
         x.forwardLink = y
     }
-    
+
     static func setBackwardLink(x: inout I, y: inout I) {
         y.backwardLink = x
     }
-    
+
     static func setBidirectionalLink(x: inout I, y: inout I) {
         setForwardLink(x: &x, y: &y)
         setBackwardLink(x: &x, y: &y)
@@ -452,11 +452,11 @@ where P.UnaryProcedureType == C {
 
 class Counter<T>: UnaryProcedure {
     var n: N
-    
+
     init() {
         n = 0
     }
-    
+
     init(n: N) {
         self.n = n
     }
@@ -481,14 +481,14 @@ class PhasedApplicator<P: UnaryProcedure>: UnaryProcedure {
     var phase: N
     var n: N
     var proc: P
-    
+
     init(period: N, phase: N, n: N, proc: P) {
         self.period = period
         self.phase = phase
         self.n = n
         self.proc = proc
     }
-    
+
     func call(_ arg: P.UnaryProcedureType) {
         if n == phase { proc.call(arg) }
         n = n.successor()

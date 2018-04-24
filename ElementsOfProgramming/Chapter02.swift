@@ -256,7 +256,7 @@ func orbitStructure<DomainFP: Distance>(
 
 #if !XCODE
     // MARK: Playground examples
-    
+
     func playgroundDSPAddition() {
         // Exercise 2.1
         definitionSpacePredicateIntegerAddition(x: Int32.max, y: Int32.min)
@@ -267,14 +267,14 @@ func orbitStructure<DomainFP: Distance>(
         definitionSpacePredicateIntegerAddition(x: UInt.max - 1, y: UInt.max)
     }
 //    playgroundDSPAddition()
-    
+
     func playgroundRhoShapedOrbit() {
         let f: Transformation<UInt> = { ($0 % 113 + 2) * 2 }
         let x: UInt = 0
         orbitStructureNonterminatingOrbit(start: x, transformation: f)
     }
 //    playgroundRhoShapedOrbit()
-    
+
     func playgroundTerminatingOrbit() {
         let f: Transformation<UInt> = { $0 + 2 }
         let p: UnaryPredicate<UInt> = { $0 < 208 }
@@ -282,7 +282,7 @@ func orbitStructure<DomainFP: Distance>(
         orbitStructure(start: x, transformation: f, definitionSpace: p)
     }
 //    playgroundTerminatingOrbit()
-    
+
     func playgroundCircularOrbit() {
         let f: Transformation<UInt> = { ($0 % 113 + 2) * 2 }
         let x: UInt = 4

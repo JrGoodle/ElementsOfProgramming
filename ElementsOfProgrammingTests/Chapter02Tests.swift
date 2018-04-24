@@ -7,7 +7,7 @@ import XCTest
 import EOP
 
 class Chapter02Tests: XCTestCase {
-    
+
     func testAbs() {
         var i = 1
         while i < 100000000 {
@@ -16,25 +16,25 @@ class Chapter02Tests: XCTestCase {
             i = 10 * i
         }
     }
-    
+
     func testEuclideanNorm() {
         XCTAssert(euclideanNorm(x: 3, y: 4) == 5)
         XCTAssert(euclideanNorm(x: 3, y: 4, z: 5) == euclideanNorm(x: euclideanNorm(x: 3, y: 4), y: 5))
     }
-    
+
     func testConceptTransformation() {
         Concept.transformation(f: sq, x: 2)
-        
+
         let f = genOrbitTransformation(x: 0, h: 0, c: 5)
         Concept.transformation(f: f, x: 0)
-        
+
         Concept.transformation(f: hf, x: 16)
     }
-    
+
     func testUnaryPredicate() {
         Concept.unaryPredicate(p: genOrbitPredicate(x: 0, h: 0, c: 5), x: 0)
     }
-    
+
     func testPowerUnary() {
         for i in 2..<5 {
             for j in 1..<5 {
@@ -44,17 +44,17 @@ class Chapter02Tests: XCTestCase {
             }
         }
     }
-    
+
     func testDistance() {
         XCTAssert(2.distance(to: 65536, transformation: { $0 * $0 }) == 4)
     }
-    
+
     func testAlgorithmsOrbit() {
         algorithmsOrbit(x: 0, h: 2, c: 11)
         algorithmsOrbit(x: 7, h: 97, c: 17)
         algorithmsOrbit(x: 0, h: 4, c: 2)
     }
-    
+
     func testConvergentPointGuarded() {
         var cpg = convergentPointGuarded(x0: 1024, x1: 64,
                                          y: 1,
@@ -77,9 +77,9 @@ class Chapter02Tests: XCTestCase {
                                      transformation: hf)
         XCTAssert(cpg == 1)
     }
-    
+
     typealias IntType = Int32
-    
+
     func testPerformanceAddingPreventingOverflow() {
         let value1: IntType = 1
         self.measure {
@@ -88,7 +88,7 @@ class Chapter02Tests: XCTestCase {
             }
         }
     }
-    
+
     func testPerformanceAddingReportingOverflow() {
         let value2: IntType = 1
         self.measure {
@@ -97,11 +97,11 @@ class Chapter02Tests: XCTestCase {
             }
         }
     }
-    
+
     func sq<T: Multipliable>(x: T) -> T { return x * x }
-    
+
     func hf(x: Int) -> Int { return x / 2 }
-    
+
     func genOrbitTransformation(x: Int, h: N, c: N) -> Transformation<Int> {
         return { y in
             // Precondition: h < N(MaximumValue(I)) && c < N(MaximumValue(I))
@@ -116,7 +116,7 @@ class Chapter02Tests: XCTestCase {
             return z
         }
     }
-    
+
     func genOrbitPredicate(x: Int, h: N, c: N) -> UnaryPredicate<Int> {
         return { y in
             // Precondition: h < N(MaximumValue(I)) && c < N(MaximumValue(I))
@@ -124,7 +124,7 @@ class Chapter02Tests: XCTestCase {
             return x <= y && y < x + Int(h) + Int(c)
         }
     }
-    
+
     func algorithmsOrbit(x: Int, h: DistanceType, c: DistanceType) {
         let p = genOrbitPredicate(x: x, h: h, c: c)
         let f = genOrbitTransformation(x: x, h: h, c: c)
@@ -177,7 +177,7 @@ class Chapter02Tests: XCTestCase {
             }
         }
     }
-    
+
     func zero(_ a: Int) -> Bool {
         return a == 0
     }
