@@ -16,7 +16,7 @@ func plus_1(a: inout Int, b: inout Int) -> Int {
 
 class IntReference {
     var value: Int
-    
+
     init(_ value: Int) {
         self.value = value
     }

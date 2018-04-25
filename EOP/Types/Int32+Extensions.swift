@@ -46,47 +46,47 @@ extension Int32: IntegerSpecialCaseProcedures, BinaryIntegerSpecialCaseProcedure
     public func successor() -> Int32 {
         return self + 1
     }
-    
+
     public func predecessor() -> Int32 {
         return self - 1
     }
-    
+
     public func twice() -> Int32 {
         return self + self
     }
-    
+
     public func halfNonnegative() -> Int32 {
         return self >> 1
     }
-    
+
     public func binaryScaleDownNonnegative(k: Int32) -> Int32 {
         return self >> k
     }
-    
+
     public func binaryScaleUpNonnegative(k: Int32) -> Int32 {
         return self << k
     }
-    
+
     public func isPositive() -> Bool {
         return 0 < self
     }
-    
+
     public func isNegative() -> Bool {
         return self < 0
     }
-    
+
     public func isZero() -> Bool {
         return self == 0
     }
-    
+
     public func isOne() -> Bool {
         return self == 1
     }
-    
+
     public func isEven() -> Bool {
         return (self & 1) == 0
     }
-    
+
     public func isOdd() -> Bool {
         return (self & 1) != 0
     }

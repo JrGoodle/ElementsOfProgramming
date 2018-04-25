@@ -40,43 +40,43 @@ extension Double: IntegerSpecialCaseProcedures {
     public func successor() -> Double {
         return self + Double(1)
     }
-    
+
     public func predecessor() -> Double {
         return self - Double(1)
     }
-    
+
     public func twice() -> Double {
         return self + self
     }
-    
+
     public func halfNonnegative() -> Double {
         // FIXME: Fix this
         return Double(0)
 //        return self >> Double(1)
     }
-    
+
     public func isPositive() -> Bool {
         return Double(0) < self
     }
-    
+
     public func isNegative() -> Bool {
         return self < Double(0)
     }
-    
+
     public func isZero() -> Bool {
         return self == Double(0)
     }
-    
+
     public func isOne() -> Bool {
         return self == Double(1)
     }
-    
+
     public func isEven() -> Bool {
         // FIXME: Fix this
         return false
 //        return (self & Double(1)) == Double(0)
     }
-    
+
     public func isOdd() -> Bool {
         // FIXME: Fix this
         return false

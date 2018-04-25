@@ -344,7 +344,7 @@ func reduceNonzeroes<
         guard let s = f.iteratorSuccessor else { return nil }
         f = s
     } while x == z
-    
+
     while f != l {
         let y = fun(f)
         if y != z { x = op(x, y) }
@@ -370,7 +370,7 @@ func reduceNonzeroes<I: Readable & Iterator>(
         x = src
         f = s
     } while x == z
-    
+
     while f != l {
         guard let y = f.source,
               let s = f.iteratorSuccessor else { return nil }

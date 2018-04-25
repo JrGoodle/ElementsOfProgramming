@@ -15,7 +15,7 @@ func plus_1(a: inout Int, b: inout Int) -> Int {
 
 class IntReference {
     var value: Int
-    
+
     init(_ value: Int) {
         self.value = value
     }
@@ -55,7 +55,7 @@ public func equal<T: Regular>(x: T, y: T) -> Bool { return x == y }
 
 #if !XCODE
     // MARK: Playground examples
-    
+
     func playgroundPlus2() {
         let a = IntReference(2), b = IntReference(2), c = IntReference(0)
         print(c.value)

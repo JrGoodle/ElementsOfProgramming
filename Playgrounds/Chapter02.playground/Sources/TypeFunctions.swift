@@ -150,7 +150,7 @@ extension IndexedIterator {
         }
         return n
     }
-    
+
     func successor(at n: DistanceType) -> Self? {
         var f = self, n = n
         // Precondition: weak_range(f, n)

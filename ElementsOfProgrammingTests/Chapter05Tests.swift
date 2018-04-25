@@ -7,7 +7,7 @@ import XCTest
 import EOP
 
 class Chapter05Tests: XCTestCase {
-    
+
     func testAlgorithmAbs() {
         algorithmAbs(Int32(1))
         algorithmAbs(Int64(1))
@@ -15,7 +15,7 @@ class Chapter05Tests: XCTestCase {
         algorithmAbs(Double(1.0))
         algorithmAbs(Rational(numerator: 1, denominator: 2)!)
     }
-    
+
     func testConceptArchimedeanGroupInt() {
         typealias T = Int
         let x = T(0)
@@ -24,7 +24,7 @@ class Chapter05Tests: XCTestCase {
         let n = QuotientType(3)
         Concept.archimedeanGroup(x: x, y: y, z: z, n: n)
     }
-    
+
     func testConceptArchimedeanGroupRational() {
         typealias T = Rational
         let x = T(0)
@@ -33,7 +33,7 @@ class Chapter05Tests: XCTestCase {
         let n = QuotientType(3)
         Concept.archimedeanGroup(x: x, y: y, z: z, n: n)
     }
-    
+
     func testConceptArchimedeanGroupDouble() {
         typealias T = Double
         let x = T(0.0)
@@ -42,7 +42,7 @@ class Chapter05Tests: XCTestCase {
         let n = QuotientType(3)
         Concept.archimedeanGroup(x: x, y: y, z: z, n: n)
     }
-    
+
     func testAlgorithmsSlowQR() {
         algorithmsSlowQR(max: Int32(1000))
         algorithmsSlowQR(max: Int64(1000))
@@ -54,28 +54,28 @@ class Chapter05Tests: XCTestCase {
         algorithmsSlowQRNonnegative(max: Int64(1000))
         algorithmsSlowQRNonnegative(max: Rational(1000))
     }
-    
+
     func testAlgorithmsQRNonnegativeFibonacci() {
         algorithmsSlowQRNonnegativeFibonacci(max: Int32(1000))
         algorithmsSlowQRNonnegativeFibonacci(max: Int64(1000))
         // FIXME: Fix this
 //        algorithmsSlowQRNonnegativeFibonacci(max: Relation(1000))
     }
-    
+
     func testAlgorithmsQRNonnegativeIterative() {
         algorithmsSlowQRNonnegativeIterative(max: Int32(1000))
         algorithmsSlowQRNonnegativeIterative(max: Int64(1000))
         // FIXME: Fix this
 //        algorithmsSlowQRNonnegativeIterative(max: Relation(1000))
     }
-    
+
     func testAlgorithmLargestDoubling() {
         algorithmsLargestDoubling(max: Int32(1000))
         algorithmsLargestDoubling(max: Int64(1000))
         algorithmsLargestDoubling(max: Double(1000.0))
         algorithmsLargestDoubling(max: Rational(1000))
     }
-    
+
     func testSubtractiveGCDNonzero() {
         XCTAssert(subtractiveGCDNonzero(a: Int(1000), b: Int(990)) == Int(10))
         XCTAssert(subtractiveGCDNonzero(a: UInt(1000), b: UInt(990)) == UInt(10))
@@ -83,7 +83,7 @@ class Chapter05Tests: XCTestCase {
         XCTAssert(subtractiveGCDNonzero(a: Rational(numerator: 3, denominator: 4)!,
                                         b: Rational(numerator: 1, denominator: 2)!) == Rational(numerator: 1, denominator: 4)!)
     }
-    
+
     func testSubtractiveGCD() {
         XCTAssert(subtractiveGCD(a: 1000, b: 990) == 10)
         XCTAssert(subtractiveGCD(a: 1000, b: 0) == 1000)
@@ -101,7 +101,7 @@ class Chapter05Tests: XCTestCase {
         XCTAssert(subtractiveGCD(a: Rational(numerator: 0, denominator: 4)!,
                                  b: Rational(numerator: 1, denominator: 2)!) == Rational(numerator: 1, denominator: 2)!)
     }
-    
+
     func testFastSubtractiveGCD() {
         XCTAssert(fastSubtractiveGCD(a: 1000, b: 990) == 10)
         XCTAssert(fastSubtractiveGCD(a: 1000, b: 0) == 1000)
@@ -119,7 +119,7 @@ class Chapter05Tests: XCTestCase {
         XCTAssert(fastSubtractiveGCD(a: Rational(numerator: 0, denominator: 4)!,
                                      b: Rational(numerator: 1, denominator: 2)!) == Rational(numerator: 1, denominator: 2)!)
     }
-    
+
     func testGCDEuclideanSemiring() {
         XCTAssert(gcdEuclideanSemiring(a: 1000, b: 990) == 10)
         XCTAssert(gcdEuclideanSemiring(a: 1000, b: 0) == 1000)
@@ -127,14 +127,14 @@ class Chapter05Tests: XCTestCase {
         XCTAssert(gcdEuclideanSemiring(a: UInt(1000), b: UInt(990)) == UInt(10))
         XCTAssert(gcdEuclideanSemiring(a: UInt(1000), b: UInt(0)) == UInt(1000))
         XCTAssert(gcdEuclideanSemiring(a: UInt(0), b: UInt(990)) == UInt(990))
-        
+
         // TODO: Implement this test
 //        typedef polynomial< rational<int> > Q_X
 //        Q_X a = shift_left(Q_X(1), 2) - Q_X(1) // x^2 - 1
 //        Q_X b = shift_left(Q_X(1), 1) + Q_X(1) // x   + 1
 //        XCTAssert(gcdEuclideanSemiring<Q_X>(a, b) == b)
     }
-    
+
 //    func testGCDEuclideanSemimodule() {
 //        // FIXME: Fix this
 //        XCTAssert(gcdEuclideanSemimodule(a: 1000, b: 990) == 10)
@@ -153,13 +153,13 @@ class Chapter05Tests: XCTestCase {
 //        XCTAssert(gcdEuclideanSemimodule(a: Rational(numerator: 0, denominator: 4)!,
 //                                         b: Rational(numerator: 1, denominator: 2)!) == Rational(numerator: 1, denominator: 2)!)
 //    }
-    
+
     func testAlgorithmsSignedQR() {
         algorithmsSignedQR(min: Int32(-10), max: Int32(10))
         algorithmsSignedQR(min: Int64(-10), max: Int64(10))
         algorithmsSignedQR(min: Rational(-10), max: Rational(10))
     }
-    
+
     func algorithmAbs<T: OrderedAdditiveGroup>(_ something: T) {
         // We need a nonzero number to test with; OrderedAdditiveGroup doesn't guarantee one
         XCTAssert(something > T.additiveIdentity)
@@ -167,12 +167,12 @@ class Chapter05Tests: XCTestCase {
         let y = x + something
         let z = y + something
         Concept.orderedAdditiveGroup(x: x, y: y, z: z) // need x < y < z
-        
+
         XCTAssert(absoluteValue(T.additiveIdentity) == T.additiveIdentity)
         XCTAssert(absoluteValue(something) == something)
         XCTAssert(absoluteValue(-something) == something)
     }
-    
+
     func algorithmsSlowQR<T: ArchimedeanMonoid & IntegerSpecialCaseProcedures>(max: T) {
         var a = T.additiveIdentity
         while a < max {
@@ -186,7 +186,7 @@ class Chapter05Tests: XCTestCase {
             a = a.successor()
         }
     }
-    
+
     func algorithmsSlowQRNonnegative<T: ArchimedeanMonoid & IntegerSpecialCaseProcedures>(max: T) {
         var a = T.additiveIdentity
         while a < max {
@@ -201,7 +201,7 @@ class Chapter05Tests: XCTestCase {
             a = a.successor()
         }
     }
-    
+
     func algorithmsSlowQRNonnegativeFibonacci<T: ArchimedeanMonoid & IntegerSpecialCaseProcedures>(max: T) {
         var a = T.additiveIdentity
         while a < max {
@@ -218,7 +218,7 @@ class Chapter05Tests: XCTestCase {
             a = a.successor()
         }
     }
-    
+
     func algorithmsSlowQRNonnegativeIterative<T: ArchimedeanMonoid & IntegerSpecialCaseProcedures & Halvable>(max: T) {
         var a = T.additiveIdentity
         while a < max {
@@ -236,7 +236,7 @@ class Chapter05Tests: XCTestCase {
             a = a.successor()
         }
     }
-    
+
     func algorithmsLargestDoubling<T: ArchimedeanMonoid & IntegerSpecialCaseProcedures & Halvable>(max: T) {
         var a = T.additiveIdentity
         while a < max {
@@ -253,7 +253,7 @@ class Chapter05Tests: XCTestCase {
             a = a.successor()
         }
     }
-    
+
     func algorithmsSignedQR<T: ArchimedeanGroup & IntegerSpecialCaseProcedures>(min: T, max: T) {
         var a = min
         while a <= max {
@@ -272,7 +272,7 @@ class Chapter05Tests: XCTestCase {
             a = a.successor()
         }
     }
-    
+
     func agQuotientRemainder<T: ArchimedeanGroup>(a: T, b: T) -> Pair<QuotientType, T> {
         XCTAssert(a >= T.additiveIdentity && b > T.additiveIdentity)
         return quotientRemainderNonnegative(a: a, b: b)

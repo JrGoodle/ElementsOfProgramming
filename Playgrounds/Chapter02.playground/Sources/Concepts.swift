@@ -280,7 +280,7 @@ public protocol Mutable: Readable, Writable where Source == Sink {
 public protocol Linearizable: Regular {
     associatedtype LinearizableIteratorType: Regular
     associatedtype LinearizableValueType: Regular
-    
+
     var begin: LinearizableIteratorType { get }
     var end: LinearizableIteratorType { get }
     var size: Int { get }
