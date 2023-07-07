@@ -5,21 +5,21 @@ Swift port of the algorithms from [Elements of Programming](https://www.amazon.c
 ## Contents
 
 - [ElementsOfProgramming](https://github.com/JrGoodle/ElementsOfProgramming/tree/master/ElementsOfProgramming)
-    - Algorithms from **Elements of Programming** organized by chapter
-    - Includes conditional compilation blocks used in Swift Playgrounds
+  - Algorithms from **Elements of Programming** organized by chapter
+  - Includes conditional compilation blocks used in Swift Playgrounds
 - [EOP](https://github.com/JrGoodle/ElementsOfProgramming/tree/master/EOP)
-    - Concepts, type functions, and extensions on various types
+  - Concepts, type functions, and extensions on various types
 - [eop-code](https://github.com/JrGoodle/ElementsOfProgramming/tree/master/eop-code)
-    - [Original C++ sample code](http://elementsofprogramming.com/code.html) from the book's [official web site](http://elementsofprogramming.com/)
+  - [Original C++ sample code](http://elementsofprogramming.com/code.html) from the book's [official web site](http://elementsofprogramming.com/)
 
 ## Generated Code
 
 - [ElementsOfProgramming-Pretty](https://github.com/JrGoodle/ElementsOfProgramming/tree/master/ElementsOfProgramming-Pretty)
-    - A prettified version of the `ElementsOfProgramming` code without conditional compilation blocks used in Swift Playgrounds
+  - A prettified version of the `ElementsOfProgramming` code without conditional compilation blocks used in Swift Playgrounds
 - [Playgrounds](https://github.com/JrGoodle/ElementsOfProgramming/tree/master/Playgrounds)
-    - Swift Playgrounds for algorithms from each chapter
-    - Code delimited by `#if !XCODE` blocks is used for Swift Playground visualization
-    - Test function invocations beginning with `playground` can be uncommented to view the visualizations and play around with the algorithms
+  - Swift Playgrounds for algorithms from each chapter
+  - Code delimited by `#if !XCODE` blocks is used for Swift Playground visualization
+  - Test function invocations beginning with `playground` can be uncommented to view the visualizations and play around with the algorithms
 
 ## Requirements
 
@@ -42,7 +42,3 @@ Functions and properties that could possibly be undefined are represented with o
 I started a few attempts at converting the C++ code dealing with pointers to [UnsafeMutablePointer](https://developer.apple.com/documentation/swift/unsafemutablepointer), but I don't have a lot of experience with the API's and it never felt very natural to be venturing into unsafe Swift. So instead I plan on trying to utilize class reference semantics to hopefully achieve the same goals.
 
  Although I've naively ported most of the original sample code up to chapter 11, I'm only now rigorously working my way through the book along with the code. Tests and playground examples are missing for most of the chapters, and I'm sure there are bugs from the initial porting effort and subsequent Swiftifying.
-
-## Contributing
-
-See [CONTRIBUTING.md](https://github.com/JrGoodle/ElementsOfProgramming/blob/master/CONTRIBUTING.md)
